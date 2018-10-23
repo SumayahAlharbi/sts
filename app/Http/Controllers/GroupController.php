@@ -69,9 +69,11 @@ class GroupController extends Controller
      * @param  \App\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function edit(Group $group)
+    public function edit($id)
     {
         //
+        $group = group::find($id);
+        return view('group.edit', compact('group'));
     }
 
     /**
@@ -81,9 +83,15 @@ class GroupController extends Controller
      * @param  \App\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Group $group)
+    public function update(Request $request, $id)
     {
         //
+        $group = group::find($id);
+        $group->group_name = $request->group_name;
+        $group->group_description = $request->group_description;
+        $group->save();
+
+        return redirect('/group')->with('success', 'group has been updated');
     }
 
     /**

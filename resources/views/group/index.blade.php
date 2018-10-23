@@ -19,7 +19,7 @@
           <td>ID</td>
           <td>group name</td>
           <td>group description</td>
-          <td colspan="2">Action</td>
+          <td>Action</td>
         </tr>
     </thead>
     <tbody>
@@ -28,7 +28,7 @@
             <td>{{$group->id}}</td>
             <td>{{$group->group_name}}</td>
             <td>{{$group->group_description}}</td>
-            {{-- <td><a href="{{ route('shares.edit',$group->id)}}" class="btn btn-primary">Edit</a></td> --}}
+            <td><a href="{{ route('group.edit',$group->id)}}" class="btn btn-primary">Edit</a></td>
             <td>
                 {{-- <form action="{{ route('shares.destroy', $group->id)}}" method="post">
                   @csrf
