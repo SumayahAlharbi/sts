@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Ticket;
+use App\Location;
 use Illuminate\Http\Request;
 
-class TicketController extends Controller
+class LocationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,8 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
-        $tickets = Ticket::all();
-        return view('ticket.index', compact('tickets'));
+      $locations = Location::all();
+      return view('location.index', compact('locations'));
     }
 
     /**
@@ -26,8 +25,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        //
-        return view('ticket.create');
+        return view('location.create');
     }
 
     /**
@@ -38,26 +36,20 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-          'ticket_title'=>'required',
-          'ticket_content'=> 'required',
-        ]);
-        $ticket = new Ticket;
-
-        $ticket->ticket_title = $request->ticket_title;
-        $ticket->ticket_content = $request->ticket_content;
-
-        $ticket->save();
-        return redirect('/ticket')->with('success', 'Stock has been added');
+      $location = new Location;
+      $location->location_name = $request->location_name;
+      $location->location_description = $request->location_description;
+      $location->save();
+      return redirect('/location')->with('success', 'Location has been added');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Ticket  $ticket
+     * @param  \App\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function show(Ticket $ticket)
+    public function show(Location $location)
     {
         //
     }
@@ -65,39 +57,39 @@ class TicketController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Ticket  $ticket
+     * @param  \App\Location  $location
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-      $ticket = Ticket::find($id);
-      return view('ticket.edit', compact('ticket'));
+      $location = Location::find($id);
+      return view('location.edit', compact('location'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Ticket  $ticket
+     * @param  \App\Location  $location
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-      $ticket = Ticket::find($id);
-      $ticket->ticket_title = $request->ticket_title;
-      $ticket->ticket_content = $request->ticket_content;
-      $ticket->save();
+      $location = Location::find($id);
+      $location->location_name = $request->location_name;
+      $location->location_description = $request->location_description;
+      $location->save();
 
-      return redirect('/ticket')->with('success', 'Ticket has been updated');
+      return redirect('/location')->with('success', 'location has been updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Ticket  $ticket
+     * @param  \App\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ticket $ticket)
+    public function destroy(Location $location)
     {
         //
     }
