@@ -5,7 +5,7 @@
 <div class = 'container'>
 <div class="card uper">
   <div class="card-header">
-   All tickets
+   All Location
   </div>
   @if(session()->get('success'))
     <div class="alert alert-success">
@@ -16,18 +16,18 @@
     <thead>
         <tr>
           <td>ID</td>
-          <td>ticket title</td>
-          <td>ticket content</td>
+          <td>Location Name</td>
+          <td>Location desc</td>
           <td>Action</td>
         </tr>
     </thead>
     <tbody>
-        @foreach($tickets as $ticket)
+        @foreach($locations as $location)
         <tr>
-            <td>{{$ticket->id}}</td>
-            <td>{{$ticket->ticket_title}}</td>
-            <td>{{$ticket->ticket_content}}</td>
-            <td><a href="{{ route('ticket.edit',$ticket->id)}}" class="btn btn-primary">Edit</a></td>
+            <td>{{$location->id}}</td>
+            <td>{{$location->location_name}}</td>
+            <td>{{$location->location_description}}</td>
+            <td><a href="{{ route('location.edit',$location->id)}}" class="btn btn-primary">Edit</a></td>
             <td>
                 {{-- <form action="{{ route('shares.destroy', $ticket->id)}}" method="post">
                   @csrf

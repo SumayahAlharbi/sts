@@ -21,4 +21,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //Tickets Routes
 Route::resource('ticket','TicketController');
+Route::resource('category','CategoryController');
+Route::resource('location','LocationController');
   // Route::post('/ticket/create','TicketController@create');

@@ -1,16 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-  .uper {
-    margin-top: 40px;
-  }
-</style>
 
 <div class = 'container'>
 <div class="card uper">
   <div class="card-header">
-    Add new Ticket
+    Add new category
   </div>
   <div class="card-body">
     @if ($errors->any())
@@ -22,16 +17,13 @@
         </ul>
       </div><br />
     @endif
-      <form method="post" action="{{ route('ticket.store') }}">
+      <form method="post" action="{{ route('category.store') }}">
           <div class="form-group">
               @csrf
-              <label for="name">ticket title</label>
-              <input type="text" class="form-control" name="ticket_title"/>
+              <label for="name">category name</label>
+              <input type="text" class="form-control" name="category_name"/>
           </div>
-          <div class="form-group">
-              <label for="price">ticket content</label>
-              <input type="text" class="form-control" name="ticket_content"/>
-          </div>
+
           <button type="submit" class="btn btn-primary">Add</button>
       </form>
   </div>

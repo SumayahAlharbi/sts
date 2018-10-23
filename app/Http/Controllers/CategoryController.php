@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Ticket;
+use App\Category;
 use Illuminate\Http\Request;
 
-class TicketController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,8 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
-        $tickets = Ticket::all();
-        return view('ticket.index', compact('tickets'));
+      $categories = Category::all();
+      return view('category.index', compact('categories'));
     }
 
     /**
@@ -26,8 +25,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        //
-        return view('ticket.create');
+        return view('category.create');
     }
 
     /**
@@ -38,26 +36,19 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-          'ticket_title'=>'required',
-          'ticket_content'=> 'required',
-        ]);
-        $ticket = new Ticket;
-
-        $ticket->ticket_title = $request->ticket_title;
-        $ticket->ticket_content = $request->ticket_content;
-
-        $ticket->save();
-        return redirect('/ticket')->with('success', 'Stock has been added');
+      $category = new Category;
+      $category->category_name = $request->category_name;
+      $category->save();
+      return redirect('/category')->with('success', 'Category has been added');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Ticket  $ticket
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Ticket $ticket)
+    public function show(Category $category)
     {
         //
     }
@@ -65,39 +56,38 @@ class TicketController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Ticket  $ticket
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-      $ticket = Ticket::find($id);
-      return view('ticket.edit', compact('ticket'));
+      $category = Category::find($id);
+      return view('category.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Ticket  $ticket
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,  $id)
     {
-      $ticket = Ticket::find($id);
-      $ticket->ticket_title = $request->ticket_title;
-      $ticket->ticket_content = $request->ticket_content;
-      $ticket->save();
+      $category = Category::find($id);
+      $category->category_name = $request->category_name;
+      $category->save();
 
-      return redirect('/ticket')->with('success', 'Ticket has been updated');
+      return redirect('/category')->with('success', 'Category has been updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Ticket  $ticket
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ticket $ticket)
+    public function destroy(Category $category)
     {
         //
     }
