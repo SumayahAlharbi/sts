@@ -56,7 +56,6 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
         $permissions = Permission::all()->pluck('name');
-        // $userRoles = $user->roles;
         $RolePermissions = $role->permissions;
 
         return view('roles.edit', compact('role','permissions','RolePermissions'));
@@ -108,7 +107,7 @@ class RoleController extends Controller
         $role = Role::findOrFail($request->role_id);
         $role->givePermissionTo($request->permission_name);
 
-        return redirect('roles/edit/'.$request->role_id);
+        return redirect('roles/'.$request->role_id.'/edit');
     }
 
         /**
