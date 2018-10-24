@@ -3,6 +3,7 @@
 @section('content')
 
 <div class = 'container'>
+  <a href="{{ route('ticket.create')}}" class="btn btn-primary">New +</a>
 <div class="card uper">
   <div class="card-header">
    All tickets
@@ -18,6 +19,7 @@
           <td>ID</td>
           <td>ticket title</td>
           <td>ticket content</td>
+          <td>ticket category</td>
           <td>Action</td>
         </tr>
     </thead>
@@ -27,7 +29,11 @@
             <td>{{$ticket->id}}</td>
             <td>{{$ticket->ticket_title}}</td>
             <td>{{$ticket->ticket_content}}</td>
-            <td><a href="{{ route('ticket.edit',$ticket->id)}}" class="btn btn-primary">Edit</a></td>
+            <td>{{$ticket->category['category_name']}}</td>
+            <td>
+              <a href="{{ route('ticket.edit',$ticket->id)}}" class="btn btn-primary">Edit</a>
+              <a href="{{ route('ticket.show',$ticket->id)}}" class="btn btn-primary">Show</a>
+            </td>
             <td>
                 {{-- <form action="{{ route('shares.destroy', $ticket->id)}}" method="post">
                   @csrf

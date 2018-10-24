@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ticket;
+use App\Category;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
@@ -16,6 +17,7 @@ class TicketController extends Controller
     {
         //
         $tickets = Ticket::all();
+
         return view('ticket.index', compact('tickets'));
     }
 
@@ -26,8 +28,8 @@ class TicketController extends Controller
      */
     public function create()
     {
-        //
-        return view('ticket.create');
+        $categories = Category::all()->pluck('category_name','id');
+        return view('ticket.create', compact('categories'));
     }
 
     /**
@@ -46,6 +48,7 @@ class TicketController extends Controller
 
         $ticket->ticket_title = $request->ticket_title;
         $ticket->ticket_content = $request->ticket_content;
+        $ticket->category_id = $request->category_id;
 
         $ticket->save();
         return redirect('/ticket')->with('success', 'Stock has been added');
@@ -57,9 +60,10 @@ class TicketController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function show(Ticket $ticket)
+    public function show($id, Request $request)
     {
-        //
+        $tickets = Ticket::find($id);
+        return view('ticket.show', compact('tickets'));
     }
 
     /**
