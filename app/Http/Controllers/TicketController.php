@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ticket;
 use App\Category;
+use App\Location;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
@@ -29,7 +30,8 @@ class TicketController extends Controller
     public function create()
     {
         $categories = Category::all()->pluck('category_name','id');
-        return view('ticket.create', compact('categories'));
+        $locations = Location::all()->pluck('location_name','id');
+        return view('ticket.create', compact('categories','locations'));
     }
 
     /**

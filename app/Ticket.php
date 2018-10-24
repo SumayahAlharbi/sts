@@ -10,4 +10,13 @@ class Ticket extends Model
     {
       return $this->belongsTo('App\Category');
     }
+
+    public function location()
+    {
+      return $this->belongsTo('App\Location');
+    }
+    public function user()
+    {
+        return $this->belongsToMany('App\User', 'tickets_assignee', 'ticket_id', 'user_id');
+    }
 }

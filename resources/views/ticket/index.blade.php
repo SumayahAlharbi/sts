@@ -20,6 +20,7 @@
           <td>ticket title</td>
           <td>ticket content</td>
           <td>ticket category</td>
+          <td>ticket location</td>
           <td>Action</td>
         </tr>
     </thead>
@@ -30,6 +31,7 @@
             <td>{{$ticket->ticket_title}}</td>
             <td>{{$ticket->ticket_content}}</td>
             <td>{{$ticket->category['category_name']}}</td>
+            <td>{{$ticket->location['location_name']}}</td>
             <td>
               <a href="{{ route('ticket.edit',$ticket->id)}}" class="btn btn-primary">Edit</a>
               <a href="{{ route('ticket.show',$ticket->id)}}" class="btn btn-primary">Show</a>

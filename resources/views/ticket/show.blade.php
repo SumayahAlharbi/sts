@@ -8,7 +8,12 @@
    ticket title: {{$tickets->ticket_title}}
   </div>
   <div class="card-body">
-    {{$tickets->category->category_name}}
+    category: {{$tickets->category->category_name}}
+    location: {{$tickets->location->location_name}}
+    {{-- Assignee: {{$tickets->user}} --}}
+    @foreach($tickets->user as $ticket_assignee)
+      {{$ticket_assignee->name}}
+    @endforeach
   @if(session()->get('success'))
     <div class="alert alert-success">
       {{ session()->get('success') }}
