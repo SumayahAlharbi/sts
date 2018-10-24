@@ -30,4 +30,5 @@ Route::resource('location','LocationController');
   //Groups Routes
   Route::resource('group','GroupController');
 
-Route::resource('/roles','RoleController');
+  Route::resource('/roles','RoleController');
+  Route::resource('/permissions','PermissionController');
