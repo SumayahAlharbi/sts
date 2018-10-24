@@ -19,4 +19,8 @@ class Ticket extends Model
     {
         return $this->belongsToMany('App\User', 'tickets_assignee', 'ticket_id', 'user_id');
     }
+    public function status()
+    {
+      return $this->belongsTo('App\Status');
+    }
 }

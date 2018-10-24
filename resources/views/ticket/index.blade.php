@@ -21,6 +21,8 @@
           <td>ticket content</td>
           <td>ticket category</td>
           <td>ticket location</td>
+          <td>ticket assignee</td>
+          <td>ticket status</td>
           <td>Action</td>
         </tr>
     </thead>
@@ -32,6 +34,12 @@
             <td>{{$ticket->ticket_content}}</td>
             <td>{{$ticket->category['category_name']}}</td>
             <td>{{$ticket->location['location_name']}}</td>
+            <td>
+              @foreach($ticket->user as $ticket_assignee)
+                {{$ticket_assignee->name}}
+              @endforeach
+            </td>
+            <td>{{$ticket->status['status_name']}}</td>
             <td>
               <a href="{{ route('ticket.edit',$ticket->id)}}" class="btn btn-primary">Edit</a>
               <a href="{{ route('ticket.show',$ticket->id)}}" class="btn btn-primary">Show</a>

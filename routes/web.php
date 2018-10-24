@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Tickets Routes
-Route::resource('ticket','TicketController');
+Route::resource('ticket','TicketController')->middleware('auth');;
 //category Routes
 Route::resource('category','CategoryController');
 //location Routes
@@ -29,3 +29,5 @@ Route::resource('location','LocationController');
 
   //Groups Routes
   Route::resource('group','GroupController');
+
+Route::resource('/roles','RoleController');

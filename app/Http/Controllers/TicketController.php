@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Ticket;
 use App\Category;
 use App\Location;
+use App\Status;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
