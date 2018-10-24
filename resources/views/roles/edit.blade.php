@@ -1,13 +1,12 @@
-@hasrole('Admin')
-@extends('scaffold-interface.layouts.app')
+@extends('layouts.app')
 @section('content')
-<section class="content">
+<div class="container">
 	<div class="box box-primary">
 		<div class="box-header">
 			<h3>Edit Role</h3>
 		</div>
 		<div class="box-body">
-			<form action="{{url('scaffold-roles/update')}}" method = "post">
+			<form action="{{url('roles/update')}}" method = "post">
 				{!! csrf_field() !!}
 				<input type="hidden" name = "role_id" value = "{{$role->id}}">
 				<div class="form-group">
@@ -25,7 +24,7 @@
 					<h3>{{$role->name}} Permissions</h3>
 				</div>
 				<div class="box-body">
-					<form action="{{url('scaffold-roles/addPermission')}}" method = "post">
+					<form action="{{url('roles/addPermission')}}" method = "post">
 						{!! csrf_field() !!}
 						<input type="hidden" name = "role_id" value = "{{$role->id}}">
 						<div class="form-group">
@@ -48,13 +47,12 @@
 							@foreach($RolePermissions as $permission)
 							<tr>
 								<td>{{$permission->name}}</td>
-								<td><a href="{{url('scaffold-roles/removePermission')}}/{{str_slug($permission->name,'-')}}/{{$role->id}}" class = "btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+								<td><a href="{{url('roles/removePermission')}}/{{str_slug($permission->name,'-')}}/{{$role->id}}" class = "btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
 							</tr>
 							@endforeach
 						</tbody>
 					</table>
 				</div>
 			</div>
-</section>
+</div>
 @endsection
-@endhasrole

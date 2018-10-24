@@ -30,7 +30,7 @@
 				@endif
 				</td>
 				<td>
-					<a href="{{url('/roles/edit')}}/{{$role->id}}" class = "btn btn-primary">edit</a>
+					<a href="{{ route('roles.edit',$role->id)}}" class = "btn btn-primary">edit</a>
 					<a href="{{url('/roles/delete')}}/{{$role->id}}" class = "btn btn-danger">X</a>
 				</td>
 			</tr>

@@ -25,9 +25,16 @@ Route::resource('ticket','TicketController')->middleware('auth');;
 Route::resource('category','CategoryController');
 //location Routes
 Route::resource('location','LocationController');
-  // Route::post('/ticket/create','TicketController@create');
+// Route::post('/ticket/create','TicketController@create');
 
-  //Groups Routes
-  Route::resource('group','GroupController');
+//Groups Routes
+Route::resource('group','GroupController');
 
-Route::resource('/roles','RoleController');
+Route::resource('roles','RoleController');
+
+
+//roles has permissions Routes
+Route::group(['middleware'=> 'web'],function(){
+  Route::post('roles/addPermission','\App\Http\Controllers\RoleController@addPermission');
+  Route::get('roles/removePermission/{permission}/{role_id}','\App\Http\Controllers\RoleController@revokePermission');
+});
