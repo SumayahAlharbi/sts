@@ -30,10 +30,8 @@ Route::resource('location','LocationController');
 //Groups Routes
 Route::resource('group','GroupController');
 
-<<<<<<< HEAD
-  Route::resource('/roles','RoleController');
-  Route::resource('/permissions','PermissionController');
-=======
+Route::resource('/roles','RoleController');
+Route::resource('/permissions','PermissionController');
 Route::resource('roles','RoleController');
 
 
@@ -42,4 +40,3 @@ Route::group(['middleware'=> 'web'],function(){
   Route::post('roles/addPermission','\App\Http\Controllers\RoleController@addPermission');
   Route::get('roles/removePermission/{permission}/{role_id}','\App\Http\Controllers\RoleController@revokePermission');
 });
->>>>>>> 9be7c8137cf61c106695a9f3319904f574a59b09
