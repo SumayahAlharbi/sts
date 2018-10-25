@@ -54,12 +54,8 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        $Permission = Permission::findOrFail($id);
-        $permissions = Permission::all()->pluck('name');
-        // $userPermissions = $user->Permissions;
-        $PermissionPermissions = $Permission->permissions;
-
-        return view('Permissions.edit', compact('Permission','permissions','PermissionPermissions'));
+      $permissions = Permission::find($id);
+      return view('permissions.edit', compact('permissions'));
     }
 
     /**
@@ -69,15 +65,13 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $Permission = Permission::findOrFail($request->Permission_id);
+      $permissions = Permission::find($id);
+      $permissions->name = $request->name;
+      $permissions->save();
 
-        $Permission->name = $request->name;
-
-        $Permission->update();
-
-        return redirect('Permissions');
+      return redirect('/permissions')->with('success', 'permission has been updated');
     }
 
     /**
@@ -89,11 +83,11 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        $Permission = Permission::findOrFail($id);
+        $permissions = Permission::findOrFail($id);
 
-        $Permission->delete();
+        $permissions->delete();
 
-        return redirect('Permissions');
+        return redirect('permissions');
     }
 
     /**
@@ -105,10 +99,10 @@ class PermissionController extends Controller
      */
     public function addPermission(Request $request)
     {
-        $Permission = Permission::findOrFail($request->Permission_id);
-        $Permission->givePermissionTo($request->permission_name);
+        $permission = Permission::findOrFail($request->permission_id);
+        $permission->givePermissionTo($request->permission_name);
 
-        return redirect('Permissions/edit/'.$request->Permission_id);
+        return redirect('permissions/edit/'.$request->permission_id);
     }
 
         /**
@@ -118,13 +112,13 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function revokePermission($permission, $Permission_id)
+    public function revokePermission($permission, $permission_id)
     {
-        $Permission = Permission::findorfail($Permission_id);
+        $permission = Permission::findorfail($permission_id);
 
-        $Permission->revokePermissionTo(str_slug($permission, ' '));
+        $permission->revokePermissionTo(str_slug($permission, ' '));
 
-        return redirect('Permissions/edit/'.$Permission_id);
+        return redirect('permissions/edit/'.$permission_id);
     }
 
 }

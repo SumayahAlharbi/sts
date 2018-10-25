@@ -29,7 +29,7 @@
 				@endif
 				</td>
 				<td>
-					<a href="{{url('/permissions/edit')}}/{{$permission->id}}" class = "btn btn-primary">edit</a>
+					<a href="{{url('/permissions')}}/{{$permission->id}}/{{('edit')}}" class = "btn btn-primary">edit</a>
 					<a href="{{url('/permissions/delete')}}/{{$permission->id}}" class = "btn btn-danger">X</a>
 				</td>
 			</tr>
