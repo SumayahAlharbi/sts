@@ -30,11 +30,11 @@
             <td>{{$group->group_description}}</td>
             <td><a href="{{ route('group.edit',$group->id)}}" class="btn btn-primary">Edit</a></td>
             <td>
-                {{-- <form action="{{ route('shares.destroy', $group->id)}}" method="post">
+                <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('group.destroy', $group->id)}}" method="post">
                   @csrf
                   @method('DELETE')
                   <button class="btn btn-danger" type="submit">Delete</button>
-                </form> --}}
+                </form>
             </td>
         </tr>
         @endforeach

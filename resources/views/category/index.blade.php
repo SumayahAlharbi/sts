@@ -27,11 +27,11 @@
             <td>{{$category->category_name}}</td>
             <td><a href="{{ route('category.edit',$category->id)}}" class="btn btn-primary">Edit</a></td>
             <td>
-                {{-- <form action="{{ route('shares.destroy', $ticket->id)}}" method="post">
+                <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('category.destroy', $category->id)}}" method="post">
                   @csrf
                   @method('DELETE')
                   <button class="btn btn-danger" type="submit">Delete</button>
-                </form> --}}
+                </form>
             </td>
         </tr>
         @endforeach

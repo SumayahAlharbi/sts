@@ -29,11 +29,11 @@
             <td>{{$location->location_description}}</td>
             <td><a href="{{ route('location.edit',$location->id)}}" class="btn btn-primary">Edit</a></td>
             <td>
-                {{-- <form action="{{ route('shares.destroy', $ticket->id)}}" method="post">
+                <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('location.destroy', $location->id)}}" method="post">
                   @csrf
                   @method('DELETE')
                   <button class="btn btn-danger" type="submit">Delete</button>
-                </form> --}}
+                </form>
             </td>
         </tr>
         @endforeach

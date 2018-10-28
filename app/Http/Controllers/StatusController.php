@@ -78,8 +78,10 @@ class StatusController extends Controller
      * @param  \App\Status  $status
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Status $status)
-    {
-        //
-    }
+     public function destroy($id)
+     {
+       $status = Status::findOrfail($id);
+       $status->delete();
+       return redirect('/status')->with('success', 'Status has been deleted');
+     }
 }
