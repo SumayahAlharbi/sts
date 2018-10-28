@@ -22,7 +22,7 @@
         @csrf
         <div class="form-group">
           <label for="name">Permission Name</label>
-          <input type="text" class="form-control" name="name" value={{ $permissions->name }} />
+          <input type="text" class="form-control" name="name" value="{{ $permissions->name }}" />
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
