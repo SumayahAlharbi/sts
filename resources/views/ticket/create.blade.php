@@ -34,7 +34,7 @@
               <textarea name="ticket_content" class="form-control" id="editor" rows="3"></textarea>
           </div>
           <div class="form-group">
-            <label for="exampleFormControlSelect1">Example select</label>
+            <label for="exampleFormControlSelect1">category</label>
             <select class="form-control" name="category_id" id="exampleFormControlSelect1">
               @foreach ($categories as $key => $value)
                 <option value="{{$key}}">{{$value}}</option>
@@ -42,8 +42,8 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="exampleFormControlSelect1">Example select</label>
-            <select class="form-control" name="category_id" id="exampleFormControlSelect1">
+            <label for="exampleFormControlSelect1">location</label>
+            <select class="form-control" name="location_id" id="exampleFormControlSelect1">
               @foreach ($locations as $key => $value)
                 <option value="{{$key}}">{{$value}}</option>
               @endforeach

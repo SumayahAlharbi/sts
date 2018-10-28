@@ -52,6 +52,7 @@ class TicketController extends Controller
         $ticket->ticket_title = $request->ticket_title;
         $ticket->ticket_content = $request->ticket_content;
         $ticket->category_id = $request->category_id;
+        $ticket->location_id = $request->location_id;
 
         $ticket->save();
         return redirect('/ticket')->with('success', 'Stock has been added');
@@ -104,8 +105,10 @@ class TicketController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ticket $ticket)
+    public function destroy($id)
     {
-        //
+      $ticket = Ticket::findOrfail($id);
+      $ticket->delete();
+      return redirect('/ticket')->with('success', 'Ticket has been deleted');
     }
 }
