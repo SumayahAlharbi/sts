@@ -44,7 +44,11 @@
           <label for="exampleFormControlSelect1">Category</label>
           <select class="form-control" name="category_id" id="exampleFormControlSelect1">
             @foreach ($categories as $key => $value)
-              <option value="{{$key}}">{{$value}}</option>
+              @if ($key == $ticket->category_id)
+           <option selected value="{{$key}}">{{$value}}</option>
+           @else
+           <option value="{{$key}}">{{$value}}</option>
+           @endif
             @endforeach
           </select>
         </div>
@@ -52,7 +56,11 @@
           <label for="exampleFormControlSelect1">location</label>
           <select class="form-control" name="location_id" id="exampleFormControlSelect1">
             @foreach ($locations as $key => $value)
-              <option value="{{$key}}">{{$value}}</option>
+              @if ($key == $ticket->location_id)
+           <option selected value="{{$key}}">{{$value}}</option>
+           @else
+           <option value="{{$key}}">{{$value}}</option>
+           @endif
             @endforeach
           </select>
         </div>
@@ -60,7 +68,11 @@
           <label for="exampleFormControlSelect1">requested by</label>
           <select class="form-control" name="requested_by" id="exampleFormControlSelect1">
             @foreach($users as $user)
-            <option value="{{$user->id}}">{{$user->name}}</option>
+              @if ($user->id == $ticket->requested_by)
+           <option selected value="{{$user->id}}">{{$user->name}}</option>
+           @else
+           <option value="{{$user->id}}">{{$user->name}}</option>
+           @endif
             @endforeach
           </select>
         </div>
