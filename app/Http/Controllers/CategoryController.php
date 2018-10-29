@@ -91,6 +91,6 @@ class CategoryController extends Controller
      {
        $category = Category::findOrfail($id);
        $category->delete();
-       return redirect('/group')->with('success', 'Category has been deleted');
+       return redirect('/category')->with('success', 'Category has been deleted');
      }
 }

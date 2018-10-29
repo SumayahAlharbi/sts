@@ -28,7 +28,7 @@
           <td>ticket content</td>
           <td>ticket category</td>
           <td>ticket location</td>
-          <td>ticket assignee</td>
+          <td>ticket Agents</td>
           <td>ticket status</td>
           <td>Action</td>
         </tr>
