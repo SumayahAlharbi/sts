@@ -22,15 +22,19 @@
         @csrf
         <div class="form-group">
           <label for="name">Ticket Title:</label>
-          <input type="text" class="form-control" name="ticket_title" value={{ $ticket->ticket_title }} />
+          <input type="text" class="form-control" name="ticket_title" value="{{ $ticket->ticket_title }}"/>
         </div>
         <div class="form-group">
           <label for="price">Ticket content:</label>
-          <input type="text" class="form-control" name="ticket_content" value={{ $ticket->ticket_content }} />
+          <input type="text" class="form-control" name="ticket_content" value="{{ $ticket->ticket_content }}" />
         </div>
         <div class="form-group">
-          <label for="price">Ticket Category:</label>
-          <input type="text" class="form-control" name="ticket_category" value={{ $ticket->ticket_content }} />
+          <label for="exampleFormControlSelect1">Category</label>
+          <select class="form-control" name="category_id" id="exampleFormControlSelect1">
+            @foreach ($categories as $key => $value)
+              <option value="{{$key}}">{{$value}}</option>
+            @endforeach
+          </select>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">location</label>
