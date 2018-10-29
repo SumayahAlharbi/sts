@@ -35,7 +35,7 @@ class TicketController extends Controller
         $categories = Category::all()->pluck('category_name','id');
         $locations = Location::all()->pluck('location_name','id');
         $users = User::all()->pluck('name','id');
-        $created_by = Auth::user();;
+        $created_by = Auth::user();
         return view('ticket.create', compact('categories','locations','users','created_by'));
     }
 
@@ -58,6 +58,8 @@ class TicketController extends Controller
         $ticket->category_id = $request->category_id;
         $ticket->location_id = $request->location_id;
         $ticket->status_id = '1';
+        $ticket->created_by = $request->created_by;
+        $ticket->requested_by = $request->requested_by;
 
         $ticket->save();
         return redirect('/ticket')->with('success', 'Stock has been added');
@@ -72,7 +74,8 @@ class TicketController extends Controller
     public function show($id, Request $request)
     {
         $tickets = Ticket::find($id);
-        return view('ticket.show', compact('tickets'));
+        $locations = Location::all()->pluck('location_name','id');
+        return view('ticket.show', compact('tickets','locations'));
     }
 
     /**
@@ -99,6 +102,7 @@ class TicketController extends Controller
       $ticket = Ticket::find($id);
       $ticket->ticket_title = $request->ticket_title;
       $ticket->ticket_content = $request->ticket_content;
+      $ticket->location_id = $request->location_id;
       $ticket->save();
 
       return redirect('/ticket')->with('success', 'Ticket has been updated');
@@ -116,4 +120,5 @@ class TicketController extends Controller
       $ticket->delete();
       return redirect('/ticket')->with('success', 'Ticket has been deleted');
     }
+
 }
