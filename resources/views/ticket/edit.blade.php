@@ -55,14 +55,38 @@
         <div class="form-group">
           <label for="exampleFormControlSelect1">requested by</label>
           <select class="form-control" name="requested_by" id="exampleFormControlSelect1">
-            @foreach ($users as $key => $value)
-              <option value="{{$key}}">{{$value}}</option>
+            @foreach($users as $user)
+            <option value="{{$user->id}}">{{$user->name}}</option>
             @endforeach
           </select>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
+
+        <form action="{{url('ticket/addTicketAgent')}}" method = "post">
+
+          @csrf
+                                <input type="hidden" name = "ticket_id" value = "{{$ticket->id}}">
+                                <div class="form-group">
+                                    <select name="user_id" id="" class = "form-control">
+                                        @foreach($users as $user)
+                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button class='btn btn-primary'>Assign</button>
+                            </form>
+
+                            <!-- Assign Users To Goal -->
+                    <div class="col s12">
+                    @foreach($TicketAgents as $TicketAgent)
+                      <a class='btn btn-primary' href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$ticket->id}}' data-activates=''>{{$TicketAgent->name}}  <i class="icon ion-md-close"></i></a>
+                    @endforeach
+                  </div>
+
+
   </div>
 </div>
 </div>
+
 @endsection

@@ -28,6 +28,10 @@ Route::resource('location','LocationController');
 //Status route
 Route::resource('status','StatusController');
 
+// assign agent to a ticket
+Route::post('ticket/addTicketAgent','TicketController@addTicketAgent');
+// remove agent from a ticket
+Route::get('ticket/removeTicketAgent/{user_id}/{ticket_id}','\App\Http\Controllers\TicketController@removeTicketAgent');
 
 //Groups Routes
 Route::resource('group','GroupController');

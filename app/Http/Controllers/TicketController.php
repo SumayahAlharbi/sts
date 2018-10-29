@@ -87,11 +87,12 @@ class TicketController extends Controller
     public function edit($id)
     {
       $ticket = Ticket::find($id);
-      $users = User::all()->pluck('name','id');
+      $users = \App\User::all();
+      $TicketAgents = $ticket->user;
       $locations = Location::all()->pluck('location_name','id');
       $categories = Category::all()->pluck('category_name','id');
       $statuses = Status::all()->pluck('status_name','id');
-      return view('ticket.edit', compact('ticket','users','locations','categories','statuses'));
+      return view('ticket.edit', compact('ticket','users','locations','categories','statuses','TicketAgents'));
 
     }
 
@@ -104,7 +105,7 @@ class TicketController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $ticket = Ticket::find($id);
+      $ticket = Ticket::findOrfail($id);
       $ticket->ticket_title = $request->ticket_title;
       $ticket->ticket_content = $request->ticket_content;
       $ticket->location_id = $request->location_id;
@@ -128,5 +129,25 @@ class TicketController extends Controller
       $ticket->delete();
       return redirect('/ticket')->with('success', 'Ticket has been deleted');
     }
+
+    public function addTicketAgent(Request $request)
+    {
+      $ticket = Ticket::findorfail($request->ticket_id);
+      $ticket->user()->syncWithoutDetaching($request->user_id);
+      return redirect('ticket/'.$request->ticket_id. '/edit');
+    }
+    /**
+     * Remove assigned users to ticket
+     *
+     */
+        public function removeTicketAgent($user_id, $ticket_id)
+    {
+        $ticket = Ticket::findorfail($ticket_id);
+
+        $ticket->user()->detach($user_id);
+
+        return redirect('ticket/'.$ticket_id.'/edit');
+    }
+
 
 }

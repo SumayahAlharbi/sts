@@ -5,7 +5,7 @@
 <div class = 'container'>
   <div class="row">
 <div class="col">
-<a class="btn btn-primary" href="{{ route('ticket.create')}}" role="button">New +</a>
+<a class="btn btn-primary" href="{{ route('ticket.create')}}" role="button">New  <i class="icon ion-md-add-circle"></i></a>
 </div>
 </div>
 <button type="button" class="btn btn-link"></button>
