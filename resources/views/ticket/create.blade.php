@@ -53,13 +53,17 @@
             <label for="exampleFormControlSelect1">requested by</label>
             <select class="form-control" name="requested_by" id="exampleFormControlSelect1">
               @foreach ($users as $key => $value)
+                @if ($key == $created_by->id)
+                <option selected value="{{$key}}">(Current) {{$value}}</option>
+                @else
                 <option value="{{$key}}">{{$value}}</option>
+                @endif
               @endforeach
             </select>
           </div>
+
           <div class="form-group">
-              <label for="created_by">created by</label>
-              <input type="text" class="form-control" name="created_by" value="{{$created_by->id}}"/>
+              <input type="text" class="form-control" name="created_by" value="{{$created_by->id}}" hidden />
           </div>
           <button type="submit" class="btn btn-primary">Add</button>
       </form>

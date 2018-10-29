@@ -68,15 +68,14 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $role = Role::findOrFail($request->role_id);
-
+        // $role = Role::findOrFail($request->role_id);
+        $role = Role::findOrFail($id);
         $role->name = $request->name;
-
         $role->update();
 
-        return redirect('roles');
+        return redirect('/roles')->with('success', 'Role has been updated');
     }
 
     /**
@@ -123,7 +122,7 @@ class RoleController extends Controller
 
         $role->revokePermissionTo(str_slug($permission, ' '));
 
-        return redirect('roles/edit/'.$role_id);
+        return redirect('roles/'.$role_id.'/edit');
     }
 
 }

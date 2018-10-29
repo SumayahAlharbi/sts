@@ -25,8 +25,6 @@ Route::resource('ticket','TicketController')->middleware('auth');
 Route::resource('category','CategoryController');
 //location Routes
 Route::resource('location','LocationController');
-// Route::post('/ticket/create','TicketController@create');
-
 //Status route
 Route::resource('status','StatusController');
 
@@ -34,8 +32,7 @@ Route::resource('status','StatusController');
 //Groups Routes
 Route::resource('group','GroupController');
 
-  Route::resource('/roles','RoleController');
-  Route::resource('permissions','PermissionController');
+Route::resource('permissions','PermissionController');
 Route::resource('roles','RoleController');
 
 

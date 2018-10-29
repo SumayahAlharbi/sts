@@ -5,8 +5,9 @@
 <div class = 'container'>
 <div class="card uper">
   <div class="card-header">
-   Ticket Details <a class="btn btn-primary" href="{{ route('ticket.edit',$tickets->id)}}" role="button">Edit</a>
+   Ticket Details <a class="btn" href="{{ route('ticket.edit',$tickets->id)}}" role="button">Edit</a>
   </div>
+
 
 
   <div class="card-body">

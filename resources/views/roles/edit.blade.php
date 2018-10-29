@@ -1,29 +1,32 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-	<div class="box box-primary">
-		<div class="box-header">
+<div class="card uper">
+  <div class="card-header">
 			<h3>Edit Role</h3>
 		</div>
-		<div class="box-body">
-			<form action="{{url('roles/update')}}" method = "post">
-				{!! csrf_field() !!}
-				<input type="hidden" name = "role_id" value = "{{$role->id}}">
+		  <div class="card-body">
+				@if ($errors->any())
+		      <div class="alert alert-danger">
+		        <ul>
+		            @foreach ($errors->all() as $error)
+		              <li>{{ $error }}</li>
+		            @endforeach
+		        </ul>
+		      </div><br />
+		    @endif
+			<form method="post" action="{{ route('roles.update', $role->id) }}">
+				@method('PATCH')
+        @csrf
 				<div class="form-group">
 				<label for="">Role</label>
 					<input type="text" name = "name" class = "form-control" placeholder = "Name" value = "{{$role->name}}">
 				</div>
-				<div class="box-footer">
-					<button class = 'btn btn-primary' type = "submit">Update</button>
-				</div>
+        <button type="submit" class="btn btn-primary">Update</button>
 			</form>
-		</div>
-	</div>
-			<div class="box box-primary">
-				<div class="box-header">
+
 					<h3>{{$role->name}} Permissions</h3>
-				</div>
-				<div class="box-body">
+
 					<form action="{{url('roles/addPermission')}}" method = "post">
 						{!! csrf_field() !!}
 						<input type="hidden" name = "role_id" value = "{{$role->id}}">
