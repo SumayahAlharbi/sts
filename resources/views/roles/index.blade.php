@@ -3,6 +3,12 @@
 @section('content')
 
 <div class = 'container'>
+  <div class="row">
+<div class="col">
+<a class="btn btn-primary" href="{{ route('roles.create')}}" role="button">New +</a>
+</div>
+</div>
+<button type="button" class="btn btn-link"></button>
 <div class="card uper">
   <div class="card-header">
    All roles

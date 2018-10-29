@@ -3,10 +3,17 @@
 @section('content')
 
 <div class = 'container'>
-  <a href="{{ route('ticket.create')}}" class="btn btn-primary">New +</a>
+  <div class="row">
+<div class="col">
+<a class="btn btn-primary" href="{{ route('ticket.create')}}" role="button">New +</a>
+</div>
+</div>
+<button type="button" class="btn btn-link"></button>
+
 <div class="card uper">
   <div class="card-header">
    All tickets
+
   </div>
   @if(session()->get('success'))
     <div class="alert alert-success">

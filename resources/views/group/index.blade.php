@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+  <div class = 'container'>
+  <div class="row">
+<div class="col">
+<a class="btn btn-primary" href="{{ route('group.create')}}" role="button">New +</a>
+</div>
+</div>
+</div>
+<button type="button" class="btn btn-link"></button>
 <style>
   .uper {
     margin-top: 40px;
