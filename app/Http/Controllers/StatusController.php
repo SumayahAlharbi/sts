@@ -15,6 +15,8 @@ class StatusController extends Controller
     public function index()
     {
         //
+        $statuses = Status::all();
+        return view('status.index', compact('statuses'));
     }
 
     /**
@@ -25,6 +27,8 @@ class StatusController extends Controller
     public function create()
     {
         //
+        return view('status.create');
+
     }
 
     /**
@@ -36,6 +40,11 @@ class StatusController extends Controller
     public function store(Request $request)
     {
         //
+        $status = new Status;
+        $status->status_name = $request->status_name;
+        $status->save();
+        return redirect('/status')->with('success', 'status has been added');
+
     }
 
     /**
@@ -55,9 +64,12 @@ class StatusController extends Controller
      * @param  \App\Status  $status
      * @return \Illuminate\Http\Response
      */
-    public function edit(Status $status)
+    public function edit($id)
     {
         //
+        $status = Status::find($id);
+        return view('status.edit', compact('status'));
+
     }
 
     /**
@@ -67,9 +79,15 @@ class StatusController extends Controller
      * @param  \App\Status  $status
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Status $status)
+    public function update(Request $request, $id)
     {
         //
+        $status = Status::find($id);
+        $status->status_name = $request->status_name;
+        $status->save();
+
+        return redirect('/status')->with('success', 'status has been updated');
+
     }
 
     /**
@@ -80,8 +98,9 @@ class StatusController extends Controller
      */
      public function destroy($id)
      {
+
        $status = Status::findOrfail($id);
        $status->delete();
-       return redirect('/status')->with('success', 'Status has been deleted');
+       return redirect('/status')->with('success', 'status has been deleted');
      }
 }
