@@ -22,11 +22,11 @@
         @csrf
         <div class="form-group">
           <label for="name">location_name</label>
-          <input type="text" class="form-control" name="location_name" value={{ $location->location_name }} />
+          <input type="text" class="form-control" name="location_name" value="{{ $location->location_name }}" />
         </div>
         <div class="form-group">
           <label for="name">location_description </label>
-          <input type="text" class="form-control" name="location_description" value={{ $location->location_description }} />
+          <input type="text" class="form-control" name="location_description" value="{{ $location->location_description }}" />
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>

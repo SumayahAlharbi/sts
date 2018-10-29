@@ -22,7 +22,7 @@
         @csrf
         <div class="form-group">
           <label for="name">status_name</label>
-          <input type="text" class="form-control" name="status_name" value={{ $status->status_name }} />
+          <input type="text" class="form-control" name="status_name" value="{{ $status->status_name }}" />
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
