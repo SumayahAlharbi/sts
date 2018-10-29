@@ -55,5 +55,7 @@
         @endforeach
     </tbody>
   </table>
-</div></div>
+</div>
+{!! $tickets->render() !!}
+</div>
 @endsection

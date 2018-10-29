@@ -25,4 +25,8 @@ class Ticket extends Model
     {
       return $this->belongsTo('App\Status');
     }
+    public function created_by_user()
+    {
+      return $this->belongsTo('App\User','created_by');
+    }
 }

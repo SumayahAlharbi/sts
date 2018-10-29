@@ -6,6 +6,8 @@ use App\Ticket;
 use App\Category;
 use App\Location;
 use App\Status;
+use App\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
@@ -18,7 +20,7 @@ class TicketController extends Controller
     public function index()
     {
         //
-        $tickets = Ticket::all();
+        $tickets = Ticket::paginate(5);
 
         return view('ticket.index', compact('tickets'));
     }
@@ -32,7 +34,9 @@ class TicketController extends Controller
     {
         $categories = Category::all()->pluck('category_name','id');
         $locations = Location::all()->pluck('location_name','id');
-        return view('ticket.create', compact('categories','locations'));
+        $users = User::all()->pluck('name','id');
+        $created_by = Auth::user();;
+        return view('ticket.create', compact('categories','locations','users','created_by'));
     }
 
     /**
@@ -53,6 +57,7 @@ class TicketController extends Controller
         $ticket->ticket_content = $request->ticket_content;
         $ticket->category_id = $request->category_id;
         $ticket->location_id = $request->location_id;
+        $ticket->status_id = '1';
 
         $ticket->save();
         return redirect('/ticket')->with('success', 'Stock has been added');
