@@ -87,9 +87,11 @@ class TicketController extends Controller
     public function edit($id)
     {
       $ticket = Ticket::find($id);
+      $users = User::all()->pluck('name','id');
       $locations = Location::all()->pluck('location_name','id');
       $categories = Category::all()->pluck('category_name','id');
-      return view('ticket.edit', compact('ticket','locations','categories'));
+      $statuses = Status::all()->pluck('status_name','id');
+      return view('ticket.edit', compact('ticket','users','locations','categories','statuses'));
 
     }
 
@@ -107,6 +109,8 @@ class TicketController extends Controller
       $ticket->ticket_content = $request->ticket_content;
       $ticket->location_id = $request->location_id;
       $ticket->category_id = $request->category_id;
+      $ticket->status_id = $request->status_id;
+      $ticket->requested_by = $request->requested_by;
       $ticket->save();
 
       return redirect('/ticket')->with('success', 'Ticket has been updated');

@@ -29,6 +29,14 @@
           <input type="text" class="form-control" name="ticket_content" value="{{ $ticket->ticket_content }}" />
         </div>
         <div class="form-group">
+          <label for="exampleFormControlSelect1">Status</label>
+          <select class="form-control" name="status_id" id="exampleFormControlSelect1">
+            @foreach ($statuses as $key => $value)
+              <option value="{{$key}}">{{$value}}</option>
+            @endforeach
+          </select>
+        </div>
+        <div class="form-group">
           <label for="exampleFormControlSelect1">Category</label>
           <select class="form-control" name="category_id" id="exampleFormControlSelect1">
             @foreach ($categories as $key => $value)
@@ -40,6 +48,14 @@
           <label for="exampleFormControlSelect1">location</label>
           <select class="form-control" name="location_id" id="exampleFormControlSelect1">
             @foreach ($locations as $key => $value)
+              <option value="{{$key}}">{{$value}}</option>
+            @endforeach
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">requested by</label>
+          <select class="form-control" name="requested_by" id="exampleFormControlSelect1">
+            @foreach ($users as $key => $value)
               <option value="{{$key}}">{{$value}}</option>
             @endforeach
           </select>
