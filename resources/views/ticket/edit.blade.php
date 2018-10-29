@@ -28,6 +28,14 @@
           <label for="price">Ticket content:</label>
           <input type="text" class="form-control" name="ticket_content" value={{ $ticket->ticket_content }} />
         </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">location</label>
+          <select class="form-control" name="location_id" id="exampleFormControlSelect1">
+            @foreach ($locations as $key => $value)
+              <option value="{{$key}}">{{$value}}</option>
+            @endforeach
+          </select>
+        </div>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
   </div>

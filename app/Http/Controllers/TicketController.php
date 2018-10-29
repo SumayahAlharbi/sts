@@ -87,7 +87,9 @@ class TicketController extends Controller
     public function edit($id)
     {
       $ticket = Ticket::find($id);
-      return view('ticket.edit', compact('ticket'));
+      $locations = Location::all()->pluck('location_name','id');
+      return view('ticket.edit', compact('ticket','locations'));
+
     }
 
     /**
