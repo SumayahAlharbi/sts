@@ -29,6 +29,10 @@
           <input type="text" class="form-control" name="ticket_content" value={{ $ticket->ticket_content }} />
         </div>
         <div class="form-group">
+          <label for="price">Ticket Category:</label>
+          <input type="text" class="form-control" name="ticket_category" value={{ $ticket->ticket_content }} />
+        </div>
+        <div class="form-group">
           <label for="exampleFormControlSelect1">location</label>
           <select class="form-control" name="location_id" id="exampleFormControlSelect1">
             @foreach ($locations as $key => $value)
