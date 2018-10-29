@@ -27,6 +27,10 @@ Route::resource('category','CategoryController');
 Route::resource('location','LocationController');
 // Route::post('/ticket/create','TicketController@create');
 
+//Status route
+Route::resource('status','StatusController');
+
+
 //Groups Routes
 Route::resource('group','GroupController');
 
