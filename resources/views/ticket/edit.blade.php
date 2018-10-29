@@ -32,7 +32,11 @@
           <label for="exampleFormControlSelect1">Status</label>
           <select class="form-control" name="status_id" id="exampleFormControlSelect1">
             @foreach ($statuses as $key => $value)
-              <option value="{{$key}}">{{$value}}</option>
+              @if ($key == $ticket->status_id)
+           <option selected value="{{$key}}">{{$value}}</option>
+           @else
+           <option value="{{$key}}">{{$value}}</option>
+           @endif
             @endforeach
           </select>
         </div>
