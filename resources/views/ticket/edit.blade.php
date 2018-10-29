@@ -52,6 +52,14 @@
             @endforeach
           </select>
         </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">requested by</label>
+          <select class="form-control" name="requested_by" id="exampleFormControlSelect1">
+            @foreach ($users as $key => $value)
+              <option value="{{$key}}">{{$value}}</option>
+            @endforeach
+          </select>
+        </div>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
   </div>
