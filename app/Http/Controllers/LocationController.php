@@ -89,8 +89,10 @@ class LocationController extends Controller
      * @param  \App\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Location $location)
-    {
-        //
-    }
+     public function destroy($id)
+     {
+       $location = Location::findOrfail($id);
+       $location->delete();
+       return redirect('/location')->with('success', 'Location has been deleted');
+     }
 }

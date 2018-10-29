@@ -3,9 +3,15 @@
 @section('content')
 
 <div class = 'container'>
+  <div class="row">
+<div class="col">
+<a class="btn btn-primary" href="{{ route('category.create')}}" role="button">New +</a>
+</div>
+</div>
+<button type="button" class="btn btn-link"></button>
 <div class="card uper">
   <div class="card-header">
-   All tickets
+   All Categories
   </div>
   @if(session()->get('success'))
     <div class="alert alert-success">
@@ -27,11 +33,11 @@
             <td>{{$category->category_name}}</td>
             <td><a href="{{ route('category.edit',$category->id)}}" class="btn btn-primary">Edit</a></td>
             <td>
-                {{-- <form action="{{ route('shares.destroy', $ticket->id)}}" method="post">
+                <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('category.destroy', $category->id)}}" method="post">
                   @csrf
                   @method('DELETE')
                   <button class="btn btn-danger" type="submit">Delete</button>
-                </form> --}}
+                </form>
             </td>
         </tr>
         @endforeach
