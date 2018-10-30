@@ -26,9 +26,9 @@ Route::resource('category','CategoryController')->middleware('auth');
 //location Routes
 Route::resource('location','LocationController')->middleware('auth');
 //Status route
-Route::resource('status','StatusController');
+Route::resource('status','StatusController')->middleware('auth');
 //Users route
-Route::resource('users','UserController');
+Route::resource('users','UserController')->middleware('auth');
 
 Route::resource('status','StatusController')->middleware('auth');
 
@@ -43,8 +43,8 @@ Route::resource('group','GroupController')->middleware('auth');
 Route::resource('permissions','PermissionController')->middleware('auth');
 Route::resource('roles','RoleController')->middleware('auth');
 
-Route::post('users/addRole','\App\Http\Controllers\UserController@addRole');
-Route::get('users/removeRole/{role}/{user_id}','\App\Http\Controllers\UserController@revokeRole');
+Route::post('users/addRole','\App\Http\Controllers\UserController@addRole')->middleware('auth');
+Route::get('users/removeRole/{role}/{user_id}','\App\Http\Controllers\UserController@revokeRole')->middleware('auth');
 
 //roles has permissions Routes
 Route::group(['middleware'=> 'web'],function(){
