@@ -76,8 +76,14 @@
             @endforeach
           </select>
         </div>
+        <div class="form-group">
         <button type="submit" class="btn btn-primary">Update</button>
+        </div>
       </form>
+
+      <div class="form-group">
+      <h5>Assigne an agent to this ticket</h5>
+      </div>
 
         <form action="{{url('ticket/addTicketAgent')}}" method = "post">
 
@@ -90,11 +96,13 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="form-group">
                                 <button class='btn btn-primary'>Assign</button>
+                                </div>
                             </form>
 
                             <!-- Assign Users To Goal -->
-                    <div class="col s12">
+                    <div class="form-group">
                     @foreach($TicketAgents as $TicketAgent)
                       <a class='btn btn-primary' href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$ticket->id}}' data-activates=''>{{$TicketAgent->name}}  <i class="icon ion-md-close"></i></a>
                     @endforeach

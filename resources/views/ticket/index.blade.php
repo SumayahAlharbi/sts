@@ -3,23 +3,26 @@
 @section('content')
 
 <div class = 'container'>
-  <div class="row">
+<div class="row">
 <div class="col">
 <a class="btn btn-primary" href="{{ route('ticket.create')}}" role="button">New  <i class="icon ion-md-add-circle"></i></a>
 </div>
 </div>
-<button type="button" class="btn btn-link"></button>
 
+@if(session()->get('success'))
+  <div class="alert alert-success">
+    {{ session()->get('success') }}
+  </div><br />
+@endif
+
+<div class="row mt-2">
+<div class="col">
 <div class="card uper">
   <div class="card-header">
    All tickets
 
   </div>
-  @if(session()->get('success'))
-    <div class="alert alert-success">
-      {{ session()->get('success') }}
-    </div><br />
-  @endif
+
   <table class="table table-striped">
     <thead>
         <tr>
@@ -64,5 +67,7 @@
   </table>
 </div>
 {!! $tickets->render() !!}
+</div>
+</div>
 </div>
 @endsection

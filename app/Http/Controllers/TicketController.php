@@ -8,6 +8,7 @@ use App\Location;
 use App\Status;
 use App\User;
 use Auth;
+
 use Illuminate\Http\Request;
 
 class TicketController extends Controller

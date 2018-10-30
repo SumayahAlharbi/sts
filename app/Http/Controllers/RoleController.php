@@ -106,7 +106,7 @@ class RoleController extends Controller
         $role = Role::findOrFail($request->role_id);
         $role->givePermissionTo($request->permission_name);
 
-        return redirect('roles/'.$request->role_id.'/edit');
+        return redirect('roles/'.$request->role_id.'/edit')->with('success', 'Role has been updated');
     }
 
         /**
