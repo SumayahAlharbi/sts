@@ -27,6 +27,8 @@ Route::resource('category','CategoryController');
 Route::resource('location','LocationController');
 //Status route
 Route::resource('status','StatusController');
+//Users route
+Route::resource('users','UserController');
 
 // assign agent to a ticket
 Route::post('ticket/addTicketAgent','TicketController@addTicketAgent');
@@ -39,6 +41,8 @@ Route::resource('group','GroupController');
 Route::resource('permissions','PermissionController');
 Route::resource('roles','RoleController');
 
+Route::post('users/addRole','\App\Http\Controllers\UserController@addRole');
+Route::get('users/removeRole/{role}/{user_id}','\App\Http\Controllers\UserController@revokeRole');
 
 //roles has permissions Routes
 Route::group(['middleware'=> 'web'],function(){
