@@ -26,13 +26,11 @@ Route::resource('category','CategoryController')->middleware('auth');
 //location Routes
 Route::resource('location','LocationController')->middleware('auth');
 //Status route
-<<<<<<< HEAD
 Route::resource('status','StatusController');
 //Users route
 Route::resource('users','UserController');
 =======
 Route::resource('status','StatusController')->middleware('auth');
->>>>>>> afa3990f03adafe3a0ee6824724c20d1c3c21212
 
 // assign agent to a ticket
 Route::post('ticket/addTicketAgent','TicketController@addTicketAgent')->middleware('auth');
