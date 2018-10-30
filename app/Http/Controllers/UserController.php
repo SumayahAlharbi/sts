@@ -53,10 +53,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Status  $status
+     * @param  \App\Users  $users
      * @return \Illuminate\Http\Response
      */
-    public function show(Status $status)
+    public function show(Users $status)
     {
         //
     }
@@ -91,30 +91,52 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Status  $status
+     * @param  \App\users  $users
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
-        // $status = Status::find($id);
-        // $status->status_name = $request->status_name;
-        // $status->save();
-        //
-        // return redirect('/status')->with('success', 'status has been updated');
+      {
+
+   //   $this->validate($request, [
+   //   'email' => [
+   //   'required',
+   //   Rule::unique('users')->ignore($request->user_id),
+   //    'email',
+   //    'max:191',
+   //    'string',
+   //    'regex:/^[A-Za-z0-9\.]*@(ksau-hs)[.](edu)[.](sa)$/',
+   // ],
+   //   'name' => 'required|max:191|string',
+   //   'password' => 'nullable|between:6,20|string',
+   //   ]);
+       $user = \App\User::findOrfail($request->user_id);
+
+       $user->email = $request->email;
+       $user->name = $request->name;
+       if(!empty($request->input('password')))
+     {
+         $user->password = Hash::make($request->password);
+     }
+
+
+       $user->save();
+
+       return redirect('/users')->with('success', 'user has been updated');
+   }
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Status  $status
+     * @param  \App\Users  $users
      * @return \Illuminate\Http\Response
      */
      public function destroy($id)
      {
 
-       // $status = Status::findOrfail($id);
+       // $users = Status::findOrfail($id);
        // $status->delete();
        // return redirect('/status')->with('success', 'status has been deleted');
      }

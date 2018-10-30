@@ -15,7 +15,7 @@
        {{ session()->get('success') }}
      </div><br />
    @endif
-  			<form action="{{url('/users')}}/{{$user->id}}/update" method = "post">
+  			<form action="{{ route('users.update', $user->id) }}" method = "post">
           @method('PATCH')
           @csrf
   				<input type="hidden" name = "user_id" value = "{{$user->id}}">
