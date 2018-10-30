@@ -51,6 +51,9 @@
                             </li>
                         @else
                           <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/users') }}">Users</a>
+                            </li>
+                          <li class="nav-item">
                             <a class="nav-link" href="{{ route('ticket.index') }}">Tickets</a>
                             </li>
                             <li class="nav-item">
