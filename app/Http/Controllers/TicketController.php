@@ -20,8 +20,14 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
-        $tickets = Ticket::paginate(5);
+
+        $user = Auth::user();
+        $ticket = Ticket::all();
+        if ($user->hasRole('admin')) {
+                $tickets = Ticket::paginate(5);
+            } else {
+                $tickets = $user->ticket;
+            }
 
         return view('ticket.index', compact('tickets'));
     }

@@ -27,10 +27,8 @@ Route::group(['middleware' => ['role:admin']], function () {
   Route::resource('category','CategoryController')->middleware('auth');
   //location Routes
   Route::resource('location','LocationController')->middleware('auth');
-  //Status route
-  Route::resource('status','StatusController');
   //Users route
-  Route::resource('users','UserController');
+  Route::resource('users','UserController')->middleware('auth');
   //Users status
   Route::resource('status','StatusController')->middleware('auth');
   //Groups Routes
@@ -43,10 +41,10 @@ Route::group(['middleware' => ['role:admin']], function () {
   Route::get('users/removeRole/{role}/{user_id}','\App\Http\Controllers\UserController@revokeRole');
 
   // //roles has permissions Routes
-  // Route::group(['middleware'=> 'web'],function(){
-  Route::post('roles/addPermission','\App\Http\Controllers\RoleController@addPermission')->middleware('auth');
-  Route::get('roles/removePermission/{permission}/{role_id}','\App\Http\Controllers\RoleController@revokePermission')->middleware('auth');
-  // });
+  Route::group(['middleware'=> 'auth'],function(){
+  Route::post('roles/addPermission','\App\Http\Controllers\RoleController@addPermission');
+  Route::get('roles/removePermission/{permission}/{role_id}','\App\Http\Controllers\RoleController@revokePermission');
+  });
 });
 
 // Route::group(['middleware' => ['role:supervisor|admin']], function () {
