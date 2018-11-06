@@ -53,7 +53,7 @@
         <input type="hidden" name="ticket_id" value="{{ $tickets->id }}" />
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-warning" value="Add Comment" />
+        <input type="submit" class="btn btn-dark" value="Add Comment" />
     </div>
 
 </div>

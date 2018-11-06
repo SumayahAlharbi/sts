@@ -3,6 +3,7 @@
  @foreach($comments as $comment)
     <div class="display-comment">
         <strong>{{ $comment->user->name }}</strong>
+        <small class="text-muted">{{$comment->created_at->diffForHumans() }}</small>
         <p>{{ $comment->body }}</p>
         <a href="" id="reply"></a>
         <form method="post" action="{{ route('reply.add') }}">
@@ -13,7 +14,7 @@
                 <input type="hidden" name="comment_id" value="{{ $comment->id }}" />
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-warning" value="Reply" />
+                <input type="submit" class="btn btn-secondary" value="Reply" />
             </div>
         </form>
         @include('comments._comment_replies', ['comments' => $comment->replies])
