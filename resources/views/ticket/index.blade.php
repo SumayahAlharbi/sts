@@ -3,11 +3,13 @@
 @section('content')
 
 <div class = 'container'>
+  @role('admin')
 <div class="row">
 <div class="col">
 <a class="btn btn-primary" href="{{ route('ticket.create')}}" role="button">New  <i class="icon ion-md-add-circle"></i></a>
 </div>
 </div>
+@endrole
 
 @if(session()->get('success'))
   <div class="alert alert-success">
@@ -33,7 +35,9 @@
           <td>Location</td>
           <td>Agents</td>
           <td>Status</td>
+          @role('admin')
           <td>Action</td>
+          @endrole
         </tr>
     </thead>
     <tbody>
@@ -54,6 +58,7 @@
 
             {{-- </td>
             <td> --}}
+            @role('admin')
                 <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
                   @csrf
                   @method('DELETE')
@@ -61,6 +66,7 @@
                   <a href="{{ route('ticket.show',$ticket->id)}}" class="btn btn-primary"><i class="icon ion-md-eye"></i></a>
                   <button class="btn btn-danger" type="submit"><i class="icon ion-md-trash"></i></button>
                 </form>
+                @endrole
             </td>
         </tr>
         @endforeach

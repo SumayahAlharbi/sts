@@ -9,7 +9,7 @@
 <div class = 'container'>
 <div class="card uper">
   <div class="card-header">
-   Ticket Details <a class="btn" href="{{ route('ticket.edit',$tickets->id)}}" role="button">Edit</a>
+   Ticket Details @role('admin')<a class="btn" href="{{ route('ticket.edit',$tickets->id)}}" role="button">Edit</a>@endrole
 
    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
      {{$tickets->status->status_name}}
