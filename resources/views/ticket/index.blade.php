@@ -40,7 +40,7 @@
         @foreach($tickets as $ticket)
         <tr>
             <td>{{$ticket->id}}</td>
-            <td><h4><small class="text-muted">#{{$ticket->id}} </small> {{$ticket->ticket_title}}</h4></td>
+            <td><h4><small class="text-muted">#{{$ticket->id}} </small> {{ str_limit($ticket->ticket_title, 35)}}</h4></td>
             {{-- <td>{{$ticket->ticket_content}}</td> --}}
             <td>{{$ticket->category['category_name']}}</td>
             <td>{{$ticket->location['location_name']}}</td>

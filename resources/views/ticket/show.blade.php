@@ -1,5 +1,9 @@
 @extends('layouts.app')
-
+<style>
+    .display-comment .display-comment {
+        margin-left: 40px;
+    }
+</style>
 @section('content')
 
 <div class = 'container'>
@@ -13,7 +17,7 @@
 <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-12">
-        <h4 class="card-title">{{$tickets->ticket_title}} <small class="text-muted"> in {{$tickets->location->location_name}}</small></h4>
+        <h4 class="card-title">{{title_case($tickets->ticket_title)}} <small class="text-muted"> in {{$tickets->location->location_name}}</small></h4>
         <h6 class="card-subtitle mb-2 text-muted">Created by {{$tickets->created_by_user->name}} requested by {{$tickets->requested_by_user->name}} {{$tickets->created_at->diffForHumans() }}</h6>
           <h5>
             <span class="badge badge-warning">{{$tickets->status->status_name}}</span>
@@ -33,6 +37,25 @@
           {{$tickets->ticket_content}}
         </p>
     </div>
+    </div>
+
+<hr />
+    <h4>Display Comments</h4>
+
+    @include('comments._comment_replies', ['comments' => $tickets->comments, 'ticket_id' => $tickets->id])
+
+    <hr />
+<h4>Add comment</h4>
+<form method="post" action="{{ route('comment.add') }}">
+    @csrf
+    <div class="form-group">
+        <input type="text" name="comment_body" class="form-control" />
+        <input type="hidden" name="ticket_id" value="{{ $tickets->id }}" />
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-warning" value="Add Comment" />
+    </div>
+
 </div>
 </div>
 </div>

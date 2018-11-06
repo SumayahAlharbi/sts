@@ -53,3 +53,8 @@ Route::group(['middleware' => ['role:admin']], function () {
   // remove agent from a ticket
   Route::get('ticket/removeTicketAgent/{user_id}/{ticket_id}','\App\Http\Controllers\TicketController@removeTicketAgent')->middleware('auth');
 // });
+
+
+
+Route::post('/comment/store', 'CommentController@store')->name('comment.add');
+Route::post('/reply/store', 'CommentController@replyStore')->name('reply.add');

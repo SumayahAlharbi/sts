@@ -27,7 +27,7 @@ class TicketController extends Controller
                 $tickets = Ticket::paginate(5);
             } else {
                 $tickets = $user->ticket;
-            }
+        }
 
         return view('ticket.index', compact('tickets'));
     }

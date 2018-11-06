@@ -33,4 +33,8 @@ class Ticket extends Model
     {
       return $this->belongsTo('App\User','requested_by');
     }
+    public function comments()
+    {
+    return $this->morphMany('App\Comment', 'commentable')->whereNull('parent_id');
+    }
 }
