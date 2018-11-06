@@ -2,8 +2,26 @@
 
  @foreach($comments as $comment)
     <div class="display-comment">
+
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="row">
+            <div class="col-sm-1">
+              <img class="rounded mx-auto" src="{{Auth::user()->gravatar}}" >
+            </div>
+            <div class="col-sm-11">
+              <strong>{{ $comment->user->name }}</strong>
+              <small class="text-muted">{{$comment->created_at->diffForHumans() }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        {{-- <img class="rounded mx-auto" src="{{Auth::user()->gravatar}}" >
         <strong>{{ $comment->user->name }}</strong>
-        <small class="text-muted">{{$comment->created_at->diffForHumans() }}</small>
+        <small class="text-muted">{{$comment->created_at->diffForHumans() }}</small> --}}
+
         <p>{{ $comment->body }}</p>
         <a href="" id="reply"></a>
         <form method="post" action="{{ route('reply.add') }}">

@@ -81,8 +81,9 @@ class TicketController extends Controller
     public function show($id, Request $request)
     {
         $tickets = Ticket::find($id);
+        $statuses = Status::all()->pluck('status_name','id');
         $locations = Location::all()->pluck('location_name','id');
-        return view('ticket.show', compact('tickets','locations'));
+        return view('ticket.show', compact('tickets','locations','statuses'));
     }
 
     /**
@@ -155,6 +156,23 @@ class TicketController extends Controller
 
         return redirect('ticket/'.$ticket_id.'/edit');
     }
+
+    public function ChangeTicketStatus($status_id, $tickets_id)
+    {
+      $ticket = Ticket::findorfail($tickets_id);
+      $ticket->status()->associate($status_id);
+      $ticket->save();
+
+
+      // $account = App\Account::find(10);
+
+
+      //
+      // $user->save();
+
+      return redirect('ticket/'.$tickets_id);
+    }
+
 
 
 }
