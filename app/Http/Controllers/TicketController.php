@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
+  public function __construct()
+{
+  // $this->middleware('role:admin')->only('index','show');
+  $this->middleware('role:admin', ['except' => ['index', 'show', 'ChangeTicketStatus']]);
+
+}
     /**
      * Display a listing of the resource.
      *
