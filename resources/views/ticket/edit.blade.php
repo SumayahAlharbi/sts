@@ -26,7 +26,9 @@
         </div>
         <div class="form-group">
           <label for="price">Ticket content:</label>
-          <input type="text" class="form-control" name="ticket_content" value="{{ $ticket->ticket_content }}" />
+          {{-- <input type="text" class="form-control" name="ticket_content" value="{{ $ticket->ticket_content }}" /> --}}
+          <textarea name="ticket_content" class="form-control" id="editor" rows="3">{{ $ticket->ticket_content }}</textarea>
+
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Status</label>

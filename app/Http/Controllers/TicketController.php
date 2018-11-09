@@ -128,7 +128,7 @@ class TicketController extends Controller
       $ticket->requested_by = $request->requested_by;
       $ticket->save();
 
-      return redirect('/ticket')->with('success', 'Ticket has been updated');
+      return redirect('/ticket/'.$id)->with('success', 'Ticket has been updated');
     }
 
     /**
