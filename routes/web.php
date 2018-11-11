@@ -55,15 +55,27 @@ Route::group(['middleware' => ['role:admin']], function () {
 // });
 });
 
-Route::group(['middleware' => ['permission:edit ticket']], function () {
-    Route::resource('ticket','TicketController');
-});
-//Tickets Routes
+Route::get('ticket', 'TicketController@index')->name('ticket.index')->middleware('permission:view tickets list');
+Route::get('ticket/create', 'TicketController@create')->name('ticket.create')->middleware('permission:create ticket');
+Route::post('ticket/create', 'TicketController@store')->name('ticket.store')->middleware('permission:create ticket');
+Route::get('ticket/{ticket}', 'TicketController@show')->name('ticket.show')->middleware('permission:show ticket');
+Route::get('ticket/{ticket}/edit', 'TicketController@edit')->name('ticket.edit')->middleware('permission:update ticket');
+Route::patch('ticket/{ticket}', 'TicketController@update')->name('ticket.update')->middleware('permission:update ticket');
+Route::delete('ticket/{ticket}', 'TicketController@destroy')->name('ticket.destroy')->middleware('permission:delete ticket');
+Route::get('ticket/ChangeTicketStatus/{status_id}/{ticket_id}','\App\Http\Controllers\TicketController@ChangeTicketStatus')->middleware('permission:change ticket status');
 
+
+  //Route::resource('ticket','TicketController');
+
+
+  // Route::post('/ticket/create', 'TicketController@create');
+  // Route::get('/ticket/show', 'TicketController@show');
+
+
+//Comments Routes
 
 Route::post('/comment/store', 'CommentController@store')->name('comment.add');
 Route::post('/reply/store', 'CommentController@replyStore')->name('reply.add');
 
-Route::get('ticket/ChangeTicketStatus/{status_id}/{ticket_id}','\App\Http\Controllers\TicketController@ChangeTicketStatus');
 // Route::post('ticket/ChangeTicketStatus','\App\Http\Controllers\TicketController@ChangeTicketStatus');
 });
