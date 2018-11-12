@@ -75,7 +75,7 @@ class TicketController extends Controller
         $ticket->requested_by = $request->requested_by;
 
         $ticket->save();
-        return redirect('/ticket')->with('success', 'Stock has been added');
+        return redirect('/ticket')->with('success', 'Ticket has been added');
     }
 
     /**
@@ -86,11 +86,28 @@ class TicketController extends Controller
      */
     public function show($id, Request $request)
     {
-        $tickets = Ticket::find($id);
+        $user = Auth::user();
+        $ticket =  Ticket::findOrfail($id);
+        $ticketUsers = $ticket->user;
         $statuses = Status::all()->pluck('status_name','id');
         $locations = Location::all()->pluck('location_name','id');
+        $tickets =  Ticket::find($id);
+
+        if ($user->hasRole('admin')) {
         return view('ticket.show', compact('tickets','locations','statuses'));
-    }
+      }
+        else {
+          foreach ($ticketUsers as $ticketUser) {
+          }
+            if ($user->id == $ticketUser->id) {
+              return view('ticket.show', compact('tickets','locations','statuses'));
+            }else {
+                  return redirect('/ticket')->with('danger', 'You do not have access to this ticket!');
+                }
+          }
+
+        }
+
 
     /**
      * Show the form for editing the specified resource.
