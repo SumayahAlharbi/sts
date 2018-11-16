@@ -81,6 +81,33 @@
             @endforeach
           </div>
 
+          <div class="form-group">
+          <h5>Add user to groups</h5>
+          </div>
+
+            <form action="{{url('users/addUserGroup')}}" method = "post">
+
+              @csrf
+                                    <input type="hidden" name = "user_id" value = "{{$user->id}}">
+                                    <div class="form-group">
+                                        <select name="group_id" id="" class = "form-control">
+                                            @foreach($groups as $group)
+                                            <option value="{{$group->id}}">{{$group->group_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                    <button class='btn btn-primary'>Assign</button>
+                                    </div>
+                                </form>
+
+                                <div class="form-group">
+                                @foreach($userGroups as $userGroup)
+                                  <a class='btn btn-primary' href='{{url('users/removeUserGroup')}}/{{$userGroup->id}}/{{$user->id}}' data-activates=''>{{$userGroup->group_name}}  <i class="icon ion-md-close"></i></a>
+                                @endforeach
+                              </div>
+
+
 
   			</div>
   		</div>

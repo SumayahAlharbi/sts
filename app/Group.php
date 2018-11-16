@@ -8,5 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Group extends Model
 {
   use SoftDeletes;
-    //
+  public function user()
+  {
+      return $this->belongsToMany('App\Users','group_user', 'group_id', 'user_id');
+  }
 }

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use App\Group;
 
 class UserController extends Controller
 {
@@ -74,9 +75,11 @@ class UserController extends Controller
        $user = Auth::user();
        // if ($user->hasRole('SuperAdmin')) {
          $user = \App\User::findOrfail($id);
+         $userGroups = $user->group;
+         $groups = \App\Group::all();
          $roles = Role::all()->pluck('name');
          $userRoles = $user->roles;
-         return view('users.edit', compact('user', 'roles', 'userRoles'));
+         return view('users.edit', compact('user', 'roles', 'userRoles', 'groups', 'userGroups'));
        // }elseif ($user->hasRole('Admin')) {
          // $user = \App\User::whereNotIn('id', [1, 3])->findOrfail($id);
          // $roles = Role::all()->pluck('name');
@@ -141,6 +144,22 @@ class UserController extends Controller
        // $status->delete();
        // return redirect('/status')->with('success', 'status has been deleted');
      }
+
+     public function addUserGroup(Request $request)
+     {
+       $user = User::findorfail($request->user_id);
+       $user->group()->syncWithoutDetaching($request->group_id);
+       return redirect('users/'.$request->user_id. '/edit');
+     }
+
+     public function removeUserGroup($group_id, $user_id)
+ {
+     $user = User::findorfail($user_id);
+
+     $user->group()->detach($group_id);
+
+     return redirect('users/'.$user_id. '/edit');
+ }
 
      /**
      * Assign Role to user.

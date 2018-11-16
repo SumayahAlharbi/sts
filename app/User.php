@@ -33,6 +33,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Ticket','tickets_assignee');
     }
+    public function group()
+    {
+        return $this->belongsToMany('App\Group','group_user', 'user_id', 'group_id');
+    }
     public function getGravatarAttribute()
     {
       $hash = md5(strtolower(trim($this->attributes['email'])));
