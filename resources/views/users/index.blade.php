@@ -25,7 +25,8 @@
     <thead>
         <tr>
           <td>User</td>
-          <td>Actions</td>
+          <td>Groups</td>
+          <td>Roles</td>
         </tr>
     </thead>
     <tbody>
@@ -34,6 +35,18 @@
     <tr>
 
     <td><a href="{{url('/users')}}/{{$user->id}}/edit" class="collection-item">{{$user->name}}</a></td>
+    <td>
+
+      @if(!empty($user->group))
+      @foreach($user->group as $userGroup)
+        {{$userGroup->group_name}} <br>
+      @endforeach
+        @else
+
+          No Groups
+
+        @endif
+    </td>
     <td>
 
         @if(!empty($user->roles))
