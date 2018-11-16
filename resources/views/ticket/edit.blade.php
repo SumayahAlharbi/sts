@@ -82,7 +82,7 @@
         <button type="submit" class="btn btn-primary">Update</button>
         </div>
       </form>
-
+      @can('assign ticket')
       <div class="form-group">
       <h5>Assigne an agent to this ticket</h5>
       </div>
@@ -102,11 +102,13 @@
                                 <button class='btn btn-primary'>Assign</button>
                                 </div>
                             </form>
+                          @endcan
 
-                            <!-- Assign Users To Goal -->
+                            <!-- unassign Users from Ticket -->
                     <div class="form-group">
+                      <h5>Ticket Assigned to:</h5>
                     @foreach($TicketAgents as $TicketAgent)
-                      <a class='btn btn-primary' href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$ticket->id}}' data-activates=''>{{$TicketAgent->name}}  <i class="icon ion-md-close"></i></a>
+                      <a class='btn btn-primary' @can('unassign ticket') href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$ticket->id}}'@endcan data-activates=''> {{$TicketAgent->name}}  @can('unassign ticket')<i class="icon ion-md-close"></i>@endcan </a>
                     @endforeach
                   </div>
 

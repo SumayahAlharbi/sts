@@ -9,8 +9,8 @@
 <div class = 'container'>
 <div class="card uper">
   <div class="card-header">
-   Ticket Details @role('admin')<a class="btn" href="{{ route('ticket.edit',$tickets->id)}}" role="button">Edit</a>@endrole
-
+   Ticket Details @can('update ticket')<a class="btn" href="{{ route('ticket.edit',$tickets->id)}}" role="button">Edit</a>@endcan
+@can('change ticket status')
    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
      {{$tickets->status->status_name}}
    </button>
@@ -20,7 +20,7 @@
      <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$key}}/{{$tickets->id}}'>{{$value}}</a>
    @endforeach
    </div>
-
+@endcan
   </div>
 
 <div class="card-body">

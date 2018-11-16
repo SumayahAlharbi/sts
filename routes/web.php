@@ -51,10 +51,7 @@ Route::group(['middleware' => ['role:admin']], function () {
 
 
 // Route::group(['middleware' => ['role:supervisor|admin']], function () {
-  // assign agent to a ticket
-  Route::post('ticket/addTicketAgent','TicketController@addTicketAgent');
-  // remove agent from a ticket
-  Route::get('ticket/removeTicketAgent/{user_id}/{ticket_id}','\App\Http\Controllers\TicketController@removeTicketAgent');
+
 // });
 });
 
@@ -67,6 +64,10 @@ Route::patch('ticket/{ticket}', 'TicketController@update')->name('ticket.update'
 Route::delete('ticket/{ticket}', 'TicketController@destroy')->name('ticket.destroy')->middleware('permission:delete ticket');
 Route::get('ticket/ChangeTicketStatus/{status_id}/{ticket_id}','\App\Http\Controllers\TicketController@ChangeTicketStatus')->middleware('permission:change ticket status');
 
+// assign agent to a ticket
+Route::post('ticket/addTicketAgent','TicketController@addTicketAgent')->middleware('permission:assign ticket');
+// remove agent from a ticket
+Route::get('ticket/removeTicketAgent/{user_id}/{ticket_id}','\App\Http\Controllers\TicketController@removeTicketAgent')->middleware('permission:unassign ticket');
 
   //Route::resource('ticket','TicketController');
 
