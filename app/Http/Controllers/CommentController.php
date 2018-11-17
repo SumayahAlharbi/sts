@@ -10,6 +10,9 @@ class CommentController extends Controller
 {
   public function store(Request $request)
   {
+    $request->validate([
+      'comment_body'=>'required',
+    ]);
     $comment = new Comment;
     $comment->body = $request->get('comment_body');
     $comment->user()->associate($request->user());
@@ -21,6 +24,9 @@ class CommentController extends Controller
 
   public function replyStore(Request $request)
   {
+    $request->validate([
+      'comment_body'=>'required',
+    ]);
     $reply = new Comment();
     $reply->body = $request->get('comment_body');
     $reply->user()->associate($request->user());
