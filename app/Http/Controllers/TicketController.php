@@ -30,7 +30,7 @@ class TicketController extends Controller
         $user = Auth::user();
         $ticket = Ticket::all();
         if ($user->hasRole('admin')) {
-                $tickets = Ticket::paginate(5);
+                $tickets = Ticket::all();
             } else {
                 $tickets = $user->ticket;
         }
