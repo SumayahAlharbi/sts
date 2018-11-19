@@ -79,7 +79,7 @@
     </tbody>
   </table>
 </div>
-{{-- {!! $tickets->links() !!} --}}
+{!! $tickets->links() !!}
 </div>
 </div>
 </div>

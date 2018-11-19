@@ -28,11 +28,16 @@ class TicketController extends Controller
     {
 
         $user = Auth::user();
-        $ticket = Ticket::all();
+        $tickets = Ticket::all();
+        $userId = $user->id;
+
         if ($user->hasRole('admin')) {
-                $tickets = Ticket::all();
+                $tickets = Ticket::paginate(10);
             } else {
-                $tickets = $user->ticket;
+              $tickets = Ticket::whereHas('user', function ($q) use ($userId) {
+                $q->where('user_id', $userId);
+            })->paginate(10);
+
         }
 
         return view('ticket.index', compact('tickets'));
