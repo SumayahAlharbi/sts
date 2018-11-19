@@ -103,14 +103,15 @@ class TicketController extends Controller
       }
         else {
           foreach ($ticketUsers as $ticketUser) {
-          }
             if ($user->id == $ticketUser->id) {
               return view('ticket.show', compact('tickets','locations','statuses'));
-            }else {
-                  return redirect('/ticket')->with('danger', 'You do not have access to this ticket!');
-                }
-          }
+            }
+              }
 
+          }
+          if ($user->id != $ticketUser->id) {
+                return redirect('/ticket')->with('danger', 'You do not have access to this ticket!');
+              }
         }
 
 
@@ -122,13 +123,29 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
+      $user = Auth::user();
       $ticket = Ticket::find($id);
       $users = \App\User::all();
       $TicketAgents = $ticket->user;
       $locations = Location::all()->pluck('location_name','id');
       $categories = Category::all()->pluck('category_name','id');
       $statuses = Status::all()->pluck('status_name','id');
-      return view('ticket.edit', compact('ticket','users','locations','categories','statuses','TicketAgents'));
+
+      if ($user->hasRole('admin')) {
+        return view('ticket.edit', compact('ticket','users','locations','categories','statuses','TicketAgents'));
+    }
+      else {
+        foreach ($TicketAgents as $TicketAgent) {
+          if ($user->id == $TicketAgent->id) {
+            return view('ticket.edit', compact('ticket','users','locations','categories','statuses','TicketAgents'));
+          }
+            }
+
+        }
+        if ($user->id != $TicketAgent->id) {
+              return redirect('/ticket')->with('danger', 'You do not have access to this ticket!');
+            }
+
 
     }
 
