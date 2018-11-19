@@ -92,24 +92,25 @@ class TicketController extends Controller
     public function show($id, Request $request)
     {
         $user = Auth::user();
+        $users = \App\User::all();
         $ticket =  Ticket::findOrfail($id);
-        $ticketUsers = $ticket->user;
+        $TicketAgents = $ticket->user;
         $statuses = Status::all()->pluck('status_name','id');
         $locations = Location::all()->pluck('location_name','id');
         $tickets =  Ticket::find($id);
 
         if ($user->hasRole('admin')) {
-        return view('ticket.show', compact('tickets','locations','statuses'));
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users'));
       }
         else {
-          foreach ($ticketUsers as $ticketUser) {
-            if ($user->id == $ticketUser->id) {
-              return view('ticket.show', compact('tickets','locations','statuses'));
+          foreach ($TicketAgents as $TicketAgent) {
+            if ($user->id == $TicketAgent->id) {
+              return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users'));
             }
               }
 
           }
-          if ($user->id != $ticketUser->id) {
+          if ($user->id != $TicketAgent->id) {
                 return redirect('/ticket')->with('danger', 'You do not have access to this ticket!');
               }
         }
