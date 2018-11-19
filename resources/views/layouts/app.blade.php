@@ -102,6 +102,13 @@
         <main class="py-4">
             @yield('content')
         </main>
-    </div>
+
+        <div class="row justify-content-md-center">
+          <div class="col-md-auto">
+            @version
+          </div>
+          </div>
+        </div>
+        
 </body>
 </html>
