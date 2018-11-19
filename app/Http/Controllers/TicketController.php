@@ -32,11 +32,11 @@ class TicketController extends Controller
         $userId = $user->id;
 
         if ($user->hasRole('admin')) {
-                $tickets = Ticket::paginate(10);
+                $tickets = Ticket::orderByRaw('updated_at - created_at')->paginate(10);
             } else {
               $tickets = Ticket::whereHas('user', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
-            })->paginate(10);
+            })->orderByRaw('updated_at - created_at')->paginate(10);
 
         }
 
