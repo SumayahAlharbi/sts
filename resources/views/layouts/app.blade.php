@@ -105,10 +105,10 @@
 
         <div class="row justify-content-md-center">
           <div class="col-md-auto">
-            @version
+            {{Version::full()}}
           </div>
           </div>
         </div>
-        
+
 </body>
 </html>
