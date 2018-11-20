@@ -7,6 +7,11 @@
 @section('content')
 
 <div class = 'container'>
+  @if(session()->get('success'))
+    <div class="alert alert-success">
+      {{ session()->get('success') }}
+    </div><br />
+  @endif
 <div class="card uper">
   <div class="card-header">
    Ticket Details @can('update ticket')<a class="btn" href="{{ route('ticket.edit',$tickets->id)}}" role="button">Edit</a>@endcan
@@ -122,11 +127,7 @@
 
 
 
-  @if(session()->get('success'))
-    <div class="alert alert-success">
-      {{ session()->get('success') }}
-    </div><br />
-  @endif
+
 </div>
 </div></div>
 @endsection
