@@ -149,7 +149,7 @@ class UserController extends Controller
      {
        $user = User::findorfail($request->user_id);
        $user->group()->syncWithoutDetaching($request->group_id);
-       return redirect('users/'.$request->user_id. '/edit');
+       return back();
      }
 
      public function removeUserGroup($group_id, $user_id)
@@ -158,7 +158,7 @@ class UserController extends Controller
 
      $user->group()->detach($group_id);
 
-     return redirect('users/'.$user_id. '/edit');
+     return back();
  }
 
      /**
@@ -175,7 +175,7 @@ class UserController extends Controller
         $userRoles = $users->roles;
         $users->assignRole($request->role_name);
 
-        return redirect('users/'.$request->user_id.'/edit');
+        return back();
     }
 
     /**
@@ -191,6 +191,6 @@ class UserController extends Controller
 
         $users->removeRole(str_slug($role, ' '));
 
-        return redirect('users/'.$user_id.'/edit');
+        return back();
     }
 }

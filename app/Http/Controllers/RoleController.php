@@ -106,7 +106,7 @@ class RoleController extends Controller
         $role = Role::findOrFail($request->role_id);
         $role->givePermissionTo($request->permission_name);
 
-        return redirect('roles/'.$request->role_id.'/edit')->with('success', 'Role has been updated');
+        return back()->with('success', 'Role has been updated');
     }
 
         /**
@@ -122,7 +122,7 @@ class RoleController extends Controller
 
         $role->revokePermissionTo(str_slug($permission, ' '));
 
-        return redirect('roles/'.$role_id.'/edit');
+        return back();
     }
 
 }

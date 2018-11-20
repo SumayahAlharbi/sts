@@ -188,7 +188,7 @@ class TicketController extends Controller
     {
       $ticket = Ticket::findorfail($request->ticket_id);
       $ticket->user()->syncWithoutDetaching($request->user_id);
-      return redirect('ticket/'.$request->ticket_id. '/edit');
+      return back();
     }
     /**
      * Remove assigned users to ticket
@@ -200,7 +200,7 @@ class TicketController extends Controller
 
         $ticket->user()->detach($user_id);
 
-        return redirect('ticket/'.$ticket_id.'/edit');
+        return back();
     }
 
     public function ChangeTicketStatus($status_id, $tickets_id)
