@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.material')
 <style>
     .display-comment .display-comment {
         margin-left: 40px;
