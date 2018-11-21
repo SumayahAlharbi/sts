@@ -7,13 +7,14 @@
   }
 </style>
 
-<div class = 'container'>
-<div class="card uper">
-  <div class="card-header">
-    <div class="card-title">
+<div class = 'row'>
+<div class="col-12">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">
     + New Ticket
-  </div>
-  </div>
+    </h4>
+
   <div class="card-body">
     @if ($errors->any())
       <div class="alert alert-danger">
