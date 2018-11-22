@@ -272,26 +272,26 @@
                     <ul id="sidebarnav">
                         <li class="nav-small-cap">OPERATIONS</li>
                         <li>
-                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Tickets </span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="{{ route('ticket.index') }}">All Tickets</a></li>
-                                <li><a href="{{ route('ticket.create') }}">New Ticket</a></li>
+                            {{-- <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Tickets </span></a> --}}
+                            {{-- <ul aria-expanded="false" class="collapse"> --}}
+                                <li><a href="{{ route('ticket.index') }}">Tickets</a></li>
+                                {{-- <li><a href="{{ route('ticket.create') }}">New Ticket</a></li> --}}
                                 <li><a href="{{ url('/category') }}">Categories</a></li>
                                 <li><a href="{{ url('/location') }}">Locations</a></li>
                                 <li><a href="{{ url('/status') }}">Status</a></li>
-                            </ul>
+                            {{-- </ul> --}}
                         </li>
 
                         <li class="nav-devider"></li>
                         <li class="nav-small-cap">ADMINISTRATOR</li>
                         <li>
-                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-file"></i><span class="hide-menu">Users</span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="{{ url('/users') }}">All Users</a></li>
+                            {{-- <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-file"></i><span class="hide-menu">Users</span></a> --}}
+                            {{-- <ul aria-expanded="false" class="collapse"> --}}
+                                <li><a href="{{ url('/users') }}">Users</a></li>
                                 <li><a href="{{ url('/group') }}">Groups</a></li>
                                 <li><a href="{{ url('/roles') }}">Roles</a></li>
                                 <li><a href="{{ url('/permissions') }}">Permissions</a></li>
-                            </ul>
+                            {{-- </ul> --}}
                         </li>
                             </ul>
                         </li>
