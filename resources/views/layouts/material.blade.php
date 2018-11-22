@@ -23,6 +23,18 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+<!-- Hotjar Tracking Code for sts -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:17938,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -315,11 +327,13 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Breadcrumb</h3>
-                        <ol class="breadcrumb">
+
+                        {{-- <h3 class="text-themecolor m-b-0 m-t-0">Breadcrumb</h3> --}}
+                        {{ Breadcrumbs::render() }}
+                        {{-- <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('ticket.index') }}">Home</a></li>
                             <li class="breadcrumb-item active">Breadcrumb</li>
-                        </ol>
+                        </ol> --}}
                     </div>
                     <div class="col-md-7 col-4 align-self-center">
                         <div class="d-flex m-t-10 justify-content-end">
@@ -447,6 +461,6 @@
 <!-- ============================================================== -->
 <!-- Style switcher -->
 <!-- ============================================================== -->
-<script src="{{ asset('assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script>
+{{-- <script src="{{ asset('assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script> --}}
 </body>
 </html>
