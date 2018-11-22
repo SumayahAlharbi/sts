@@ -18,7 +18,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Support Ticket List</h4>
-                <h6 class="card-subtitle">List of ticket opend by customers</h6>
+                <h6 class="card-subtitle">List of ticket</h6>
                 <div class="row m-t-40">
                     <!-- Column -->
                     <div class="col-md-6 col-lg-3 col-xlg-3">
@@ -33,8 +33,8 @@
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                         <div class="card card-primary card-inverse">
                             <div class="box text-center">
-                                <h1 class="font-light text-white">1,738</h1>
-                                <h6 class="text-white">Responded</h6>
+                                <h1 class="font-light text-white">{{$tickets->where('status_id','=','1')->count()}}</h1>
+                                <h6 class="text-white">Completed</h6>
                             </div>
                         </div>
                     </div>
@@ -42,8 +42,8 @@
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                         <div class="card card-inverse card-success">
                             <div class="box text-center">
-                                <h1 class="font-light text-white">1100</h1>
-                                <h6 class="text-white">Resolve</h6>
+                                <h1 class="font-light text-white">{{$tickets->where('status_id','=','3')->count()}}</h1>
+                                <h6 class="text-white">Unassigned</h6>
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                         <div class="card card-inverse card-dark">
                             <div class="box text-center">
-                                <h1 class="font-light text-white">964</h1>
+                                <h1 class="font-light text-white">{{$tickets->where('status_id','=','4')->count()}}</h1>
                                 <h6 class="text-white">Pending</h6>
                             </div>
                         </div>
@@ -67,11 +67,11 @@
                             <tr>
                                 <th>ID #</th>
                                 <th>Title</th>
-                                <th>Opened By</th>
+                                <th>Requested By</th>
+                                <th>Category</th>
+                                <th>Agents</th>
                                 <th>Status</th>
-                                <th>Assign to</th>
-                                <th>Date</th>
-                                <th>Action</th>
+                                {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -83,14 +83,13 @@
                                     <a href="javascript:void(0)"><img src="{{Auth::user()->gravatar}}" alt="user" class="img-circle" /> {{$ticket->requested_by_user->name}}</a>
                                 </td>
                                 <td>{{$ticket->category['category_name']}}</td>
-                                <td>{{$ticket->location['location_name']}}</td>
                                 <td>
                                   @foreach($ticket->user as $ticket_assignee)
-                                    {{$ticket_assignee->name}}
+                                    {{$ticket_assignee->name}} <br>
                                   @endforeach
                                 </td>
                                 <td>{{$ticket->status['status_name']}}</td>
-                                <td>
+                                {{-- <td>
                                   <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
                                     @csrf
                                     @method('DELETE')
@@ -98,7 +97,7 @@
                                     <a href="{{ route('ticket.show',$ticket->id)}}" class="btn btn-primary"><i class="icon ion-md-eye"></i></a>
                                     <button class="btn btn-danger" type="submit"><i class="icon ion-md-trash"></i></button>
                                   </form>
-                                </td>
+                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>
