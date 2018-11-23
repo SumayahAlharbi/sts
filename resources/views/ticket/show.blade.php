@@ -14,6 +14,11 @@
   @endif
 <div class="card uper">
   <div class="card-header">
+    <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
+      @csrf
+      @method('DELETE')
+      <button class="btn btn-danger float-right" type="submit">DELETE</button>
+    </form>
    Ticket Details @can('update ticket')<a class="btn" href="{{ route('ticket.edit',$tickets->id)}}" role="button">Edit</a>@endcan
 @can('change ticket status')
    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
