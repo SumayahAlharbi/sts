@@ -31,7 +31,7 @@
 				<td>
 				@if(!empty($role->permissions))
 					@foreach($role->permissions as $permission)
-					<small class = 'label bg-orange'>{{$permission->name}}</small>
+					<small class='btn btn-primary'>{{$permission->name}}</small>
 					@endforeach
 				@endif
 				</td>
