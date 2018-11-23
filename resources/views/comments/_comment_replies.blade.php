@@ -18,7 +18,7 @@
         <div class="col-sm-12">
           <div class="row">
             <div class="col-sm-1">
-              <img class="rounded mx-auto" src="{{Auth::user()->gravatar}}" >
+              <img class="rounded mx-auto" src="{{$comment->user->gravatar}}" >
             </div>
             <div class="col-sm-11">
               <strong>{{ $comment->user->name }}</strong>

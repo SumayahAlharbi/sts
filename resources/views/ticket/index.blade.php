@@ -67,7 +67,7 @@
                             <tr>
                                 <th>ID #</th>
                                 <th>Title</th>
-                                <th>Requested By</th>
+                                <th>Created By</th>
                                 <th>Category</th>
                                 <th>Agents</th>
                                 <th>Status</th>
@@ -80,7 +80,7 @@
                                 <td>{{$ticket->id}}</td>
                                 <td><a href="{{ route('ticket.show',$ticket->id)}}"> {{ str_limit($ticket->ticket_title, 35)}}</a> <small class="text-muted"> ({{$ticket->comments()->count()}})</small></td>
                                 <td>
-                                    <a href="javascript:void(0)"><img src="{{Auth::user()->gravatar}}" alt="user" class="img-circle" /> {{$ticket->requested_by_user->name}}</a>
+                                    <a href="javascript:void(0)"><img src="{{$ticket->created_by_user->gravatar}}" alt="user" class="img-circle" /> {{$ticket->created_by_user->name}}</a>
                                 </td>
                                 <td>{{$ticket->category['category_name']}}</td>
                                 <td>
