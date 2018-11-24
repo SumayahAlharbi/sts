@@ -75,7 +75,7 @@ class TicketController extends Controller
         $ticket->ticket_content = $request->ticket_content;
         $ticket->category_id = $request->category_id;
         $ticket->location_id = $request->location_id;
-        $ticket->status_id = '1';
+        $ticket->status_id = '3';
         $ticket->created_by = $request->created_by;
         $ticket->requested_by = $request->requested_by;
 
