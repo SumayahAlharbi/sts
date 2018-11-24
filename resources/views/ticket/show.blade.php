@@ -87,17 +87,19 @@
 
         @csrf
                               <input type="hidden" name = "ticket_id" value = "{{$ticket->id}}">
-                              <div class="form-group">
+                              <div class="row">
+                              <div class="form-group col-md-6">
                                   <select name="user_id" id="" class = "form-control">
                                       @foreach($users as $user)
                                       <option value="{{$user->id}}">{{$user->name}}</option>
                                       @endforeach
                                   </select>
                               </div>
-                              <div class="form-group">
+                              <div class="form-group col-md-6">
                               <button class='btn btn-primary'>Assign</button>
                               </div>
                           </form>
+                        </div>
                         @endcan
 
                           <!-- unassign Users from Ticket -->

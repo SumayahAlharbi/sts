@@ -27,17 +27,19 @@
 
         @csrf
                               <input type="hidden" name = "ticket_id" value = "{{$ticket->id}}">
-                              <div class="form-group">
+                              <div class = 'row'>
+                              <div class="form-group col-md-6">
                                   <select name="user_id" id="" class = "form-control">
                                       @foreach($users as $user)
                                       <option value="{{$user->id}}">{{$user->name}}</option>
                                       @endforeach
                                   </select>
                               </div>
-                              <div class="form-group">
+                              <div class="form-group col-md-6">
                               <button class='btn btn-primary'>Assign</button>
                               </div>
                           </form>
+                          </div>
                         @endcan
 
                           <!-- unassign Users from Ticket -->
@@ -61,7 +63,8 @@
           <textarea name="ticket_content" class="form-control" id="editor" rows="3">{{ $ticket->ticket_content }}</textarea>
 
         </div>
-        <div class="form-group">
+        <div class="row">
+        <div class="form-group col-md-6">
           <label for="exampleFormControlSelect1">Status</label>
           <select class="form-control" name="status_id" id="exampleFormControlSelect1">
             @foreach ($statuses as $key => $value)
@@ -73,7 +76,7 @@
             @endforeach
           </select>
         </div>
-        <div class="form-group">
+        <div class="form-group col-md-6">
           <label for="exampleFormControlSelect1">Category</label>
           <select class="form-control" name="category_id" id="exampleFormControlSelect1">
             @foreach ($categories as $key => $value)
@@ -85,8 +88,10 @@
             @endforeach
           </select>
         </div>
-        <div class="form-group">
-          <label for="exampleFormControlSelect1">location</label>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="exampleFormControlSelect1">Location</label>
           <select class="form-control" name="location_id" id="exampleFormControlSelect1">
             @foreach ($locations as $key => $value)
               @if ($key == $ticket->location_id)
@@ -97,8 +102,8 @@
             @endforeach
           </select>
         </div>
-        <div class="form-group">
-          <label for="exampleFormControlSelect1">requested by</label>
+        <div class="form-group col-md-6">
+          <label for="exampleFormControlSelect1">Requested by</label>
           <select class="form-control" name="requested_by" id="exampleFormControlSelect1">
             @foreach($users as $user)
               @if ($user->id == $ticket->requested_by)
@@ -109,6 +114,7 @@
             @endforeach
           </select>
         </div>
+      </div>
         <div class="form-group">
         <button type="submit" class="btn btn-primary">Update</button>
         </div>
