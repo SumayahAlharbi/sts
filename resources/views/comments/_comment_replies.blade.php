@@ -10,7 +10,7 @@
   </div><br />
 @endif
 
- @foreach($comments as $comment)
+ @foreach($comments->sortByDesc('updated_at') as $comment)
     <div class="display-comment">
 
 
