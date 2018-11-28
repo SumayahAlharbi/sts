@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Group;
+use App\Mail\agent;
 
 class UserController extends Controller
 {
@@ -125,6 +126,8 @@ class UserController extends Controller
 
 
        $user->save();
+
+       //\Mail::to($user)->send(new agent);
 
        return redirect('/users')->with('success', 'user has been updated');
    }

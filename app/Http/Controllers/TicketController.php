@@ -8,6 +8,8 @@ use App\Location;
 use App\Status;
 use App\User;
 use Auth;
+use App\Mail\agent;
+use App\Mail\RequestedBy;
 
 use Illuminate\Http\Request;
 
@@ -80,6 +82,8 @@ class TicketController extends Controller
         $ticket->requested_by = $request->requested_by;
 
         $ticket->save();
+        $user = $ticket->requested_by_user;
+        \Mail::to($user)->send(new RequestedBy($user));
         return redirect('ticket/'. $ticket->id)->with('success', 'Ticket has been created');
     }
 
@@ -168,6 +172,8 @@ class TicketController extends Controller
       $ticket->requested_by = $request->requested_by;
       $ticket->save();
 
+    //  $user = $ticket->requested_by_user;
+    //  \Mail::to($user)->send(new RequestedBy($user));
       return redirect('/ticket/'.$id)->with('success', 'Ticket has been updated');
     }
 
@@ -186,8 +192,13 @@ class TicketController extends Controller
 
     public function addTicketAgent(Request $request)
     {
+
       $ticket = Ticket::findorfail($request->ticket_id);
       $ticket->user()->syncWithoutDetaching($request->user_id);
+    //  $user = $ticket->user;
+
+    //  \Mail::to($user)->send(new agent);
+
       return back();
     }
     /**

@@ -56,9 +56,11 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'sts@yamanisa.com'),
+        'name' => env('MAIL_FROM_NAME', 'HelpDesk'),
     ],
+
+    'reply_to' => ['address' => 'comj-applications@ksau-hs.edu.sa', 'name' => 'COMJ Applications Team'],
 
     /*
     |--------------------------------------------------------------------------
@@ -100,6 +102,8 @@ return [
     */
 
     'sendmail' => '/usr/sbin/sendmail -bs',
+
+    //'sendmail' => env('MAIL_SENDMAIL', '/usr/sbin/sendmail -bs')
 
     /*
     |--------------------------------------------------------------------------
