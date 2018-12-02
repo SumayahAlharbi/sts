@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-// 
+//
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -21,6 +21,13 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::group(['middleware'=> 'auth'],function(){
 
+
+// Email HTML Viewer
+  Route::get('/email', function () {
+      $user = App\user::find(1);
+
+      return new App\Mail\RequestedBy($user);
+  });
 
 Route::group(['middleware' => ['role:admin']], function () {
   //category Routes

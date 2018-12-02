@@ -195,9 +195,9 @@ class TicketController extends Controller
 
       $ticket = Ticket::findorfail($request->ticket_id);
       $ticket->user()->syncWithoutDetaching($request->user_id);
-    //  $user = $ticket->user;
+      $user = User::findorfail($request->user_id);
 
-    //  \Mail::to($user)->send(new agent);
+      \Mail::to($user)->send(new agent);
 
       return back();
     }
