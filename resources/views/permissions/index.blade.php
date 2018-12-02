@@ -26,8 +26,9 @@
 		<tbody>
 			@foreach($permissions as $permission)
 			<tr>
-				<td>{{$permission->name}}</td>
+
 				<td>
+          {{$permission->name}}
 				@if(!empty($permission->permissions))
 					@foreach($permission->permissions as $permission)
 					<small class='btn btn-primary'>{{$permission->name}}</small>
@@ -36,7 +37,7 @@
 				</td>
 				<td>
 					<a href="{{url('/permissions')}}/{{$permission->id}}/{{('edit')}}" class = "btn btn-primary">edit</a>
-					<a href="{{url('/permissions/delete')}}/{{$permission->id}}" class = "btn btn-danger">X</a>
+					<a href="{{url('/permissions/delete')}}/{{$permission->id}}" class = "btn btn-danger"><i class="fas fa-trash-alt"></i></a>
 				</td>
 			</tr>
 			@endforeach

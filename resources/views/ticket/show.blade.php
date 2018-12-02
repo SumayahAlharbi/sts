@@ -17,7 +17,7 @@
     <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
       @csrf
       @method('DELETE')
-      <button class="btn btn-danger float-right" type="submit">DELETE</button>
+      <button class="btn btn-danger float-right" type="submit"><i class="fas fa-trash-alt"></i></button>
     </form>
    Ticket Details @can('update ticket')<a class="btn" href="{{ route('ticket.edit',$tickets->id)}}" role="button">Edit</a>@endcan
 @can('change ticket status')
@@ -106,7 +106,7 @@
                   <div class="form-group">
                     <h5>Ticket Assigned to:</h5>
                   @foreach($TicketAgents as $TicketAgent)
-                    <a class='btn btn-primary' @can('unassign ticket') href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$ticket->id}}'@endcan data-activates=''> {{$TicketAgent->name}}  @can('unassign ticket')<i class="icon ion-md-close"></i>@endcan </a>
+                    <a class='btn btn-primary' @can('unassign ticket') href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$ticket->id}}'@endcan data-activates=''><i class="fas fa-minus-circle"></i> {{$TicketAgent->name}}  @can('unassign ticket')@endcan </a>
                   @endforeach
                 </div>
 

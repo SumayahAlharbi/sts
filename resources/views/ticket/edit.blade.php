@@ -46,7 +46,7 @@
                   <div class="form-group">
                     <h5>Ticket Assigned to:</h5>
                   @foreach($TicketAgents as $TicketAgent)
-                    <a class='btn btn-primary' @can('unassign ticket') href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$ticket->id}}'@endcan data-activates=''> {{$TicketAgent->name}}  @can('unassign ticket')<i class="icon ion-md-close"></i>@endcan </a>
+                    <a class='btn btn-primary' @can('unassign ticket') href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$ticket->id}}'@endcan data-activates=''><i class="fas fa-minus-circle"></i> {{$TicketAgent->name}}  @can('unassign ticket')<i class="icon ion-md-close"></i>@endcan </a>
                   @endforeach
                 </div>
 

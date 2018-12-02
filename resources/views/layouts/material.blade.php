@@ -274,7 +274,10 @@
                         <li>
                             {{-- <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Tickets </span></a> --}}
                             {{-- <ul aria-expanded="false" class="collapse"> --}}
-                                <li><a href="{{ route('ticket.index') }}">Tickets</a></li>
+                            @can('view tickets list')
+                              <li><a href="{{ route('ticket.index') }}">Tickets</a></li>
+                            @endcan
+                            @role('admin')
                                 {{-- <li><a href="{{ route('ticket.create') }}">New Ticket</a></li> --}}
                                 <li><a href="{{ url('/category') }}">Categories</a></li>
                                 <li><a href="{{ url('/location') }}">Locations</a></li>
@@ -298,6 +301,7 @@
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
+                @endrole
             </div>
             <!-- End Sidebar scroll-->
             <!-- Bottom points-->

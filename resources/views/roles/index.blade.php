@@ -23,6 +23,7 @@
 			<th>Role</th>
 			<th>Permissions</th>
 			<th>Actions</th>
+      <th></th>
 		</head>
 		<tbody>
 			@foreach($roles as $role)
@@ -37,8 +38,10 @@
 				</td>
 				<td>
 					<a href="{{ route('roles.edit',$role->id)}}" class = "btn btn-primary">edit</a>
-					<a href="{{url('/roles/delete')}}/{{$role->id}}" class = "btn btn-danger">X</a>
 				</td>
+        <td>
+          <a href="{{url('/roles/delete')}}/{{$role->id}}" class = "btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+        </td>
 			</tr>
 			@endforeach
 		</tbody>

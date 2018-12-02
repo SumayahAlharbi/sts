@@ -51,9 +51,9 @@
 
                <div class="form-group">
                @foreach($userRoles as $role)
-                
-               <a class='btn btn-primary' href='{{url('users/removeRole')}}/{{str_slug($role->name,'-')}}/{{$user->id}}'>x {{$role->name}}</a>
-                 
+
+               <a class='btn btn-primary' href='{{url('users/removeRole')}}/{{str_slug($role->name,'-')}}/{{$user->id}}'><i class="fas fa-trash-alt"></i> {{$role->name}}</a>
+
                @endforeach
              </div>
 
@@ -79,7 +79,7 @@
 
                                    <div class="form-group">
                                    @foreach($userGroups as $userGroup)
-                                     <a class='btn btn-primary' href='{{url('users/removeUserGroup')}}/{{$userGroup->id}}/{{$user->id}}' data-activates=''>{{$userGroup->group_name}}  <i class="icon ion-md-close"></i></a>
+                                     <a class='btn btn-primary' href='{{url('users/removeUserGroup')}}/{{$userGroup->id}}/{{$user->id}}' data-activates=''><i class="fas fa-trash-alt"></i> {{$userGroup->group_name}}</a>
                                    @endforeach
                                  </div>
 
