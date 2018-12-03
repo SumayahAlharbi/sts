@@ -39,7 +39,7 @@
                           <div class="checkbox checkbox-primary pull-left p-t-0">
                               <input id="checkbox-signup" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                               <label for="checkbox-signup"> {{ __('Remember Me') }} </label>
-                          </div> <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> {{ __('Forgot Your Password?') }}</a> </div>
+                          </div> <a href="{{ route('password.request') }}" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> {{ __('Forgot Your Password?') }}</a> </div>
                   </div>
                   <div class="form-group text-center m-t-20">
                       <div class="col-xs-12">
@@ -53,7 +53,7 @@
                       </div>
                   </div>
               </form>
-              <form class="form-horizontal" id="recoverform" action="index.html">
+              {{-- <form class="form-horizontal" id="recoverform" action="index.html">
                   <div class="form-group ">
                       <div class="col-xs-12">
                           <h3>Recover Password</h3>
@@ -69,7 +69,7 @@
                           <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Reset</button>
                       </div>
                   </div>
-              </form>
+              </form> --}}
           </div>
       </div>
   </div>
