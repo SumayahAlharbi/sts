@@ -80,7 +80,9 @@ class UserController extends Controller
          $groups = \App\Group::all();
          $roles = Role::all()->pluck('name');
          $userRoles = $user->roles;
-         return view('users.edit', compact('user', 'roles', 'userRoles', 'groups', 'userGroups'));
+         $permissions = Permission::all()->pluck('name');
+         $userPermissions = $user->permissions;
+         return view('users.edit', compact('user', 'roles', 'userRoles', 'groups', 'userGroups', 'permissions', 'userPermissions'));
        // }elseif ($user->hasRole('Admin')) {
          // $user = \App\User::whereNotIn('id', [1, 3])->findOrfail($id);
          // $roles = Role::all()->pluck('name');
@@ -182,7 +184,7 @@ class UserController extends Controller
     }
 
     /**
-     * revoke Role to a a user.
+     * revoke Role from a user.
      *
      * @param \Illuminate\Http\Request
      *
@@ -196,4 +198,38 @@ class UserController extends Controller
 
         return back();
     }
+
+
+/**
+* Assign Permission to user.
+*
+* @param \Illuminate\Http\Request
+*
+* @return \Illuminate\Http\Response
+*/
+public function addPermission(Request $request)
+{
+   $users = User::findOrfail($request->user_id);
+   $permissions = Permission::all()->pluck('name');
+   $userPermissions = $users->permissions;
+   $users->givePermissionTo($request->permission_name);
+
+   return back();
+}
+
+/**
+* revoke Permission from a user.
+*
+* @param \Illuminate\Http\Request
+*
+* @return \Illuminate\Http\Response
+*/
+public function revokePermission($permission, $user_id)
+{
+   $users = \App\User::findorfail($user_id);
+
+   $users->revokePermissionTo(str_slug($permission, ' '));
+
+   return back();
+}
 }
