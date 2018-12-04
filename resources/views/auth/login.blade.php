@@ -5,7 +5,11 @@
   <div class="login-register" style="background-image:url({{ url('assets/images/background/login-register-2.jpg') }});">
       <div class="login-box card">
           <div class="card-body">
-
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
 
               <form method="POST" class="form-horizontal form-material" id="loginform" action="{{ route('login') }}">
                 @csrf
@@ -46,7 +50,7 @@
                           <div class="checkbox checkbox-primary pull-left p-t-0">
                               <input id="checkbox-signup" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                               <label for="checkbox-signup"> {{ __('Remember Me') }} </label>
-                          </div> <a href="{{ route('password.request') }}" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> {{ __('Forgot Your Password?') }}</a> </div>
+                          </div> <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> {{ __('Forgot Your Password?') }}</a> </div>
                   </div>
                   <div class="form-group text-center m-t-20">
                       <div class="col-xs-12">
@@ -60,26 +64,35 @@
                       </div>
                   </div>
               </form>
-              {{-- <form class="form-horizontal" id="recoverform" action="index.html">
+
+              <form class="form-horizontal" id="recoverform" method="POST" action="{{ route('password.email') }}">
+                @csrf
+
                   <div class="form-group ">
                       <div class="col-xs-12">
-                          <h3>Recover Password</h3>
+                          <h3>{{ __('Reset Password') }}</h3>
                           <p class="text-muted">Enter your Email and instructions will be sent to you! </p>
                       </div>
                   </div>
                   <div class="form-group ">
                       <div class="col-xs-12">
-                          <input class="form-control" type="text" required="" placeholder="Email"> </div>
+                          <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" type="text" placeholder="Email" required>
+                          @if ($errors->has('email'))
+                              <span class="invalid-feedback" role="alert">
+                                  <strong>{{ $errors->first('email') }}</strong>
+                              </span>
+                          @endif
+                      </div>
                   </div>
                   <div class="form-group text-center m-t-20">
                       <div class="col-xs-12">
-                          <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Reset</button>
+                          <button class="btn btn-primary btn-lg btn-block waves-effect waves-light" type="submit">{{ __('Send Password Reset Link') }}</button>
                       </div>
                       <div class="col-xs-12 m-t-20">
                         <a href="javascript:void(0)" id="to-login" class="text-dark pull-right">{{ __('Back to login') }}</a>
                       </div>
                   </div>
-              </form> --}}
+              </form>
           </div>
       </div>
   </div>
