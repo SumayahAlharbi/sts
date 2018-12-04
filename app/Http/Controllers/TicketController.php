@@ -9,6 +9,7 @@ use App\Status;
 use App\User;
 use Auth;
 use App\Mail\agent;
+use App\Mail\TicketAgentAssigned;
 use App\Mail\RequestedBy;
 
 use Illuminate\Http\Request;
@@ -198,7 +199,8 @@ class TicketController extends Controller
       $ticket->user()->syncWithoutDetaching($request->user_id);
       $user = User::findorfail($request->user_id);
 
-      \Mail::to($user)->send(new agent);
+      // \Mail::to($user)->send(new TicketAgentAssigned);
+      \Mail::to($user)->send(new TicketAgentAssigned($ticket));
 
       return back();
     }

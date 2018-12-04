@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<h1> The content of the document...... </h1>
+<h1> The content of the document...... Price: {{ $orderPrice }} </h1>
 </body>
 
 </html>

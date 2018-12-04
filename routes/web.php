@@ -55,6 +55,17 @@ Route::group(['middleware'=> 'auth'],function(){
       return new App\Mail\RequestedBy($user);
   });
 
+  Route::get('/assign', function () {
+    $agentticket = App\ticket::find(2);
+
+    return new App\Mail\TicketAgentAssigned($agentticket);
+});
+
+// Email HTML Viewer layout
+Route::get('/emaillayout', function(){
+      return view('emails.emaillayout');
+});
+
 Route::group(['middleware' => ['role:admin']], function () {
   //category Routes
   Route::resource('category','CategoryController');
