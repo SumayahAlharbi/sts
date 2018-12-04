@@ -14,7 +14,7 @@
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="{{ asset('css/colors/blue.css') }}" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -54,7 +54,7 @@
         <script src="../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
         <script src="../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
         <!--Custom JavaScript -->
-        <script src="js/custom.min.js"></script>
+        <script src="js/custom.js"></script>
         <!-- ============================================================== -->
         <!-- Style switcher -->
         <!-- ============================================================== -->

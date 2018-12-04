@@ -12,7 +12,8 @@
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.7",
         "pragmarx/version": "^0.2.8",
-        "spatie/laravel-permission": "^2.23"
+        "spatie/laravel-permission": "^2.23",
+        "springscs/cas": "^1.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
