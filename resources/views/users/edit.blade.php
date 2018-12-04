@@ -28,7 +28,8 @@
                <form action="{{url('users/addRole')}}" method = "post">
                  {!! csrf_field() !!}
                  <input type="hidden" name = "user_id" value = "{{$user->id}}">
-                 <div class="form-group">
+                 <div class = 'row'>
+                 <div class="form-group col-md-6">
                    <select name="role_name" id="" class = "form-control">
 
                      @foreach($roles as $role)
@@ -42,11 +43,12 @@
 
 
 
-                 <div class="form-group">
+                 <div class="form-group col-md-6">
                    <button class = 'btn btn-primary'>Add role</button>
                  </div>
 
                </form>
+             </div>
                <!-- End Assign Roles To Users -->
 
                <div class="form-group">
@@ -57,6 +59,51 @@
                @endforeach
              </div>
 
+
+             <!-- Assign Permission To Users -->
+
+             <div class="form-group">
+             <h5>{{$user->name}} Permissions</h5>
+             </div>
+
+
+
+                         <form action="{{url('users/addPermission')}}" method = "post">
+                           {!! csrf_field() !!}
+                           <input type="hidden" name = "user_id" value = "{{$user->id}}">
+                           <div class = 'row'>
+                           <div class="form-group col-md-6">
+                             <select name="permission_name" id="" class = "form-control">
+
+                               @foreach($permissions as $permission)
+
+                               <option value="{{$permission}}">{{$permission}}</option>
+
+                               @endforeach
+
+                             </select>
+                           </div>
+
+
+
+
+                           <div class="form-group col-md-6">
+                             <button class = 'btn btn-primary'>Add Permission</button>
+                           </div>
+
+                         </form>
+                       </div>
+                         <!-- End Assign Permission To Users -->
+
+                         <div class="form-group">
+                         @foreach($userPermissions as $permission)
+
+                         <a class='btn btn-primary' href='{{url('users/removePermission')}}/{{str_slug($permission->name,'-')}}/{{$user->id}}'><i class="fas fa-trash-alt"></i> {{$permission->name}}</a>
+
+                         @endforeach
+                       </div>
+
+
              <div class="form-group">
              <h5>Add user to groups</h5>
              </div>
@@ -65,18 +112,19 @@
 
                  @csrf
                                        <input type="hidden" name = "user_id" value = "{{$user->id}}">
-                                       <div class="form-group">
+                                       <div class = 'row'>
+                                       <div class="form-group col-md-6">
                                            <select name="group_id" id="" class = "form-control">
                                                @foreach($groups as $group)
                                                <option value="{{$group->id}}">{{$group->group_name}}</option>
                                                @endforeach
                                            </select>
                                        </div>
-                                       <div class="form-group">
+                                       <div class="form-group col-md-6">
                                        <button class='btn btn-primary'>Assign</button>
                                        </div>
                                    </form>
-
+                                 </div>
                                    <div class="form-group">
                                    @foreach($userGroups as $userGroup)
                                      <a class='btn btn-primary' href='{{url('users/removeUserGroup')}}/{{$userGroup->id}}/{{$user->id}}' data-activates=''><i class="fas fa-trash-alt"></i> {{$userGroup->group_name}}</a>

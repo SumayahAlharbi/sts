@@ -58,8 +58,9 @@
                     </div>
                     <!-- Column -->
                 </div>
+              @can('create ticket')
                 <a class="btn btn-primary" href="{{ route('ticket.create')}}" role="button"><i class="fa fa-plus-circle"></i> New</a>
-
+              @endcan
 
                 <div class="table-responsive">
                     <table id="demo-foo-addrow" class="table m-t-30 table-hover no-wrap contact-list" data-page-size="10">
