@@ -193,5 +193,5 @@ return [
     */
     'cas_proxied_services' => array(),
 
-    'cas_user_mapper' => \SpringsCS\Cas\LaravelUserMapper::class,
+    'cas_user_mapper' => App\LaravelUserMapper::class,
 ];
