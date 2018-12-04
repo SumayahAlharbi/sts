@@ -72,8 +72,7 @@
                                 {{-- <th>Created By</th> --}}
                                 <th>Category</th>
                                 <th>Agents</th>
-
-                                {{-- <th>Action</th> --}}
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,7 +93,6 @@
                                      </button>
                                      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                      @foreach ($statuses as $status)
-                                       {{-- <button class="dropdown-item" type="button">{{$key}}{{$value}}</button> --}}
                                        <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status['status_name']}}</a>
                                      @endforeach
                                      </div>
@@ -121,15 +119,19 @@
                                     {{$ticket_assignee->name}} <br>
                                   @endforeach
                                 </td>
-                                {{-- <td>
+                                <td>
                                   <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <a href="{{ route('ticket.edit',$ticket->id)}}" class="btn btn-primary"><i class="icon ion-md-create"></i></a>
-                                    <a href="{{ route('ticket.show',$ticket->id)}}" class="btn btn-primary"><i class="icon ion-md-eye"></i></a>
-                                    <button class="btn btn-danger" type="submit"><i class="icon ion-md-trash"></i></button>
+                                  @can('update ticket')
+                                    <a href="{{ route('ticket.edit',$ticket->id)}}" class="btn btn-primary">Edit</a>
+                                  @endcan
+                                    {{-- <a href="{{ route('ticket.show',$ticket->id)}}" class="btn btn-primary"><i class="icon ion-md-eye"></i></a> --}}
+                                    @can('delete ticket')
+                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                  @endcan
                                   </form>
-                                </td> --}}
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
