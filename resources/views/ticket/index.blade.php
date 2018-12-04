@@ -68,10 +68,11 @@
                             <tr>
                                 <th>ID #</th>
                                 <th>Title</th>
-                                <th>Created By</th>
+                                <th>Status</th>
+                                {{-- <th>Created By</th> --}}
                                 <th>Category</th>
                                 <th>Agents</th>
-                                <th>Status</th>
+
                                 {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
@@ -81,15 +82,45 @@
                                 <td>{{$ticket->id}}</td>
                                 <td><a href="{{ route('ticket.show',$ticket->id)}}"> {{ str_limit($ticket->ticket_title, 35)}}</a> <small class="text-muted"> ({{$ticket->comments()->count()}})</small></td>
                                 <td>
-                                    <a href="javascript:void(0)"><img src="{{$ticket->created_by_user->gravatar}}" alt="user" class="img-circle" /> {{$ticket->created_by_user->name}}</a>
+
+
+                                  @if(auth()->user()->can('change ticket status'))
+                                     <button class="btn @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
+                                     @elseif ($ticket->status['status_name'] == 'Completed') btn-success
+                                     @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
+                                     @else btn-inverse
+                                     @endif" dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                       {{$ticket->status['status_name']}}
+                                     </button>
+                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                     @foreach ($statuses as $status)
+                                       {{-- <button class="dropdown-item" type="button">{{$key}}{{$value}}</button> --}}
+                                       <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status['status_name']}}</a>
+                                     @endforeach
+                                     </div>
+
+
+                                @else
+                                  <span class="label
+                                  @if ($ticket->status['status_name'] == 'Unassigned') label-danger
+                                  @elseif ($ticket->status['status_name'] == 'Completed') label-success
+                                  @elseif ($ticket->status['status_name'] == 'Pending') label-warning
+                                  @else label-inverse
+                                  @endif">
+                                  {{$ticket->status['status_name']}}
+                                </span>
+                                @endif
                                 </td>
+
+                                {{-- <td>
+                                    <a href="javascript:void(0)"><img src="{{$ticket->created_by_user->gravatar}}" alt="user" class="img-circle" /> {{$ticket->created_by_user->name}}</a>
+                                </td> --}}
                                 <td>{{$ticket->category['category_name']}}</td>
                                 <td>
                                   @foreach($ticket->user as $ticket_assignee)
                                     {{$ticket_assignee->name}} <br>
                                   @endforeach
                                 </td>
-                                <td>{{$ticket->status['status_name']}}</td>
                                 {{-- <td>
                                   <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
                                     @csrf

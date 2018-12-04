@@ -27,6 +27,7 @@
           <td>User</td>
           <td>Groups</td>
           <td>Roles</td>
+          <td>Permissions</td>
         </tr>
     </thead>
     <tbody>
@@ -63,6 +64,24 @@
         </span>
         @endif
     </td>
+
+    <td>
+
+        @if(!empty($user->permissions))
+        @foreach($user->permissions as $permission)
+
+        <span class="new badge" data-badge-caption="">
+          {{$permission->name}}
+        </span>
+
+        @endforeach
+        @else
+        <span class="new badge grey" data-badge-caption="">
+          No Direct Permissions
+        </span>
+        @endif
+    </td>
+
   </tr>
     @endforeach
 

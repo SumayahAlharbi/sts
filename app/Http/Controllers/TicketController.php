@@ -32,6 +32,7 @@ class TicketController extends Controller
         $user = Auth::user();
         $tickets = Ticket::all();
         $userId = $user->id;
+        $statuses = Status::all();
 
         if ($user->hasRole('admin')) {
                 $tickets = Ticket::orderByRaw('updated_at DESC')->get();
@@ -42,7 +43,7 @@ class TicketController extends Controller
 
         }
 
-        return view('ticket.index', compact('tickets'));
+        return view('ticket.index', compact('tickets', 'statuses'));
     }
 
     /**
@@ -227,7 +228,7 @@ class TicketController extends Controller
       //
       // $user->save();
 
-      return redirect('ticket/'.$tickets_id);
+      return back();
     }
 
 
