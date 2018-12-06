@@ -6,6 +6,7 @@ use App\Ticket;
 use App\Category;
 use App\Location;
 use App\Status;
+use App\Group;
 use App\User;
 use Auth;
 use App\Mail\agent;
@@ -58,7 +59,8 @@ class TicketController extends Controller
         $locations = Location::all()->pluck('location_name','id');
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
-        return view('ticket.create', compact('categories','locations','users','created_by'));
+        $groups = $created_by->group;
+        return view('ticket.create', compact('categories','locations','users','created_by', 'groups'));
     }
 
     /**
@@ -72,6 +74,7 @@ class TicketController extends Controller
         $request->validate([
           'ticket_title'=>'required',
           'ticket_content'=> 'required',
+          'group_id'=> 'required',
         ]);
         $ticket = new Ticket;
 
@@ -79,7 +82,10 @@ class TicketController extends Controller
         $ticket->ticket_content = $request->ticket_content;
         $ticket->category_id = $request->category_id;
         $ticket->location_id = $request->location_id;
+        $ticket->group_id = $request->group_id;
         $ticket->status_id = '3';
+        $ticket->priority = $request->priority;
+        $ticket->room_number = $request->room_number;
         $ticket->created_by = $request->created_by;
         $ticket->requested_by = $request->requested_by;
 
@@ -131,6 +137,7 @@ class TicketController extends Controller
     public function edit($id)
     {
       $user = Auth::user();
+      $groups = $user->group;
       $ticket = Ticket::find($id);
       $users = \App\User::all();
       $TicketAgents = $ticket->user;
@@ -139,12 +146,12 @@ class TicketController extends Controller
       $statuses = Status::all()->pluck('status_name','id');
 
       if ($user->hasRole('admin')) {
-        return view('ticket.edit', compact('ticket','users','locations','categories','statuses','TicketAgents'));
+        return view('ticket.edit', compact('ticket','users','locations','categories','statuses','TicketAgents', 'groups'));
     }
       else {
         foreach ($TicketAgents as $TicketAgent) {
           if ($user->id == $TicketAgent->id) {
-            return view('ticket.edit', compact('ticket','users','locations','categories','statuses','TicketAgents'));
+            return view('ticket.edit', compact('ticket','users','locations','categories','statuses','TicketAgents', 'groups'));
           }
             }
 
@@ -170,7 +177,10 @@ class TicketController extends Controller
       $ticket->ticket_content = $request->ticket_content;
       $ticket->location_id = $request->location_id;
       $ticket->category_id = $request->category_id;
+      $ticket->group_id = $request->group_id;
       $ticket->status_id = $request->status_id;
+      $ticket->priority = $request->priority;
+      $ticket->room_number = $request->room_number;
       $ticket->requested_by = $request->requested_by;
       $ticket->save();
 

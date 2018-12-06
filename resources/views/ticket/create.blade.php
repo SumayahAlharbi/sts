@@ -26,11 +26,22 @@
       </div><br />
     @endif
       <form method="post" action="{{ route('ticket.store') }}">
-          <div class="form-group">
+        <div class="row p-t-20">
+          <div class="form-group col-md-6">
               @csrf
               <label for="name">Ticket Title</label>
               <input type="text" class="form-control" name="ticket_title"/>
           </div>
+          <div class="form-group col-md-6">
+            <label class="control-label">Priority</label>
+            <select class="form-control custom-select" name="priority" data-placeholder="Choose a Priority Level" tabindex="1">
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                  <option value="Critical">Critical</option>
+            </select>
+          </div>
+        </div>
           <div class="form-group">
               <label for="ticket_content">Ticket Content</label>
               <textarea name="ticket_content" class="form-control" id="editor" rows="3"></textarea>
@@ -56,6 +67,23 @@
             </select>
           </div>
         </div>
+        <div class="form-group col-md-4">
+          <label for="name">Room Number</label>
+          <input type="text" class="form-control" name="room_number"/>
+        </div>
+      </div>
+      <div class="row p-t-20">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Group</label>
+          <select class="form-control" name="group_id" id="exampleFormControlSelect1">
+            @foreach ($groups as $group)
+              <option value="{{$group->id}}">{{$group->group_name}}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+
         <div class="col-md-4">
           <div class="form-group">
             <label for="exampleFormControlSelect1">Requested by</label>
@@ -70,8 +98,9 @@
             </select>
           </div>
         </div>
-      </div>
 
+
+      </div>
           <div class="form-group">
               <input type="text" class="form-control" name="created_by" value="{{$created_by->id}}" hidden />
           </div>
