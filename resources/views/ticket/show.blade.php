@@ -46,7 +46,7 @@
                 {{$ticket_assignee->name}}
               @endforeach
             </span>
-            <span class="badge badge-warning">{{$tickets->status->status_name}}</span> <span class="badge badge-warning"> {{$ticket->priority}} {{$ticket->group['group_name']}}</span>
+            <span class="badge badge-warning">{{$tickets->status->status_name}}</span> <span class="badge badge-warning"> {{$ticket->priority}} </span> <span class="badge badge-warning"> {{$ticket->group->group_name}} </span>
 
             {{-- <form action="{{url('ticket/ChangeTicketStatus')}}" method = "post">
               @csrf --}}

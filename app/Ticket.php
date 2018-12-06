@@ -12,7 +12,10 @@ class Ticket extends Model
     {
       return $this->belongsTo('App\Category');
     }
-
+    public function group()
+    {
+      return $this->belongsTo('App\Group');
+    }
     public function location()
     {
       return $this->belongsTo('App\Location');
