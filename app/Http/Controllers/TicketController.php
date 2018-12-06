@@ -172,6 +172,11 @@ class TicketController extends Controller
      */
     public function update(Request $request, $id)
     {
+      $request->validate([
+        'ticket_title'=>'required',
+        'ticket_content'=> 'required',
+        'group_id'=> 'required',
+      ]);
       $ticket = Ticket::findOrfail($id);
       $ticket->ticket_title = $request->ticket_title;
       $ticket->ticket_content = $request->ticket_content;

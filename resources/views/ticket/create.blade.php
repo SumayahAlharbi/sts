@@ -30,7 +30,7 @@
           <div class="form-group col-md-6">
               @csrf
               <label for="name">Ticket Title</label>
-              <input type="text" class="form-control" name="ticket_title"/>
+              <input type="text" class="form-control" name="ticket_title" required/>
           </div>
           <div class="form-group col-md-6">
             <label class="control-label">Priority</label>
@@ -44,7 +44,7 @@
         </div>
           <div class="form-group">
               <label for="ticket_content">Ticket Content</label>
-              <textarea name="ticket_content" class="form-control" id="editor" rows="3"></textarea>
+              <textarea name="ticket_content" class="form-control" id="editor" rows="3" required></textarea>
           </div>
           <div class="row p-t-20">
           <div class="col-md-4">
@@ -76,7 +76,7 @@
       <div class="col-md-4">
         <div class="form-group">
           <label for="exampleFormControlSelect1">Group</label>
-          <select class="form-control" name="group_id" id="exampleFormControlSelect1">
+          <select required class="form-control" name="group_id" id="exampleFormControlSelect1">
             @foreach ($groups as $group)
               <option value="{{$group->id}}">{{$group->group_name}}</option>
             @endforeach

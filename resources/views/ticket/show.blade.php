@@ -38,7 +38,7 @@
 <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-12">
-        <h4 class="card-title">{{title_case($tickets->ticket_title)}} <small class="text-muted"> in {{$tickets->location->location_name}}</small></h4>
+        <h4 class="card-title">{{title_case($tickets->ticket_title)}} <small class="text-muted"> in {{$tickets->location->location_name}} {{$ticket->room_number}}</small></h4>
         <h6 class="card-subtitle mb-2 text-muted">Created by {{$tickets->created_by_user->name}} requested by {{$tickets->requested_by_user->name}} {{$tickets->created_at->diffForHumans() }}</h6>
           <h5>
             <span class="badge badge-warning">Assigned to
@@ -46,7 +46,7 @@
                 {{$ticket_assignee->name}}
               @endforeach
             </span>
-            <span class="badge badge-warning">{{$tickets->status->status_name}}</span>
+            <span class="badge badge-warning">{{$tickets->status->status_name}}</span> <span class="badge badge-warning"> {{$ticket->priority}} {{$ticket->group['group_name']}}</span>
 
             {{-- <form action="{{url('ticket/ChangeTicketStatus')}}" method = "post">
               @csrf --}}
