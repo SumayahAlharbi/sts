@@ -62,148 +62,102 @@
                 <a class="btn btn-primary" href="{{ route('ticket.create')}}" role="button"><i class="fa fa-plus-circle"></i> New</a>
               @endcan
 
-                <div class="table-responsive">
-                    <table id="demo-foo-addrow" class="table m-t-30 table-hover no-wrap contact-list" data-page-size="10">
-                        <thead>
-                            <tr>
-                                <th>ID #</th>
-                                <th>Title</th>
-                                <th>Status</th>
-                                {{-- <th>Created By</th> --}}
-                                <th>Category</th>
-                                <th>Agents</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          @foreach($tickets as $ticket)
-                            <tr>
-                                <td>{{$ticket->id}}</td>
-                                <td><a href="{{ route('ticket.show',$ticket->id)}}"> {{ str_limit($ticket->ticket_title, 35)}}</a> <small class="text-muted"> ({{$ticket->comments()->count()}})</small></td>
-                                <td>
+              {{-- <p>
+                      Search: <input id="filter" type="text">
+                      Status: <select class="filter-status">
+                        <option></option>
+                        <option value="Network">Network</option>
+                        <option value="disabled">Disabled</option>
+                        <option value="suspended">Suspended</option>
+                      </select>
+                      <a href="#clear" class="clear-filter" title="clear filter">clear</a>
+                    </p> --}}
+
+              <table class="footable table m-b-0 toggle-circle" data-filter="#filter" data-filter-text-only="true">
+                  <thead>
+                    
+                      <tr>
+                          <th> # </th>
+                          <th data-hide="phone,tablet" data-ignore="true"> Titlex </th>
+                          <th data-hide="desktop" data-ignore="true"> Title </th>
+                          <th> Status </th>
+
+                          <th data-hide="phone">Category</th>
+                          <th data-hide="phone">Agents</th>
+                          <th data-hide="all">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($tickets as $ticket)
+                      <tr>
+                          <td>{{$ticket->id}}</td>
+                          <td><a href="{{ route('ticket.show',$ticket->id)}}"> {{ str_limit($ticket->ticket_title, 35)}}</a> <small class="text-muted"> ({{$ticket->comments()->count()}})</small></td>
+                          <td>{{ str_limit($ticket->ticket_title, 35)}} <small class="text-muted"> ({{$ticket->comments()->count()}})</small></td>
+
+                          <td title="{{$ticket->status['status_name']}}">
+                            @if(auth()->user()->can('change ticket status'))
+                               <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
+                               @elseif ($ticket->status['status_name'] == 'Completed') btn-success
+                               @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
+                               @else btn-inverse
+                               @endif" dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                 {{$ticket->status['status_name']}}
+                               </button>
+                               <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                               @foreach ($statuses as $status)
+                                 <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status['status_name']}}</a>
+                               @endforeach
+                               </div>
 
 
-                                  @if(auth()->user()->can('change ticket status'))
-                                     <button class="btn @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
-                                     @elseif ($ticket->status['status_name'] == 'Completed') btn-success
-                                     @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
-                                     @else btn-inverse
-                                     @endif" dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                       {{$ticket->status['status_name']}}
-                                     </button>
-                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                     @foreach ($statuses as $status)
-                                       <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status['status_name']}}</a>
-                                     @endforeach
-                                     </div>
+                          @else
+                            <span class="label
+                            @if ($ticket->status['status_name'] == 'Unassigned') label-danger
+                            @elseif ($ticket->status['status_name'] == 'Completed') label-success
+                            @elseif ($ticket->status['status_name'] == 'Pending') label-warning
+                            @else label-inverse
+                            @endif">
+                            {{$ticket->status['status_name']}}
+                          </span>
+                          @endif
+                          </td>
+                          <td>{{$ticket->category['category_name']}}</td>
+                          <td>
+                          @foreach($ticket->user as $ticket_assignee)
+                          <span class="label label-table label-success">{{$ticket_assignee->name}}</span>
+                          @endforeach
+                          </td>
+                          <td>
+                            <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
+                              @csrf
+                              @method('DELETE')
+                              <a href="{{ route('ticket.show',$ticket->id)}}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                              @can('update ticket')
+                              <a href="{{ route('ticket.edit',$ticket->id)}}" class="btn btn-primary"><i class="far fa-edit"></i></a>
+                              @endcan
+                              @can('delete ticket')
+                              <button class="btn btn-danger" type="submit"><i class="fa fa-trash-alt"></i></button>
+                              @endcan
+                            </form>
+                          </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                  <tfoot>
+                      <tr>
+                          <td colspan="6">
+                              <div class="text-right">
+                                  <ul class="pagination"> </ul>
+                              </div>
+                          </td>
+                      </tr>
+                  </tfoot>
+              </table>
 
 
-                                @else
-                                  <span class="label
-                                  @if ($ticket->status['status_name'] == 'Unassigned') label-danger
-                                  @elseif ($ticket->status['status_name'] == 'Completed') label-success
-                                  @elseif ($ticket->status['status_name'] == 'Pending') label-warning
-                                  @else label-inverse
-                                  @endif">
-                                  {{$ticket->status['status_name']}}
-                                </span>
-                                @endif
-                                </td>
-
-                                {{-- <td>
-                                    <a href="javascript:void(0)"><img src="{{$ticket->created_by_user->gravatar}}" alt="user" class="img-circle" /> {{$ticket->created_by_user->name}}</a>
-                                </td> --}}
-                                <td>{{$ticket->category['category_name']}}</td>
-                                <td>
-                                  @foreach($ticket->user as $ticket_assignee)
-                                    {{$ticket_assignee->name}} <br>
-                                  @endforeach
-                                </td>
-                                <td>
-                                  <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                  @can('update ticket')
-                                    <a href="{{ route('ticket.edit',$ticket->id)}}" class="btn btn-primary">Edit</a>
-                                  @endcan
-                                    {{-- <a href="{{ route('ticket.show',$ticket->id)}}" class="btn btn-primary"><i class="icon ion-md-eye"></i></a> --}}
-                                    @can('delete ticket')
-                                    <button class="btn btn-danger" type="submit">Delete</button>
-                                  @endcan
-                                  </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="6">
-                                    <div class="text-right">
-                                        <ul class="pagination"> </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
             </div>
         </div>
     </div>
 </div>
 
-{{-- old table --}}
-
-
-{{-- <div class="row mt-2">
-<div class="col">
-<div class="card uper">
-  <div class="card-header">
-   All tickets
-
-  </div>
-
-  <table class="table table-striped">
-    <thead>
-        <tr>
-
-          <td>Ticket</td>
-          <td>Category</td>
-          <td>Location</td>
-          <td>Agents</td>
-          <td>Status</td>
-          <td>Action</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($tickets as $ticket)
-        <tr>
-            <td><h4><small class="text-muted">#{{$ticket->id}} </small> <a href="{{ route('ticket.show',$ticket->id)}}"> {{ str_limit($ticket->ticket_title, 35)}}</a> <small class="text-muted"> ({{$ticket->comments()->count()}})</small></h4></td>
-            <td>{{$ticket->category['category_name']}}</td>
-            <td>{{$ticket->location['location_name']}}</td>
-            <td>
-              @foreach($ticket->user as $ticket_assignee)
-                {{$ticket_assignee->name}}
-              @endforeach
-            </td>
-            <td>{{$ticket->status['status_name']}}</td>
-            <td>
-
-
-                <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
-                  @csrf
-                  @method('DELETE')
-                  <a href="{{ route('ticket.edit',$ticket->id)}}" class="btn btn-primary"><i class="icon ion-md-create"></i></a>
-                  <a href="{{ route('ticket.show',$ticket->id)}}" class="btn btn-primary"><i class="icon ion-md-eye"></i></a>
-                  <button class="btn btn-danger" type="submit"><i class="icon ion-md-trash"></i></button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-  </table>
-</div>
-{!! $tickets->links() !!}
-</div>
-</div>
-</div> --}}
 @endsection

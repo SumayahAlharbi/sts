@@ -13,6 +13,8 @@
     <title>{{ config('app.name', 'STS') }}</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Footable CSS -->
+    <link href="{{ asset('assets/plugins/footable/css/footable.core.css') }}" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <!-- You can change the theme colors from here -->
@@ -460,6 +462,7 @@
 <!-- Footable -->
 <script src="{{ asset('assets/plugins/footable/js/footable.all.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/bootstrap-select/bootstrap-select.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/plugins/footable/js/footable.filter.js') }}"></script>
 <!--FooTable init-->
 <script src="{{ asset('js/footable-init.js') }}"></script>
 <!-- ============================================================== -->
