@@ -73,9 +73,10 @@
                       <a href="#clear" class="clear-filter" title="clear filter">clear</a>
                     </p> --}}
 
+
               <table class="footable table m-b-0 toggle-circle" data-filter="#filter" data-filter-text-only="true">
                   <thead>
-                    
+
                       <tr>
                           <th> # </th>
                           <th data-hide="phone,tablet" data-ignore="true"> Titlex </th>
