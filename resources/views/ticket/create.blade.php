@@ -84,7 +84,7 @@
         </div>
       </div>
 
-        <div class="col-md-4">
+        {{-- <div class="col-md-4">
           <div class="form-group">
             <label for="exampleFormControlSelect1">Requested by</label>
             <select class="form-control" name="requested_by" id="exampleFormControlSelect1">
@@ -97,7 +97,22 @@
               @endforeach
             </select>
           </div>
-        </div>
+        </div> --}}
+
+<div class="col-md-4">
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">Requested by</label>
+  <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true">
+    @foreach ($users as $key => $value)
+      @if ($key == $created_by->id)
+      <option selected value="{{$key}}">(Current) {{$value}}</option>
+      @else
+      <option value="{{$key}}">{{$value}}</option>
+      @endif
+    @endforeach
+  </select>
+</div>
+</div>
 
 
       </div>

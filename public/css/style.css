@@ -2638,6 +2638,14 @@ Form addons page
   line-height: 1.42857143;
   color: #67757c;
   white-space: nowrap; }
+  .bootstrap-select .dropdown-menu .selected .active{
+
+    color: #ffffff;
+}
+.bootstrap-select .dropdown-menu .active{
+
+  color: #ffffff;
+}
   .bootstrap-select .dropdown-menu li a:hover, .bootstrap-select .dropdown-menu li a:focus {
     color: #009efb;
     background: #f2f4f8; }
