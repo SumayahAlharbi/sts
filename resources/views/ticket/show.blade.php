@@ -6,6 +6,8 @@
 </style>
 @section('content')
 
+
+
 <div class = 'container'>
   @if(session()->get('success'))
     <div class="alert alert-success">
@@ -100,7 +102,7 @@
                               </div>
                           </form>
                         </div>
-                        @endcan
+
 
                           <!-- unassign Users from Ticket -->
                   <div class="form-group">
@@ -109,7 +111,7 @@
                     <a class='btn btn-primary' @can('unassign ticket') href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$ticket->id}}'@endcan data-activates=''><i class="fas fa-minus-circle"></i> {{$TicketAgent->name}}  @can('unassign ticket')@endcan </a>
                   @endforeach
                 </div>
-
+@endcan
 
 <hr />
     <h4>Display Comments</h4>

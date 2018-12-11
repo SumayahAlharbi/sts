@@ -35,7 +35,7 @@
   @foreach($users as $user)
     <tr>
 
-    <td><a href="{{url('/users')}}/{{$user->id}}/edit" class="collection-item">{{$user->name}}</a></td>
+    <td class="svg-avatar">{!! Avatar::create($user->name)->setFontSize(14)->setDimension(30, 30)->toSvg(); !!}  <a href="{{url('/users')}}/{{$user->id}}/edit" class="collection-item">{{$user->name}}</a></td>
     <td>
 
       @if(!empty($user->group))
