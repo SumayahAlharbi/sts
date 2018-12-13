@@ -34,17 +34,21 @@ class TicketController extends Controller
         $user = Auth::user();
         $tickets = Ticket::all();
         $userId = $user->id;
+
+        $userGroup = $user->group->first()->id;
+        $ticketUserGroup = Group::find($userGroup)->ticket;
         $statuses = Status::all();
 
         if ($user->hasRole('admin')) {
                 $tickets = Ticket::orderByRaw('updated_at DESC')->get();
+            } elseif ($user->hasPermissionTo('view group tickets')) {
+              $tickets = $ticketUserGroup;
             } else {
-              $tickets = Ticket::whereHas('user', function ($q) use ($userId) {
+                $tickets = Ticket::whereHas('user', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
-            })->orderByRaw('updated_at DESC')->get();
+        })->orderByRaw('updated_at DESC')->get();
 
-        }
-
+    }
         return view('ticket.index', compact('tickets', 'statuses'));
     }
 
