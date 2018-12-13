@@ -114,11 +114,23 @@ class TicketController extends Controller
         $statuses = Status::all()->pluck('status_name','id');
         $locations = Location::all()->pluck('location_name','id');
         $tickets =  Ticket::find($id);
+        $userGroup = $user->group->first()->id;
+        //$ticketUserGroup = Group::find($userGroup)->ticket;
 
         if ($user->hasRole('admin')) {
         return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users'));
       }
-        else {
+      elseif ($user->hasPermissionTo('view group tickets')) {
+
+          if ($ticket->group_id == $userGroup) {
+            return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users', 'userGroup'));
+          } elseif ($ticket->group_id != $userGroup) {
+            return redirect('/ticket')->with('danger', 'You do not have access to this ticket!');
+          }
+
+
+
+    } else {
           foreach ($TicketAgents as $TicketAgent) {
             if ($user->id == $TicketAgent->id) {
               return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users'));
@@ -126,10 +138,13 @@ class TicketController extends Controller
               }
 
           }
+          foreach ($TicketAgents as $TicketAgent) {
           if ($user->id != $TicketAgent->id) {
                 return redirect('/ticket')->with('danger', 'You do not have access to this ticket!');
               }
+            }
         }
+
 
 
     /**
