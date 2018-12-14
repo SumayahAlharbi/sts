@@ -7,7 +7,7 @@
 
 <p>Content:  {{ $ticket->ticket_content }}</p>
 
-<p>Content:  {{ $ticket->priority }}</p>
+<p>Priority:  {{ $ticket->priority }}</p>
 
 <p>At:  {{ $ticket->location->location_name }}</p>
 

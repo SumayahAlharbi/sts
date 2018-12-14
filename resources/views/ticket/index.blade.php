@@ -79,7 +79,7 @@
 
                       <tr>
                           <th> # </th>
-                          <th data-hide="phone,tablet" data-ignore="true"> Titlex </th>
+                          <th data-hide="phone,tablet" data-ignore="true"> Title </th>
                           <th data-hide="desktop" data-ignore="true"> Title </th>
                           <th> Status </th>
 
