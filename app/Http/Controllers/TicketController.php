@@ -228,17 +228,17 @@ class TicketController extends Controller
 
     public function addTicketAgent(Request $request)
     {
-
       $ticket = Ticket::findorfail($request->ticket_id);
-      $ticket->status_id = "4";
-      $ticket->save();
-
+      $ticketUsers = Ticket::withCount('user')->get();
+      foreach ($ticketUsers as $ticketUser) {
+        if ($ticketUser->user_count == "0") {
+          $ticket->status_id = "4";
+          $ticket->save();
+        }
+      }
       $ticket->user()->syncWithoutDetaching($request->user_id);
       $user = User::findorfail($request->user_id);
-
-      // \Mail::to($user)->send(new TicketAgentAssigned);
       \Mail::to($user)->send(new TicketAgentAssigned($ticket));
-
       return back();
     }
     /**
