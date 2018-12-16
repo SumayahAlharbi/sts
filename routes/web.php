@@ -36,7 +36,7 @@ Route::get('/cas/login', function(){
         abort(403, 'Access Denied, Your KSAU-HS account is correct but you don not have access to this application.');
       }
     }
-});
+})->name('cas');
 
 // CAS Logout
 Route::get('/cas/logout', function(){

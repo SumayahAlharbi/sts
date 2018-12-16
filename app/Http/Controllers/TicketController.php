@@ -40,13 +40,13 @@ class TicketController extends Controller
         $statuses = Status::all();
 
         if ($user->hasRole('admin')) {
-                $tickets = Ticket::orderByRaw('updated_at DESC')->get();
+                $tickets = Ticket::orderByRaw('created_at DESC')->get();
             } elseif ($user->hasPermissionTo('view group tickets')) {
-              $tickets = $ticketUserGroup;
+              $tickets = $ticketUserGroup->sortByDesc('created_at');
             } else {
                 $tickets = Ticket::whereHas('user', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
-        })->orderByRaw('updated_at DESC')->get();
+        })->orderByRaw('created_at DESC')->get();
 
     }
         return view('ticket.index', compact('tickets', 'statuses'));
@@ -230,6 +230,9 @@ class TicketController extends Controller
     {
 
       $ticket = Ticket::findorfail($request->ticket_id);
+      $ticket->status_id = "4";
+      $ticket->save();
+
       $ticket->user()->syncWithoutDetaching($request->user_id);
       $user = User::findorfail($request->user_id);
 
