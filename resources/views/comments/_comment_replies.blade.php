@@ -10,30 +10,33 @@
   </div><br />
 @endif
 
- @foreach($comments->sortByDesc('updated_at') as $comment)
-    <div class="display-comment">
+ @foreach($comments as $comment)
+<div class="d-flex flex-row comment-row">
+    <div class="p-2"><span>{!! Avatar::create($user->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
+    <div class="comment-text w-100">
+        <h5>{{ $comment->user->name }}</h5>
+        <p class="m-b-5">{{ $comment->body }}</p>
+        <div class="comment-footer"> <span class="text-muted pull-right">{{$comment->created_at->diffForHumans() }}</span>
+          <span class="action-icons">
+                    {{-- <a href="javascript:void(0)"><i class="fas fa-reply"></i></a> --}}
+                    {{-- <a href="javascript:void(0)"><i class="ti-check"></i></a>
+                    <a href="javascript:void(0)"><i class="ti-heart"></i></a> --}}
+          </span>
+              </div>
+    </div>
+</div>
 
 
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="row">
-            <div class="col-sm-1">
-              <img class="rounded mx-auto" src="{{$comment->user->gravatar}}" >
-            </div>
-            <div class="col-sm-11">
-              <strong>{{ $comment->user->name }}</strong>
-              <small class="text-muted">{{$comment->created_at->diffForHumans() }}</small>
-            </div>
-          </div>
-        </div>
-      </div>
+    {{-- <div class="display-comment"> --}}
+
+
+
 
         {{-- <img class="rounded mx-auto" src="{{Auth::user()->gravatar}}" >
         <strong>{{ $comment->user->name }}</strong>
         <small class="text-muted">{{$comment->created_at->diffForHumans() }}</small> --}}
 
-        <p>{{ $comment->body }}</p>
-        <a href="" id="reply"></a>
+        {{-- <a href="" id="reply"></a>
         <form method="post" action="{{ route('reply.add') }}">
             @csrf
             <div class="form-group" required>
@@ -44,7 +47,7 @@
             <div class="form-group" required>
                 <input type="submit" class="btn btn-secondary" value="Reply" />
             </div>
-        </form>
-        @include('comments._comment_replies', ['comments' => $comment->replies])
-    </div>
+        </form> --}}
+        {{-- @include('comments._comment_replies', ['comments' => $comment->replies])
+    </div> --}}
 @endforeach

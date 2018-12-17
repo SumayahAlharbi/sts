@@ -211,7 +211,7 @@
                                 <ul class="dropdown-user">
                                     <li>
                                         <div class="dw-user-box">
-                                            <div class="u-img"><img src="{{Auth::user()->gravatar}}" alt="user"></div>
+                                            <div class="u-img">{!! Avatar::create(Auth::user()->name)->setFontSize(20)->setDimension(80, 80)->toSvg(); !!}</div>
                                             <div class="u-text">
                                                 <h4>{{Auth::user()->name}}</h4>
                                                 {{-- <p class="text-muted">{{Auth::user()->email}}</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div> --}}
