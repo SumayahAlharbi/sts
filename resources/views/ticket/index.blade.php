@@ -101,7 +101,7 @@
                                @elseif ($ticket->status['status_name'] == 'Completed') btn-success
                                @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
                                @else btn-inverse
-                               @endif" dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               @endif dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                  {{$ticket->status['status_name']}}
                                </button>
                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
