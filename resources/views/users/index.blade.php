@@ -86,6 +86,15 @@
     @endforeach
 
   </tbody>
+  <tfoot>
+      <tr>
+          <td colspan="6">
+              <div class="text-right">
+                  <ul class="pagination"> </ul>
+              </div>
+          </td>
+      </tr>
+  </tfoot>
   </table>
 
 </div>
