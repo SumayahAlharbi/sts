@@ -12,7 +12,7 @@
 
  @foreach($comments as $comment)
 <div class="d-flex flex-row comment-row">
-    <div class="p-2"><span>{!! Avatar::create($user->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
+    <div class="p-2"><span>{!! Avatar::create($comment->user->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
     <div class="comment-text w-100">
         <h5>{{ $comment->user->name }}</h5>
         <p class="m-b-5">{{ $comment->body }}</p>

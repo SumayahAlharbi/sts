@@ -13,6 +13,7 @@
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.7",
         "laravolt/avatar": "^2.1",
+        "orangehill/iseed": "^2.6",
         "pragmarx/version": "^0.2.8",
         "spatie/laravel-backup": "^5.11",
         "spatie/laravel-permission": "^2.23",
