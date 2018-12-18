@@ -142,7 +142,7 @@
 
                                 <div class="card-body">
                                   <h6 class="card-subtitle mb-2 text-muted">Ticket Content</h6>
-                                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                    <p class="card-text">{{$tickets->ticket_content}}</p>
                                 </div>
                             </div>
                           </div>
