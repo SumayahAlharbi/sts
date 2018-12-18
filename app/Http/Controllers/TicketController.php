@@ -95,7 +95,7 @@ class TicketController extends Controller
 
         $ticket->save();
         $user = $ticket->requested_by_user;
-        \Mail::to($user)->send(new RequestedBy($user));
+        // \Mail::to($user)->send(new RequestedBy($user));
         return redirect('ticket/'. $ticket->id)->with('success', 'Ticket has been created');
     }
 
