@@ -96,7 +96,8 @@ Route::group(['middleware' => ['role:admin']], function () {
   Route::post('roles/addPermission','\App\Http\Controllers\RoleController@addPermission');
   Route::get('roles/removePermission/{permission}/{role_id}','\App\Http\Controllers\RoleController@revokePermission');
 
-
+  //category Routes
+  Route::resource('activity','ActivityController');
 
 // Route::group(['middleware' => ['role:supervisor|admin']], function () {
 

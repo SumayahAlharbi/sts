@@ -5,35 +5,6 @@ Breadcrumbs::for('home', function ($trail) {
     $trail->push('Home', action('HomeController@index'));
 });
 
-// // ticket.index
-// Breadcrumbs::for('ticket.index', function ($trail) {
-//     $trail->parent('home');
-//     $trail->push('Ticket', route('ticket.index'));
-// });
-//
-// // ticket.show
-// Breadcrumbs::for('ticket.show', function ($trail, $ticket) {
-//     $trail->parent('ticket.index');
-//     $trail->push($ticket, route('ticket.show', $ticket));
-// });
-//
-// // ticket.edit
-// Breadcrumbs::for('ticket.edit', function ($trail, $ticket) {
-//     $trail->parent('ticket.index');
-//     $trail->push($ticket, route('ticket.edit', $ticket));
-// });
-//
-// // ticket.create
-// Breadcrumbs::for('ticket.create', function ($trail, $ticket) {
-//     $trail->parent('ticket.index');
-//     $trail->push($ticket, route('ticket.create', $ticket));
-// });
-
-// Breadcrumbs::for('ticket.index', function ($trail, $ticket) { // <-- The same Post model is injected here
-//     $trail->parent('home');
-//     $trail->push($ticket->ticket_title, action('TicketController@index'));
-// });
-
 // ticket.index
 Breadcrumbs::for('ticket.index', function ($trail) {
     $trail->parent('home');
@@ -61,53 +32,6 @@ Breadcrumbs::for('ticket.edit', function ($trail, $id) {
 
     $trail->push('Edit Ticket', route('ticket.edit', $ticket->id));
 });
-
-//
-// Breadcrumbs::for('ticket', function ($trail, $ticket) {
-//     $trail->parent('home');
-//     $trail->push($ticket->ticket_title, route('ticket', $ticket));
-// });
-
-// Breadcrumbs::for('ticket', function ($trail) {
-//     $trail->parent('home');
-//     $trail->push('Ticket', route('ticket.index'));
-// });
-
-// Breadcrumbs::for('ticket', function ($trail, $ticket) {
-//     $trail->parent('home');
-//     $trail->push($ticket->ticket_title, route('ticket', $ticket));
-// });
-
-// // Home > [Post]
-// Breadcrumbs::for('ticket.index', function ($trail, $id) {
-//     $tickets = Ticket::findOrFail($id);
-//     $trail->parent('home');
-//     $trail->push($tickets->ticket_title, route('ticket', $tickets));
-// });
-
-// // Home > About
-// Breadcrumbs::for('about', function ($trail) {
-//     $trail->parent('home');
-//     $trail->push('About', route('about'));
-// });
-//
-// // Home > Blog
-// Breadcrumbs::for('blog', function ($trail) {
-//     $trail->parent('home');
-//     $trail->push('Blog', route('blog'));
-// });
-//
-// // Home > Blog > [Category]
-// Breadcrumbs::for('category', function ($trail, $category) {
-//     $trail->parent('blog');
-//     $trail->push($category->title, route('category', $category->id));
-// });
-//
-// // Home > Blog > [Category] > [Post]
-// Breadcrumbs::for('post', function ($trail, $post) {
-//     $trail->parent('category', $post->category);
-//     $trail->push($post->title, route('post', $post->id));
-// });
 
 
 Breadcrumbs::macro('resource', function ($name, $title) {
@@ -143,3 +67,9 @@ Breadcrumbs::resource('status','Status');
 Breadcrumbs::resource('group','Group');
 Breadcrumbs::resource('roles','Role');
 Breadcrumbs::resource('permissions','Permission');
+
+// ticket.index
+Breadcrumbs::for('activity.index', function ($trail) {
+    $trail->parent('home');
+    $trail->push('Activity', route('activity.index'));
+});

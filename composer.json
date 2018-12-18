@@ -15,6 +15,7 @@
         "laravolt/avatar": "^2.1",
         "orangehill/iseed": "^2.6",
         "pragmarx/version": "^0.2.8",
+        "spatie/laravel-activitylog": "^3.1",
         "spatie/laravel-backup": "^5.11",
         "spatie/laravel-permission": "^2.23",
         "springscs/cas": "^1.0"
