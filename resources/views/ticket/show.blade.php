@@ -38,11 +38,13 @@
         </div>
 
         {{-- status list menu --}}
+        @can('delete ticket')
       <form style="display:inline;" onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
         @csrf
         @method('DELETE')
         <button class="btn btn-outline-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
       </form>
+    @endcan
 
   </div>
   <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
