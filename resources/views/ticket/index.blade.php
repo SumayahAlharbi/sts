@@ -106,7 +106,9 @@
                                </button>
                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                @foreach ($statuses as $status)
+                                 @if($status != $ticket->status)
                                  <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status['status_name']}}</a>
+                               @endif
                                @endforeach
                                </div>
 

@@ -79,6 +79,7 @@ class TicketController extends Controller
           'ticket_title'=>'required',
           'ticket_content'=> 'required',
           'group_id'=> 'required',
+          'requested_by'=> 'required',
         ]);
         $ticket = new Ticket;
 
@@ -111,7 +112,7 @@ class TicketController extends Controller
         $users = \App\User::all();
         $ticket =  Ticket::findOrfail($id);
         $TicketAgents = $ticket->user;
-        $statuses = Status::all()->pluck('status_name','id');
+        $statuses = Status::all();
         $locations = Location::all()->pluck('location_name','id');
         $tickets =  Ticket::find($id);
         $userGroup = $user->group->first()->id;
@@ -207,6 +208,7 @@ class TicketController extends Controller
         'ticket_title'=>'required',
         'ticket_content'=> 'required',
         'group_id'=> 'required',
+        'requested_by'=> 'required',
       ]);
       $ticket = Ticket::findOrfail($id);
       $ticket->ticket_title = $request->ticket_title;

@@ -18,8 +18,10 @@
 
 
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-      @foreach ($statuses as $key => $value)
-        <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$key}}/{{$tickets->id}}'>{{$value}}</a>
+      @foreach ($statuses as $status)
+        @if($status != $ticket->status)
+        <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status->status_name}}</a>
+        @endif
       @endforeach
     </div>
 
@@ -32,8 +34,10 @@
       @can('assign ticket')<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#assignModal" data-whatever="@assign"><i class="fas fa-users"></i></button>@endcan
       @can('change ticket status')<button type="button" class="btn btn-outline-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-check-square"></i></button>@endcan
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-          @foreach ($statuses as $key => $value)
-            <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$key}}/{{$tickets->id}}'>{{$value}}</a>
+          @foreach ($statuses as $status)
+            @if($status != $ticket->status)
+            <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status->status_name}}</a>
+            @endif
           @endforeach
         </div>
 
@@ -62,7 +66,8 @@
 
                                         <div class="form-group col-md-12">
                                           <label for="name">Agent list</label>
-                                            <select name="user_id" id="" class = "form-control">
+                                            <select name="user_id" id="" data-show-subtext="true" data-live-search="true" class="selectpicker form-control">
+                                              <option selected disabled value> -- Choose an Agent -- </option>
                                                 @foreach($users as $user)
                                                 <option value="{{$user->id}}">{{$user->name}}</option>
                                                 @endforeach
