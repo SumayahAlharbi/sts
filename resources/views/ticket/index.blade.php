@@ -155,7 +155,7 @@
                       <tr>
                           <td colspan="6">
                               <div class="text-right">
-                                  <ul class="pagination"> </ul>
+                                  <ul class="pagination flex-wrap"> </ul>
                               </div>
                           </td>
                       </tr>
