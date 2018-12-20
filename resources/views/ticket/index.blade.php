@@ -31,7 +31,7 @@
                     </div>
                     <!-- Column -->
                     <div class="col-md-6 col-lg-3 col-xlg-3">
-                        <div class="card card-primary card-inverse">
+                        <div class="card card-success card-success">
                             <div class="box text-center">
                                 <h1 class="font-light text-white">{{$tickets->where('status_id','=','1')->count()}}</h1>
                                 <h6 class="text-white">Completed</h6>
@@ -40,7 +40,7 @@
                     </div>
                     <!-- Column -->
                     <div class="col-md-6 col-lg-3 col-xlg-3">
-                        <div class="card card-inverse card-success">
+                        <div class="card card-danger card-danger">
                             <div class="box text-center">
                                 <h1 class="font-light text-white">{{$tickets->where('status_id','=','3')->count()}}</h1>
                                 <h6 class="text-white">Unassigned</h6>
@@ -49,7 +49,7 @@
                     </div>
                     <!-- Column -->
                     <div class="col-md-6 col-lg-3 col-xlg-3">
-                        <div class="card card-inverse card-dark">
+                        <div class="card card-warning card-warning">
                             <div class="box text-center">
                                 <h1 class="font-light text-white">{{$tickets->where('status_id','=','4')->count()}}</h1>
                                 <h6 class="text-white">Pending</h6>
