@@ -85,6 +85,7 @@
 
                           <th data-hide="phone">Category</th>
                           <th data-hide="phone">Agents</th>
+                          <th data-hide="all">Requested by</th>
                           <th data-hide="all">Action</th>
                       </tr>
                   </thead>
@@ -92,8 +93,8 @@
                     @foreach($tickets as $ticket)
                       <tr>
                           <td>{{$ticket->id}}</td>
-                          <td><a href="{{ route('ticket.show',$ticket->id)}}"> {{ str_limit($ticket->ticket_title, 35)}}</a> <small class="text-muted"> ({{$ticket->comments()->count()}})</small></td>
-                          <td>{{ str_limit($ticket->ticket_title, 35)}} <small class="text-muted"> ({{$ticket->comments()->count()}})</small></td>
+                          <td><a href="{{ route('ticket.show',$ticket->id)}}"> {{ str_limit($ticket->ticket_title, 35)}}</a> <small class="text-muted"> ({{$ticket->comments()->count()}})<br> {{$ticket->created_at->diffForHumans()}}</small></td>
+                          <td>{{ str_limit($ticket->ticket_title, 35)}} <small class="text-muted"> ({{$ticket->comments()->count()}})<br> {{$ticket->created_at->diffForHumans()}}</small></td>
 
                           <td title="{{$ticket->status['status_name']}}">
                             @if(auth()->user()->can('change ticket status'))
@@ -131,6 +132,9 @@
                           @endforeach
                           </td>
                           <td>
+                            {{$ticket->requested_by_user->name}}
+                          </td>
+                          <td>
                             <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
                               @csrf
                               @method('DELETE')
@@ -143,6 +147,7 @@
                               @endcan
                             </form>
                           </td>
+
                       </tr>
                     @endforeach
                   </tbody>
