@@ -30,9 +30,9 @@
 
   <!-- sample modal content -->
   <div class="button-box text-right">
-      @can('update ticket')<a class="btn btn-outline-success" href="{{ route('ticket.edit',$tickets->id)}}" role="button"><i class="far fa-edit"></i></a>@endcan
-      @can('assign ticket')<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#assignModal" data-whatever="@assign"><i class="fas fa-users"></i></button>@endcan
-      @can('change ticket status')<button type="button" class="btn btn-outline-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-check-square"></i></button>@endcan
+      @can('update ticket')<a class="btn btn-outline-success" href="{{ route('ticket.edit',$tickets->id)}}" title="Edit" role="button"><i class="far fa-edit"></i></a>@endcan
+      @can('assign ticket')<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#assignModal" data-whatever="@assign" title="Assign" ><i class="fas fa-users"></i></button>@endcan
+      @can('change ticket status')<button type="button" title="Status" class="btn btn-outline-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-check-square"></i></button>@endcan
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
           @foreach ($statuses as $status)
             @if($status != $ticket->status)
@@ -46,7 +46,7 @@
       <form style="display:inline;" onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
         @csrf
         @method('DELETE')
-        <button class="btn btn-outline-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
+        <button class="btn btn-outline-danger" title="Delete" type="submit"><i class="fas fa-trash-alt"></i></button>
       </form>
     @endcan
 

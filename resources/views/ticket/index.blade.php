@@ -59,7 +59,7 @@
                     <!-- Column -->
                 </div>
               @can('create ticket')
-                <a class="btn btn-primary" href="{{ route('ticket.create')}}" role="button"><i class="fa fa-plus-circle"></i> New</a>
+                <a class="btn btn-primary" href="{{ route('ticket.create')}}" title="Create New Ticket" role="button"><i class="fa fa-plus-circle"></i> New</a>
               @endcan
 
               {{-- <p>
@@ -138,12 +138,12 @@
                             <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
                               @csrf
                               @method('DELETE')
-                              <a href="{{ route('ticket.show',$ticket->id)}}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                              <a href="{{ route('ticket.show',$ticket->id)}}" title="Show" class="btn btn-primary"><i class="fa fa-eye"></i></a>
                               @can('update ticket')
-                              <a href="{{ route('ticket.edit',$ticket->id)}}" class="btn btn-primary"><i class="far fa-edit"></i></a>
+                              <a href="{{ route('ticket.edit',$ticket->id)}}" title="Edit" class="btn btn-primary"><i class="far fa-edit"></i></a>
                               @endcan
                               @can('delete ticket')
-                              <button class="btn btn-danger" type="submit"><i class="fa fa-trash-alt"></i></button>
+                              <button class="btn btn-danger" title="Delete" type="submit"><i class="fa fa-trash-alt"></i></button>
                               @endcan
                             </form>
                           </td>
