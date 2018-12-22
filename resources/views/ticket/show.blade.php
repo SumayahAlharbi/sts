@@ -1,4 +1,5 @@
 @extends('layouts.material')
+@section('title', $ticket->ticket_title)
 <style>
     .display-comment .display-comment {
         margin-left: 40px;

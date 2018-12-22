@@ -1,4 +1,5 @@
 @extends('layouts.material')
+@section('title', 'Create Ticket')
 
 @section('content')
 <style>

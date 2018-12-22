@@ -1,4 +1,5 @@
 @extends('layouts.material')
+@section('title', 'Edit: ' . $ticket->ticket_title)
 
 @section('content')
 
