@@ -58,9 +58,47 @@
                     </div>
                     <!-- Column -->
                 </div>
-              @can('create ticket')
-                <a class="btn btn-primary" href="{{ route('ticket.create')}}" title="Create New Ticket" role="button"><i class="fa fa-plus-circle"></i> New</a>
-              @endcan
+                <div class="container">
+                <div class="row">
+                  <div class="col-sm">
+                    @can('create ticket')
+                      <a class="btn btn-primary" href="{{ route('ticket.create')}}" title="Create New Ticket" role="button"><i class="fa fa-plus-circle"></i> New</a>
+                    @endcan
+                  </div>
+                  <div class="col-sm">
+
+                  </div>
+                  <div class="col-sm">
+                    <form><div class="input-group footable-filtering-search">
+                      <label class="sr-only">Search</label>
+                      <div class="input-group">
+                        <input type="text" id="filter" class="form-control" placeholder="Search">
+                        <div class="input-group-append">
+                          <button type="button" class="btn btn-primary">
+                            <span class="fas fa-search"></span></button>
+                            {{-- <button type="button" class="btn btn-default dropdown-toggle">
+                              <span class="caret"></span></button> --}}
+                              {{-- <ul class="dropdown-menu dropdown-menu-right">
+                                <li class="dropdown-item">
+                                  <a class="checkbox"><label><input type="checkbox" checked="checked"> First Name </label>
+                                  </a></li><li class="dropdown-item">
+                                    <a class="checkbox"><label><input type="checkbox" checked="checked"> Last Name </label>
+                                    </a></li><li class="dropdown-item">
+                                      <a class="checkbox"><label><input type="checkbox" checked="checked"> Job Title </label>
+                                      </a></li><li class="dropdown-item"><a class="checkbox"><label><input type="checkbox" checked="checked"> DOB </label></a></li><li class="dropdown-item"><a class="checkbox"><label><input type="checkbox" checked="checked"> Status </label>
+                                      </a>
+                                    </li>
+                                  </ul> --}}
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                  </div>
+                </div>
+              </div>
+
+
+
 
               {{-- <p>
                       Search: <input id="filter" type="text">
@@ -76,6 +114,8 @@
 
               <table class="footable table m-b-0 toggle-circle" data-filter="#filter" data-filter-text-only="true">
                   <thead>
+
+
 
                       <tr>
                           <th> # </th>
@@ -97,7 +137,7 @@
                           <td>{{ str_limit($ticket->ticket_title, 35)}} <small class="text-muted"> ({{$ticket->comments()->count()}})<br> {{$ticket->created_at->diffForHumans()}}</small></td>
 
                           <td title="{{$ticket->status['status_name']}}">
-                            @if(auth()->user()->can('change ticket status'))
+                            {{-- @if(auth()->user()->can('change ticket status'))
                                <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
                                @elseif ($ticket->status['status_name'] == 'Completed') btn-success
                                @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
@@ -105,6 +145,7 @@
                                @endif dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                  {{$ticket->status['status_name']}}
                                </button>
+
                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                @foreach ($statuses as $status)
                                  @if($status != $ticket->status)
@@ -114,7 +155,8 @@
                                </div>
 
 
-                          @else
+
+                          @else --}}
                             <span class="label
                             @if ($ticket->status['status_name'] == 'Unassigned') label-danger
                             @elseif ($ticket->status['status_name'] == 'Completed') label-success
@@ -123,7 +165,7 @@
                             @endif">
                             {{$ticket->status['status_name']}}
                           </span>
-                          @endif
+                          {{-- @endif --}}
                           </td>
                           <td>{{$ticket->category['category_name']}}</td>
                           <td>
