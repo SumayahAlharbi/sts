@@ -47,6 +47,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
+        'dropbox' => [
+             'driver' => 'dropbox',
+             'authorizationToken' => env('DROPBOX_ACCESS_TOKEN'),
+        ],
 
         'public' => [
             'driver' => 'local',

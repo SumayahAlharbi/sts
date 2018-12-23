@@ -17,6 +17,10 @@
 
 Auth::routes();
 
+Route::get('test', function() {
+    Storage::disk('dropbox')->put('test.txt', 'Hello World');
+});
+
 // CAS Login
 Route::get('/cas/login', function(){
   // if the user isn't authenticated by CAS
