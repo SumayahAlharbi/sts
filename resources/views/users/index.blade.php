@@ -1,5 +1,5 @@
 @extends('layouts.material')
-
+@section('title', 'Users')
 @section('content')
 
 <div class = 'container'>
@@ -25,6 +25,7 @@
     <thead>
         <tr>
           <td>User</td>
+          <td>Email</td>
           <td>Groups</td>
           <td>Roles</td>
           <td>Permissions</td>
@@ -36,6 +37,9 @@
     <tr>
 
     <td class="svg-avatar">{!! Avatar::create($user->name)->setFontSize(14)->setDimension(30, 30)->toSvg(); !!}  <a href="{{url('/users')}}/{{$user->id}}/edit" class="collection-item">{{$user->name}}</a></td>
+    <td class="muted-text">
+      {{$user->email}}
+    </td>
     <td>
 
       @if(!empty($user->group))
@@ -90,7 +94,7 @@
       <tr>
           <td colspan="6">
               <div class="text-right">
-                  <ul class="pagination"> </ul>
+                  <ul> {{ $users->links() }} </ul>
               </div>
           </td>
       </tr>

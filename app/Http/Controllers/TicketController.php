@@ -79,6 +79,7 @@ class TicketController extends Controller
           'ticket_title'=>'required',
           'ticket_content'=> 'required',
           'group_id'=> 'required',
+          'requested_by'=> 'required',
         ]);
         $ticket = new Ticket;
 
@@ -111,11 +112,10 @@ class TicketController extends Controller
         $users = \App\User::all();
         $ticket =  Ticket::findOrfail($id);
         $TicketAgents = $ticket->user;
-        $statuses = Status::all()->pluck('status_name','id');
+        $statuses = Status::all();
         $locations = Location::all()->pluck('location_name','id');
         $tickets =  Ticket::find($id);
         $userGroup = $user->group->first()->id;
-        //$ticketUserGroup = Group::find($userGroup)->ticket;
 
         if ($user->hasRole('admin')) {
         return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users'));
@@ -207,6 +207,7 @@ class TicketController extends Controller
         'ticket_title'=>'required',
         'ticket_content'=> 'required',
         'group_id'=> 'required',
+        'requested_by'=> 'required',
       ]);
       $ticket = Ticket::findOrfail($id);
       $ticket->ticket_title = $request->ticket_title;
@@ -241,13 +242,13 @@ class TicketController extends Controller
     public function addTicketAgent(Request $request)
     {
       $ticket = Ticket::findorfail($request->ticket_id);
-      $ticketUsers = Ticket::withCount('user')->get();
-      foreach ($ticketUsers as $ticketUser) {
-        if ($ticketUser->user_count == "0") {
+      $TicketAgents = $ticket->user;
+
+        if ($TicketAgents->isEmpty()) {
           $ticket->status_id = "4";
           $ticket->save();
         }
-      }
+
       $ticket->user()->syncWithoutDetaching($request->user_id);
       $user = User::findorfail($request->user_id);
       \Mail::to($user)->send(new TicketAgentAssigned($ticket));
@@ -260,8 +261,13 @@ class TicketController extends Controller
         public function removeTicketAgent($user_id, $ticket_id)
     {
         $ticket = Ticket::findorfail($ticket_id);
-
         $ticket->user()->detach($user_id);
+        $TicketAgents = $ticket->user;
+
+          if ($TicketAgents->isEmpty()) {
+            $ticket->status_id = "3";
+            $ticket->save();
+          }
 
         return back();
     }

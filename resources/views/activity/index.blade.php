@@ -39,6 +39,15 @@
         </tr>
         @endforeach
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6">
+                <div class="text-right">
+                    <ul> {{ $activityTickets->links() }} </ul>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
   </table>
     </div>
 </div>
@@ -76,6 +85,15 @@
         </tr>
         @endforeach
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6">
+                <div class="text-right">
+                    <ul> {{ $activityUsers->links() }} </ul>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
   </table>
     </div>
 </div>

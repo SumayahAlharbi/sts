@@ -1,4 +1,5 @@
 @extends('layouts.material')
+@section('title', 'Edit: ' . $ticket->ticket_title)
 
 @section('content')
 
@@ -133,7 +134,7 @@
         </div>
         <div class="form-group col-md-4">
           <label for="exampleFormControlSelect1">Requested by</label>
-          <select class="form-control" name="requested_by" id="exampleFormControlSelect1">
+          <select class="selectpicker form-control" name="requested_by"data-show-subtext="true" data-live-search="true"  id="exampleFormControlSelect1" required>
             @foreach($users as $user)
               @if ($user->id == $ticket->requested_by)
            <option selected value="{{$user->id}}">{{$user->name}}</option>

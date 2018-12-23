@@ -1,4 +1,5 @@
 @extends('layouts.material')
+@section('title', 'Create Ticket')
 
 @section('content')
 <style>
@@ -84,28 +85,15 @@
         </div>
       </div>
 
-        {{-- <div class="col-md-4">
-          <div class="form-group">
-            <label for="exampleFormControlSelect1">Requested by</label>
-            <select class="form-control" name="requested_by" id="exampleFormControlSelect1">
-              @foreach ($users as $key => $value)
-                @if ($key == $created_by->id)
-                <option selected value="{{$key}}">(Current) {{$value}}</option>
-                @else
-                <option value="{{$key}}">{{$value}}</option>
-                @endif
-              @endforeach
-            </select>
-          </div>
-        </div> --}}
 
 <div class="col-md-4">
-  <div class="form-group">
+  <div class="form-group" required>
     <label for="exampleFormControlSelect1">Requested by</label>
-  <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true">
+  <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true" required>
+    <option selected value> -- Who requested this ticket? -- </option>
     @foreach ($users as $key => $value)
       @if ($key == $created_by->id)
-      <option selected value="{{$key}}">(Current) {{$value}}</option>
+      <option value="{{$key}}">(Current) {{$value}}</option>
       @else
       <option value="{{$key}}">{{$value}}</option>
       @endif

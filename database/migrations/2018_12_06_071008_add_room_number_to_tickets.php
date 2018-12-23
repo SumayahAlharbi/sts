@@ -15,7 +15,7 @@ class AddRoomNumberToTickets extends Migration
     {
         Schema::table('tickets', function (Blueprint $table) {
             //
-            $table->string('room_number')->after('requested_by');
+            $table->string('room_number')->after('requested_by')->nullable();
             $table->string('priority')->after('room_number');
         });
     }
