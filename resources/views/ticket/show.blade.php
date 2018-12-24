@@ -51,6 +51,14 @@
       </form>
     @endcan
 
+    @if (isset($previous))
+      <a class="btn btn-outline-secondary" href="{{ route('ticket.show',$previous->id)}}" title="Previous" role="button"><i class="fas fa-chevron-left"></i></a>
+    @endif
+
+    @if (isset($next))
+      <a class="btn btn-outline-secondary" href="{{ route('ticket.show',$next->id)}}" title="Next" role="button"><i class="fas fa-chevron-right"></i></a>
+    @endif
+
   </div>
   <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
       <div class="modal-dialog" role="document">
@@ -114,7 +122,11 @@
                                       <div class="col-md-12">
 
                                         <h3 class="card-title">{{title_case($tickets->ticket_title)}}</h3>
-                                        <h6 class="card-subtitle mb-2 text-muted"><span class="label label-light-inverse"><i class="fas fa-exclamation-circle"></i>  {{$ticket->priority}}</span> <span class="label label-light-inverse"><i class="far fa-building"></i>  {{$tickets->location->location_name}}</span> <span class="label label-light-inverse"><i class="far fa-building"></i> {{$ticket->room_number}}</span> <span class="label label-light-inverse"><i class="fas fa-user-plus"></i> {{$tickets->created_by_user->name}}</span> <span class="label label-light-inverse"><i class="far fa-user"></i> {{$tickets->requested_by_user->name}}</span> <span class="label label-light-inverse"><i class="far fa-clock"></i> {{$tickets->created_at->diffForHumans()}}</span></h6>
+                                        <h6 class="card-subtitle mb-2 text-muted"><span class="label label-light-inverse"><i class="fas fa-exclamation-circle"></i>  {{$ticket->priority}}</span> <span class="label label-light-inverse"><i class="far fa-building"></i>  {{$tickets->location->location_name}}</span> <span class="label label-light-inverse"><i class="far fa-building"></i> {{$ticket->room_number}}</span> <span class="label label-light-inverse"><i class="fas fa-user-plus"></i> {{$tickets->created_by_user->name}}</span> <span class="label label-light-inverse"><i class="far fa-user"></i>
+                                        @isset($ticket->requested_by_user->name)
+                                          {{$ticket->requested_by_user->name}}
+                                        @endisset
+                                      </span> <span class="label label-light-inverse"><i class="far fa-clock"></i> {{$tickets->created_at->diffForHumans()}}</span></h6>
 </div>
 
                                   </div>
