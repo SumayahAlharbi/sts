@@ -175,7 +175,10 @@
                           @endforeach
                           </td>
                           <td>
-                            {{$ticket->requested_by_user->name}}
+                            @isset($ticket->requested_by_user->name)
+                              {{$ticket->requested_by_user->name}}
+                            @endisset
+
                           </td>
                           <td>
                             <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
