@@ -120,9 +120,9 @@ return [
          */
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
-        'mail' => [
-            'to' => 'alserihim@ksau-hs.edu.sa',
-        ],
+        // 'mail' => [
+        //     'to' => 'alserihim@ksau-hs.edu.sa',
+        // ],
 
         'slack' => [
             'webhook_url' => '',

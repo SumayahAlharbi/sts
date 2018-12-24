@@ -5,6 +5,10 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use Carbon\Carbon;
+
+use Storage;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -24,9 +28,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
-        $schedule->command('backup:run')->dailyAt('9:46');;
+        $today = Carbon::now();
+        echo "\n" . $today . "\n";
+        $schedule->command('backup:run')->dailyAt('17:30')->timezone('Asia/Riyadh')->appendOutputTo(storage_path('app/schedule.txt'));
     }
 
     /**
