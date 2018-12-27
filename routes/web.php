@@ -17,6 +17,10 @@
 
 Auth::routes();
 
+Route::resource('reports','ReportController');
+
+Route::post('reports/display','ReportController@displayReport');
+
 // CAS Login
 Route::get('/cas/login', function(){
   // if the user isn't authenticated by CAS

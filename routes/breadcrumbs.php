@@ -67,6 +67,7 @@ Breadcrumbs::resource('status','Status');
 Breadcrumbs::resource('group','Group');
 Breadcrumbs::resource('roles','Role');
 Breadcrumbs::resource('permissions','Permission');
+Breadcrumbs::resource('reports','Report');
 
 // ticket.index
 Breadcrumbs::for('activity.index', function ($trail) {

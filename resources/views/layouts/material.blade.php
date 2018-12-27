@@ -298,6 +298,8 @@
                                 <li><a href="{{ url('/group') }}">Groups</a></li>
                                 <li><a href="{{ url('/roles') }}">Roles</a></li>
                                 <li><a href="{{ url('/permissions') }}">Permissions</a></li>
+                                <li><a href="{{ url('/activity') }}">Activity</a></li>
+                                <li><a href="{{ url('/reports') }}">Reports</a></li>
                             {{-- </ul> --}}
                         </li>
                             </ul>
