@@ -84,7 +84,7 @@
 
 
 
-              <table class="footable table m-b-0 toggle-circle" data-filter="#filter" data-filter-text-only="true" data-limit-navigation="5" data-page-size="5">
+              <table class="footable table m-b-0 toggle-circle" data-limit-navigation="3" data-filter="#filter" data-filter-text-only="true" data-limit-navigation="5" data-page-size="5">
                   <thead>
 
 
