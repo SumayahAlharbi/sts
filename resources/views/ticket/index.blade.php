@@ -60,22 +60,11 @@
                     <!-- Column -->
                 </div>
                 <div class="row">
-                  <div class="col-lg-7">
+                  <div class="col-lg-9">
                     @can('create ticket')
                       <a class="btn btn-primary" href="{{ route('ticket.create')}}" title="Create New Ticket" role="button"><i class="fa fa-plus-circle"></i> New</a>
                     @endcan
                   </div>
-<div class="col-lg-2 content-right">
-                  <div class="form-group">
-                                                    <select class="form-control custom-select filter-status" data-placeholder="Choose a Status" tabindex="1">
-                                                      <option></option>
-                                                      <option value="active">Pending</option>
-                                                      <option value="disabled">Unassigned</option>
-                                                      <option value="suspended">Completed</option>
-                                                    </select>
-                                                    <a href="#clear" class="clear-filter" title="clear filter">[clear]</a>
-                                                </div>
-</div>
 
                                                 <div class="col-lg-3 content-right">
                                                   <form><div class="input-group footable-filtering-search">
@@ -85,19 +74,7 @@
                                                       <div class="input-group-append">
                                                         <button type="button" class="btn btn-primary">
                                                           <span class="fas fa-search"></span></button>
-                                                          {{-- <button type="button" class="btn btn-default dropdown-toggle">
-                                                            <span class="caret"></span></button> --}}
-                                                            {{-- <ul class="dropdown-menu dropdown-menu-right">
-                                                              <li class="dropdown-item">
-                                                                <a class="checkbox"><label><input type="checkbox" checked="checked"> First Name </label>
-                                                                </a></li><li class="dropdown-item">
-                                                                  <a class="checkbox"><label><input type="checkbox" checked="checked"> Last Name </label>
-                                                                  </a></li><li class="dropdown-item">
-                                                                    <a class="checkbox"><label><input type="checkbox" checked="checked"> Job Title </label>
-                                                                    </a></li><li class="dropdown-item"><a class="checkbox"><label><input type="checkbox" checked="checked"> DOB </label></a></li><li class="dropdown-item"><a class="checkbox"><label><input type="checkbox" checked="checked"> Status </label>
-                                                                    </a>
-                                                                  </li>
-                                                                </ul> --}}
+
                                                               </div>
                                                             </div>
                                                           </div>
@@ -107,21 +84,7 @@
 
 
 
-
-{{--
-                <p>
-                        Search: <input id="filter" type="text">
-                        Status: <i class="fas fa-filter"></i> <select class="filter-status">
-                        <option></option>
-                        <option value="active">Pending</option>
-                        <option value="disabled">Unassigned</option>
-                        <option value="suspended">Completed</option>
-                      </select>
-                        <a href="#clear" class="clear-filter" title="clear filter">[clear]</a>
-                      </p> --}}
-
-
-              <table class="footable table m-b-0 toggle-circle" data-filter="#filter" data-filter-text-only="true">
+              <table class="footable table m-b-0 toggle-circle" data-filter="#filter" data-filter-text-only="true" data-limit-navigation="5" data-page-size="5">
                   <thead>
 
 
@@ -209,7 +172,7 @@
                       <tr>
                           <td colspan="6">
                               <div class="text-right">
-                                  <ul class="pagination flex-wrap"> </ul>
+                                  <ul class="pagination pagination-centered hide-if-no-paging"> </ul>
                               </div>
                           </td>
                       </tr>

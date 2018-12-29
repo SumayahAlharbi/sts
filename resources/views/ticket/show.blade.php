@@ -51,14 +51,6 @@
       </form>
     @endcan
 
-    @if (isset($previous))
-      <a class="btn btn-outline-secondary" href="{{ route('ticket.show',$previous->id)}}" title="Previous" role="button"><i class="fas fa-chevron-left"></i></a>
-    @endif
-
-    @if (isset($next))
-      <a class="btn btn-outline-secondary" href="{{ route('ticket.show',$next->id)}}" title="Next" role="button"><i class="fas fa-chevron-right"></i></a>
-    @endif
-
   </div>
   <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
       <div class="modal-dialog" role="document">
@@ -167,6 +159,106 @@
                             </div>
                           </div>
                           </div>
+
+
+                          <div class="row">
+                            <div class="col-md-12">
+                            <div class="card">
+
+                                <div class="card-body">
+                                      <a class="btn text-muted" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        Ticket Activity <i class="far fa-caret-square-down"></i>
+                                      </a>
+                                      <div class="collapse" id="collapseExample">
+
+                                        @foreach($activityTickets as $activityTicket)
+                                          <!-- activity Row -->
+
+                                          <div class="d-flex flex-row comment-row">
+                                              <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
+                                              <div class="comment-text w-100">
+                                                  <h5>{{$activityTicket->causer->name}}</h5>
+                                                  <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
+                                                  <div class="comment-footer">
+                                                      <!-- changes -->
+                                                      @if( isset( $activityTicket->changes['attributes']['status_id'] ))
+                                                          @if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')
+                                                            @foreach ($statuses as $status)
+                                                              @if($status->id == $activityTicket->changes['attributes']['status_id'])
+                                                                status to <span class="label label-light-info"> {{$status->status_name}} </span>
+                                                              @endif
+                                                            @endforeach
+                                                          @endif
+                                                      @endif
+                                                      <!-- end changes -->
+                                                      <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
+                                                      {{-- <span class="label label-light-info">{{$activityTicket->description}}</span> --}}
+                                                      {{-- <span class="action-icons">
+                                                                  <a href="javascript:void(0)"><i class="ti-pencil-alt"></i></a>
+                                                                  <a href="javascript:void(0)"><i class="ti-check"></i></a>
+                                                                  <a href="javascript:void(0)"><i class="ti-heart"></i></a>
+                                                              </span> --}}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <!-- activity Row -->
+                                          @endforeach
+                                      </div>
+                                </div>
+                            </div>
+                          </div>
+                          </div>
+
+
+
+
+
+
+
+                          {{-- <div class="row">
+                            <div class="col-md-12">
+                            <div class="card">
+
+                              <div class="card-body">
+                                  <h4 class="card-title">Ticket Activity</h4>
+                              </div>
+
+                              <!-- ============================================================== -->
+                              <div class="comment-widgets">
+                                @foreach($activityTickets as $activityTicket)
+                                  <!-- activity Row -->
+
+                                  <div class="d-flex flex-row comment-row">
+                                      <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
+                                      <div class="comment-text w-100">
+                                          <h5>{{$activityTicket->causer->name}}</h5>
+                                          <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
+                                          <div class="comment-footer">
+                                              <!-- changes -->
+                                              @if(array_key_exists('attributes', $activityTicket->changes()->toArray()))
+                                              @if (json_encode($activityTicket->changes['attributes']['status_id']) !== null)
+                                                @if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')
+                                                @foreach ($statuses as $status)
+                                                  @if($status->id == $activityTicket->changes['attributes']['status_id'])
+                                                  status to <span class="label label-light-info"> {{$status->status_name}} </span>
+                                                  @endif
+                                                @endforeach
+                                                @endif
+                                              @endif
+                                              @endif
+                                              <!-- end changes -->
+                                              <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <!-- activity Row -->
+                                  @endforeach
+                              </div>
+                            </div>
+                          </div>
+                          </div> --}}
+
+
 {{-- start comment new --}}
 
 <div class="row">

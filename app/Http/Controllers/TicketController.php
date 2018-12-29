@@ -12,6 +12,8 @@ use Auth;
 use App\Mail\agent;
 use App\Mail\TicketAgentAssigned;
 use App\Mail\RequestedBy;
+use Spatie\Activitylog\Models\Activity;
+
 
 use Illuminate\Http\Request;
 
@@ -111,21 +113,41 @@ class TicketController extends Controller
         $user = Auth::user();
         $users = \App\User::all();
         $ticket =  Ticket::findOrfail($id);
-        $next = Ticket::where('id', '>', $ticket->id)->orderBy('id')->first();
-        $previous = Ticket::where('id', '<', $ticket->id)->orderBy('id','desc')->first();
         $TicketAgents = $ticket->user;
         $statuses = Status::all();
         $locations = Location::all()->pluck('location_name','id');
         $tickets =  Ticket::find($id);
         $userGroup = $user->group->first()->id;
+        $activityTickets = Activity::
+        where('subject_type', 'App\Ticket')
+        ->where('subject_id', $id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        // foreach ($activityTickets as $activityTicket) {
+        //
+        //   if (array_key_exists("attributes",$activityTicket->changes()->toArray())){
+        //
+        //     $statusAll =  Status::find(json_encode($activityTicket->changes['attributes']['status_id']));
+        //   }
+        //
+        // }
+
+        // if (array_key_exists("attributes",$statusAll)) {
+        //   // code...
+        //
+        // }
+
+
+        // $tickets->status->id
 
         if ($user->hasRole('admin')) {
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users','next','previous'));
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users','activityTickets','statusAll','statusChangesId'));
       }
       elseif ($user->hasPermissionTo('view group tickets')) {
 
           if ($ticket->group_id == $userGroup) {
-            return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users', 'userGroup','next','previous'));
+            return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users', 'userGroup'));
           } elseif ($ticket->group_id != $userGroup) {
             return redirect('/ticket')->with('danger', 'You do not have access to this ticket!');
           }
@@ -135,7 +157,7 @@ class TicketController extends Controller
     } else {
           foreach ($TicketAgents as $TicketAgent) {
             if ($user->id == $TicketAgent->id) {
-              return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users','next','previous'));
+              return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users'));
             }
               }
 
