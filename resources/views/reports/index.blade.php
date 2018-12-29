@@ -1,4 +1,5 @@
 @extends('layouts.material')
+@section('title', 'Export')
 
 @section('content')
 
@@ -18,7 +19,7 @@
 <div class="card">
 
   <div class="card-body">
-<h4 class="card-title">Reports Generator v0.0.1</h4>
+<h4 class="card-title">Data Generator v0.0.1</h4>
 
       <form method="post" action="{{url('reports/display')}}">
         <div class="row">

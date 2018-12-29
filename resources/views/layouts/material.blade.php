@@ -281,8 +281,8 @@
                             @can('view tickets list')
                               <li><a href="{{ route('ticket.index') }}">Tickets</a></li>
                             @endcan
-                            @can('view report')
-                              <li><a href="{{ url('/reports') }}">Reports</a></li>
+                            @can('export tickets')
+                              <li><a href="{{ url('/reports') }}">Export</a></li>
                               @endcan
                             @role('admin')
                                 {{-- <li><a href="{{ route('ticket.create') }}">New Ticket</a></li> --}}

@@ -127,8 +127,8 @@ Route::get('ticket/removeTicketAgent/{user_id}/{ticket_id}','\App\Http\Controlle
   // Route::get('/ticket/show', 'TicketController@show');
 
 // Reports
-Route::resource('reports','ReportController')->middleware('permission:view report');
-Route::post('reports/display','ReportController@displayReport')->middleware('permission:view report');
+Route::resource('reports','ReportController')->middleware('permission:export tickets');
+Route::post('reports/display','ReportController@displayReport')->middleware('permission:export tickets');
 
 
 //Comments Routes
