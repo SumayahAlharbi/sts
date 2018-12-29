@@ -1,5 +1,5 @@
 @extends('layouts.material')
-
+@section('title', 'Permissions')
 @section('content')
 
 <div class = 'container'>
@@ -42,6 +42,15 @@
 			</tr>
 			@endforeach
 		</tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6">
+                <div class="text-right">
+                    <ul class="pagination flex-wrap"> </ul>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
 	</table>
 </div></div>
 @endsection

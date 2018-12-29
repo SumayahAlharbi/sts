@@ -17,9 +17,7 @@
 
 Auth::routes();
 
-Route::resource('reports','ReportController');
 
-Route::post('reports/display','ReportController@displayReport');
 
 // CAS Login
 Route::get('/cas/login', function(){
@@ -127,6 +125,10 @@ Route::get('ticket/removeTicketAgent/{user_id}/{ticket_id}','\App\Http\Controlle
 
   // Route::post('/ticket/create', 'TicketController@create');
   // Route::get('/ticket/show', 'TicketController@show');
+
+// Reports
+Route::resource('reports','ReportController')->middleware('permission:view report');
+Route::post('reports/display','ReportController@displayReport')->middleware('permission:view report');
 
 
 //Comments Routes
