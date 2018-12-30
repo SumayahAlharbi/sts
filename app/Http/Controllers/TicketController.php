@@ -43,15 +43,20 @@ class TicketController extends Controller
 
         if ($user->hasRole('admin')) {
                 $tickets = Ticket::orderByRaw('created_at DESC')->paginate(10);
+                $ticketsStats = Ticket::orderByRaw('created_at DESC');
             } elseif ($user->hasPermissionTo('view group tickets')) {
-              $tickets = $ticketUserGroup->sortByDesc('created_at');
+              $tickets = $ticketUserGroup->sortByDesc('created_at')->paginate(10);
+              $ticketsStats = $ticketUserGroup->sortByDesc('created_at');
             } else {
                 $tickets = Ticket::whereHas('user', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
-        })->orderByRaw('created_at DESC')->get();
+        })->orderByRaw('created_at DESC')->paginate(10);
+        $ticketsStats = Ticket::whereHas('user', function ($q) use ($userId) {
+        $q->where('user_id', $userId);
+})->orderByRaw('created_at DESC');
 
     }
-        return view('ticket.index', compact('tickets', 'statuses'));
+        return view('ticket.index', compact('tickets', 'statuses','ticketsStats'));
     }
 
     /**

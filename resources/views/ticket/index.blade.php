@@ -25,7 +25,7 @@
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                         <div class="card card-inverse card-info">
                             <div class="box bg-info text-center">
-                                <h1 class="font-light text-white">{{$tickets->count()}}</h1>
+                                <h1 class="font-light text-white">{{$ticketsStats->count()}}</h1>
                                 <h6 class="text-white">Total Tickets</h6>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                         <div class="card card-success card-success">
                             <div class="box text-center">
-                                <h1 class="font-light text-white">{{$tickets->where('status_id','=','1')->count()}}</h1>
+                                <h1 class="font-light text-white">{{$ticketsStats->where('status_id','=','1')->count()}}</h1>
                                 <h6 class="text-white">Completed</h6>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                         <div class="card card-danger card-danger">
                             <div class="box text-center">
-                                <h1 class="font-light text-white">{{$tickets->where('status_id','=','3')->count()}}</h1>
+                                <h1 class="font-light text-white">{{$ticketsStats->where('status_id','=','3')->count()}}</h1>
                                 <h6 class="text-white">Unassigned</h6>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                         <div class="card card-warning card-warning">
                             <div class="box text-center">
-                                <h1 class="font-light text-white">{{$tickets->where('status_id','=','4')->count()}}</h1>
+                                <h1 class="font-light text-white">{{$ticketsStats->where('status_id','=','4')->count()}}</h1>
                                 <h6 class="text-white">Pending</h6>
                             </div>
                         </div>
