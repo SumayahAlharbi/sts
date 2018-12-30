@@ -23,7 +23,8 @@
         "spatie/laravel-activitylog": "^3.1",
         "spatie/laravel-backup": "^5.11",
         "spatie/laravel-permission": "^2.23",
-        "springscs/cas": "^1.0"
+        "springscs/cas": "^1.0",
+        "yajra/laravel-datatables-oracle": "~8.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

@@ -42,7 +42,7 @@ class TicketController extends Controller
         $statuses = Status::all();
 
         if ($user->hasRole('admin')) {
-                $tickets = Ticket::orderByRaw('created_at DESC')->get();
+                $tickets = Ticket::orderByRaw('created_at DESC')->paginate(10);
             } elseif ($user->hasPermissionTo('view group tickets')) {
               $tickets = $ticketUserGroup->sortByDesc('created_at');
             } else {
