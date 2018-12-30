@@ -147,7 +147,7 @@ class TicketController extends Controller
       elseif ($user->hasPermissionTo('view group tickets')) {
 
           if ($ticket->group_id == $userGroup) {
-            return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users', 'userGroup'));
+            return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users', 'userGroup','activityTickets','statusAll','statusChangesId'));
           } elseif ($ticket->group_id != $userGroup) {
             return redirect('/ticket')->with('danger', 'You do not have access to this ticket!');
           }
@@ -157,7 +157,7 @@ class TicketController extends Controller
     } else {
           foreach ($TicketAgents as $TicketAgent) {
             if ($user->id == $TicketAgent->id) {
-              return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users'));
+              return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users','activityTickets','statusAll','statusChangesId'));
             }
               }
 
