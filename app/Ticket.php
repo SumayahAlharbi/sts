@@ -5,15 +5,18 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Laravel\Scout\Searchable;
 
 class Ticket extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use SoftDeletes, LogsActivity, Searchable;
 
     protected static $logAttributes = ['*'];
 
     protected static $logOnlyDirty = true;
-    
+
+     public $asYouType = true;
+
     public function category()
     {
       return $this->belongsTo('App\Category');

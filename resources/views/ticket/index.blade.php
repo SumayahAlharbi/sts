@@ -67,12 +67,12 @@
                   </div>
 
                                                 <div class="col-lg-3 content-right">
-                                                  <form><div class="input-group footable-filtering-search">
+                                                  <form method="get" action="{{ route('ticket.search') }}"><div class="input-group footable-filtering-search">
                                                     <label class="sr-only">Search</label>
                                                     <div class="input-group">
-                                                      <input type="text" id="filter" class="form-control" placeholder="Search">
+                                                      <input type="text" id="filter" name="searchKey" class="form-control" placeholder="Search">
                                                       <div class="input-group-append">
-                                                        <button type="button" class="btn btn-primary">
+                                                        <button type="submit" class="btn btn-primary">
                                                           <span class="fas fa-search"></span></button>
 
                                                               </div>

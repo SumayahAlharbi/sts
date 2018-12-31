@@ -36,7 +36,6 @@ class TicketController extends Controller
         $user = Auth::user();
         $tickets = Ticket::all();
         $userId = $user->id;
-
         $userGroup = $user->group->first()->id;
         $ticketUserGroup = Group::find($userGroup)->ticket;
         $statuses = Status::all();
@@ -318,5 +317,13 @@ class TicketController extends Controller
     }
 
 
+    public function search(Request $request)
+    {
 
-}
+      $findTickets = Ticket::search($request->searchKey)->get();
+
+        return view('ticket.search', compact('findTickets'));
+    }
+
+
+  }

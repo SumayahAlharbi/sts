@@ -49,7 +49,6 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::group(['middleware'=> 'auth'],function(){
 
-
 // Email HTML Viewer
   Route::get('/email', function () {
       $user = App\user::find(1);
@@ -114,6 +113,7 @@ Route::get('ticket/{ticket}/edit', 'TicketController@edit')->name('ticket.edit')
 Route::patch('ticket/{ticket}', 'TicketController@update')->name('ticket.update')->middleware('permission:update ticket');
 Route::delete('ticket/{ticket}', 'TicketController@destroy')->name('ticket.destroy')->middleware('permission:delete ticket');
 Route::get('ticket/ChangeTicketStatus/{status_id}/{ticket_id}','\App\Http\Controllers\TicketController@ChangeTicketStatus')->middleware('permission:change ticket status');
+Route::get('/search', 'TicketController@search')->name('ticket.search');
 
 // assign agent to a ticket
 Route::post('ticket/addTicketAgent','TicketController@addTicketAgent')->middleware('permission:assign ticket');

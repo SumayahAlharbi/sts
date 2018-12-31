@@ -11,6 +11,12 @@ Breadcrumbs::for('ticket.index', function ($trail) {
     $trail->push('Tickets', route('ticket.index'));
 });
 
+// ticket.search
+Breadcrumbs::for('ticket.search', function ($trail) {
+    $trail->parent('ticket.index');
+    $trail->push('Search', route('ticket.search'));
+});
+
 // ticket.create
 Breadcrumbs::for('ticket.create', function ($trail) {
     $trail->parent('ticket.index');
