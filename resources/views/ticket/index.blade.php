@@ -60,31 +60,16 @@
                     <!-- Column -->
                 </div>
                 <div class="row">
-                  <div class="col-lg-9">
+                  <div class="col-lg-12">
                     @can('create ticket')
                       <a class="btn btn-primary" href="{{ route('ticket.create')}}" title="Create New Ticket" role="button"><i class="fa fa-plus-circle"></i> New</a>
                     @endcan
                   </div>
-
-                                                <div class="col-lg-3 content-right">
-                                                  <form method="get" action="{{ route('ticket.search') }}"><div class="input-group footable-filtering-search">
-                                                    <label class="sr-only">Search</label>
-                                                    <div class="input-group">
-                                                      <input type="text" id="filter" name="searchKey" class="form-control" placeholder="Search">
-                                                      <div class="input-group-append">
-                                                        <button type="submit" class="btn btn-primary">
-                                                          <span class="fas fa-search"></span></button>
-
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </form>
-                                                </div>
                 </div>
 
 
 
-              <table class="footable table m-b-0 toggle-circle" data-filter="#filter" data-filter-text-only="true" >
+              <table class="footable table m-b-0 toggle-circle" data-sort="false">
                   <thead>
 
 

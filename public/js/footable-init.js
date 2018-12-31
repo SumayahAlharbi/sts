@@ -21,24 +21,24 @@
 	});
 });
 
-$('.clear-filter').click(function (e) {
-	e.preventDefault();
-	$('.filter-status').val('');
-	$('.footable').trigger('footable_clear_filter');
-});
+// $('.clear-filter').click(function (e) {
+// 	e.preventDefault();
+// 	$('.filter-status').val('');
+// 	$('.footable').trigger('footable_clear_filter');
+// });
 
-$('footable').footable().bind('footable_filtering', function (e) {
-  var selected = $('.filter-status').find(':selected').text();
-  if (selected && selected.length > 0) {
-    e.filter += (e.filter && e.filter.length > 0) ? ' ' + selected : selected;
-    e.clear = !e.filter;
-  }
-});
+// $('footable').footable().bind('footable_filtering', function (e) {
+//   var selected = $('.filter-status').find(':selected').text();
+//   if (selected && selected.length > 0) {
+//     e.filter += (e.filter && e.filter.length > 0) ? ' ' + selected : selected;
+//     e.clear = !e.filter;
+//   }
+// });
 
-$('.filter-status').change(function (e) {
-	e.preventDefault();
-	$('.footable').trigger('footable_filter', {filter: $('#filter').val()});
-});
+// $('.filter-status').change(function (e) {
+// 	e.preventDefault();
+// 	$('.footable').trigger('footable_filter', {filter: $('#filter').val()});
+// });
 
   });
 //

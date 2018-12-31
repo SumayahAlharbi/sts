@@ -49,4 +49,14 @@ class Ticket extends Model
     {
     return $this->morphMany('App\Comment', 'commentable')->whereNull('parent_id');
     }
+    public function toSearchableArray()
+    {
+    $array = $this->toArray();
+
+    $array['status_id'] = $this->status->status_name;
+    $array['location_id'] = $this->location->location_name;
+    $array['category_id'] = $this->category->category_name;
+
+    return $array;
+    }
 }
