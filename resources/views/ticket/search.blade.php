@@ -28,7 +28,7 @@
                                                   <form method="get" action="{{ route('ticket.search') }}"><div class="input-group footable-filtering-search">
                                                     <label class="sr-only">Search</label>
                                                     <div class="input-group">
-                                                      <input type="text" id="filter" name="searchKey" class="form-control" placeholder="Search">
+                                                      <input type="text" name="searchKey" class="form-control" placeholder="Search">
                                                       <div class="input-group-append">
                                                         <button type="submit" class="btn btn-primary">
                                                           <span class="fas fa-search"></span></button>
