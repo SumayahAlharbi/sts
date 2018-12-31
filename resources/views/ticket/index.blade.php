@@ -94,7 +94,7 @@
                           <td>{{ str_limit($ticket->ticket_title, 35)}} <small class="text-muted"> ({{$ticket->comments()->count()}})<br> {{$ticket->created_at->diffForHumans()}}</small></td>
 
                           <td title="{{$ticket->status['status_name']}}">
-                            {{-- @if(auth()->user()->can('change ticket status'))
+                            @if(auth()->user()->can('change ticket status'))
                                <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
                                @elseif ($ticket->status['status_name'] == 'Completed') btn-success
                                @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
@@ -113,7 +113,7 @@
 
 
 
-                          @else --}}
+                          @else
                             <span class="label
                             @if ($ticket->status['status_name'] == 'Unassigned') label-danger
                             @elseif ($ticket->status['status_name'] == 'Completed') label-success
@@ -122,7 +122,7 @@
                             @endif">
                             {{$ticket->status['status_name']}}
                           </span>
-                          {{-- @endif --}}
+                          @endif
                           </td>
                           <td>{{$ticket->category['category_name']}}</td>
                           <td>
