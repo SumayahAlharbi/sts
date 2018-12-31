@@ -320,7 +320,7 @@ class TicketController extends Controller
     public function search(Request $request)
     {
 
-      $findTickets = Ticket::search($request->searchKey)->get();
+      $findTickets = Ticket::search($request->searchKey)->paginate(5);
 
         return view('ticket.search', compact('findTickets'));
     }

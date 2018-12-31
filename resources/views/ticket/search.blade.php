@@ -137,6 +137,7 @@
               <div class="row">
               <div class="col-md-12">
                 {{-- {{ $findTickets->onEachSide(1)->links() }} --}}
+                {{$findTickets->appends(request()->query())->links()}}
               </div>
             </div>
           </div>
