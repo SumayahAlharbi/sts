@@ -41,18 +41,17 @@ class TicketController extends Controller
         $statuses = Status::all();
 
         if ($user->hasRole('admin')) {
-                $tickets = Ticket::orderByRaw('created_at DESC')->paginate(10);
+                $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate(10);
                 $ticketsStats = Ticket::orderByRaw('created_at DESC')->get();
             } elseif ($user->hasPermissionTo('view group tickets')) {
               // $tickets = Ticket::where('group_id', $userGroup)->paginate(5);
-              $tickets = Ticket::orderByRaw('created_at DESC')->paginate(10);
+              $tickets = Ticket::where('group_id', $userGroup)->orderByRaw('created_at DESC')->simplePaginate(10);
               // $ticketsStats = $ticketUserGroup->sortByDesc('created_at')->get();
               $ticketsStats = Ticket::where('group_id', $userGroup)->get();
 
             } else {
                 $tickets = Ticket::whereHas('user', function ($q) use ($userId) {
-                $q->where('user_id', $userId);
-        })->orderByRaw('created_at DESC')->paginate(10);
+                $q->where('user_id', $userId);})->orderByRaw('created_at DESC')->simplePaginate(10);
         $ticketsStats = Ticket::whereHas('user', function ($q) use ($userId) {
         $q->where('user_id', $userId);
 })->orderByRaw('created_at DESC')->get();
@@ -331,16 +330,19 @@ class TicketController extends Controller
 
       if ($user->hasRole('admin')) {
               // $tickets = Ticket::orderByRaw('created_at DESC')->paginate(10);
-              $findTickets = Ticket::search($request->searchKey)->paginate(5);
+              $findTickets = Ticket::search($request->searchKey)->paginate(10);
               return view('ticket.search', compact('findTickets', 'statuses'));
               // $ticketsStats = Ticket::orderByRaw('created_at DESC')->get();
           } elseif ($user->hasPermissionTo('view group tickets')) {
             // $tickets = Ticket::where('group_id', $userGroup)->paginate(5);
-            $findTickets = Ticket::search($request->searchKey)->where('group_id', $userGroup)->paginate(5);
+            $findTickets = Ticket::search($request->searchKey)->where('group_id', $userGroup)->paginate(10);
             return view('ticket.search', compact('findTickets', 'statuses', 'userGroup'));
             // $tickets = Ticket::orderByRaw('created_at DESC')->paginate(10);
             // $ticketsStats = $ticketUserGroup->sortByDesc('created_at')->get();
             // $ticketsStats = Ticket::where('group_id', $userGroup)->get();
+
+            } else {
+          // Help Agent to get search results
 
           }
 
