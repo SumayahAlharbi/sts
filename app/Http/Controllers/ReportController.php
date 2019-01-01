@@ -118,7 +118,7 @@ public function displayReport(Request $request)
         'Sort By' => $sortBy
     ];
 
-      $queryBuilder = Ticket::select(['id', 'ticket_title', 'created_at', 'location_id']) // Do some querying..
+      $queryBuilder = Ticket::select(['id', 'ticket_title', 'created_at', 'location_id', 'created_at', 'status_id', 'category_id']) // Do some querying..
                           ->whereBetween('created_at', [$fromDate, $toDate])
                           ->orderBy($sortBy);
 
@@ -137,7 +137,13 @@ public function displayReport(Request $request)
         'Location' => function($queryBuilder) {
             return $queryBuilder->location->location_name;
           },
-        'created at' => 'created_at'
+        'created at' => 'created_at',
+        'Category' => function($queryBuilder) {
+            return $queryBuilder->category->category_name;
+          },
+        'Status' => function($queryBuilder) {
+            return $queryBuilder->status->status_name;
+          }
     ];
 
     CSVReport::of($title, $meta, $queryBuilder, $columns)
