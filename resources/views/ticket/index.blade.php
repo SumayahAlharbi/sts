@@ -16,6 +16,7 @@
 
 <div class="row">
     <div class="col-12">
+      <h1 class="text-center" id="type"></h1>
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Support Ticket List</h4>
@@ -64,6 +65,7 @@
                     @can('create ticket')
                       <a class="btn btn-primary" href="{{ route('ticket.create')}}" title="Create New Ticket" role="button"><i class="fa fa-plus-circle"></i> New</a>
                     @endcan
+                    <button id="btn" class="btn btn-danger">Ready?</button>
                   </div>
                 </div>
 
@@ -174,5 +176,25 @@
         </div>
     </div>
 </div>
+<script>
+var myText = 'Happy New Year 2019 🎉',
+    i = 0,
+    myBtn = document.getElementById('btn');
+myBtn.onclick = function () {
+
+  'use strict';
+
+  var typeWriter = setInterval(function () {
+    document.getElementById('type').textContent += myText[i];
+    i = i + 1;
+   if ( i > myText.length - 1 ) {
+     clearInterval(typeWriter);
+   }
+ }, 100);
+$('#btn') .hide();
+};
+
+
+</script>
 
 @endsection
