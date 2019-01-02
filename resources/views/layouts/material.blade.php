@@ -30,6 +30,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+@if (App::environment()!='local')
 <!-- Hotjar Tracking Code for sts -->
 <script>
     (function(h,o,t,j,a,r){
@@ -41,6 +42,7 @@
         a.appendChild(r);
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
+@endif
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
