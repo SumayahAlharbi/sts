@@ -17,6 +17,8 @@
     <link href="{{ asset('assets/plugins/footable/css/footable.core.css') }}" rel="stylesheet">
     <!-- Footable CSS -->
     <link href="{{ asset('assets/plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet">
+    <!-- bootstrap-notifications CSS -->
+    <link href="{{ asset('assets/plugins/bootstrap-notifications/bootstrap-notifications.css') }}" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <!-- You can change the theme colors from here -->
@@ -103,13 +105,13 @@
                     <!-- ============================================================== -->
                     <!-- User profile and search -->
                     <!-- ============================================================== -->
-                    {{-- <ul class="navbar-nav my-lg-0">
+                    <ul class="navbar-nav my-lg-0">
                         <!-- ============================================================== -->
                         <!-- Comment -->
                         <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
+                        {{-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-message"></i>
-                                <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                                <div class="notify"> <span id="heartbit" class="heartbit" style="display:none;"></span> <span id="point" class="point" style="display:none;"></span> </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right mailbox scale-up">
                                 <ul>
@@ -125,23 +127,6 @@
                                                     <h5>Luanch Admin</h5> <span class="mail-desc">Just see the my new admin!</span> <span class="time">9:30 AM</span> </div>
                                             </a>
                                             <!-- Message -->
-                                            <a href="#">
-                                                <div class="btn btn-success btn-circle"><i class="ti-calendar"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Event today</h5> <span class="mail-desc">Just a reminder that you have event</span> <span class="time">9:10 AM</span> </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="#">
-                                                <div class="btn btn-info btn-circle"><i class="ti-settings"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Settings</h5> <span class="mail-desc">You can customize this template as you want</span> <span class="time">9:08 AM</span> </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="#">
-                                                <div class="btn btn-primary btn-circle"><i class="ti-user"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span> </div>
-                                            </a>
                                         </div>
                                     </li>
                                     <li>
@@ -473,9 +458,60 @@
 <script src="{{ asset('js/footable-init.js') }}"></script>
 <!--bootstrap-select-->
 <script src="{{ asset('assets/plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
+
+<script src="//js.pusher.com/3.1/pusher.min.js"></script>
 <!-- ============================================================== -->
 <!-- Style switcher -->
 <!-- ============================================================== -->
 {{-- <script src="{{ asset('assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script> --}}
+
+{{-- <script type="text/javascript">
+  var notificationsWrapper   = $('.dropdown-notifications');
+  var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
+  var notificationsCountElem = notificationsToggle.find('i[data-count]');
+  var notificationsCount     = parseInt(notificationsCountElem.data('count'));
+  var notifications          = notificationsWrapper.find('ul.dropdown-menu');
+
+  if (notificationsCount <= 0) {
+    notificationsWrapper.hide();
+  }
+
+  // Enable pusher logging - don't include this in production
+  Pusher.logToConsole = true;
+
+  var pusher = new Pusher('{{env("PUSHER_APP_KEY")}}', {
+    cluster: '{{env("PUSHER_APP_CLUSTER")}}',
+    encrypted: true
+  });
+
+  // Subscribe to the channel we specified in our Laravel Event
+  var channel = pusher.subscribe('ticket-assigned');
+
+  // Bind a function to a Event (the full Laravel class)
+  channel.bind('App\\Events\\TicketAssigned', function(data) {
+    var existingNotifications = notifications.html();
+    var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+    $('.notification-label').addClass('label-warning');
+		$('.message-center').append(
+      '<a href="/ticket/'+data.ticket+'">\
+            <div class="btn btn-danger btn-circle"><i class="fa fa-link"></i></div>\
+            <div class="mail-contnet">\
+            <h5>'+data.title+'</h5> <span class="mail-desc"> '+data.message+'\
+            </span>\
+             <span class="time">9:30 AM</span>\
+              </div>\
+    				</a>\
+      ' );
+    var newNotificationHtml = ``;
+    notifications.html(newNotificationHtml + existingNotifications);
+
+    notificationsCount += 1;
+    notificationsCountElem.attr('data-count', notificationsCount);
+    notificationsWrapper.find('.notif-count').text(notificationsCount);
+    document.getElementById("heartbit").style.display = "block";
+    document.getElementById("point").style.display = "block";
+    // notificationsWrapper.show();
+  });
+</script> --}}
 </body>
 </html>

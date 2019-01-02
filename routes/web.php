@@ -17,7 +17,10 @@
 
 Auth::routes();
 
-
+Route::get('test', function () {
+    event(new App\Events\TicketAssigned('Someone'));
+    return "Event has been sent!";
+});
 
 // CAS Login
 Route::get('/cas/login', function(){
