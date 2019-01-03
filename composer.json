@@ -16,6 +16,7 @@
         "laravelcollective/html": "^5.7",
         "laravolt/avatar": "^2.1",
         "league/csv": "^9.1",
+        "lorisleiva/laravel-deployer": "^0.2.5",
         "orangehill/iseed": "^2.6",
         "pragmarx/version": "^0.2.8",
         "pusher/pusher-php-server": "^3.2",
