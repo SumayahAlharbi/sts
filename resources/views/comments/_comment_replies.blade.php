@@ -14,7 +14,11 @@
 <div class="d-flex flex-row comment-row">
     <div class="p-2"><span>{!! Avatar::create($comment->user->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
     <div class="comment-text w-100">
-        <h5>{{ $comment->user->name }}</h5>
+        <h5>
+          @if( isset( $comment->user->name ))
+          {{ $comment->user->name }}
+          @endif
+          </h5>
         <p class="m-b-5">{{ $comment->body }}</p>
         <div class="comment-footer"> <span class="text-muted pull-right">{{$comment->created_at->diffForHumans() }}</span>
           <span class="action-icons">
