@@ -177,7 +177,12 @@
                                           <div class="d-flex flex-row comment-row">
                                               <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
                                               <div class="comment-text w-100">
-                                                  <h5>{{$activityTicket->causer->name}}</h5>
+                                                  <h5>
+                                                    @if( isset( $activityTicket->causer->name ))
+                                                    {{$activityTicket->causer->name}}
+                                                    @endif
+                                                  </h5>
+
                                                   <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
                                                   <div class="comment-footer">
                                                       <!-- changes -->
