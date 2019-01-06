@@ -20,10 +20,12 @@ use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-//   public function __construct()
+//   private $tickets;
+//   public function __construct(Ticket $tickets)
 // {
 //   // $this->middleware('role:admin')->only('index','show');
-//   $this->middleware('role:admin', ['except' => ['index', 'show', 'ChangeTicketStatus']]);
+//   // $this->middleware('role:admin', ['except' => ['index', 'show', 'ChangeTicketStatus']]);
+//   $this->$tickets = $tickets;
 //
 // }
     /**
@@ -35,7 +37,7 @@ class TicketController extends Controller
     {
 
         $user = Auth::user();
-        $tickets = Ticket::all();
+        // $tickets = Ticket::all();
         $userId = $user->id;
         $userGroup = $user->group->first()->id;
         $ticketUserGroup = Group::find($userGroup)->ticket;
@@ -119,11 +121,11 @@ class TicketController extends Controller
     {
         $user = Auth::user();
         $users = \App\User::all();
-        $ticket =  Ticket::findOrfail($id);
-        $TicketAgents = $ticket->user;
+        $tickets =  Ticket::findOrfail($id);
+        $TicketAgents = $tickets->user;
         $statuses = Status::all();
         $locations = Location::all()->pluck('location_name','id');
-        $tickets =  Ticket::find($id);
+        // $tickets =  Ticket::find($id);
         $userGroup = $user->group->first()->id;
         $activityTickets = Activity::
         where('subject_type', 'App\Ticket')
@@ -149,7 +151,7 @@ class TicketController extends Controller
         // $tickets->status->id
 
         if ($user->hasRole('admin')) {
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'ticket','users','activityTickets','statusAll','statusChangesId'));
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets','statusAll','statusChangesId'));
       }
       elseif ($user->hasPermissionTo('view group tickets')) {
 
@@ -282,8 +284,8 @@ class TicketController extends Controller
 
       $ticket->user()->syncWithoutDetaching($request->user_id);
       $user = User::findorfail($request->user_id);
-      \Mail::to($user)->send(new TicketAgentAssigned($ticket));
-      // \Event::fire(new TicketAssigned($ticket->id));
+      // \Mail::to($user)->send(new TicketAgentAssigned($ticket));
+      event(new App\Events\TicketAssigned('Someone'));
       return back();
     }
     /**
@@ -344,14 +346,8 @@ class TicketController extends Controller
             // $ticketsStats = Ticket::where('group_id', $userGroup)->get();
 
             } else {
+          // Help Agent to get search results
 
-              $matching = Ticket::search($request->searchKey)->where('group_id', $userGroup)
-              ->get()->pluck('id');
-
-              $findTickets = Ticket::whereHas('user', function ($q) use ($userId) {
-              $q->where('user_id', $userId);})->whereIn('id', $matching)->paginate(10);
-
-              return view('ticket.search', compact('findTickets', 'statuses'));
           }
 
     }

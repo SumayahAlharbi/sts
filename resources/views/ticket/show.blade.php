@@ -1,5 +1,5 @@
 @extends('layouts.material')
-@section('title', $ticket->ticket_title)
+@section('title', $tickets->ticket_title)
 <style>
     .display-comment .display-comment {
         margin-left: 40px;
@@ -20,8 +20,8 @@
 
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
       @foreach ($statuses as $status)
-        @if($status != $ticket->status)
-        <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status->status_name}}</a>
+        @if($status != $tickets->status)
+        <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$tickets->id}}'>{{$status->status_name}}</a>
         @endif
       @endforeach
     </div>
@@ -36,15 +36,15 @@
       @can('change ticket status')<button type="button" title="Status" class="btn btn-outline-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-check-square"></i></button>@endcan
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
           @foreach ($statuses as $status)
-            @if($status != $ticket->status)
-            <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status->status_name}}</a>
+            @if($status != $tickets->status)
+            <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$tickets->id}}'>{{$status->status_name}}</a>
             @endif
           @endforeach
         </div>
 
         {{-- status list menu --}}
         @can('delete ticket')
-      <form style="display:inline;" onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
+      <form style="display:inline;" onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $tickets->id)}}" method="post">
         @csrf
         @method('DELETE')
         <button class="btn btn-outline-danger" title="Delete" type="submit"><i class="fas fa-trash-alt"></i></button>
@@ -63,7 +63,7 @@
                 <form action="{{url('ticket/addTicketAgent')}}" method = "post">
 
                   @csrf
-                                        <input type="hidden" name = "ticket_id" value = "{{$ticket->id}}">
+                                        <input type="hidden" name = "ticket_id" value = "{{$tickets->id}}">
 
                                         <div class="form-group col-md-12">
                                           <label for="name">Agent list</label>
@@ -80,7 +80,7 @@
       <div class="form-group">
         <h5>Ticket Assigned to:</h5>
       @foreach($TicketAgents as $TicketAgent)
-        <a class='btn btn-primary' @can('unassign ticket') onclick="return confirm('Do you really want to unassign {{$TicketAgent->name}} ?');" href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$ticket->id}}'@endcan data-activates=''><i class="fas fa-user-times"></i> {{$TicketAgent->name}} </a>
+        <a class='btn btn-primary' @can('unassign ticket') onclick="return confirm('Do you really want to unassign {{$TicketAgent->name}} ?');" href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$tickets->id}}'@endcan data-activates=''><i class="fas fa-user-times"></i> {{$TicketAgent->name}} </a>
       @endforeach
     </div>
     </div>
@@ -114,9 +114,9 @@
                                       <div class="col-md-12">
 
                                         <h3 class="card-title">{{title_case($tickets->ticket_title)}}</h3>
-                                        <h6 class="card-subtitle mb-2 text-muted"><span class="label label-light-inverse"><i class="fas fa-exclamation-circle"></i>  {{$ticket->priority}}</span> <span class="label label-light-inverse"><i class="far fa-building"></i>  {{$tickets->location->location_name}}</span> <span class="label label-light-inverse"><i class="far fa-building"></i> {{$ticket->room_number}}</span> <span class="label label-light-inverse"><i class="fas fa-user-plus"></i> {{$tickets->created_by_user->name}}</span> <span class="label label-light-inverse"><i class="far fa-user"></i>
-                                        @isset($ticket->requested_by_user->name)
-                                          {{$ticket->requested_by_user->name}}
+                                        <h6 class="card-subtitle mb-2 text-muted"><span class="label label-light-inverse"><i class="fas fa-exclamation-circle"></i>  {{$tickets->priority}}</span> <span class="label label-light-inverse"><i class="far fa-building"></i>  {{$tickets->location->location_name}}</span> <span class="label label-light-inverse"><i class="far fa-building"></i> {{$tickets->room_number}}</span> <span class="label label-light-inverse"><i class="fas fa-user-plus"></i> {{$tickets->created_by_user->name}}</span> <span class="label label-light-inverse"><i class="far fa-user"></i>
+                                        @isset($tickets->requested_by_user->name)
+                                          {{$tickets->requested_by_user->name}}
                                         @endisset
                                       </span> <span class="label label-light-inverse"><i class="far fa-clock"></i> {{$tickets->created_at->diffForHumans()}}</span></h6>
 </div>
@@ -133,7 +133,7 @@
                                         @endforeach
 
                                       {{-- <span class="badge badge-warning">{{$tickets->status->status_name}}</span> --}}
-                                      {{-- <span class="badge badge-warning"> {{$ticket->group->group_name}} </span> --}}
+                                      {{-- <span class="badge badge-warning"> {{$tickets->group->group_name}} </span> --}}
                                     </div>
 
 
