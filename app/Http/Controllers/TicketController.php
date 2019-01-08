@@ -351,7 +351,11 @@ class TicketController extends Controller
             // $ticketsStats = Ticket::where('group_id', $userGroup)->get();
 
             } else {
-          // Help Agent to get search results
+              $matching = Ticket::search($request->searchKey)->where('group_id', $userGroup)
+                  ->get()->pluck('id');
+                  $findTickets = Ticket::whereHas('user', function ($q) use ($userId) {
+                  $q->where('user_id', $userId);})->whereIn('id', $matching)->paginate(10);
+                  return view('ticket.search', compact('findTickets', 'statuses'));
 
           }
 
