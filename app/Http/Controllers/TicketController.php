@@ -13,7 +13,7 @@ use App\Mail\agent;
 use App\Mail\TicketAgentAssigned;
 use App\Mail\RequestedBy;
 use Spatie\Activitylog\Models\Activity;
-use App\Events\TicketAssigned;
+// use App\Events\TicketAssigned;
 
 
 use Illuminate\Http\Request;
