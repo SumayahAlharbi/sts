@@ -114,11 +114,33 @@
                                       <div class="col-md-12">
 
                                         <h3 class="card-title">{{title_case($tickets->ticket_title)}}</h3>
-                                        <h6 class="card-subtitle mb-2 text-muted"><span class="label label-light-inverse"><i class="fas fa-exclamation-circle"></i>  {{$tickets->priority}}</span> <span class="label label-light-inverse"><i class="far fa-building"></i>  {{$tickets->location->location_name}}</span> <span class="label label-light-inverse"><i class="far fa-building"></i> {{$tickets->room_number}}</span> <span class="label label-light-inverse"><i class="fas fa-user-plus"></i> {{$tickets->created_by_user->name}}</span> <span class="label label-light-inverse"><i class="far fa-user"></i>
-                                        @isset($tickets->requested_by_user->name)
-                                          {{$tickets->requested_by_user->name}}
-                                        @endisset
-                                      </span> <span class="label label-light-inverse"><i class="far fa-clock"></i> {{$tickets->created_at->diffForHumans()}}</span></h6>
+                                        <h6 class="card-subtitle mb-2 text-muted">
+                                          <span class="label label-light-inverse">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            {{$tickets->priority}}
+                                          </span>
+                                          <span class="label label-light-inverse">
+                                            <i class="far fa-building"></i>
+                                            {{$tickets->location->location_name}}
+                                          </span> <span class="label label-light-inverse">
+                                            <i class="far fa-building"></i>
+                                            {{$tickets->room_number}}</span>
+                                            <span class="label label-light-inverse">
+                                              <i class="fas fa-user-plus"></i>
+                                              @isset($tickets->created_by_user->name)
+                                                {{$tickets->created_by_user->name}}
+                                              @endisset
+                                            </span>
+                                              <span class="label label-light-inverse">
+                                                <i class="far fa-user"></i>
+                                              @isset($tickets->requested_by_user->name)
+                                                {{$tickets->requested_by_user->name}}
+                                              @endisset
+                                              </span>
+                                              <span class="label label-light-inverse"><i class="far fa-clock"></i>
+                                                {{$tickets->created_at->diffForHumans()}}
+                                              </span>
+                                            </h6>
 </div>
 
                                   </div>
