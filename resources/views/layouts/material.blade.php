@@ -100,7 +100,7 @@
                         <li class="nav-item search-box">
                             <a class="nav-link text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
                             <form class="app-search" action="{{ route('ticket.search') }}">
-                                <input type="text" class="form-control" placeholder="Search & enter" name="searchKey"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
+                                <input type="text" class="form-control" placeholder="Search & enter" autofocus="autofocus" name="searchKey"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
                         </li>
 
                     </ul>
