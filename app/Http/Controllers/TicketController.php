@@ -9,6 +9,7 @@ use App\Status;
 use App\Group;
 use App\User;
 use Auth;
+use App;
 use App\Mail\agent;
 use App\Mail\TicketAgentAssigned;
 use App\Mail\RequestedBy;
