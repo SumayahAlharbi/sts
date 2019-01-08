@@ -284,8 +284,12 @@ class TicketController extends Controller
 
       $ticket->user()->syncWithoutDetaching($request->user_id);
       $user = User::findorfail($request->user_id);
-      // \Mail::to($user)->send(new TicketAgentAssigned($ticket));
-      event(new App\Events\TicketAssigned('Someone'));
+      if (App::environment('production')) {
+          // The environment is production
+          \Mail::to($user)->send(new TicketAgentAssigned($ticket));
+      }
+
+      // event(new App\Events\TicketAssigned('Someone'));
       return back();
     }
     /**
