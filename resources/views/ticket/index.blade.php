@@ -65,7 +65,7 @@
                     @can('create ticket')
                       <a class="btn btn-primary" href="{{ route('ticket.create')}}" title="Create New Ticket" role="button"><i class="fa fa-plus-circle"></i> New</a>
                     @endcan
-                    <button id="btn" class="btn btn-danger">Ready?</button>
+                    {{-- <button id="btn" class="btn btn-danger">Ready?</button> --}}
                   </div>
                 </div>
 
@@ -176,7 +176,7 @@
         </div>
     </div>
 </div>
-<script>
+{{-- <script>
 var myText = 'Happy New Year 2019 🎉',
     i = 0,
     myBtn = document.getElementById('btn');
@@ -195,6 +195,6 @@ $('#btn') .hide();
 };
 
 
-</script>
+</script> --}}
 
 @endsection
