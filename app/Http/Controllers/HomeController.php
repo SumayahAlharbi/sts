@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Ticket;
+use App\User;
+use Spatie\Activitylog\Models\Activity;
+
 
 class HomeController extends Controller
 {
@@ -24,7 +27,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+      $tickets = Ticket::paginate(5);
+      $ticketsStats = Ticket::orderByRaw('created_at DESC')->get();
+      $users = User::all();
+      $activityTickets = Activity::where('subject_type', 'App\Ticket')->paginate(15);
+      return view('home', compact('tickets', 'users', 'ticketsStats', 'activityTickets'));
     }
 
 }

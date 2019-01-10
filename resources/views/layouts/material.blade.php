@@ -265,6 +265,7 @@
                         <li>
                             {{-- <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Tickets </span></a> --}}
                             {{-- <ul aria-expanded="false" class="collapse"> --}}
+                            <li><a href="{{ route('home') }}">Dashboard</a></li>
                             @can('view tickets list')
                               <li><a href="{{ route('ticket.index') }}">Tickets</a></li>
                             @endcan
