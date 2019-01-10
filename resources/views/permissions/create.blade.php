@@ -1,5 +1,5 @@
 @extends('layouts.material')
-
+@section('title', 'Create Permission')
 @section('content')
 
   @if ($errors->any())

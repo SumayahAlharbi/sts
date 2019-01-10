@@ -1,5 +1,5 @@
 @extends('layouts.material')
-
+@section('title', 'Edit: ' . $location->location_name)
 @section('content')
 
 <div class = 'container'>

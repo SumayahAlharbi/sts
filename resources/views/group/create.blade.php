@@ -1,5 +1,5 @@
 @extends('layouts.material')
-
+@section('title', 'Create Group')
 @section('content')
 <style>
   .uper {

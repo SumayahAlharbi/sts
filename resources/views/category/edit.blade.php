@@ -1,5 +1,5 @@
 @extends('layouts.material')
-
+@section('title', 'Edit: ' . $category->category_name)
 @section('content')
 
 <div class = 'container'>

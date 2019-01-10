@@ -1,5 +1,5 @@
 @extends('layouts.material')
-
+@section('title', 'Edit: ' . $permissions->name)
 @section('content')
 
 <div class = 'container'>

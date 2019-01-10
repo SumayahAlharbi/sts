@@ -1,5 +1,5 @@
 @extends('layouts.auth')
-
+@section('title', 'Login')
 @section('content')
 
   <div class="login-register" style="background-image:url({{ url('assets/images/background/login-register-2.jpg') }});">
