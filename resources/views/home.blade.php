@@ -14,7 +14,7 @@
                                     <div class="round round-lg align-self-center round-info"><i class="fab fa-stack-overflow"></i></div>
                                     <div class="m-l-10 align-self-center">
                                         <h3 class="m-b-0 font-light text-white">{{$ticketsStats->count()}}</h3>
-                                        <h5 class="text-white m-b-0">Total Tickets</h5></div>
+                                        <a href="{{url('/ticket')}}"><h5 class="text-white m-b-0">Total Tickets</h5></div></a>
                                 </div>
                             </div>
                         </div>
@@ -28,7 +28,7 @@
                                     <div class="round round-lg align-self-center round-warning"><i class="far fa-clock"></i></div>
                                     <div class="m-l-10 align-self-center">
                                         <h3 class="m-b-0 font-lgiht text-white">{{$ticketsStats->where('status_id','=','4')->count()}}</h3>
-                                        <h5 class="m-b-0 text-white">Pending</h5></div>
+                                        <a href="{{url('/search?searchKey=Pending')}}"><h5 class="m-b-0 text-white">Pending</h5></div></a>
                                 </div>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                                     <div class="round round-lg align-self-center round-success"><i class="fas fa-clipboard-check"></i></div>
                                     <div class="m-l-10 align-self-center">
                                         <h3 class="m-b-0 font-lgiht text-white">{{$ticketsStats->where('status_id','=','1')->count()}}</h3>
-                                        <h5 class="text-white m-b-0">Completed</h5></div>
+                                        <a href="{{url('/search?searchKey=Completed')}}"><h5 class="text-white m-b-0">Completed</h5></div></a>
                                 </div>
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                                     <div class="round round-lg align-self-center round-danger"><i class="fas fa-user-times"></i></div>
                                     <div class="m-l-10 align-self-center">
                                         <h3 class="text-white m-b-0 font-lgiht">{{$ticketsStats->where('status_id','=','3')->count()}}</h3>
-                                        <h5 class="text-white m-b-0">Unassigned</h5></div>
+                                        <a href="{{url('/search?searchKey=Unassigned')}}"><h5 class="text-white m-b-0">Unassigned</h5></div></a>
                                 </div>
                             </div>
                         </div>
