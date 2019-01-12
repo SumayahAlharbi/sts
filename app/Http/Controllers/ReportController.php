@@ -13,6 +13,7 @@ use App\Location;
 
 class ReportController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -20,6 +21,8 @@ class ReportController extends Controller
      */
     public function index()
     {
+    
+
         $agentUsers = User::whereHas('roles', function ($query) {
         $query->where('name', '=', 'agent');
         })->get();
@@ -97,6 +100,7 @@ class ReportController extends Controller
 
 public function displayReport(Request $request)
 {
+    app('debugbar')->disable();
     $fromDate = Carbon::parse($request->input('from_date'))->startOfDay();
     $toDate = Carbon::parse($request->input('to_date'))->endOfDay();
     $sortBy = $request->input('sort_by');

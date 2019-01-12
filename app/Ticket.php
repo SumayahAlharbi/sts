@@ -59,4 +59,11 @@ class Ticket extends Model
 
     return $array;
     }
+
+    public static function boot()
+    {
+      parent::boot();
+
+      static::addGlobalScope(new Scopes\GlobalScope);
+    }
 }
