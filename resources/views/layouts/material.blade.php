@@ -462,7 +462,7 @@
 <!--bootstrap-select-->
 <script src="{{ asset('assets/plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
 
-<script src="//js.pusher.com/3.1/pusher.min.js"></script>
+{{-- <script src="//js.pusher.com/3.1/pusher.min.js"></script> --}}
 <!-- ============================================================== -->
 <!-- Style switcher -->
 <!-- ============================================================== -->

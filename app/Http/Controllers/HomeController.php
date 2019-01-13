@@ -35,9 +35,7 @@ class HomeController extends Controller
 
       $tickets = Ticket::paginate(5);
       $ticketsStats = Ticket::all();
-      // $users = User::take(5)->get();
       $users = User::withCount('ticket')->take(5)->orderBy('ticket_count', 'desc')->get();
-
       $activityTickets = Activity::where('subject_type', 'App\Ticket')->orderBy('id', 'desc')->limit(5)->get();
 
 
