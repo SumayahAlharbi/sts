@@ -98,7 +98,7 @@ class TicketController extends Controller
     public function show($id, Request $request)
     {
         $user = Auth::user();
-        $users = \App\User::all();
+        $users = User::all();
         $tickets =  Ticket::findOrfail($id);
         $TicketAgents = $tickets->user;
         $statuses = Status::all();
@@ -140,8 +140,8 @@ class TicketController extends Controller
     {
       $user = Auth::user();
       $groups = $user->group;
-      $ticket = Ticket::find($id);
-      $users = \App\User::all();
+      $ticket = Ticket::findOrfail($id);
+      $users = User::all();
       $TicketAgents = $ticket->user;
       $locations = Location::all()->pluck('location_name','id');
       $categories = Category::all()->pluck('category_name','id');
