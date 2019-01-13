@@ -81,7 +81,6 @@
                       <tbody>
                         @foreach($activityTickets as $activitylog)
                         <tr>
-                            <td>{{$activitylog->id}}</td>
                             <td>
                               <span class="label label-light-inverse">{{$activitylog->causer->name}}</span>
                               <span class="label label-light-info">{{$activitylog->description}}</span>
@@ -119,7 +118,7 @@
                             </td>
                             <td><a href="{{url('/users')}}/{{$user->id}}/edit">{{$user->name}}</a></td>
                             <td align="right"><span class="label label-light-info">
-                              {{$user->ticket->count()}}
+                              {{$user->ticket_count}}
                             </span>
                             </td>
                         </tr>
