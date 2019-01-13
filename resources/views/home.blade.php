@@ -1,7 +1,6 @@
 @extends('layouts.material')
 @section('title', 'Dashboard')
 @section('content')
-<div class="container">
 
     <!-- Start Page Content -->
     <!-- ============================================================== -->
@@ -135,5 +134,4 @@
     <!-- End PAge Content -->
     <!-- ============================================================== -->
 
-</div>
 @endsection
