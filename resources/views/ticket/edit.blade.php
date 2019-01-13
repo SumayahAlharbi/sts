@@ -19,37 +19,6 @@
       </div><br />
     @endif
 
-    @can('assign ticket')
-    <div class="form-group">
-    <h5>Assigne an agent to this ticket</h5>
-    </div>
-
-      <form action="{{url('ticket/addTicketAgent')}}" method = "post">
-
-        @csrf
-                              <input type="hidden" name = "ticket_id" value = "{{$ticket->id}}">
-                              <div class = 'row'>
-                              <div class="form-group col-md-6">
-                                  <select name="user_id" id="" class = "form-control">
-                                      @foreach($users as $user)
-                                      <option value="{{$user->id}}">{{$user->name}}</option>
-                                      @endforeach
-                                  </select>
-                              </div>
-                              <div class="form-group col-md-6">
-                              <button class='btn btn-primary'>Assign</button>
-                              </div>
-                          </form>
-                          </div>
-                        @endcan
-
-                          <!-- unassign Users from Ticket -->
-                  <div class="form-group">
-                    <h5>Ticket Assigned to:</h5>
-                  @foreach($TicketAgents as $TicketAgent)
-                    <a class='btn btn-primary' @can('unassign ticket') href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$ticket->id}}'@endcan data-activates=''><i class="fas fa-minus-circle"></i> {{$TicketAgent->name}}  @can('unassign ticket')<i class="icon ion-md-close"></i>@endcan </a>
-                  @endforeach
-                </div>
 
       <form method="post" action="{{ route('ticket.update', $ticket->id) }}">
         @method('PATCH')
