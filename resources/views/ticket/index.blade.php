@@ -24,11 +24,123 @@
                 <div class="row">
                   <div class="col-lg-12">
                     @can('create ticket')
-                      <a class="btn btn-primary" href="{{ route('ticket.create')}}" title="Create New Ticket" role="button"><i class="fa fa-plus-circle"></i> New</a>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreateTicketModal" data-whatever="@create" title="Create New Ticket" ><i class="fa fa-plus-circle"></i> New</button>
                     @endcan
+
+                    {{-- @can('create ticket')
+                      <a class="btn btn-primary" href="{{ route('ticket.create')}}" title="Create New Ticket" role="button"><i class="fa fa-plus-circle"></i> New</a>
+                    @endcan --}}
                     {{-- <button id="btn" class="btn btn-danger">Ready?</button> --}}
                   </div>
                 </div>
+
+                <div class="modal fade" id="CreateTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="exampleModalLabel1">+ New Ticket</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+
+                                @if ($errors->any())
+                                  <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                          <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                  </div><br />
+                                @endif
+                                  <form method="post" action="{{ route('ticket.store') }}">
+
+                                      <div class="form-group">
+                                          @csrf
+                                          <label for="name">Ticket Title</label>
+                                          <input type="text" class="form-control" name="ticket_title" autofocus required/>
+                                      </div>
+
+                                      <div class="form-group">
+                                        <label class="control-label">Priority</label>
+                                        <select class="form-control custom-select" name="priority" data-placeholder="Choose a Priority Level">
+                                              <option value="Low">Low</option>
+                                              <option value="Medium">Medium</option>
+                                              <option value="High">High</option>
+                                              <option value="Critical">Critical</option>
+                                        </select>
+
+                                    </div>
+                                      <div class="form-group">
+                                          <label for="ticket_content">Ticket Content</label>
+                                          <textarea name="ticket_content" class="form-control" id="editor" rows="3" required></textarea>
+                                      </div>
+
+
+                                      <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Category</label>
+                                        <select class="form-control" name="category_id" id="exampleFormControlSelect1">
+                                          @foreach ($categories as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                          @endforeach
+                                        </select>
+                                      </div>
+
+
+                                      <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Location</label>
+                                        <select class="form-control" name="location_id" id="exampleFormControlSelect1">
+                                          @foreach ($locations as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                          @endforeach
+                                        </select>
+                                      </div>
+
+                                    <div class="form-group">
+                                      <label for="name">Room Number</label>
+                                      <input type="text" class="form-control" name="room_number"/>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                      <label for="exampleFormControlSelect1">Group</label>
+                                      <select required class="form-control" name="group_id" id="exampleFormControlSelect1">
+                                        @foreach ($groups as $group)
+                                          <option value="{{$group->id}}">{{$group->group_name}}</option>
+                                        @endforeach
+                                      </select>
+                                    </div>
+
+
+
+
+                              <div class="form-group" required>
+                                <label for="exampleFormControlSelect1">Requested by</label>
+                              <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true" required>
+                                <option selected value> -- Who requested this ticket? -- </option>
+                                @foreach ($users as $key => $value)
+                                  @if ($key == $created_by->id)
+                                  <option value="{{$key}}">(Current) {{$value}}</option>
+                                  @else
+                                  <option value="{{$key}}">{{$value}}</option>
+                                  @endif
+                                @endforeach
+                              </select>
+                            </div>
+
+
+
+
+                                      <div class="form-group">
+                                          <input type="text" class="form-control" name="created_by" value="{{$created_by->id}}" hidden />
+                                      </div>
+                                      <button type="submit" class="btn btn-block btn-lg btn-primary col-md-12">Create</button>
+                                  </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal -->
 
 
 

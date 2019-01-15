@@ -38,7 +38,12 @@ class TicketController extends Controller
     {
         $statuses = Status::all();
         $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate(10);
-        return view('ticket.index', compact('tickets', 'statuses'));
+        $categories = Category::all()->pluck('category_name','id');
+        $locations = Location::all()->pluck('location_name','id');
+        $users = User::all()->pluck('name','id');
+        $created_by = Auth::user();
+        $groups = $created_by->group;
+        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups'));
     }
 
     /**
