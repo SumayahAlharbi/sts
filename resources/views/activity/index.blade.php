@@ -33,7 +33,7 @@
             <td>
               <span class="label label-light-inverse">{{$activitylog->causer->name}}</span>
               <span class="label label-light-info">{{$activitylog->description}}</span>
-              <a href="{{ route('ticket.show',$activitylog->subject->id)}}">{{ str_limit($activitylog->subject->ticket_title, 35)}}</a>
+              <a href="{{ route('ticket.show',$activitylog->subject->id)}}" title="{{$ticket->ticket_title}}">{{ str_limit($activitylog->subject->ticket_title, 35)}}</a>
               <small class="text-muted">{{$activitylog->created_at->diffForHumans()}}</small>
             </td>
         </tr>
