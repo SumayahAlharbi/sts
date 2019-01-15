@@ -19,17 +19,19 @@ class GlobalScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-      $userGroup = Auth::user()->group->first()->id;
+      $userGroups = Auth::user()->group;
+        foreach ($userGroups as $userGroup) {
+          $userGroupIDs[] =  $userGroup->id;
+        };
       if (Auth::user()->hasRole('admin')) {
         $builder;
       }
       elseif (Auth::user()->hasPermissionTo('view group tickets')) {
-
-     $builder->where('group_id', $userGroup);
+     $builder->whereIn('group_id', $userGroupIDs);
    } else {
      $userId = Auth::user()->id;
     $builder->whereHas('user', function ($q) use ($userId) {
-    $q->where('user_id', $userId);})->where('group_id', $userGroup);
+    $q->where('user_id', $userId);})->whereIn('group_id', $userGroupIDs);
    }
   }
 }

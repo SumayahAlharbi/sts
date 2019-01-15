@@ -84,7 +84,7 @@
                               <span class="label label-light-inverse">{{$activitylog->causer->name}}</span>
                               <span class="label label-light-info">{{$activitylog->description}}</span>
                               @isset($activitylog->subject->id)
-                                <a href="{{ route('ticket.show',$activitylog->subject->id)}}">{{ str_limit($activitylog->subject->ticket_title, 35)}}</a>
+                                <a href="{{ route('ticket.show',$activitylog->subject->id)}}" title="{{$activitylog->subject->ticket_title}}">{{ str_limit($activitylog->subject->ticket_title, 35)}}</a>
                               @endisset
                               <small class="text-muted">{{$activitylog->created_at->diffForHumans()}}</small>
                             </td>
