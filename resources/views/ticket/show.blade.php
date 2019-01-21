@@ -51,6 +51,14 @@
       </form>
     @endcan
 
+    @if (isset($previous))
+  <a class="btn btn-outline-secondary" href="{{ route('ticket.show',$previous->id)}}" title="Previous" role="button"><i class="fas fa-chevron-left"></i></a>
+@endif
+
+@if (isset($next))
+  <a class="btn btn-outline-secondary" href="{{ route('ticket.show',$next->id)}}" title="Next" role="button"><i class="fas fa-chevron-right"></i></a>
+@endif
+
   </div>
   <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
       <div class="modal-dialog" role="document">

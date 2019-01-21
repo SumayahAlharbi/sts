@@ -109,6 +109,9 @@ class TicketController extends Controller
         $statuses = Status::all();
         $locations = Location::all()->pluck('location_name','id');
 
+        $next = Ticket::where('id', '>', $tickets->id)->orderBy('id')->first();
+        $previous = Ticket::where('id', '<', $tickets->id)->orderBy('id','desc')->first();
+
         $activityTickets = Activity::
         where('subject_type', 'App\Ticket')
         ->where('subject_id', $id)
@@ -129,7 +132,7 @@ class TicketController extends Controller
         //
         // }
 
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets','statusAll','statusChangesId'));
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets','statusAll','statusChangesId','next','previous'));
 
         }
 
