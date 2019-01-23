@@ -47,7 +47,6 @@ return [
         // Right before we start deploying.
         'start' => [
             //
-            'artisan down --message="We are updating the application now for a better experience.. please try again later" --allow=176.44.207.224 --allow=128.234.62.76',
         ],
 
         // Code and composer vendors are ready but nothing is built.
@@ -72,7 +71,6 @@ return [
         // Deployment succeeded.
         'success' => [
             //
-            'artisan up',
         ],
 
         // Deployment failed.
