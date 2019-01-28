@@ -64,7 +64,7 @@
                 </div>
         <!-- Column -->
         <!-- Row -->
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-lg-8 col-md-7">
           <div class="card earning-widget">
               <div class="card-header">
@@ -94,9 +94,9 @@
                   </table>
               </div>
           </div>
-          </div>
+          </div> --}}
         <!-- Column -->
-        <div class="col-lg-4 col-md-4">
+        {{-- <div class="col-lg-4 col-md-4">
         <div class="card earning-widget">
             <div class="card-header">
                 <div class="card-actions">
@@ -113,7 +113,7 @@
                         <tr>
                             <td style="width:40px">
                               {{-- <img src="../assets/images/users/1.jpg" width="50" class="img-circle" alt="logo"> --}}
-                              {!! Avatar::create($user->name)->setFontSize(14)->setDimension(50, 50)->toSvg(); !!}
+                              {{-- {!! Avatar::create($user->name)->setFontSize(14)->setDimension(50, 50)->toSvg(); !!}
                             </td>
                             <td><a href="{{url('/users')}}/{{$user->id}}/edit">{{$user->name}}</a></td>
                             <td align="right"><span class="label label-light-info">
@@ -126,9 +126,9 @@
                 </table>
             </div>
         </div>
-        </div>
+        </div> --}} 
         <!-- Column -->
-    </div>
+    {{-- </div> --}}
     <!-- Row -->
     <!-- ============================================================== -->
     <!-- End PAge Content -->
