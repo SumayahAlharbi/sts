@@ -107,7 +107,7 @@ return [
     */
 
     'hosts' => [
-        '68.183.60.58' => [
+        'sts.ksauhs.com' => [
             'deploy_path' => '/var/www/sts',
             'stage' => 'production',
             'user' => 'root',
