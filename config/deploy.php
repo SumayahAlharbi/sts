@@ -107,12 +107,12 @@ return [
     */
 
     'hosts' => [
-        'sts.ksauhs.com' => [
+        '68.183.60.58' => [
             'deploy_path' => '/var/www/sts',
             'stage' => 'production',
             'user' => 'root',
         ],
-        '68.183.60.58' => [
+        'staging.ksauhs.com' => [
             'deploy_path' => '/var/www/staging',
             'stage' => 'staging',
             'user' => 'root',
