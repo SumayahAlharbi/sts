@@ -106,18 +106,36 @@ return [
     |
     */
 
+    // 'hosts' => [
+    //     '68.183.60.58' => [
+    //         'deploy_path' => '/var/www/sts',
+    //         'stage' => 'production',
+    //         'user' => 'root',
+    //     ],
+    //     '68.183.60.58' => [
+    //         'deploy_path' => '/var/www/staging',
+    //         'stage' => 'staging',
+    //         'user' => 'root',
+    //     ],
+    // ],
+
     'hosts' => [
-        '68.183.60.58' => [
-            'deploy_path' => '/var/www/sts',
-            'stage' => 'production',
-            'user' => 'root',
-        ],
-        '68.183.60.58' => [
-            'deploy_path' => '/var/www/staging',
-            'stage' => 'staging',
-            'user' => 'root',
-        ],
+    // Your hostname can be a domain or an IP address.
+    '68.183.60.58' => [
+
+        // The deploy path. Where the code resides in your host.
+        'deploy_path' => '/var/www/staging',
+
+        // (Optional) Who should Deployer connect as during deployment.
+        'user' => 'root',
+
+        // (Optional) The stage of your host.
+        // Can be useful to distinguish a production server and a staging server.
+        'stage' => 'staging',
     ],
+
+    // You can set up as many hosts as you want.
+],
 
     /*
     |--------------------------------------------------------------------------
