@@ -167,7 +167,7 @@ return [
         App\Providers\DropboxServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
-
+        Barryvdh\Debugbar\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -230,6 +230,7 @@ return [
         'PdfReport' => Jimmyjs\ReportGenerator\Facades\PdfReportFacade::class,
         'ExcelReport' => Jimmyjs\ReportGenerator\Facades\ExcelReportFacade::class,
         'CSVReport' => Jimmyjs\ReportGenerator\Facades\CSVReportFacade::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 
