@@ -112,7 +112,7 @@ return [
             'stage' => 'production',
             'user' => 'root',
         ],
-        'staging.ksauhs.com' => [
+        '68.183.60.58' => [
             'deploy_path' => '/var/www/staging',
             'stage' => 'staging',
             'user' => 'root',
