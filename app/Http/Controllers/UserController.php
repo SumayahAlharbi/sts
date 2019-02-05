@@ -67,6 +67,20 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \App\Users  $users
+     * @return \Illuminate\Http\Response
+     */
+    public function showUserProfile()
+    {
+        $user = Auth::user();
+        $userGroups = $user->group;
+        return view('profile.index', compact('user'));
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
      * @param    \Illuminate\Http\Request  $request
      * @param    int  $id
      * @return  \Illuminate\Http\Response
