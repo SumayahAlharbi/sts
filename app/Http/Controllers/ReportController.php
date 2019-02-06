@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Ticket;
 use App\User;
 use App\Location;
+use App\Debugbar;
 
 class ReportController extends Controller
 {
@@ -21,7 +22,7 @@ class ReportController extends Controller
      */
     public function index()
     {
-    
+
 
         $agentUsers = User::whereHas('roles', function ($query) {
         $query->where('name', '=', 'agent');
