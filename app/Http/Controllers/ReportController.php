@@ -101,7 +101,7 @@ class ReportController extends Controller
 
 public function displayReport(Request $request)
 {
-    app('debugbar')->disable();
+    //app('debugbar')->disable();
     $fromDate = Carbon::parse($request->input('from_date'))->startOfDay();
     $toDate = Carbon::parse($request->input('to_date'))->endOfDay();
     $sortBy = $request->input('sort_by');
