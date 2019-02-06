@@ -10,7 +10,6 @@ use Carbon\Carbon;
 use App\Ticket;
 use App\User;
 use App\Location;
-use App\Debugbar;
 
 class ReportController extends Controller
 {
