@@ -21,7 +21,7 @@
     </div><br />
   @endif
 
-  <table class="table table-striped">
+  <table class="table">
     <thead>
         <tr>
           <td>User</td>
@@ -94,12 +94,17 @@
       <tr>
           <td colspan="6">
               <div class="text-right">
-                  <ul> {{ $users->links() }} </ul>
+                  <ul class="pagination pagination-centered hide-if-no-paging"> </ul>
               </div>
           </td>
       </tr>
   </tfoot>
   </table>
+  <div class="row">
+    <div class="col-md-12">
+{{ $users->onEachSide(1)->links() }}
+  </div>
+  </div>
 
 </div>
 {{-- {!! $users->render() !!} --}}
