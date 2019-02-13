@@ -165,8 +165,18 @@
                     @foreach($tickets as $ticket)
                       <tr>
                           <td>{{$ticket->id}}</td>
-                          <td><a href="{{ route('ticket.show',$ticket->id)}}" title="{{$ticket->ticket_title}}"> {{ str_limit($ticket->ticket_title, 35)}}</a> <small class="text-muted"> ({{$ticket->comments()->count()}})<br> {{$ticket->created_at->diffForHumans()}}</small></td>
-                          <td>{{ str_limit($ticket->ticket_title, 35)}} <small class="text-muted"> ({{$ticket->comments()->count()}})<br> {{$ticket->created_at->diffForHumans()}}</small></td>
+                          <td><a href="{{ route('ticket.show',$ticket->id)}}" title="{{$ticket->ticket_title}}"> {{ str_limit($ticket->ticket_title, 35)}}</a>
+                            @if ($ticket->comments()->count() != 0)
+                              <span class="badge badge-pill badge-info"> {{$ticket->comments()->count()}}</span>
+                            @endif
+                            <br>
+                            <small class="text-muted"> {{ $ticket->created_at->diffForHumans() }} </small></td>
+
+                          <td>{{ str_limit($ticket->ticket_title, 35)}}
+                            @if ($ticket->comments()->count() != 0)
+                              <span class="badge badge-pill badge-info"> {{$ticket->comments()->count()}}</span>
+                            @endif
+                            <br> {{$ticket->created_at->diffForHumans()}}</td>
 
                           <td title="{{$ticket->status['status_name']}}">
                             @if(auth()->user()->can('change ticket status'))
