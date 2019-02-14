@@ -53,7 +53,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::group(['middleware'=> 'auth'],function(){
 
 // Show User Profile
-  Route::get('/profile', '\App\Http\Controllers\UserController@showUserProfile')
+  Route::get('/profile/{id}', '\App\Http\Controllers\UserController@showUserProfile')
   ->name('profile.show');
 
 // Email HTML Viewer
