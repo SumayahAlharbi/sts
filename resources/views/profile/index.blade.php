@@ -12,6 +12,13 @@
             <h4 class="card-title m-t-10">{{$user->name}}</h4>
             <h6 class="card-subtitle">{{$user->email}}</h6>
             <div class="row text-center justify-content-md-center">
+              @if(count($user->group) > 0)
+              @foreach($user->group as $group)
+              <span class="label label-light-inverse">{{$group->group_name}}</span>
+              @endforeach
+              @endif
+            </div>
+            <div class="row text-center justify-content-md-center m-t-5">
               <i class="fab fa-stack-overflow"> {{count($assigned_tickets)}}</i>
             </div>
           </center>
@@ -24,7 +31,6 @@
         <ul class="nav nav-tabs profile-tab" role="tablist">
           <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#tickets" role="tab">Tickets</a> </li>
           <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#activity" role="tab">Activity</a> </li>
-          <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#groups" role="tab">Groups</a> </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -146,16 +152,6 @@
               </tbody>
             </table>
 
-          </div>
-        </div>
-
-        <div class="tab-pane" id="groups" role="tabpanel">
-          <div class="card-body">
-            @if(count($user->group) > 0)
-            @foreach($user->group as $group)
-            <span class="label label-light-inverse">{{$group->group_name}}</span>
-            @endforeach
-            @endif
           </div>
         </div>
 
