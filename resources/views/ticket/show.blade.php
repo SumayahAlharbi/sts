@@ -123,6 +123,10 @@
 
                                         <h3 class="card-title">{{title_case($tickets->ticket_title)}}</h3>
                                         <h6 class="card-subtitle mb-2 text-muted">
+                                            <span class="label label-light-inverse">
+                                              <i class="fas fa-users"></i>
+                                            {{$tickets->group->group_name}}
+                                            </span>
                                           <span class="label label-light-inverse">
                                             <i class="fas fa-exclamation-circle"></i>
                                             {{$tickets->priority}}

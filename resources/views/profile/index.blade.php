@@ -143,9 +143,11 @@
                     @endforeach
                   </td>
                   <td>
+                    @if (isset($activitylog->properties['old']))
                     @foreach($activitylog->properties['old'] as $key => $value)
                     {{$key}} :{{$value}}<br>
                     @endforeach
+                    @endif
                   </td>
                 </tr>
                 @endforeach
