@@ -132,7 +132,7 @@ class TicketController extends Controller
         //
         // }
 
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets','statusAll','statusChangesId','next','previous'));
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets', 'next','previous'));
 
         }
 
