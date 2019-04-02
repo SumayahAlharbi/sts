@@ -211,6 +211,8 @@
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
                                     <li role="separator" class="divider"></li> --}}
+                                    <li><a class="dropdown-item" href="{{ route('profile.show',Auth::user()->id) }}">
+                                      <i class="fa fa-user-circle"></i>  My Profile</a></li>
                                     <li><a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

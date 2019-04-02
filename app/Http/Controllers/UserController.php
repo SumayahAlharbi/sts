@@ -10,6 +10,12 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Group;
 use App\Mail\agent;
+use DB;
+use App\Ticket;
+use App\Category;
+use App\Location;
+use App\Status;
+use Spatie\Activitylog\Models\Activity;
 
 class UserController extends Controller
 {
@@ -63,6 +69,26 @@ class UserController extends Controller
     {
         //
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Users  $users
+     * @return \Illuminate\Http\Response
+     */
+    public function showUserProfile($id)
+    {
+        $user =  \App\User::findOrfail($id);
+        $userGroups = $user->group;
+        $assigned_tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate(10);
+        $statuses = Status::all();
+        $categories = Category::all()->pluck('category_name','id');
+
+        $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->simplePaginate(10);
+
+        return view('profile.index', compact('user','assigned_tickets','statuses','categories','activitys'));
+    }
+
 
     /**
      * Display the specified resource.

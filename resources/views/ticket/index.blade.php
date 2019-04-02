@@ -156,6 +156,9 @@
                           <th> Status </th>
 
                           <th data-hide="phone">Category</th>
+                          @if(count($groups) > 1)
+                          <th data-hide="phone">Groups</th>
+                          @endif
                           <th data-hide="phone">Agents</th>
                           <th data-hide="all">Requested by</th>
                           <th data-hide="all">Action</th>
@@ -210,6 +213,11 @@
                           @endif
                           </td>
                           <td>{{$ticket->category['category_name']}}</td>
+                          @if(count($groups) > 1)
+                          <td>
+                            <span class="label label-table label-inverse">{{$ticket->group->group_name}}</span>
+                          </td>
+                           @endif
                           <td>
                           @foreach($ticket->user as $ticket_assignee)
                             <a href="{{url('/search?searchKey=' . $ticket_assignee->name)}}">

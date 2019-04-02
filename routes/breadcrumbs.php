@@ -5,6 +5,12 @@ Breadcrumbs::for('home', function ($trail) {
     $trail->push('Home', action('HomeController@index'));
 });
 
+// User Profile
+Breadcrumbs::for('profile.show', function ($trail) {
+  $trail->parent('home');
+  $trail->push('My Profile', route('profile.show',Auth::user()->id));
+});
+
 // ticket.index
 Breadcrumbs::for('ticket.index', function ($trail) {
     $trail->parent('home');
