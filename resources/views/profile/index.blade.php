@@ -30,7 +30,7 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs profile-tab" role="tablist">
           <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#tickets" role="tab">Tickets</a> </li>
-          <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#activity" role="tab">Activity</a> </li>
+          {{-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#activity" role="tab">Activity</a> </li> --}}
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -133,7 +133,10 @@
             @endif
           </div>
         </div>
-        <div class="tab-pane" id="activity" role="tabpanel">
+
+        {{----------- Profile Activity Tab Start -----------}}
+
+        {{-- <div class="tab-pane" id="activity" role="tabpanel">
           <div class="card-body">
 
             <table class="footable table m-b-0 toggle-circle" data-sort="false">
@@ -185,7 +188,9 @@
             </div>
 
           </div>
-        </div>
+        </div> --}}
+
+        {{----------- Profile Activity Tab End -----------}}
 
       </div>
     </div>

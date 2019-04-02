@@ -86,7 +86,12 @@ class UserController extends Controller
 
         $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->simplePaginate(10);
 
-        return view('profile.index', compact('user','assigned_tickets','statuses','categories','activitys'));
+        if (Auth::user()->id == $id) {
+          return view('profile.index', compact('user','assigned_tickets','statuses','categories','activitys'));
+
+        } else {
+            return redirect('/profile/'.Auth::user()->id);
+          }
     }
 
 
