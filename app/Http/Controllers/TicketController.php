@@ -277,12 +277,12 @@ class TicketController extends Controller
       if ($user->hasRole('admin')) {
 
               $findTickets = Ticket::search($request->searchKey)->paginate(10);
-              return view('ticket.search', compact('findTickets', 'statuses'));
+
 
           } elseif ($user->hasPermissionTo('view group tickets')) {
             $matching = Ticket::search($request->searchKey)->get()->pluck('id');
             $findTickets = Ticket::whereIn('id', $matching)->whereIn('group_id', $userGroupIDs)->paginate(10);
-            return view('ticket.search', compact('findTickets', 'statuses'));
+
 
             } else {
               $matching = Ticket::search($request->searchKey)->get()->pluck('id');
@@ -290,9 +290,8 @@ class TicketController extends Controller
                   $findTickets = Ticket::whereHas('user', function ($q) use ($userId) {
                   $q->where('user_id', $userId);})->whereIn('id', $matching)->whereIn('group_id', $userGroupIDs)->paginate(10);
 
-                  return view('ticket.search', compact('findTickets', 'statuses'));
-
           }
+          return view('ticket.search', compact('findTickets', 'statuses'));
 
     }
 

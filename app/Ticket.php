@@ -57,6 +57,11 @@ class Ticket extends Model
     $array['location_id'] = $this->location->location_name;
     $array['category_id'] = $this->category->category_name;
 
+    $user = $this->user()->get(['name'])->map( function ($user) {
+                 return $user['name'];
+        });
+        $array['user'] = implode(' ', $user->toArray());
+
     return $array;
     }
 
