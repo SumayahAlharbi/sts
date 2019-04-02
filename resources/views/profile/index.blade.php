@@ -18,9 +18,9 @@
               @endforeach
               @endif
             </div>
-            <div class="row text-center justify-content-md-center m-t-5">
+            {{-- <div class="row text-center justify-content-md-center m-t-5">
               <i class="fab fa-stack-overflow"> {{count($assigned_tickets)}}</i>
-            </div>
+            </div> --}}
           </center>
         </div>
       </div>
@@ -29,7 +29,7 @@
       <div class="card">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs profile-tab" role="tablist">
-          <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#tickets" role="tab">Tickets</a> </li>
+          <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#tickets" role="tab">Assigned Tickets</a> </li>
           {{-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#activity" role="tab">Activity</a> </li> --}}
         </ul>
         <!-- Tab panes -->

@@ -79,15 +79,22 @@ class UserController extends Controller
     public function showUserProfile($id)
     {
         $user =  \App\User::findOrfail($id);
-        $userGroups = $user->group;
-        $assigned_tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate(10);
+        $userGroups = Auth::user()->group;
+          foreach ($userGroups as $userGroup) {
+            $userGroupIDs[] =  $userGroup->id;
+          };
+        $userId = Auth::user()->id;
+
+        $assigned_tickets = Ticket::orderByRaw('created_at DESC')->whereHas('user', function ($q) use ($userId) {
+        $q->where('user_id', $userId);})->whereIn('group_id', $userGroupIDs)->simplePaginate(10);
+
         $statuses = Status::all();
         $categories = Category::all()->pluck('category_name','id');
 
-        $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->simplePaginate(10);
+    //    $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->simplePaginate(10);
 
         if (Auth::user()->id == $id) {
-          return view('profile.index', compact('user','assigned_tickets','statuses','categories','activitys'));
+          return view('profile.index', compact('user','assigned_tickets','statuses','categories'));
 
         } else {
             return redirect('/profile/'.Auth::user()->id);
