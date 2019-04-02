@@ -97,7 +97,9 @@
             <td>{{$ticket->category['category_name']}}</td>
             <td>
             @foreach($ticket->user as $ticket_assignee)
+              <a href="{{url('/search?searchKey=' . $ticket_assignee->name)}}">
             <span class="label label-table label-success">{{$ticket_assignee->name}}</span>
+              </a>
             @endforeach
             </td>
             <td>
