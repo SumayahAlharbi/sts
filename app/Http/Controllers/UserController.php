@@ -80,11 +80,11 @@ class UserController extends Controller
     {
         $user =  \App\User::findOrfail($id);
         $userGroups = $user->group;
-        $assigned_tickets = Ticket::orderByRaw('created_at DESC')->get();
+        $assigned_tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate(10);
         $statuses = Status::all();
         $categories = Category::all()->pluck('category_name','id');
 
-        $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->get();
+        $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->simplePaginate(10);
 
         return view('profile.index', compact('user','assigned_tickets','statuses','categories','activitys'));
     }

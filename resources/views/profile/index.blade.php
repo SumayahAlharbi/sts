@@ -114,7 +114,22 @@
                 </tr>
                 @endforeach
               </tbody>
+              <tfoot>
+                  <tr>
+                      <td colspan="6">
+                          <div class="text-right">
+                              <ul class="pagination pagination-centered hide-if-no-paging"> </ul>
+                          </div>
+                      </td>
+                  </tr>
+              </tfoot>
             </table>
+
+            <div class="row">
+              <div class="col-md-12">
+    {{ $assigned_tickets->onEachSide(1)->links() }}
+            </div>
+            </div>
             @endif
           </div>
         </div>
@@ -152,7 +167,22 @@
                 </tr>
                 @endforeach
               </tbody>
+              <tfoot>
+                  <tr>
+                      <td colspan="6">
+                          <div class="text-right">
+                              <ul class="pagination pagination-centered hide-if-no-paging"> </ul>
+                          </div>
+                      </td>
+                  </tr>
+              </tfoot>
             </table>
+
+            <div class="row">
+              <div class="col-md-12">
+  {{ $activitys->onEachSide(1)->links() }}
+            </div>
+            </div>
 
           </div>
         </div>
