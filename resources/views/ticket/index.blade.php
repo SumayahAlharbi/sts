@@ -157,7 +157,7 @@
 
                           <th data-hide="phone">Category</th>
                           @if(count($groups) > 1)
-                          <th data-hide="phone">Groups</th>
+                          <th data-hide="phone">Group</th>
                           @endif
                           <th data-hide="phone">Agents</th>
                           <th data-hide="all">Requested by</th>
@@ -215,7 +215,7 @@
                           <td>{{$ticket->category['category_name']}}</td>
                           @if(count($groups) > 1)
                           <td>
-                            <span class="label label-table label-inverse">{{$ticket->group->group_name}}</span>
+                            <small>{{$ticket->group->group_name}}</small>
                           </td>
                            @endif
                           <td>

@@ -35,6 +35,34 @@
                     <!-- Column -->
                     <!-- Column -->
                     <div class="col-lg-3 col-md-6">
+                        <div class="card card-inverse card-dark">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class=" round-lg align-self-center"><i class="far fa-clock"></i></div>
+                                    <div class="m-l-10 align-self-center">
+                                        <h3 class="m-b-0 font-lgiht text-white">{{$ticketsStats->where('status_id','=','5')->count()}}</h3>
+                                        <a href="{{url('/search?searchKey=In Progress')}}"><h5 class="m-b-0 text-white">In Progress</h5></div></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card card-inverse card-dark">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class=" round-lg align-self-center"><i class="far fa-clock"></i></div>
+                                    <div class="m-l-10 align-self-center">
+                                        <h3 class="m-b-0 font-lgiht text-white">{{$ticketsStats->where('status_id','=','2')->count()}}</h3>
+                                        <a href="{{url('/search?searchKey=Scheduled')}}"><h5 class="m-b-0 text-white">Scheduled</h5></div></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
                         <div class="card card-success">
                             <div class="card-body">
                                 <div class="d-flex flex-row">
@@ -62,6 +90,35 @@
                     </div>
                     <!-- Column -->
                 </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                  <div class="card">
+
+                      <div class="card-body">
+                            <a class="btn text-muted" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="far fa-caret-square-down"></i>  Releases <span class="label label-warning">New</span>
+                            </a>
+                            <div class="collapse" id="collapseExample">
+                              <div class="row">
+                              <div class="col-md-12">
+
+                            <h5><span class="label label-info">v0.4.2</span></h5>
+
+                              <h5> <span class="label label-success">Add</span> </h5>
+                              <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Search by Agent Name</h5>
+                              <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Agent Name Clickable</h5>
+                              <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>User Profile</h5>
+                              <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>All Statuses In The Dashboard</h5>
+                              <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Show Ticket Group/Department Name For Users With More Than One Group</h5>
+                            </div>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+                </div>
+
         <!-- Column -->
         <!-- Row -->
         {{-- <div class="row">
