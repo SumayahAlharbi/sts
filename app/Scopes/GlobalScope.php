@@ -19,6 +19,9 @@ class GlobalScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
+      if (app()->runningInConsole()) {
+        return;
+          }
       $userGroups = Auth::user()->group;
         foreach ($userGroups as $userGroup) {
           $userGroupIDs[] =  $userGroup->id;
