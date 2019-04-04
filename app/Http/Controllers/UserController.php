@@ -80,21 +80,30 @@ class UserController extends Controller
     {
         $user =  \App\User::findOrfail($id);
         $userGroups = Auth::user()->group;
+        $ProfileGroups = $user->group;
+
           foreach ($userGroups as $userGroup) {
             $userGroupIDs[] =  $userGroup->id;
           };
-        $userId = Auth::user()->id;
 
-        $assigned_tickets = Ticket::orderByRaw('created_at DESC')->whereHas('user', function ($q) use ($userId) {
-        $q->where('user_id', $userId);})->whereIn('group_id', $userGroupIDs)->simplePaginate(10);
+          foreach ($ProfileGroups as $ProfileGroup) {
+            $ProfileGroupsIDs[] =  $ProfileGroup->id;
+          };
+
+        $assigned_tickets = Ticket::orderByRaw('created_at DESC')->whereHas('user', function ($q) use ($id) {
+        $q->where('user_id', $id);})->simplePaginate(10);
 
         $statuses = Status::all();
         $categories = Category::all()->pluck('category_name','id');
 
     //    $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->simplePaginate(10);
 
-        if (Auth::user()->id == $id) {
-          return view('profile.index', compact('user','assigned_tickets','statuses','categories'));
+
+        if  (!empty(array_intersect($userGroupIDs, $ProfileGroupsIDs)))
+        {
+
+            return view('profile.index', compact('user','assigned_tickets','statuses','categories'));
+
 
         } else {
             return redirect('/profile/'.Auth::user()->id);
