@@ -24,7 +24,7 @@
 
                   </div>
 
-                                                <div class="col-lg-3 content-right">
+                                                {{-- <div class="col-lg-3 content-right">
                                                   <form method="get" action="{{ route('ticket.search') }}"><div class="input-group footable-filtering-search">
                                                     <label class="sr-only">Search</label>
                                                     <div class="input-group">
@@ -37,7 +37,7 @@
                                                             </div>
                                                           </div>
                                                         </form>
-                                                </div>
+                                                </div> --}}
                 </div>
 <table class="footable table m-b-0 toggle-circle" data-filter="#filter" data-filter-text-only="true">
     <thead>
@@ -97,7 +97,7 @@
             <td>{{$ticket->category['category_name']}}</td>
             <td>
             @foreach($ticket->user as $ticket_assignee)
-              <a href="{{url('/search?searchKey=' . $ticket_assignee->name)}}">
+              <a href="{{url('/profile/' . $ticket_assignee->id)}}">
             <span class="label label-table label-success">{{$ticket_assignee->name}}</span>
               </a>
             @endforeach

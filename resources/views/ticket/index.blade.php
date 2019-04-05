@@ -220,7 +220,7 @@
                            @endif
                           <td>
                           @foreach($ticket->user as $ticket_assignee)
-                            <a href="{{url('/search?searchKey=' . $ticket_assignee->name)}}">
+                            <a href="{{url('/profile/' . $ticket_assignee->id)}}">
                           <span class="label label-table label-success">{{$ticket_assignee->name}}</span>
                             </a>
                           @endforeach

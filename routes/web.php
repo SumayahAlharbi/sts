@@ -122,6 +122,7 @@ Route::patch('ticket/{ticket}', 'TicketController@update')->name('ticket.update'
 Route::delete('ticket/{ticket}', 'TicketController@destroy')->name('ticket.destroy')->middleware('permission:delete ticket');
 Route::get('ticket/ChangeTicketStatus/{status_id}/{ticket_id}','\App\Http\Controllers\TicketController@ChangeTicketStatus')->middleware('permission:change ticket status');
 Route::get('/search', 'TicketController@search')->name('ticket.search');
+Route::get('/statusFilter', 'TicketController@statusFilter')->name('ticket.statusFilter');
 
 // assign agent to a ticket
 Route::post('ticket/addTicketAgent','TicketController@addTicketAgent')->middleware('permission:assign ticket');

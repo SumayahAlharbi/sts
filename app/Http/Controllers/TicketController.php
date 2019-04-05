@@ -281,19 +281,28 @@ class TicketController extends Controller
 
           } elseif ($user->hasPermissionTo('view group tickets')) {
             $matching = Ticket::search($request->searchKey)->get()->pluck('id');
-            $findTickets = Ticket::whereIn('id', $matching)->whereIn('group_id', $userGroupIDs)->paginate(10);
+            $findTickets = Ticket::whereIn('id', $matching)->whereIn('group_id', $userGroupIDs)->orderByRaw('created_at DESC')->simplePaginate(10);
 
 
             } else {
               $matching = Ticket::search($request->searchKey)->get()->pluck('id');
 
                   $findTickets = Ticket::whereHas('user', function ($q) use ($userId) {
-                  $q->where('user_id', $userId);})->whereIn('id', $matching)->whereIn('group_id', $userGroupIDs)->paginate(10);
+                  $q->where('user_id', $userId);})->whereIn('id', $matching)->whereIn('group_id', $userGroupIDs)->orderByRaw('created_at DESC')->simplePaginate(10);
 
           }
           return view('ticket.search', compact('findTickets', 'statuses'));
 
     }
+
+    public function statusFilter(Request $request)
+   {
+     $statuses = Status::all();
+
+     $findTickets = Ticket::where('status_id', $request->status)->orderByRaw('created_at DESC')->simplePaginate(10);
+
+       return view('ticket.search', compact('findTickets', 'statuses'));
+   }
 
 
   }

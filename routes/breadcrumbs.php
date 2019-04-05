@@ -23,6 +23,12 @@ Breadcrumbs::for('ticket.search', function ($trail) {
     $trail->push('Search', route('ticket.search'));
 });
 
+// ticket.search
+Breadcrumbs::for('ticket.statusFilter', function ($trail) {
+    $trail->parent('ticket.index');
+    $trail->push('Status Filter', route('ticket.statusFilter'));
+});
+
 // ticket.create
 Breadcrumbs::for('ticket.create', function ($trail) {
     $trail->parent('ticket.index');

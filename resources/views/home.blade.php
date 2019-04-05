@@ -27,7 +27,7 @@
                                     <div class="round round-lg align-self-center round-warning"><i class="far fa-clock"></i></div>
                                     <div class="m-l-10 align-self-center">
                                         <h3 class="m-b-0 font-lgiht text-white">{{$ticketsStats->where('status_id','=','4')->count()}}</h3>
-                                        <a href="{{url('/search?searchKey=Pending')}}"><h5 class="m-b-0 text-white">Pending</h5></div></a>
+                                        <a href="{{url('/statusFilter?status=4')}}"><h5 class="m-b-0 text-white">Pending</h5></div></a>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                                     <div class=" round-lg align-self-center"><i class="far fa-clock"></i></div>
                                     <div class="m-l-10 align-self-center">
                                         <h3 class="m-b-0 font-lgiht text-white">{{$ticketsStats->where('status_id','=','5')->count()}}</h3>
-                                        <a href="{{url('/search?searchKey=In Progress')}}"><h5 class="m-b-0 text-white">In Progress</h5></div></a>
+                                        <a href="{{url('/statusFilter?status=5')}}"><h5 class="m-b-0 text-white">In Progress</h5></div></a>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                     <div class=" round-lg align-self-center"><i class="far fa-clock"></i></div>
                                     <div class="m-l-10 align-self-center">
                                         <h3 class="m-b-0 font-lgiht text-white">{{$ticketsStats->where('status_id','=','2')->count()}}</h3>
-                                        <a href="{{url('/search?searchKey=Scheduled')}}"><h5 class="m-b-0 text-white">Scheduled</h5></div></a>
+                                        <a href="{{url('/statusFilter?status=2')}}"><h5 class="m-b-0 text-white">Scheduled</h5></div></a>
                                 </div>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                                     <div class="round round-lg align-self-center round-success"><i class="fas fa-clipboard-check"></i></div>
                                     <div class="m-l-10 align-self-center">
                                         <h3 class="m-b-0 font-lgiht text-white">{{$ticketsStats->where('status_id','=','1')->count()}}</h3>
-                                        <a href="{{url('/search?searchKey=Completed')}}"><h5 class="text-white m-b-0">Completed</h5></div></a>
+                                        <a href="{{url('/statusFilter?status=1')}}"><h5 class="text-white m-b-0">Completed</h5></div></a>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                                     <div class="round round-lg align-self-center round-danger"><i class="fas fa-user-times"></i></div>
                                     <div class="m-l-10 align-self-center">
                                         <h3 class="text-white m-b-0 font-lgiht">{{$ticketsStats->where('status_id','=','3')->count()}}</h3>
-                                        <a href="{{url('/search?searchKey=Unassigned')}}"><h5 class="text-white m-b-0">Unassigned</h5></div></a>
+                                        <a href="{{url('/statusFilter?status=3')}}"><h5 class="text-white m-b-0">Unassigned</h5></div></a>
                                 </div>
                             </div>
                         </div>
