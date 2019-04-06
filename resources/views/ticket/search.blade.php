@@ -51,6 +51,9 @@
             <th> Status </th>
 
             <th data-hide="phone">Category</th>
+            @if(count($groups) > 1)
+            <th data-hide="phone">Group</th>
+            @endif
             <th data-hide="phone">Agents</th>
             <th data-hide="all">Requested by</th>
             <th data-hide="all">Action</th>
@@ -60,9 +63,18 @@
       @foreach($findTickets as $ticket)
         <tr>
             <td>{{$ticket->id}}</td>
-            <td><a href="{{ route('ticket.show',$ticket->id)}}" title="{{$ticket->ticket_title}}"> {{ str_limit($ticket->ticket_title, 35)}}</a> <small class="text-muted"> ({{$ticket->comments()->count()}})<br> {{$ticket->created_at->diffForHumans()}}</small></td>
-            <td>{{ str_limit($ticket->ticket_title, 35)}} <small class="text-muted"> ({{$ticket->comments()->count()}})<br> {{$ticket->created_at->diffForHumans()}}</small></td>
+            <td><a href="{{ route('ticket.show',$ticket->id)}}" title="{{$ticket->ticket_title}}"> {{ str_limit($ticket->ticket_title, 35)}}</a>
+              @if ($ticket->comments()->count() != 0)
+                <span class="badge badge-pill badge-info"> {{$ticket->comments()->count()}}</span>
+              @endif
+              <br>
+              <small class="text-muted"> {{ $ticket->created_at->diffForHumans() }} </small></td>
 
+            <td>{{ str_limit($ticket->ticket_title, 35)}}
+              @if ($ticket->comments()->count() != 0)
+                <span class="badge badge-pill badge-info"> {{$ticket->comments()->count()}}</span>
+              @endif
+              <br> {{$ticket->created_at->diffForHumans()}}</td>
             <td title="{{$ticket->status['status_name']}}">
               @if(auth()->user()->can('change ticket status'))
                  <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
@@ -95,6 +107,11 @@
             @endif
             </td>
             <td>{{$ticket->category['category_name']}}</td>
+            @if(count($groups) > 1)
+            <td>
+              <small>{{$ticket->group->group_name}}</small>
+            </td>
+             @endif
             <td>
             @foreach($ticket->user as $ticket_assignee)
               <a href="{{url('/profile/' . $ticket_assignee->id)}}">

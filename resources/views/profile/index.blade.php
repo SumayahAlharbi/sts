@@ -1,5 +1,5 @@
 @extends('layouts.material')
-@section('title', 'My Profile')
+@section('title', 'Profile')
 
 @section('content')
 <div class="container-fluid">
@@ -7,24 +7,51 @@
     <div class="col-lg-4 col-xlg-3 col-md-5">
       <div class="card">
         <div class="card-body">
-          <center class="m-t-30">
-            {!! Avatar::create($user->name)->setFontSize(30)->setDimension(150, 150)->toSvg(); !!}
-            <h4 class="card-title m-t-10">{{$user->name}}</h4>
-            <h6 class="card-subtitle">{{$user->email}}</h6>
-            <div class="row text-center justify-content-md-center">
+
+            <form method="get" action="{{ route('user.profileSearch') }}"><div class="input-group footable-filtering-search">
+              <label class="sr-only">Search</label>
+              <div class="input-group">
+                <input type="text" name="searchKey" class="form-control" placeholder="Search">
+                <input type="hidden" name="id" value="{{ $user->id }}" />
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-primary">
+                    <span class="fas fa-search"></span></button>
+
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+
+                </div>
+                </div>
+                </div>
+              </div>
+
+                <div class="row">
+                <div class="col-lg-4 col-xlg-3 col-md-5">
+                  <div class="card">
+                    <div class="card-body">
+              <center class="m-t-30">
+              {!! Avatar::create($user->name)->setFontSize(30)->setDimension(150, 150)->toSvg(); !!}
+              <h4 class="card-title m-t-10">{{$user->name}}</h4>
+              <h6 class="card-subtitle">{{$user->email}}</h6>
+              <div class="row text-center justify-content-md-center">
               @if(count($user->group) > 0)
               @foreach($user->group as $group)
               <span class="label label-light-inverse">{{$group->group_name}}</span>
               @endforeach
               @endif
-            </div>
-            {{-- <div class="row text-center justify-content-md-center m-t-5">
+              </div>
+              {{-- <div class="row text-center justify-content-md-center m-t-5">
               <i class="fab fa-stack-overflow"> {{count($assigned_tickets)}}</i>
-            </div> --}}
-          </center>
-        </div>
-      </div>
-    </div>
+              </div> --}}
+              </center>
+              </div>
+              </div>
+              </div>
+
+
+
     <div class="col-lg-8 col-xlg-9 col-md-7">
       <div class="card">
         <!-- Nav tabs -->

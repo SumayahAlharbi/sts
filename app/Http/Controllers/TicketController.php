@@ -42,7 +42,7 @@ class TicketController extends Controller
         $locations = Location::all()->pluck('location_name','id');
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
-        $groups = $created_by->group;
+        $groups = Auth::user()->group;
         return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups'));
     }
 
@@ -264,14 +264,15 @@ class TicketController extends Controller
     public function search(Request $request)
     {
       $user = Auth::user();
-      $tickets = Ticket::all();
+    //  $tickets = Ticket::all();
+    $groups = Auth::user()->group;
       $userId = $user->id;
       $statuses = Status::all();
 
-      $userGroups = Auth::user()->group;
-        foreach ($userGroups as $userGroup) {
-          $userGroupIDs[] =  $userGroup->id;
-        };
+      // $userGroups = Auth::user()->group;
+      //   foreach ($userGroups as $userGroup) {
+      //     $userGroupIDs[] =  $userGroup->id;
+      //   };
 
 
       if ($user->hasRole('admin')) {
@@ -281,19 +282,22 @@ class TicketController extends Controller
 
           } elseif ($user->hasPermissionTo('view group tickets')) {
             $matching = Ticket::search($request->searchKey)->get()->pluck('id');
-            $findTickets = Ticket::whereIn('id', $matching)->whereIn('group_id', $userGroupIDs)->orderByRaw('created_at DESC')->simplePaginate(10);
+            $findTickets = Ticket::whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate(10);
 
 
             } else {
               $matching = Ticket::search($request->searchKey)->get()->pluck('id');
 
                   $findTickets = Ticket::whereHas('user', function ($q) use ($userId) {
-                  $q->where('user_id', $userId);})->whereIn('id', $matching)->whereIn('group_id', $userGroupIDs)->orderByRaw('created_at DESC')->simplePaginate(10);
+                  $q->where('user_id', $userId);})->whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate(10);
 
           }
-          return view('ticket.search', compact('findTickets', 'statuses'));
+          return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
 
     }
+
+
+
 
     public function statusFilter(Request $request)
    {

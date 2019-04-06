@@ -55,6 +55,7 @@ Route::group(['middleware'=> 'auth'],function(){
 // Show User Profile
   Route::get('/profile/{id}', '\App\Http\Controllers\UserController@showUserProfile')
   ->name('profile.show');
+  Route::get('/profileSearch', 'UserController@profileSearch')->name('user.profileSearch');
 
 // Email HTML Viewer
   Route::get('/email', function () {
@@ -123,7 +124,6 @@ Route::delete('ticket/{ticket}', 'TicketController@destroy')->name('ticket.destr
 Route::get('ticket/ChangeTicketStatus/{status_id}/{ticket_id}','\App\Http\Controllers\TicketController@ChangeTicketStatus')->middleware('permission:change ticket status');
 Route::get('/search', 'TicketController@search')->name('ticket.search');
 Route::get('/statusFilter', 'TicketController@statusFilter')->name('ticket.statusFilter');
-
 // assign agent to a ticket
 Route::post('ticket/addTicketAgent','TicketController@addTicketAgent')->middleware('permission:assign ticket');
 // remove agent from a ticket

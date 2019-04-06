@@ -8,7 +8,13 @@ Breadcrumbs::for('home', function ($trail) {
 // User Profile
 Breadcrumbs::for('profile.show', function ($trail) {
   $trail->parent('home');
-  $trail->push('My Profile', route('profile.show',Auth::user()->id));
+  $trail->push('Profile', route('profile.show',Auth::user()->id));
+});
+
+// User Profile
+Breadcrumbs::for('user.profileSearch', function ($trail) {
+  $trail->parent('profile.show');
+  $trail->push('Search', route('user.profileSearch'));
 });
 
 // ticket.index

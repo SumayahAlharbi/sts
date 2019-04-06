@@ -110,6 +110,20 @@ class UserController extends Controller
           }
     }
 
+    public function profileSearch(Request $request)
+   {
+  
+     $statuses = Status::all();
+     $groups = Auth::user()->group;
+     $userId = $request->id;
+
+      $matching = Ticket::search($request->searchKey)->get()->pluck('id');
+      $findTickets = Ticket::whereHas('user', function ($q) use ($userId) {
+      $q->where('user_id', $userId);})->whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate(10);
+
+       return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
+   }
+
 
     /**
      * Display the specified resource.
