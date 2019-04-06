@@ -103,6 +103,22 @@
                               <div class="row">
                               <div class="col-md-12">
 
+                                <h5><span class="label label-info">v0.4.3</span></h5>
+
+                                  <h5> <span class="label label-success">Add</span> </h5>
+                                  <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Search To Agent Profile</h5>
+                                  <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Agent Name Clickable To Redirect to Agent Profile</h5>
+                                  <h5> <span class="label label-warning">Fix</span> </h5>
+                                  <h5><small><span class="fa fa-circle text-warning m-r-5"></small></span>All Statuses Results In The Dashboard</h5>
+                                  <h5> <span class="label label-danger">Remove</span> </h5>
+                                  <h5><small><span class="fa fa-circle text-danger m-r-5"></small></span>Search by Agent Name in The General Search</h5>
+
+                                </div>
+                              </div>
+                              <div class="m-t-20 m-b-20">
+                              </div>
+                                  <div class="row">
+                                  <div class="col-md-12">
                             <h5><span class="label label-info">v0.4.2</span></h5>
 
                               <h5> <span class="label label-success">Add</span> </h5>
