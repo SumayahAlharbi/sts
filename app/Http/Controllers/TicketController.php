@@ -302,10 +302,11 @@ class TicketController extends Controller
     public function statusFilter(Request $request)
    {
      $statuses = Status::all();
+     $groups = Auth::user()->group;
 
      $findTickets = Ticket::where('status_id', $request->status)->orderByRaw('created_at DESC')->simplePaginate(10);
 
-       return view('ticket.search', compact('findTickets', 'statuses'));
+       return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
    }
 
 
