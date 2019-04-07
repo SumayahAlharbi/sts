@@ -3,32 +3,27 @@
 
 @section('content')
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-4 col-xlg-3 col-md-5">
-      <div class="card">
-        <div class="card-body">
-
-            <form method="get" action="{{ route('user.profileSearch') }}"><div class="input-group footable-filtering-search">
-              <label class="sr-only">Search</label>
-              <div class="input-group">
-                <input type="text" name="searchKey" class="form-control" placeholder="Search">
-                <input type="hidden" name="id" value="{{ $user->id }}" />
-                <div class="input-group-append">
-                  <button type="submit" class="btn btn-primary">
-                    <span class="fas fa-search"></span></button>
-
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-
-                </div>
-                </div>
-                </div>
-              </div>
-
                 <div class="row">
                 <div class="col-lg-4 col-xlg-3 col-md-5">
+                    <div class="card">
+                        <div class="card-body">
+                
+                            <form method="get" action="{{ route('user.profileSearch') }}"><div class="input-group footable-filtering-search">
+                              <label class="sr-only">Search</label>
+                              <div class="input-group">
+                                <input type="text" name="searchKey" class="form-control" placeholder="Search">
+                                <input type="hidden" name="id" value="{{ $user->id }}" />
+                                <div class="input-group-append">
+                                  <button type="submit" class="btn btn-primary">
+                                    <span class="fas fa-search"></span></button>
+                
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </form>
+                
+                                </div>
+                                </div>
                   <div class="card">
                     <div class="card-body">
               <center class="m-t-30">
