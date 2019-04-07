@@ -65,7 +65,7 @@ Route::group(['middleware'=> 'auth'],function(){
   });
 
   Route::get('/assign', function () {
-    $agentticket = App\ticket::find(2);
+    $agentticket = App\ticket::find(1);
 
     return new App\Mail\TicketAgentAssigned($agentticket);
 });

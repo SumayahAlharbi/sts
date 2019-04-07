@@ -3,7 +3,9 @@
 @section('content')
 <p>You have a new ticket assigned to you!</p>
 
-<p>Title: {{ $ticket->ticket_title }}</p>
+<p>Ticket Number: {{ $ticket->id }}</p>
+
+<p>Title: <a href='{!!url('ticket/'. $ticket->id)!!}'>{{ $ticket->ticket_title }}</a></p>
 
 <p>Content:  {{ $ticket->ticket_content }}</p>
 
@@ -16,5 +18,6 @@
 <p>in:  {{ $ticket->category->category_name }}</p>
 
 <p>Requested by:  {{ $ticket->requested_by_user->name }}</p>
+
 
 @endsection
