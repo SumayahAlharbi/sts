@@ -1,10 +1,5 @@
 @extends('layouts.material')
 @section('title', $tickets->ticket_title)
-<style>
-    .display-comment .display-comment {
-        margin-left: 40px;
-    }
-</style>
 @section('content')
 
 
@@ -302,7 +297,7 @@
 
 <div class="row">
 <div class="col-lg-12">
-    <div class="card">
+    <div class="card comment-scroll">
         <div class="card-body">
             <h4 class="card-title">Comments</h4>
         </div>
@@ -316,15 +311,16 @@
 
                                   @include('comments._comment_replies', ['comments' => $tickets->comments, 'ticket_id' => $tickets->id])
 
-                                <div class="col-lg-12">  <hr />
-                              <h4>Add comment</h4>
-                              <form method="post" action="{{ route('comment.add') }}">
+                                <div class="col-lg-12 add-comment-box">  <hr />
+                              <h4>Add comment</h4> <a href="#" class="reply-cancel" id="myCANCEL" style="display:none;">cancel?</a>
+                              <form method="post" action="{{ route('comment.add') }}" id="comment-form">
                                   @csrf
                                   <div class="form-group">
                                       <input type="text" name="comment_body" class="form-control" />
                                       <input type="hidden" name="ticket_id" value="{{ $tickets->id }}" />
+                                      <input type="hidden" name="comment_id" id="comment_id" value="" />
                                   </div>
-                                  <div class="form-group">
+                                  <div class="form-group reply-box">
                                       <input type="submit" class="btn btn-dark" value="Add Comment" />
                                   </div>
                                 </form>

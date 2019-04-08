@@ -11,7 +11,8 @@
 @endif
 
  @foreach($comments as $comment)
-<div class="d-flex flex-row comment-row">
+ <div class="display-comment">
+<div class="d-flex flex-row comment-row" >
     <div class="p-2"><span>{!! Avatar::create($comment->user->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
     <div class="comment-text w-100">
         <h5>
@@ -22,13 +23,15 @@
         <p class="m-b-5">{{ $comment->body }}</p>
         <div class="comment-footer"> <span class="text-muted pull-right">{{$comment->created_at->diffForHumans() }}</span>
           <span class="action-icons">
-                    {{-- <a href="javascript:void(0)"><i class="fas fa-reply"></i></a> --}}
-                    {{-- <a href="javascript:void(0)"><i class="ti-check"></i></a>
-                    <a href="javascript:void(0)"><i class="ti-heart"></i></a> --}}
+                    <a href="#" class="reply-init"><i class="fas fa-reply"></i></a>
+                    <input type="hidden" class="commentParentId" name="comment_id" value="{{ $comment->id }}" />
           </span>
               </div>
     </div>
 </div>
+
+
+
 
 
     {{-- <div class="display-comment"> --}}
@@ -40,7 +43,9 @@
         <strong>{{ $comment->user->name }}</strong>
         <small class="text-muted">{{$comment->created_at->diffForHumans() }}</small> --}}
 
-        {{-- <a href="" id="reply"></a>
+        {{-- <a href="" id="reply"></a> --}}
+
+        {{-- <div id="reply-input">
         <form method="post" action="{{ route('reply.add') }}">
             @csrf
             <div class="form-group" required>
@@ -51,7 +56,9 @@
             <div class="form-group" required>
                 <input type="submit" class="btn btn-secondary" value="Reply" />
             </div>
-        </form> --}}
-        {{-- @include('comments._comment_replies', ['comments' => $comment->replies])
-    </div> --}}
+        </form>
+      </div> --}}
+        @include('comments._comment_replies', ['comments' => $comment->replies])
+    {{-- </div> --}}
+  </div>
 @endforeach

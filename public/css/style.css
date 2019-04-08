@@ -5736,6 +5736,11 @@ File: scss
     .comment-footer .action-icons a:hover, .comment-footer .action-icons a.active {
       color: #1e88e5; }
 
+
+ .display-comment .display-comment {
+  margin-left: 40px;
+}
+
 /*******************/
 /*To do widgets*/
 /*******************/

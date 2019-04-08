@@ -464,6 +464,27 @@
 <!--bootstrap-select-->
 <script src="{{ asset('assets/plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
 
+<script>
+$(".reply-init").click(function() {
+    $('html,body').animate({
+        scrollTop: $(".reply-box").offset().top},
+    'slow');
+    $("h4").text("Add a Reply");
+    document.getElementById("myCANCEL").style.display = "block";
+    document.getElementById("comment_id").value = $(this).next('.commentParentId').val();
+    document.getElementById("comment-form").action = "{{ route('reply.add') }}";
+});
+
+$(".reply-cancel").click(function() {
+    $('html,body').animate({
+        scrollTop: $(".comment-scroll").offset().top},
+    'slow');
+    $("h4").text("Add a Comment");
+    document.getElementById("myCANCEL").style.display = "none";
+    document.getElementById("comment_id").value = null;
+    document.getElementById("comment-form").action = "{{ route('comment.add') }}";
+});
+</script>
 {{-- <script src="//js.pusher.com/3.1/pusher.min.js"></script> --}}
 <!-- ============================================================== -->
 <!-- Style switcher -->
