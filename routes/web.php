@@ -22,6 +22,8 @@ Route::get('test', function () {
     return "Event has been sent!";
 });
 
+Route::get('total-tickets-api', 'HomeController@TicketsChartsApi');
+
 // CAS Login
 Route::get('/cas/login', function(){
   // if the user isn't authenticated by CAS
