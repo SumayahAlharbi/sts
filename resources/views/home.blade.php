@@ -5,10 +5,10 @@
     <!-- Start Page Content -->
     <!-- ============================================================== -->
     <div class="row">
-            <div class="col-lg-7 col-md-7">
+            <div class="col-lg-12 col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="card-title">Total Tickets</h3>
+                            <h3 class="card-title"><i class="fab fa-stack-overflow"></i> Total Tickets <span class="label label-light-inverse">{{$ticketsStats->count()}}</span></h3>
                             <div id="tickets" style="height:285px; width:100%;"></div>
                         </div>
                         <div>
@@ -17,104 +17,21 @@
                         <div class="card-body text-center ">
                             <ul class="list-inline m-b-0">
                                 <li>
-                                    <h6 class="text-muted text-warning"><i class="fa fa-circle font-10 m-r-10 "></i>Pending</h6> </li>
+                                    <h6 class="text-muted text-warning"><span class="label label-warning">Pending {{$ticketsStats->where('status_id','=','4')->count()}}</span></h6></li>
                                 <li>
-                                    <h6 class="text-muted text-info"><i class="fa fa-circle font-10 m-r-10 "></i>In Progress</h6> </li>
+                                    <h6 class="text-muted text-info"><span class="label label-inverse"> In Progress {{$ticketsStats->where('status_id','=','5')->count()}}</span></h6></li>
                                 <li>
-                                    <h6 class="text-muted text-info"><i class="fa fa-circle font-10 m-r-10 "></i>Scheduled</h6> </li>
+                                    <h6 class="text-muted text-info"><span class="label label-inverse"> Scheduled {{$ticketsStats->where('status_id','=','2')->count()}}</span></h6> </li>
                                 <li>
-                                    <h6 class="text-muted  text-success"><i class="fa fa-circle font-10 m-r-10"></i>Completed</h6> </li>
+                                    <h6 class="text-muted  text-success"><span class="label label-success"> Completed {{$ticketsStats->where('status_id','=','1')->count()}}</span> </h6> </li>
                                 <li>
-                                    <h6 class="text-muted  text-danger"><i class="fa fa-circle font-10 m-r-10"></i>Unassigned</h6> </li>
+                                    <h6 class="text-muted  text-danger"><span class="label label-danger"> Unassigned {{$ticketsStats->where('status_id','=','3')->count()}}</span> </h6> </li>
                             </ul>
                         </div>
                     </div>
-                </div>
-                    <!-- Column -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card card-info">
-                            <div class="card-body">
-                                <div class="d-flex flex-row">
-                                    <div class="round round-lg align-self-center round-info"><i class="fab fa-stack-overflow"></i></div>
-                                    <div class="m-l-10 align-self-center">
-                                        <h3 class="m-b-0 font-light text-white">{{$ticketsStats->count()}}</h3>
-                                        <a href="{{url('/ticket')}}"><h5 class="text-white m-b-0">Total Tickets</h5></div></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card card-warning">
-                            <div class="card-body">
-                                <div class="d-flex flex-row">
-                                    <div class="round round-lg align-self-center round-warning"><i class="far fa-clock"></i></div>
-                                    <div class="m-l-10 align-self-center">
-                                        <h3 class="m-b-0 font-lgiht text-white">{{$ticketsStats->where('status_id','=','4')->count()}}</h3>
-                                        <a href="{{url('/statusFilter?status=4')}}"><h5 class="m-b-0 text-white">Pending</h5></div></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card card-inverse card-dark">
-                            <div class="card-body">
-                                <div class="d-flex flex-row">
-                                    <div class=" round-lg align-self-center"><i class="far fa-clock"></i></div>
-                                    <div class="m-l-10 align-self-center">
-                                        <h3 class="m-b-0 font-lgiht text-white">{{$ticketsStats->where('status_id','=','5')->count()}}</h3>
-                                        <a href="{{url('/statusFilter?status=5')}}"><h5 class="m-b-0 text-white">In Progress</h5></div></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card card-inverse card-dark">
-                            <div class="card-body">
-                                <div class="d-flex flex-row">
-                                    <div class=" round-lg align-self-center"><i class="far fa-clock"></i></div>
-                                    <div class="m-l-10 align-self-center">
-                                        <h3 class="m-b-0 font-lgiht text-white">{{$ticketsStats->where('status_id','=','2')->count()}}</h3>
-                                        <a href="{{url('/statusFilter?status=2')}}"><h5 class="m-b-0 text-white">Scheduled</h5></div></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card card-success">
-                            <div class="card-body">
-                                <div class="d-flex flex-row">
-                                    <div class="round round-lg align-self-center round-success"><i class="fas fa-clipboard-check"></i></div>
-                                    <div class="m-l-10 align-self-center">
-                                        <h3 class="m-b-0 font-lgiht text-white">{{$ticketsStats->where('status_id','=','1')->count()}}</h3>
-                                        <a href="{{url('/statusFilter?status=1')}}"><h5 class="text-white m-b-0">Completed</h5></div></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card card-danger">
-                            <div class="card-body">
-                                <div class="d-flex flex-row">
-                                    <div class="round round-lg align-self-center round-danger"><i class="fas fa-user-times"></i></div>
-                                    <div class="m-l-10 align-self-center">
-                                        <h3 class="text-white m-b-0 font-lgiht">{{$ticketsStats->where('status_id','=','3')->count()}}</h3>
-                                        <a href="{{url('/statusFilter?status=3')}}"><h5 class="text-white m-b-0">Unassigned</h5></div></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                </div>
+             </div>
+
+    </div>
 
                 <div class="row">
                   <div class="col-md-12">
@@ -161,28 +78,6 @@
                   </div>
                 </div>
                 </div>
-
-                <div class="col-lg-6 col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h3 class="card-title">Product Sales</h3>
-                                <div id="tickets" style="height:285px; width:100%;"></div>
-                            </div>
-                            <div>
-                                <hr class="m-t-0 m-b-0">
-                            </div>
-                            <div class="card-body text-center ">
-                                <ul class="list-inline m-b-0">
-                                    <li>
-                                        <h6 class="text-muted text-info"><i class="fa fa-circle font-10 m-r-10 "></i>Mobile</h6> </li>
-                                    <li>
-                                        <h6 class="text-muted  text-primary"><i class="fa fa-circle font-10 m-r-10"></i>Desktop</h6> </li>
-                                    <li>
-                                        <h6 class="text-muted  text-success"><i class="fa fa-circle font-10 m-r-10"></i>Tablet</h6> </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
 
         <!-- Column -->
         <!-- Row -->
