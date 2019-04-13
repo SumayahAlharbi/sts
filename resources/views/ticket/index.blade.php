@@ -70,6 +70,12 @@
                                         </select>
 
                                     </div>
+
+                                    <div class="form-group">
+                                      <label for="name">Due Date</label>
+                                      <input type="date" class="form-control" name="due_date"/>
+                                    </div>
+
                                       <div class="form-group">
                                           <label for="ticket_content">Ticket Content</label>
                                           <textarea name="ticket_content" class="form-control" id="editor" rows="3" required></textarea>

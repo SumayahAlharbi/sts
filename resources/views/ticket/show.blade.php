@@ -147,6 +147,9 @@
                                               <span class="label label-light-inverse"><i class="far fa-clock"></i>
                                                 {{$tickets->created_at->diffForHumans()}}
                                               </span>
+                                              <span class="label label-light-inverse"><i class="fas fa-stopwatch"></i>
+                                                {{$tickets->due_date}}
+                                              </span>
                                             </h6>
 </div>
 

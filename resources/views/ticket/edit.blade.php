@@ -24,10 +24,12 @@
         @method('PATCH')
         @csrf
         <div class="row p-t-20">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-12">
           <label for="name">Ticket Title:</label>
           <input type="text" class="form-control" name="ticket_title" value="{{ $ticket->ticket_title }}"/>
         </div>
+      </div>
+      <div class="row p-t-20">
         <div class="form-group col-md-6">
           <label class="control-label">Priority</label>
           <select class="form-control custom-select" name="priority" data-placeholder="Choose a Priority Level" tabindex="1">
@@ -36,6 +38,10 @@
                 <option value="High" {{ $ticket->priority == 'High' ? 'selected' : '' }}>High</option>
                 <option value="Critical" {{ $ticket->priority == 'Critical' ? 'selected' : '' }}>Critical</option>
           </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="name">Due Date</label>
+          <input type="date" class="form-control" name="due_date" value="{{ $ticket->due_date }}"/>
         </div>
       </div>
         <div class="form-group">

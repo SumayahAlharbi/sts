@@ -84,6 +84,7 @@ class TicketController extends Controller
         $ticket->group_id = $request->group_id;
         $ticket->status_id = '3';
         $ticket->priority = $request->priority;
+        $ticket->due_date = $request->due_date;
         $ticket->room_number = $request->room_number;
         $ticket->created_by = $request->created_by;
         $ticket->requested_by = $request->requested_by;
@@ -184,6 +185,7 @@ class TicketController extends Controller
       $ticket->group_id = $request->group_id;
       $ticket->status_id = $request->status_id;
       $ticket->priority = $request->priority;
+      $ticket->due_date = $request->due_date;
       $ticket->room_number = $request->room_number;
       $ticket->requested_by = $request->requested_by;
       $ticket->save();
