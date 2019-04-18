@@ -73,7 +73,7 @@
 
                                     <div class="form-group">
                                       <label for="name">Due Date</label>
-                                      <input type="date" class="form-control" name="due_date"/>
+                                      <input type="text" placeholder="0000-00-00 00:00:00" class="form-control" name="due_date"/>
                                     </div>
 
                                       <div class="form-group">

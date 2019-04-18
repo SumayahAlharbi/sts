@@ -15,7 +15,7 @@ class AddDueDateToTickets extends Migration
     {
         Schema::table('tickets', function (Blueprint $table) {
             //
-            $table->date('due_date')->after('priority')->nullable();
+            $table->dateTime('due_date')->after('priority')->nullable();
         });
     }
 
