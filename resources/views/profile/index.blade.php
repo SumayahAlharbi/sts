@@ -51,12 +51,12 @@
       <div class="card">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs profile-tab" role="tablist">
-          <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#tickets" role="tab">Assigned Tickets</a> </li>
+          <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#userTickets" role="tab">Assigned Tickets</a> </li>
           {{-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#activity" role="tab">Activity</a> </li> --}}
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
-          <div class="tab-pane active" id="tickets" role="tabpanel">
+          <div class="tab-pane active" id="userTickets" role="tabpanel">
             <div class="card-body">
               @if (count($assigned_tickets)>0)
               <table class="footable table m-b-0 toggle-circle" data-sort="false">
