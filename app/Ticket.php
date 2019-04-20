@@ -27,7 +27,7 @@ class Ticket extends Model
     }
     public function location()
     {
-      return $this->belongsTo('App\Location');
+      return $this->belongsTo('App\Location')->withoutGlobalScopes();
     }
     public function user()
     {

@@ -118,7 +118,7 @@
 
                                         <h3 class="card-title">{{title_case($tickets->ticket_title)}}</h3>
                                         <h6 class="card-subtitle mb-2 text-muted">
-                                            <span class="label label-light-inverse">
+                                            <span class="label label-light-inverse" title="{{$tickets->group->group_description}}">
                                               <i class="fas fa-users"></i>
                                             {{$tickets->group->group_name}}
                                             </span>
@@ -128,7 +128,10 @@
                                           </span>
                                           <span class="label label-light-inverse">
                                             <i class="far fa-building"></i>
-                                            {{$tickets->location->location_name}}
+                                            @isset($tickets->location->location_name)
+                                              {{$tickets->location->location_name}}
+                                            @endisset
+
                                           </span> <span class="label label-light-inverse">
                                             <i class="far fa-building"></i>
                                             {{$tickets->room_number}}</span>

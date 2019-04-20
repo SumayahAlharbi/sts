@@ -221,7 +221,7 @@
                           <td>{{$ticket->category['category_name']}}</td>
                           @if(count($groups) > 1)
                           <td>
-                            <small>{{$ticket->group->group_name}}</small>
+                            <small title="{{$ticket->group->group_description}}">{{$ticket->group->group_name}}</small>
                           </td>
                            @endif
                           <td>

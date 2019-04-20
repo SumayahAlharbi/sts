@@ -42,7 +42,12 @@ class TicketController extends Controller
         $locations = Location::all()->pluck('location_name','id');
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
-        $groups = Auth::user()->group;
+        if (Auth::user()->hasRole('admin')) {
+          $groups = Group::all();
+        }else {
+          $groups = Auth::user()->group;
+        }
+
         return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups'));
     }
 
@@ -57,7 +62,11 @@ class TicketController extends Controller
         $locations = Location::all()->pluck('location_name','id');
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
-        $groups = $created_by->group;
+        if (Auth::user()->hasRole('admin')) {
+          $groups = Group::all();
+        }else {
+          $groups = Auth::user()->group;
+        }
         return view('ticket.create', compact('categories','locations','users','created_by', 'groups'));
     }
 
@@ -108,7 +117,7 @@ class TicketController extends Controller
         $tickets =  Ticket::findOrfail($id);
         $TicketAgents = $tickets->user;
         $statuses = Status::all();
-        $locations = Location::all()->pluck('location_name','id');
+        $locations = Location::withoutGlobalScopes()->get();
 
         $next = Ticket::where('id', '>', $tickets->id)->orderBy('id')->first();
         $previous = Ticket::where('id', '<', $tickets->id)->orderBy('id','desc')->first();
@@ -148,7 +157,11 @@ class TicketController extends Controller
     public function edit($id)
     {
       $user = Auth::user();
-      $groups = $user->group;
+      if (Auth::user()->hasRole('admin')) {
+        $groups = Group::all();
+      }else {
+        $groups = Auth::user()->group;
+      }
       $ticket = Ticket::findOrfail($id);
       $users = User::all();
       $TicketAgents = $ticket->user;
@@ -304,7 +317,11 @@ class TicketController extends Controller
     public function statusFilter(Request $request)
    {
      $statuses = Status::all();
-     $groups = Auth::user()->group;
+     if (Auth::user()->hasRole('admin')) {
+       $groups = Group::all();
+     }else {
+       $groups = Auth::user()->group;
+     }
 
      $findTickets = Ticket::where('status_id', $request->status)->orderByRaw('created_at DESC')->simplePaginate(10);
 

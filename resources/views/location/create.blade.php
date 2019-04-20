@@ -20,12 +20,23 @@
       <form method="post" action="{{ route('location.store') }}">
           <div class="form-group">
               @csrf
-              <label for="name">location name</label>
-              <input type="text" class="form-control" name="location_name"/>
+              <label for="name">Location Name</label>
+              <input type="text" class="form-control" name="location_name" />
+              <small class="form-control-feedback"> example: COMJ - Male </small>
           </div>
           <div class="form-group">
-              <label for="name">location description</label>
-              <input type="text" class="form-control" name="location_description"/>
+              <label for="name">Location Description</label>
+              <input type="text" class="form-control" name="location_description" />
+              <small class="form-control-feedback"> example: College of Medicine - Jeddah Male Building </small>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Group</label>
+            <select required class="form-control" name="group_id" id="exampleFormControlSelect1">
+              @foreach ($groups as $group)
+                <option value="{{$group->id}}">{{$group->group_name}}</option>
+              @endforeach
+            </select>
           </div>
 
           <button type="submit" class="btn btn-primary">Add</button>

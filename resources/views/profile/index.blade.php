@@ -7,7 +7,7 @@
                 <div class="col-lg-4 col-xlg-3 col-md-5">
                     <div class="card">
                         <div class="card-body">
-                
+
                             <form method="get" action="{{ route('user.profileSearch') }}"><div class="input-group footable-filtering-search">
                               <label class="sr-only">Search</label>
                               <div class="input-group">
@@ -16,12 +16,12 @@
                                 <div class="input-group-append">
                                   <button type="submit" class="btn btn-primary">
                                     <span class="fas fa-search"></span></button>
-                
+
                                         </div>
                                       </div>
                                     </div>
                                   </form>
-                
+
                                 </div>
                                 </div>
                   <div class="card">
@@ -33,7 +33,7 @@
               <div class="row text-center justify-content-md-center">
               @if(count($user->group) > 0)
               @foreach($user->group as $group)
-              <span class="label label-light-inverse">{{$group->group_name}}</span>
+              <span class="label label-light-inverse" title="{{$group->group_description}}">{{$group->group_name}}</span>
               @endforeach
               @endif
               </div>

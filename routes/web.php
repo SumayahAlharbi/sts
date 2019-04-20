@@ -80,8 +80,7 @@ Route::get('/emaillayout', function(){
 Route::group(['middleware' => ['role:admin']], function () {
   //category Routes
   Route::resource('category','CategoryController');
-  //location Routes
-  Route::resource('location','LocationController');
+
   //Users route
   Route::resource('users','UserController');
   // assign user to a group
@@ -114,6 +113,18 @@ Route::group(['middleware' => ['role:admin']], function () {
 
 // });
 });
+
+//location Routes
+//Route::resource('location','LocationController');
+Route::get('location', 'LocationController@index')->name('location.index')->middleware('permission:view location list');
+Route::get('location/create', 'LocationController@create')->name('location.create')->middleware('permission:create location');
+Route::post('location', 'LocationController@store')->name('location.store')->middleware('permission:create location');
+Route::post('location/create', 'LocationController@store')->name('location.store')->middleware('permission:create location');
+//Route::get('location/{location}', 'LocationController@show')->name('ticket.show')->middleware('permission:show location');
+Route::get('location/{location}/edit', 'LocationController@edit')->name('location.edit')->middleware('permission:update location');
+Route::patch('location/{location}', 'LocationController@update')->name('location.update')->middleware('permission:update location');
+Route::delete('location/{location}', 'LocationController@destroy')->name('location.destroy')->middleware('permission:delete location');
+
 
 Route::get('ticket', 'TicketController@index')->name('ticket.index')->middleware('permission:view tickets list');
 Route::get('ticket/create', 'TicketController@create')->name('ticket.create')->middleware('permission:create ticket');
