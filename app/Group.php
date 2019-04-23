@@ -20,4 +20,8 @@ class Group extends Model
   {
       return $this->hasMany('App\Location');
   }
+  public function category()
+  {
+      return $this->hasMany('App\Category');
+  }
 }

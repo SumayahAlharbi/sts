@@ -126,7 +126,7 @@
                                             <i class="fas fa-exclamation-circle"></i>
                                             {{$tickets->priority}}
                                           </span>
-                                          <span class="label label-light-inverse">
+                                          <span class="label label-light-inverse" title="{{$tickets->location->location_description}}">
                                             <i class="far fa-building"></i>
                                             @isset($tickets->location->location_name)
                                               {{$tickets->location->location_name}}
