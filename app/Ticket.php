@@ -31,7 +31,7 @@ class Ticket extends Model
     }
     public function user()
     {
-        return $this->belongsToMany('App\User', 'tickets_assignee', 'ticket_id', 'user_id');
+        return $this->belongsToMany('App\User', 'tickets_assignee', 'ticket_id', 'user_id')->withTimestamps();
     }
     public function status()
     {
