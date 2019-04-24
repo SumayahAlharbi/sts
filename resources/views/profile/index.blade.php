@@ -7,7 +7,7 @@
                 <div class="col-lg-4 col-xlg-3 col-md-5">
                     <div class="card">
                         <div class="card-body">
-                
+
                             <form method="get" action="{{ route('user.profileSearch') }}"><div class="input-group footable-filtering-search">
                               <label class="sr-only">Search</label>
                               <div class="input-group">
@@ -16,12 +16,12 @@
                                 <div class="input-group-append">
                                   <button type="submit" class="btn btn-primary">
                                     <span class="fas fa-search"></span></button>
-                
+
                                         </div>
                                       </div>
                                     </div>
                                   </form>
-                
+
                                 </div>
                                 </div>
                   <div class="card">
@@ -33,7 +33,7 @@
               <div class="row text-center justify-content-md-center">
               @if(count($user->group) > 0)
               @foreach($user->group as $group)
-              <span class="label label-light-inverse">{{$group->group_name}}</span>
+              <span class="label label-light-inverse" title="{{$group->group_description}}">{{$group->group_name}}</span>
               @endforeach
               @endif
               </div>
@@ -51,12 +51,12 @@
       <div class="card">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs profile-tab" role="tablist">
-          <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#tickets" role="tab">Assigned Tickets</a> </li>
+          <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#userTickets" role="tab">Assigned Tickets</a> </li>
           {{-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#activity" role="tab">Activity</a> </li> --}}
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
-          <div class="tab-pane active" id="tickets" role="tabpanel">
+          <div class="tab-pane active" id="userTickets" role="tabpanel">
             <div class="card-body">
               @if (count($assigned_tickets)>0)
               <table class="footable table m-b-0 toggle-circle" data-sort="false">

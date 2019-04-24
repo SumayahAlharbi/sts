@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Location;
 use Illuminate\Http\Request;
+use Auth;
+use App\Group;
 
 class LocationController extends Controller
 {
@@ -14,8 +16,14 @@ class LocationController extends Controller
      */
     public function index()
     {
-      $locations = Location::all();
-      return view('location.index', compact('locations'));
+      if (Auth::user()->hasRole('admin')) {
+        $groups = Group::all();
+      }else {
+        $groups = Auth::user()->group;
+      }
+
+      $locations = Location::paginate(10);
+      return view('location.index', compact('locations', 'groups'));
     }
 
     /**
@@ -25,7 +33,12 @@ class LocationController extends Controller
      */
     public function create()
     {
-        return view('location.create');
+      if (Auth::user()->hasRole('admin')) {
+        $groups = Group::all();
+      }else {
+        $groups = Auth::user()->group;
+      }
+        return view('location.create', compact('groups'));
     }
 
     /**
@@ -39,6 +52,7 @@ class LocationController extends Controller
       $location = new Location;
       $location->location_name = $request->location_name;
       $location->location_description = $request->location_description;
+      $location->group_id = $request->group_id;
       $location->save();
       return redirect('/location')->with('success', 'Location has been added');
     }
@@ -62,8 +76,15 @@ class LocationController extends Controller
      */
     public function edit($id)
     {
-      $location = Location::find($id);
-      return view('location.edit', compact('location'));
+
+      if (Auth::user()->hasRole('admin')) {
+        $groups = Group::all();
+      }else {
+        $groups = Auth::user()->group;
+      }
+      $location = Location::findOrfail($id);
+
+      return view('location.edit', compact('location', 'groups'));
     }
 
     /**
@@ -75,9 +96,10 @@ class LocationController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $location = Location::find($id);
+      $location = Location::findOrfail($id);
       $location->location_name = $request->location_name;
       $location->location_description = $request->location_description;
+      $location->group_id = $request->group_id;
       $location->save();
 
       return redirect('/location')->with('success', 'location has been updated');

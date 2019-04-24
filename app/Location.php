@@ -11,4 +11,14 @@ class Location extends Model
   {
     return $this->hasMany('App\Ticket');
   }
+  public function group()
+  {
+    return $this->belongsTo('App\Group');
+  }
+  public static function boot()
+  {
+    parent::boot();
+
+    static::addGlobalScope(new Scopes\LocationScope);
+  }
 }

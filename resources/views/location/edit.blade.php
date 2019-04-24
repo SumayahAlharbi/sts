@@ -21,13 +21,27 @@
         @method('PATCH')
         @csrf
         <div class="form-group">
-          <label for="name">location_name</label>
+          <label for="name">Location Name</label>
           <input type="text" class="form-control" name="location_name" value="{{ $location->location_name }}" />
         </div>
         <div class="form-group">
-          <label for="name">location_description </label>
+          <label for="name">Location Description </label>
           <input type="text" class="form-control" name="location_description" value="{{ $location->location_description }}" />
         </div>
+
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Group</label>
+          <select required class="form-control" name="group_id" id="exampleFormControlSelect1">
+            @foreach ($groups as $group)
+              @if ($group->id == $location->group_id)
+           <option selected value="{{$group->id}}">{{$group->group_name}}</option>
+           @else
+           <option value="{{$group->id}}">{{$group->group_name}}</option>
+           @endif
+            @endforeach
+          </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
   </div>

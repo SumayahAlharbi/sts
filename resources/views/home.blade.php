@@ -16,16 +16,26 @@
                         </div>
                         <div class="card-body text-center ">
                             <ul class="list-inline m-b-0">
+                              <a href="{{url('/statusFilter?status=4')}}">
                                 <li>
-                                    <h6 class="text-muted text-warning"><span class="label label-warning">Pending {{$ticketsStats->where('status_id','=','4')->count()}}</span></h6></li>
+                                       <h6 class="text-muted text-warning"><span class="label label-warning">Pending {{$ticketsStats->where('status_id','=','4')->count()}}</span></h6></li>
+                                     </a>
+                                     <a href="{{url('/statusFilter?status=5')}}">
                                 <li>
                                     <h6 class="text-muted text-info"><span class="label label-inverse"> In Progress {{$ticketsStats->where('status_id','=','5')->count()}}</span></h6></li>
+                                  </a>
+                                  <a href="{{url('/statusFilter?status=2')}}">
                                 <li>
                                     <h6 class="text-muted text-info"><span class="label label-inverse"> Scheduled {{$ticketsStats->where('status_id','=','2')->count()}}</span></h6> </li>
+                                  </a>
+                                  <a href="{{url('/statusFilter?status=1')}}">
                                 <li>
                                     <h6 class="text-muted  text-success"><span class="label label-success"> Completed {{$ticketsStats->where('status_id','=','1')->count()}}</span> </h6> </li>
+                                  </a>
+                                  <a href="{{url('/statusFilter?status=3')}}">
                                 <li>
                                     <h6 class="text-muted  text-danger"><span class="label label-danger"> Unassigned {{$ticketsStats->where('status_id','=','3')->count()}}</span> </h6> </li>
+                                  </a>
                             </ul>
                         </div>
                     </div>
@@ -42,6 +52,23 @@
                             <i class="far fa-caret-square-down"></i>  Releases <span class="label label-warning">New</span>
                             </a>
                             <div class="collapse" id="collapseExample">
+                              <div class="m-t-20 m-b-20">
+                              </div>
+                              <div class="row">
+                              <div class="col-md-12">
+
+                                <h5><span class="label label-info">v0.4.4</span></h5>
+
+                                  <h5> <span class="label label-success">Add</span> </h5>
+                                  <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Dashboard Statuses in 🍩</h5>
+                                  <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Due Date in Tickets</h5>
+                                  <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Ability To Create/Edit Locations For Admins</h5>
+                                  <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Ability To Create/Edit Categories For Admins</h5>
+                                  <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Nested Reply To The Comments</h5>
+
+
+                                </div>
+                              </div>
                               <div class="m-t-20 m-b-20">
                               </div>
                               <div class="row">

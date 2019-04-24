@@ -276,10 +276,16 @@
                             @can('export tickets')
                               <li><a href="{{ url('/reports') }}">Export</a></li>
                               @endcan
+                              @can('view location list')
+                                <li><a href="{{ url('/location') }}">Locations</a></li>
+                              @endcan
+                              @can('view category list')
+                                <li><a href="{{ url('/category') }}">Categories</a></li>
+                              @endcan
                             @role('admin')
                                 {{-- <li><a href="{{ route('ticket.create') }}">New Ticket</a></li> --}}
-                                <li><a href="{{ url('/category') }}">Categories</a></li>
-                                <li><a href="{{ url('/location') }}">Locations</a></li>
+
+
                                 <li><a href="{{ url('/status') }}">Status</a></li>
                             {{-- </ul> --}}
                         </li>

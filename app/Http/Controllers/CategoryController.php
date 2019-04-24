@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Auth;
+use App\Group;
 
 class CategoryController extends Controller
 {
@@ -14,8 +16,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-      $categories = Category::all();
-      return view('category.index', compact('categories'));
+      if (Auth::user()->hasRole('admin')) {
+        $groups = Group::all();
+      }else {
+        $groups = Auth::user()->group;
+      }
+      $categories = Category::paginate(10);
+      return view('category.index', compact('categories', 'groups'));
     }
 
     /**
@@ -25,7 +32,12 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('category.create');
+      if (Auth::user()->hasRole('admin')) {
+        $groups = Group::all();
+      }else {
+        $groups = Auth::user()->group;
+      }
+        return view('category.create', compact('groups'));
     }
 
     /**
@@ -38,6 +50,7 @@ class CategoryController extends Controller
     {
       $category = new Category;
       $category->category_name = $request->category_name;
+      $category->group_id = $request->group_id;
       $category->save();
       return redirect('/category')->with('success', 'Category has been added');
     }
@@ -61,8 +74,13 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-      $category = Category::find($id);
-      return view('category.edit', compact('category'));
+      if (Auth::user()->hasRole('admin')) {
+        $groups = Group::all();
+      }else {
+        $groups = Auth::user()->group;
+      }
+      $category = Category::findOrfail($id);
+      return view('category.edit', compact('category', 'groups'));
     }
 
     /**
@@ -74,8 +92,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request,  $id)
     {
-      $category = Category::find($id);
+      $category = Category::findOrfail($id);
       $category->category_name = $request->category_name;
+      $category->group_id = $request->group_id;
       $category->save();
 
       return redirect('/category')->with('success', 'Category has been updated');

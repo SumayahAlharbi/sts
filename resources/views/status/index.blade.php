@@ -18,7 +18,7 @@
       {{ session()->get('success') }}
     </div><br />
   @endif
-  <table class="table table-striped">
+  <table class="table">
     <thead>
         <tr>
           <td>ID</td>

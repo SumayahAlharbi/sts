@@ -78,10 +78,8 @@ Route::get('/emaillayout', function(){
 });
 
 Route::group(['middleware' => ['role:admin']], function () {
-  //category Routes
-  Route::resource('category','CategoryController');
-  //location Routes
-  Route::resource('location','LocationController');
+
+
   //Users route
   Route::resource('users','UserController');
   // assign user to a group
@@ -107,13 +105,37 @@ Route::group(['middleware' => ['role:admin']], function () {
   Route::post('roles/addPermission','\App\Http\Controllers\RoleController@addPermission');
   Route::get('roles/removePermission/{permission}/{role_id}','\App\Http\Controllers\RoleController@revokePermission');
 
-  //category Routes
+
+  //Activity Routes
   Route::resource('activity','ActivityController');
 
 // Route::group(['middleware' => ['role:supervisor|admin']], function () {
 
 // });
 });
+
+//category Routes
+//Route::resource('category','CategoryController');
+Route::get('category', 'CategoryController@index')->name('category.index')->middleware('permission:view category list');
+Route::get('category/create', 'CategoryController@create')->name('category.create')->middleware('permission:create category');
+Route::post('category', 'CategoryController@store')->name('category.store')->middleware('permission:create category');
+Route::post('category/create', 'CategoryController@store')->name('category.store')->middleware('permission:create category');
+//Route::get('category/{category}', 'CategoryController@show')->name('category.show')->middleware('permission:show category');
+Route::get('category/{category}/edit', 'CategoryController@edit')->name('category.edit')->middleware('permission:update category');
+Route::patch('category/{category}', 'CategoryController@update')->name('category.update')->middleware('permission:update category');
+Route::delete('category/{category}', 'CategoryController@destroy')->name('category.destroy')->middleware('permission:delete category');
+
+//location Routes
+//Route::resource('location','LocationController');
+Route::get('location', 'LocationController@index')->name('location.index')->middleware('permission:view location list');
+Route::get('location/create', 'LocationController@create')->name('location.create')->middleware('permission:create location');
+Route::post('location', 'LocationController@store')->name('location.store')->middleware('permission:create location');
+Route::post('location/create', 'LocationController@store')->name('location.store')->middleware('permission:create location');
+//Route::get('location/{location}', 'LocationController@show')->name('location.show')->middleware('permission:show location');
+Route::get('location/{location}/edit', 'LocationController@edit')->name('location.edit')->middleware('permission:update location');
+Route::patch('location/{location}', 'LocationController@update')->name('location.update')->middleware('permission:update location');
+Route::delete('location/{location}', 'LocationController@destroy')->name('location.destroy')->middleware('permission:delete location');
+
 
 Route::get('ticket', 'TicketController@index')->name('ticket.index')->middleware('permission:view tickets list');
 Route::get('ticket/create', 'TicketController@create')->name('ticket.create')->middleware('permission:create ticket');
