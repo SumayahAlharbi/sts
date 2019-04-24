@@ -57,7 +57,7 @@
                                       <div class="form-group">
                                           @csrf
                                           <label for="name">Ticket Title</label>
-                                          <input type="text" class="form-control" name="ticket_title" autofocus required/>
+                                          <input type="text" class="form-control" name="ticket_title" value="{{ old('ticket_title') }}" autofocus required/>
                                       </div>
 
                                       <div class="form-group">
@@ -72,13 +72,14 @@
                                     </div>
 
                                     <div class="form-group">
-                                      <label for="name">Due Date</label>
-                                      <input type="text" placeholder="0000-00-00 00:00:00" class="form-control" name="due_date"/>
+                                      <label for="name">Due Date (Optional)</label>
+                                      <input type="text" placeholder="YYYY-MM-DD hh:mm:ss" class="form-control" name="due_date" value="{{ old('due_date') }}" minlength="19" maxlength="19"/>
+                                      <small class="form-control-feedback"> Date/Time Format: {{ $now }} </small>
                                     </div>
 
                                       <div class="form-group">
                                           <label for="ticket_content">Ticket Content</label>
-                                          <textarea name="ticket_content" class="form-control" id="editor" rows="3" required></textarea>
+                                          <textarea name="ticket_content" class="form-control" id="editor" rows="3" value="{{ old('ticket_content') }}" required></textarea>
                                       </div>
 
 
@@ -103,7 +104,7 @@
 
                                     <div class="form-group">
                                       <label for="name">Room Number</label>
-                                      <input type="text" class="form-control" name="room_number"/>
+                                      <input type="text" class="form-control" name="room_number" value="{{ old('room_number') }}"/>
                                     </div>
 
 

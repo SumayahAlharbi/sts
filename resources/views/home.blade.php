@@ -57,6 +57,23 @@
                               <div class="row">
                               <div class="col-md-12">
 
+                                <h5><span class="label label-info">v0.4.4</span></h5>
+
+                                  <h5> <span class="label label-success">Add</span> </h5>
+                                  <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Dashboard Statuses in 🍩</h5>
+                                  <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Due Date in Tickets</h5>
+                                  <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Ability To Create/Edit Locations For Admins</h5>
+                                  <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Ability To Create/Edit Categories For Admins</h5>
+                                  <h5><small><span class="fa fa-circle text-success m-r-5"></small></span>Nested Reply To The Comments</h5>
+
+
+                                </div>
+                              </div>
+                              <div class="m-t-20 m-b-20">
+                              </div>
+                              <div class="row">
+                              <div class="col-md-12">
+
                                 <h5><span class="label label-info">v0.4.3</span></h5>
 
                                   <h5> <span class="label label-success">Add</span> </h5>

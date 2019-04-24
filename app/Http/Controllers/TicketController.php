@@ -14,6 +14,7 @@ use App\Mail\agent;
 use App\Mail\TicketAgentAssigned;
 use App\Mail\RequestedBy;
 use Spatie\Activitylog\Models\Activity;
+use Carbon\Carbon;
 // use App\Events\TicketAssigned;
 
 
@@ -42,13 +43,14 @@ class TicketController extends Controller
         $locations = Location::all()->pluck('location_name','id');
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
+        $now = Carbon::now()->addHours(3);
         if (Auth::user()->hasRole('admin')) {
           $groups = Group::all();
         }else {
           $groups = Auth::user()->group;
         }
 
-        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups'));
+        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups', 'now'));
     }
 
     /**
@@ -83,6 +85,7 @@ class TicketController extends Controller
           'ticket_content'=> 'required',
           'group_id'=> 'required',
           'requested_by'=> 'required',
+          'due_date'=> 'date_format:Y-m-d H:i:s',
         ]);
         $ticket = new Ticket;
 
@@ -168,9 +171,10 @@ class TicketController extends Controller
       $locations = Location::all()->pluck('location_name','id');
       $categories = Category::all()->pluck('category_name','id');
       $statuses = Status::all()->pluck('status_name','id');
+      $now = Carbon::now()->addHours(3);
 
 
-      return view('ticket.edit', compact('ticket','users','locations','categories','statuses','TicketAgents', 'groups'));
+      return view('ticket.edit', compact('ticket','users','locations','categories','statuses','TicketAgents', 'groups', 'now'));
 
 
     }
@@ -189,6 +193,7 @@ class TicketController extends Controller
         'ticket_content'=> 'required',
         'group_id'=> 'required',
         'requested_by'=> 'required',
+        'due_date'=> 'date_format:Y-m-d H:i:s',
       ]);
       $ticket = Ticket::findOrfail($id);
       $ticket->ticket_title = $request->ticket_title;
