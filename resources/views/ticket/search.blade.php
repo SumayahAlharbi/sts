@@ -80,6 +80,7 @@
                  <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
                  @elseif ($ticket->status['status_name'] == 'Completed') btn-success
                  @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
+                 @elseif ($ticket->status['status_name'] == 'In Progress') btn-primary
                  @else btn-inverse
                  @endif dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                    {{$ticket->status['status_name']}}

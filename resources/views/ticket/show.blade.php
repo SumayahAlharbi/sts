@@ -106,6 +106,7 @@
                               @if ($tickets->status->status_name == 'Unassigned') ribbon-danger
                               @elseif ($tickets->status->status_name == 'Completed') ribbon-success
                               @elseif ($tickets->status->status_name == 'Pending') ribbon-warning
+                              @elseif ($tickets->status->status_name == 'In Progress') ribbon-primary
                               @else ribbon-default
                               @endif">
                               {{$tickets->status->status_name}}
