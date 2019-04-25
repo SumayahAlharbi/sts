@@ -117,7 +117,7 @@ class TicketController extends Controller
     {
         $tickets =  Ticket::findOrfail($id);
         $user = Auth::user();
-      
+
         $groupId = $tickets->group_id;
             $users = User::whereHas('group', function ($q) use ($groupId) {
                 $q->where('group_id', $groupId);
@@ -173,8 +173,18 @@ class TicketController extends Controller
       $ticket = Ticket::findOrfail($id);
       $users = User::all();
       $TicketAgents = $ticket->user;
-      $locations = Location::all()->pluck('location_name','id');
-      $categories = Category::all()->pluck('category_name','id');
+
+      $groupId = $ticket->group_id;
+          // $users = User::whereHas('group', function ($q) use ($groupId) {
+          //     $q->where('group_id', $groupId);
+          // })->get();
+
+      $locations = Location::whereHas('group', function ($q) use ($groupId) {
+          $q->where('group_id', $groupId);
+      })->pluck('location_name','id');
+      $categories = Category::whereHas('group', function ($q) use ($groupId) {
+          $q->where('group_id', $groupId);
+      })->pluck('category_name','id');
       $statuses = Status::all()->pluck('status_name','id');
       //$now = Carbon::now()->addHours(3);
 
