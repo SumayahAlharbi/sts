@@ -73,7 +73,7 @@
 
                                     <div class="form-group">
                                       <label for="name">Due Date (Optional)</label>
-                                      <input type="text" placeholder="YYYY-MM-DD hh:mm:ss" class="form-control" name="due_date" value="{{ old('due_date') }}" minlength="19" maxlength="19"/>
+                                      <input type="text" id="datetimepicker" placeholder="YYYY-MM-DD hh:mm:ss" class="form-control" name="due_date" value="{{ old('due_date') }}" minlength="19" maxlength="19"/>
                                       <small class="form-control-feedback"> Date/Time Format: {{ $now }} </small>
                                     </div>
 

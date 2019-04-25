@@ -25,6 +25,8 @@
     <link href="{{ asset('css/colors/blue.css') }}" id="theme" rel="stylesheet">
 
     <link href="{{ asset('assets/plugins/c3-master/c3.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('assets/plugins/datetimepicker/jquery.datetimepicker.min.css') }}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -473,10 +475,16 @@
 <script src="{{ asset('assets/plugins/d3/d3.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/c3-master/c3.min.js') }}"></script>
 
+<script src="{{ asset('assets/plugins/datetimepicker/jquery.datetimepicker.full.min.js') }}"></script>
+
 <!--Custom JavaScript -->
 <script src="{{ asset('js/custom.js') }}"></script>
 
 <script>
+$('#datetimepicker').datetimepicker({
+  format:'Y-m-d H:i:s',
+  lang:'en'
+});
 $(".reply-init").click(function() {
     $('html,body').animate({
         scrollTop: $(".reply-box").offset().top},
