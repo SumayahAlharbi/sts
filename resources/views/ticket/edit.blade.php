@@ -41,8 +41,8 @@
         </div>
         <div class="form-group col-md-6">
           <label for="name">Due Date</label>
-          <input type="text" placeholder="YYYY-MM-DD hh:mm:ss" class="form-control" name="due_date" value="{{ $ticket->due_date }}"/>
-          <small class="form-control-feedback"> Date/Time Format: {{ $now }} </small>
+          <input type="text" placeholder="YYYY-MM-DD hh:mm:ss" class="form-control" name="due_date" value="{{ $ticket->due_date }}" id="datetimepicker" readonly />
+          {{-- <small class="form-control-feedback"> Date/Time Format: {{ $now }} </small> --}}
         </div>
       </div>
         <div class="form-group">
