@@ -85,7 +85,7 @@ class TicketController extends Controller
           'ticket_content'=> 'required',
           'group_id'=> 'required',
           'requested_by'=> 'required',
-          'due_date'=> 'date_format:Y-m-d H:i:s',
+          'due_date'=> 'date_format:Y-m-d H:i:s|nullable',
         ]);
         $ticket = new Ticket;
 
@@ -193,7 +193,7 @@ class TicketController extends Controller
         'ticket_content'=> 'required',
         'group_id'=> 'required',
         'requested_by'=> 'required',
-        'due_date'=> 'date_format:Y-m-d H:i:s',
+        'due_date'=> 'date_format:Y-m-d H:i:s|nullable',
       ]);
       $ticket = Ticket::findOrfail($id);
       $ticket->ticket_title = $request->ticket_title;
