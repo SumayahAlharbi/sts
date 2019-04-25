@@ -115,9 +115,14 @@ class TicketController extends Controller
      */
     public function show($id, Request $request)
     {
-        $user = Auth::user();
-        $users = User::has('group')->get();
         $tickets =  Ticket::findOrfail($id);
+        $user = Auth::user();
+      
+        $groupId = $tickets->group_id;
+            $users = User::whereHas('group', function ($q) use ($groupId) {
+                $q->where('group_id', $groupId);
+            })->get();
+
         $TicketAgents = $tickets->user;
         $statuses = Status::all();
         $locations = Location::withoutGlobalScopes()->get();
