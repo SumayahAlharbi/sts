@@ -98,6 +98,8 @@ class UserController extends Controller
 
     //    $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->simplePaginate(10);
 
+    if ($user->group->isNotEmpty()) {
+
 
         if  (!empty(array_intersect($userGroupIDs, $ProfileGroupsIDs)))
         {
@@ -105,6 +107,7 @@ class UserController extends Controller
             return view('profile.index', compact('user','assigned_tickets','statuses','categories'));
 
 
+        }
         } else {
             return redirect('/profile/'.Auth::user()->id);
           }
@@ -112,7 +115,7 @@ class UserController extends Controller
 
     public function profileSearch(Request $request)
    {
-  
+
      $statuses = Status::all();
      $groups = Auth::user()->group;
      $userId = $request->id;
