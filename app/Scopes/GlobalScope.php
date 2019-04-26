@@ -36,7 +36,7 @@ class GlobalScope implements Scope
     $builder->whereHas('user', function ($q) use ($userId) {
     $q->where('user_id', $userId);})->whereIn('group_id', $userGroupIDs);
   } else {
-    $builder->where('requested_by', Auth::user()->id);
+    $builder->where('requested_by', Auth::user()->id)->orWhere('created_by', Auth::user()->id);
   }
   }
 }
