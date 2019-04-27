@@ -56,6 +56,7 @@ class Ticket extends Model
     $array['status_id'] = $this->status->status_name;
     $array['location_id'] = $this->location->location_name;
     $array['category_id'] = $this->category->category_name;
+    $array['group_id'] = $this->group->group_name;
 
     // $user = $this->user()->get(['name'])->map( function ($user) {
     //              return $user['name'];
