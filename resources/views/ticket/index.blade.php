@@ -123,7 +123,7 @@
 
                               <div class="form-group" required>
                                 <label for="exampleFormControlSelect1">Requested by</label>
-                              <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true" required>
+                              <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true">
                                 <option selected value> -- Who requested this ticket? -- </option>
                                 @foreach ($users as $key => $value)
                                   @if ($key == $created_by->id)
