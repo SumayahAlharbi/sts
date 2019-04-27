@@ -22,7 +22,7 @@
                                      </a>
                                      <a href="{{url('/statusFilter?status=5')}}">
                                 <li>
-                                    <h6 class="text-muted text-info"><span class="label label-inverse"> In Progress {{$ticketsStats->where('status_id','=','5')->count()}}</span></h6></li>
+                                    <h6 class="text-muted text-info"><span class="label label-primary"> In Progress {{$ticketsStats->where('status_id','=','5')->count()}}</span></h6></li>
                                   </a>
                                   <a href="{{url('/statusFilter?status=2')}}">
                                 <li>

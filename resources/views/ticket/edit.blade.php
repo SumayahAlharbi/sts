@@ -110,10 +110,13 @@
         </div>
         <div class="form-group col-md-4">
           <label for="exampleFormControlSelect1">Requested by</label>
-          <select class="selectpicker form-control" name="requested_by"data-show-subtext="true" data-live-search="true"  id="exampleFormControlSelect1" required>
+          <select class="selectpicker form-control" name="requested_by"data-show-subtext="true" data-live-search="true"  id="exampleFormControlSelect1">
+          @empty($user->id)
+          <option selected value> -- Who requested this ticket? -- </option>
+          @endempty
             @foreach($users as $user)
               @if ($user->id == $ticket->requested_by)
-           <option selected value="{{$user->id}}">{{$user->name}}</option>
+             <option selected value="{{$user->id}}">{{$user->name}}</option>
            @else
            <option value="{{$user->id}}">{{$user->name}}</option>
            @endif

@@ -123,7 +123,7 @@
 
                               <div class="form-group" required>
                                 <label for="exampleFormControlSelect1">Requested by</label>
-                              <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true" required>
+                              <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true">
                                 <option selected value> -- Who requested this ticket? -- </option>
                                 @foreach ($users as $key => $value)
                                   @if ($key == $created_by->id)
@@ -193,6 +193,7 @@
                                <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
                                @elseif ($ticket->status['status_name'] == 'Completed') btn-success
                                @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
+                               @elseif ($ticket->status['status_name'] == 'In Progress') btn-primary
                                @else btn-inverse
                                @endif dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                  {{$ticket->status['status_name']}}
@@ -213,6 +214,7 @@
                             @if ($ticket->status['status_name'] == 'Unassigned') label-danger
                             @elseif ($ticket->status['status_name'] == 'Completed') label-success
                             @elseif ($ticket->status['status_name'] == 'Pending') label-warning
+                            @elseif ($ticket->status['status_name'] == 'In Progress') label-primary
                             @else label-inverse
                             @endif">
                             {{$ticket->status['status_name']}}

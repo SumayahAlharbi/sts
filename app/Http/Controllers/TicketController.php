@@ -84,7 +84,6 @@ class TicketController extends Controller
           'ticket_title'=>'required',
           'ticket_content'=> 'required',
           'group_id'=> 'required',
-          'requested_by'=> 'required',
           'due_date'=> 'date_format:Y-m-d H:i:s|nullable',
         ]);
         $ticket = new Ticket;
@@ -115,9 +114,14 @@ class TicketController extends Controller
      */
     public function show($id, Request $request)
     {
-        $user = Auth::user();
-        $users = User::has('group')->get();
         $tickets =  Ticket::findOrfail($id);
+        $user = Auth::user();
+
+        $groupId = $tickets->group_id;
+            $users = User::whereHas('group', function ($q) use ($groupId) {
+                $q->where('group_id', $groupId);
+            })->get();
+
         $TicketAgents = $tickets->user;
         $statuses = Status::all();
         $locations = Location::withoutGlobalScopes()->get();
@@ -168,8 +172,18 @@ class TicketController extends Controller
       $ticket = Ticket::findOrfail($id);
       $users = User::all();
       $TicketAgents = $ticket->user;
-      $locations = Location::all()->pluck('location_name','id');
-      $categories = Category::all()->pluck('category_name','id');
+
+      $groupId = $ticket->group_id;
+          // $users = User::whereHas('group', function ($q) use ($groupId) {
+          //     $q->where('group_id', $groupId);
+          // })->get();
+
+      $locations = Location::whereHas('group', function ($q) use ($groupId) {
+          $q->where('group_id', $groupId);
+      })->pluck('location_name','id');
+      $categories = Category::whereHas('group', function ($q) use ($groupId) {
+          $q->where('group_id', $groupId);
+      })->pluck('category_name','id');
       $statuses = Status::all()->pluck('status_name','id');
       //$now = Carbon::now()->addHours(3);
 
@@ -192,7 +206,6 @@ class TicketController extends Controller
         'ticket_title'=>'required',
         'ticket_content'=> 'required',
         'group_id'=> 'required',
-        'requested_by'=> 'required',
         'due_date'=> 'date_format:Y-m-d H:i:s|nullable',
       ]);
       $ticket = Ticket::findOrfail($id);
