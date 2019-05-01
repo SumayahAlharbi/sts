@@ -85,7 +85,8 @@
 
                                       <div class="form-group">
                                         <label for="exampleFormControlSelect1">Category</label>
-                                        <select class="form-control" name="category_id" id="exampleFormControlSelect1">
+                                        <select required class="form-control" name="category_id" id="exampleFormControlSelect1">
+                                          <option value="">None</option>
                                           @foreach ($categories as $key => $value)
                                             <option value="{{$key}}">{{$value}}</option>
                                           @endforeach
@@ -95,7 +96,8 @@
 
                                       <div class="form-group">
                                         <label for="exampleFormControlSelect1">Location</label>
-                                        <select class="form-control" name="location_id" id="exampleFormControlSelect1">
+                                        <select required class="form-control" name="location_id" id="exampleFormControlSelect1">
+                                          <option value="">None</option>
                                           @foreach ($locations as $key => $value)
                                             <option value="{{$key}}">{{$value}}</option>
                                           @endforeach
