@@ -84,6 +84,8 @@ class TicketController extends Controller
           'ticket_title'=>'required',
           'ticket_content'=> 'required',
           'group_id'=> 'required',
+          'location_id'=> 'required',
+          'category_id'=> 'required',
           'due_date'=> 'date_format:Y-m-d H:i:s|nullable',
         ]);
         $ticket = new Ticket;
@@ -206,6 +208,8 @@ class TicketController extends Controller
         'ticket_title'=>'required',
         'ticket_content'=> 'required',
         'group_id'=> 'required',
+        'location_id'=> 'required',
+        'category_id'=> 'required',
         'due_date'=> 'date_format:Y-m-d H:i:s|nullable',
       ]);
       $ticket = Ticket::findOrfail($id);
