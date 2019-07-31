@@ -26,7 +26,7 @@ class CategoryScope implements Scope
         foreach ($userGroups as $userGroup) {
           $userGroupIDs[] =  $userGroup->id;
         };
-      if (Auth::user()->hasRole('admin')) {
+      if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('enduser')) {
         $builder;
       }
       else {
