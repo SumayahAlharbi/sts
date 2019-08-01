@@ -32,7 +32,7 @@
                     @endcan--}}
 
                 <!-- End User Create Ticket -->
-                    @can('End User Create Ticket')
+                    @can('end user create ticket')
                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#EndUserCreateTicketModal" data-whatever="@create" title="Create New Ticket" ><i class="fa fa-plus-circle"></i> New</button>
                         @endcan
 
