@@ -46,7 +46,7 @@ class TicketController extends Controller
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
       //  $now = Carbon::now()->addHours(3);
-        if (Auth::user()->hasRole('admin')) {
+        if (Auth::user()->hasRole('admin')|| Auth::user()->hasRole('enduser')) {
           $groups = Group::all();
         }else {
           $groups = Auth::user()->group;
@@ -66,7 +66,7 @@ class TicketController extends Controller
         $locations = Location::all()->pluck('location_name','id');
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
-        if (Auth::user()->hasRole('admin')) {
+        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('enduser')) {
           $groups = Group::all();
         }else {
           $groups = Auth::user()->group;
@@ -88,7 +88,7 @@ class TicketController extends Controller
           'group_id'=> 'required',
           'location_id'=> 'required',
           'category_id'=> 'required',
-          'due_date'=> 'date_format:Y-m-d H:i:s|nullable',
+          // 'due_date'=> 'date_format:Y-m-d H:i:s|nullable',
         ]);
         $ticket = new Ticket;
 
@@ -99,7 +99,7 @@ class TicketController extends Controller
         $ticket->group_id = $request->group_id;
         $ticket->status_id = '3';
         $ticket->priority = $request->priority;
-        $ticket->due_date = $request->due_date;
+        // $ticket->due_date = $request->due_date;
         $ticket->room_number = $request->room_number;
         $ticket->created_by = $request->created_by;
         $ticket->requested_by = $request->requested_by;

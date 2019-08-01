@@ -98,7 +98,7 @@ class UserController extends Controller
 
     //    $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->simplePaginate(10);
 
-    if ($user->group->isNotEmpty()) {
+    if ($user->group->isEmpty()) {
 
 
         if  (!empty(array_intersect($userGroupIDs, $ProfileGroupsIDs)))
