@@ -44,7 +44,7 @@ class TicketController extends Controller
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
       //  $now = Carbon::now()->addHours(3);
-        if (Auth::user()->hasRole('admin')) {
+        if (Auth::user()->hasRole('admin')|| Auth::user()->hasRole('enduser')) {
           $groups = Group::all();
         }else {
           $groups = Auth::user()->group;
