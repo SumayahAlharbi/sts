@@ -8,10 +8,12 @@ use App\Location;
 use App\Status;
 use App\Group;
 use App\User;
+use App\Rating;
 use Auth;
 use App;
 use App\Mail\agent;
 use App\Mail\TicketAgentAssigned;
+use App\Mail\TicketRating;
 use App\Mail\RequestedBy;
 use Spatie\Activitylog\Models\Activity;
 use Carbon\Carbon;
@@ -202,6 +204,32 @@ class TicketController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
+    public function storeTicketRateing(Request $request)
+    {
+      // Validate the form data
+      $this->validate($request, [
+        'rateScore' => 'required|min:1',
+      ]);
+
+      $rateScore = $request->rateScore;
+      $ticket_id = $request->ticket_id;
+
+      $rating = new Rating;
+      $rating->ticket_id = $ticket_id;
+      $rating->rating_value = $rateScore;
+      $result = $rating->save();
+
+      if ($result)
+      return redirect('ticket/'. $ticket_id)->with('success', 'Rating has been saved');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Ticket  $ticket
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, $id)
     {
       $request->validate([
@@ -263,6 +291,24 @@ class TicketController extends Controller
       // event(new App\Events\TicketAssigned('Someone'));
       return back();
     }
+
+    // Send Rating Email to the user if the ticket is completed
+    public function sendTicketRatingEmail($ticket_id)
+    {
+      $ticket = Ticket::findorfail($ticket_id);
+      $TicketStatus = $ticket->status_id;
+
+        if ($TicketStatus == "2") {
+          $user = User::findorfail($ticket->requested_by_user);
+          if (App::environment('production')) {
+              // The environment is production
+              \Mail::to($user)->send(new TicketRating($ticket));
+          }
+        }
+
+      return back();
+    }
+
     /**
      * Remove assigned users to ticket
      *

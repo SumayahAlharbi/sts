@@ -8032,3 +8032,17 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
   display: inline-block;
   vertical-align: middle;
 }
+
+/* Custom Rating Style */
+.btn-group.customRating {
+  margin-left: 10px;
+}
+.btn-group .customRating label {
+  color: #7460ee;
+  margin-bottom: auto;
+}
+.rating {
+  padding: 10px 20px;
+  font-size: 20px;
+}
+/* End Of Custom Rating Style */
