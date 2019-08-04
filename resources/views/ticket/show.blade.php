@@ -34,23 +34,23 @@
 
     @if ($tickets->rating)
     @if ($tickets->rating->rating_value == '1')
-    <button type="button" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Very poor"><i class="fas fa-angry"></i></button>
+    <button type="button" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Very poor" id="rateTooltip"><i class="fas fa-angry"></i></button>
     @endif
 
     @if ($tickets->rating->rating_value == '2')
-    <button type="button" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Poor"><i class="fas fa-frown"></i></button>
+    <button type="button" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Poor" id="rateTooltip"><i class="fas fa-frown"></i></button>
     @endif
 
     @if ($tickets->rating->rating_value == '3')
-    <button type="button" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="leftleft" title="Fair"><i class="fas fa-meh"></i></button>
+    <button type="button" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Fair" id="rateTooltip"><i class="fas fa-meh"></i></button>
     @endif
 
     @if ($tickets->rating->rating_value == '4')
-    <button type="button" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Good"><i class="fas fa-smile"></i></button>
+    <button type="button" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Good" id="rateTooltip"><i class="fas fa-smile"></i></button>
     @endif
 
     @if ($tickets->rating->rating_value == '5')
-    <button type="button" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Excellent"><i class="fas fa-grin-stars"></i></button>
+    <button type="button" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Excellent" id="rateTooltip"><i class="fas fa-grin-stars"></i></button>
     @endif
     @endif
 
@@ -108,7 +108,7 @@
                 </label>
 
                 <label class="btn btn-outline-primary rating" data-toggle="tooltip" data-placement="bottom" title="Poor">
-                  <input type="radio" name="rateScore" value="2"> <i class="fas fa-frown"></i>
+                  <input type="radio" name="rateScore" value="2"> <i class="fas fa-frown-open"></i>
                 </label>
 
                 <label class="btn btn-outline-primary rating" data-toggle="tooltip" data-placement="bottom" title="Fair">

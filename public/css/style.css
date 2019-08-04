@@ -8037,12 +8037,11 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
 .btn-group.customRating {
   margin-left: 10px;
 }
-.btn-group .customRating label {
-  color: #7460ee;
-  margin-bottom: auto;
-}
 .rating {
   padding: 10px 20px;
   font-size: 20px;
+}
+.btn-group.customRating .btn{
+    background-color: #7460ee;
 }
 /* End Of Custom Rating Style */
