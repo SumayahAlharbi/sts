@@ -32,10 +32,12 @@
                     @endcan--}}
 
                 <!-- End User Create Ticket -->
+                @if(Auth::user()->hasRole('enduser'))
                     @can('end user create ticket')
                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#EndUserCreateTicketModal" data-whatever="@create" title="Create New Ticket" ><i class="fa fa-plus-circle"></i> New</button>
                         @endcan
-
+                  @endif
+                
                 <div class="modal fade" id="EndUserCreateTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -149,12 +151,13 @@
                         </div>
                 </div>
                 
+                
                 <!--/.End User Create Ticket -->
 
                     {{-- <button id="btn" class="btn btn-danger">Ready?</button> --}}
                   </div>
                 </div>
-
+                
                 <div class="modal fade" id="CreateTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
