@@ -296,15 +296,11 @@ class TicketController extends Controller
     public function sendTicketRatingEmail($ticket_id)
     {
       $ticket = Ticket::findorfail($ticket_id);
-      $TicketStatus = $ticket->status_id;
-
-        if ($TicketStatus == "2") {
           $user = User::findorfail($ticket->requested_by_user);
           if (App::environment('production')) {
               // The environment is production
               \Mail::to($user)->send(new TicketRating($ticket));
-          }
-        }
+            }
 
       return back();
     }
@@ -332,6 +328,10 @@ class TicketController extends Controller
       $ticket = Ticket::findorfail($tickets_id);
       $ticket->status()->associate($status_id);
       $ticket->save();
+
+      if ($status_id == "2") {
+        return $this->sendTicketRatingEmail($tickets_id);
+      }
 
 
       // $account = App\Account::find(10);
