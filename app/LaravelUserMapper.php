@@ -42,9 +42,9 @@ class LaravelUserMapper
                 $user->assignRole('enduser');
 
                 // these permissions required for end-user to access and create tickets
-                $user->givePermissionTo('show ticket');
-                $user->givePermissionTo('view tickets list');
-                $user->givePermissionTo('end user create ticket');
+                // $user->givePermissionTo('show ticket');
+                // $user->givePermissionTo('view tickets list');
+                // $user->givePermissionTo('end user create ticket');
                 
                 //report($e);
 

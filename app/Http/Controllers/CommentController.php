@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Comment;
 use App\Ticket;
+use App\Mail\TicketNewComment;
 
 class CommentController extends Controller
 {
@@ -18,7 +19,13 @@ class CommentController extends Controller
     $comment->user()->associate($request->user());
     $ticket = Ticket::find($request->get('ticket_id'));
     $ticket->comments()->save($comment);
-
+    $ticketAgent= $ticket->user;
+    if ($ticketAgent->isEmpty()) {
+      return back();
+    }
+    else {
+      \Mail::to($ticketAgent)->send(new TicketNewComment($ticket, $comment));
+    }
     return back();
   }
 
