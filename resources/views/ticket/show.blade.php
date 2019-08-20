@@ -238,6 +238,12 @@
             {{$tickets->requested_by_user->name}}
             @endisset
           </span>
+          <span class="label label-light-inverse">
+            <i class="fas fa-bookmark"></i>
+            @isset($tickets->category->category_name)
+            {{$tickets->category->category_name}}
+            @endisset
+          </span>
           <span class="label label-light-inverse"><i class="far fa-clock"></i>
             {{$tickets->created_at->diffForHumans()}}
           </span>
@@ -286,6 +292,19 @@
   </div>
 </div>
 
+ <!-- Group Row -->
+ <div class="row">
+  <div class="col-md-12">
+    <div class="card">
+
+      <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-muted">Ticket Category</h6>
+        <p class="card-text">{{$tickets->category->category_name}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+ <!-- Group Row -->
 
 <div class="row">
   <div class="col-md-12">

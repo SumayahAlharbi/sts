@@ -1,6 +1,7 @@
 @extends('layouts.material')
 @section('title', 'Dashboard')
 @section('content')
+@section('title', 'Tickets')
 
     <!-- Start Page Content -->
     <!-- ============================================================== -->
@@ -42,6 +43,144 @@
              </div>
 
     </div>
+
+<!-- Show tickets that is due date today in dashboard -->
+<div class="row">
+            <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title"><i class="far fa-calendar"></i> Today Tickets <span class="label label-light-inverse">{{$todayTickets->count()}}</span></h3>
+                  
+                  @if($todayTickets->isEmpty())
+                  <th> Nothing is Due Today</th>
+                  
+                  @else            
+                        
+             <table class="footable table m-b-0 toggle-circle" data-sort="false">
+                  <thead>
+                        <tr>
+                          <th> # </th>
+                          <th data-hide="phone,tablet" data-ignore="true"> Title </th>
+                          <th data-hide="desktop,xdesktop" data-ignore="true"> Title </th>
+                          <th> Status </th>
+                          <th data-hide="phone">Category</th>
+                          @if(count($groups) > 1)
+                          <th data-hide="phone">Group</th>
+                          @endif
+                          <th data-hide="phone">Agents</th>
+                          <th data-hide="all">Requested by</th>
+                          <th data-hide="all">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+               
+                  
+                  @foreach($todayTickets as $ticket)
+                  
+                      <tr>
+                          <td>{{$ticket->id}}</td>
+                          <td><a href="{{ route('ticket.show',$ticket->id)}}" title="{{$ticket->ticket_title}}"> {{ str_limit($ticket->ticket_title, 35)}}</a>
+                            @if ($ticket->comments()->count() != 0)
+                              <span class="badge badge-pill badge-info"> {{$ticket->comments()->count()}}</span>
+                            @endif
+                            <br>
+                            <small class="text-muted"> {{ $ticket->created_at->diffForHumans() }} </small></td>
+
+                          <td>{{ str_limit($ticket->ticket_title, 35)}}
+                            @if ($ticket->comments()->count() != 0)
+                              <span class="badge badge-pill badge-info"> {{$ticket->comments()->count()}}</span>
+                            @endif
+                            <br> {{$ticket->created_at->diffForHumans()}}</td>
+
+                          <td title="{{$ticket->status['status_name']}}">
+                            @if(auth()->user()->can('change ticket status'))
+                               <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
+                               @elseif ($ticket->status['status_name'] == 'Completed') btn-success
+                               @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
+                               @elseif ($ticket->status['status_name'] == 'In Progress') btn-primary
+                               @else btn-inverse
+                               @endif dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                 {{$ticket->status['status_name']}}
+                               </button>
+
+                               <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                               @foreach ($statuses as $status)
+                                 @if($status != $ticket->status)
+                                 <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status['status_name']}}</a>
+                               @endif
+                               @endforeach
+                               </div>
+
+
+
+                          @else
+                            <span class="label
+                            @if ($ticket->status['status_name'] == 'Unassigned') label-danger
+                            @elseif ($ticket->status['status_name'] == 'Completed') label-success
+                            @elseif ($ticket->status['status_name'] == 'Pending') label-warning
+                            @elseif ($ticket->status['status_name'] == 'In Progress') label-primary
+                            @else label-inverse
+                            @endif">
+                            {{$ticket->status['status_name']}}
+                          </span>
+                          @endif
+                          </td>
+                          <td>{{$ticket->category['category_name']}}</td>
+                          @if(count($groups) > 1)
+                          <td>
+                            <small title="{{$ticket->group->group_description}}">{{$ticket->group->group_name}}</small>
+                          </td>
+                           @endif
+                          <td>
+                          @foreach($ticket->user as $ticket_assignee)
+                            <a href="{{url('/profile/' . $ticket_assignee->id)}}">
+                          <span class="label label-table label-success">{{$ticket_assignee->name}}</span>
+                            </a>
+                          @endforeach
+                          </td>
+                          <td>
+                            @isset($ticket->requested_by_user->name)
+                              {{$ticket->requested_by_user->name}}
+                            @endisset
+
+                          </td>
+                          <td>
+                            <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
+                              @csrf
+                              @method('DELETE')
+                              <a href="{{ route('ticket.show',$ticket->id)}}" title="Show" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                              @can('update ticket')
+                              <a href="{{ route('ticket.edit',$ticket->id)}}" title="Edit" class="btn btn-primary"><i class="far fa-edit"></i></a>
+                              @endcan
+                              @can('delete ticket')
+                              <button class="btn btn-danger" title="Delete" type="submit"><i class="fa fa-trash-alt"></i></button>
+                              @endcan
+                            </form>
+                          </td>
+                          
+
+                      </tr>
+                      
+                    @endforeach 
+                  @endif
+                  </tbody>
+                  <tfoot>
+                      <tr>
+                          <td colspan="6">
+                              <div class="text-right">
+                                  <ul class="pagination pagination-centered hide-if-no-paging"> </ul>
+                              </div>
+                          </td>
+                      </tr>
+                  </tfoot>
+               </table>
+              </div>
+            </div>
+      </div>
+    
+                
+
+<!-- Show tickets that is due date today in dashboard -->
 
                 <div class="row">
                   <div class="col-md-12">

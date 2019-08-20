@@ -244,9 +244,6 @@
                                       </select>
                                     </div>
 
-
-
-
                               <div class="form-group" required>
                                 <label for="exampleFormControlSelect1">Requested by</label>
                               <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true">

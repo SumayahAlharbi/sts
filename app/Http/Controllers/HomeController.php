@@ -6,9 +6,21 @@ use Illuminate\Http\Request;
 use App\Ticket;
 use App\User;
 use Auth;
+use App\Comment;
 use App\Group;
 use Spatie\Activitylog\Models\Activity;
 
+
+use App\Category;
+use App\Location;
+use App\Status;
+use App\Rating;
+use App;
+use App\Mail\agent;
+use App\Mail\TicketAgentAssigned;
+use App\Mail\TicketRating;
+use App\Mail\RequestedBy;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -32,13 +44,26 @@ class HomeController extends Controller
       // $userId = Auth::user()->id;
       // $userGroup = Auth::user()->group->first()->id;
       // $ticketUserGroup = Group::find($userGroup)->ticket;
-
+      $todayTickets = Ticket::whereDate('due_date', Carbon::now() )->paginate(5);
+      
+      
+      
       $tickets = Ticket::paginate(5);
       $ticketsStats = Ticket::all();
       $users = User::withCount('ticket')->take(5)->orderBy('ticket_count', 'desc')->get();
       $activityTickets = Activity::where('subject_type', 'App\Ticket')->orderBy('id', 'desc')->limit(5)->get();
+      $locations = Location::all()->pluck('location_name','id');
+      $categories = Category::all()->pluck('category_name','id');
+      $statuses = Status::all();
+      $created_by = Auth::user();
+      //  $now = Carbon::now()->addHours(3);
+        if (Auth::user()->hasRole('admin')|| Auth::user()->hasRole('enduser')) {
+          $groups = Group::all();
+        }else {
+          $groups = Auth::user()->group;
+        }
 
-      return view('home', compact('tickets', 'users', 'ticketsStats', 'activityTickets'));
+      return view('home', compact('tickets','todayTickets', 'categories','locations','users','statuses','created_by', 'groups', 'ticketsStats', 'activityTickets'));
     }
 
     public function TicketsChartsApi()
