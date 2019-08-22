@@ -156,6 +156,10 @@ Route::post('ticket/addTicketAgent','TicketController@addTicketAgent')->middlewa
 // remove agent from a ticket
 Route::get('ticket/removeTicketAgent/{user_id}/{ticket_id}','\App\Http\Controllers\TicketController@removeTicketAgent')->middleware('permission:unassign ticket');
 
+//trashed tickets route
+Route::get('trash', 'TicketController@deletedTickets')->name('ticket.trash')->middleware('role:admin' ?? 'role:manager' ?? 'role:supervisor');
+Route::get('trash/{ticket}/restore', 'TicketController@restore')->name('ticket.restore')->middleware('role:admin' ?? 'role:manager' ?? 'role:supervisor');
+
   //Route::resource('ticket','TicketController');
 
 

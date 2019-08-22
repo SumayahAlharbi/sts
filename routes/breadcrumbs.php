@@ -57,6 +57,11 @@ Breadcrumbs::for('ticket.edit', function ($trail, $id) {
     $trail->push('Edit Ticket', route('ticket.edit', $ticket->id));
 });
 
+// ticket.trash
+Breadcrumbs::for('ticket.trash', function ($trail) {
+    $trail->parent('ticket.index');
+    $trail->push('trash', route('ticket.trash'));
+});
 
 Breadcrumbs::macro('resource', function ($name, $title) {
     // Home > Blog

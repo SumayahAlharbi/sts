@@ -17,6 +17,7 @@ use App\Mail\TicketRating;
 use App\Mail\RequestedBy;
 use Spatie\Activitylog\Models\Activity;
 use Carbon\Carbon;
+
 // use App\Events\TicketAssigned;
 
 
@@ -53,6 +54,28 @@ class TicketController extends Controller
         }
 
         return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups'));
+    }
+
+        /**
+     * Display a listing of the deleted tickets.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deletedTickets()
+    {
+          $statuses = Status::all();
+          $tickets = Ticket::onlyTrashed()->orderByRaw('created_at DESC')->simplePaginate(10);
+          $categories = Category::all()->pluck('category_name','id');
+          $locations = Location::all()->pluck('location_name','id');
+          $users = User::all()->pluck('name','id');
+          $created_by = Auth::user();
+        //  $now = Carbon::now()->addHours(3);
+          if (Auth::user()->hasRole('admin')|| Auth::user()->hasRole('enduser')) {
+            $groups = Group::all();
+          }else {
+            $groups = Auth::user()->group;
+          }
+        return view('ticket.trash', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups'));
     }
 
     /**
@@ -269,6 +292,12 @@ class TicketController extends Controller
       $ticket = Ticket::findOrfail($id);
       $ticket->delete();
       return redirect('/ticket')->with('success', 'Ticket has been deleted');
+    }
+
+    public function restore($id)
+    {
+      $ticket = Ticket::withTrashed()->where('id', $id)->restore();
+      return redirect('/trash')->with('success', 'Ticket has been restored');
     }
 
     public function addTicketAgent(Request $request)
