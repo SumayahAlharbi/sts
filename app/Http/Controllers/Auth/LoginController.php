@@ -25,6 +25,8 @@ class LoginController extends Controller
      *
      * @var string
      */
+
+   
     protected $redirectTo = '/';
 
     /**
@@ -36,4 +38,15 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /** Redirect to the provided request */
+    public function handle($request, Closure $next, $guard = null)
+    {
+        if (Auth::guard($guard)->check()) {
+            return $redirectTo;
+        }
+    
+        return $next($request);
+    }
+
 }
