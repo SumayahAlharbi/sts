@@ -36,7 +36,7 @@ Route::get('/cas/login', function(){
       // if the user is authenticated by CAS and found by user maper and matched a existing account
       if (Auth::check()) {
         // he shall enter :)
-        return redirect()->route('home');
+        return redirect()->intended('/');;
       // if the user is authenticated by CAS and not found by user maper in the app :(
       }elseif (!(Auth::check())) {
         // See ya !
