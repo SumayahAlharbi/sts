@@ -13,7 +13,7 @@
     {{ session()->get('danger') }}
   </div><br />
 @endif
-
+<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
 <div class="row">
     <div class="col-12">
       <h1 class="text-center" id="type"></h1>
@@ -84,6 +84,9 @@
                                       <div class="form-group">
                                           <label for="ticket_content">Ticket Content</label>
                                           <textarea name="ticket_content" class="form-control" id="editor" rows="3" value="{{ old('ticket_content') }}" required></textarea>
+                                          <script>
+                                              CKEDITOR.replace( 'editor' );
+                                          </script>
                                       </div>
 
 
@@ -203,7 +206,10 @@
 
                                       <div class="form-group">
                                           <label for="ticket_content">Ticket Content</label>
-                                          <textarea name="ticket_content" class="form-control" id="editor" rows="3" value="{{ old('ticket_content') }}" required></textarea>
+                                          <textarea name="ticket_content" class="form-control" id="contentEditor" rows="3" value="{{ old('ticket_content') }}" required></textarea>
+                                          <script>
+                                              CKEDITOR.replace( 'contentEditor' );
+                                          </script>
                                       </div>
 
 

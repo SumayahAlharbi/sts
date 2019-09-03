@@ -25,7 +25,8 @@
         "spatie/laravel-backup": "^5.11",
         "spatie/laravel-permission": "^2.23",
         "springscs/cas": "^1.0",
-        "teamtnt/laravel-scout-tntsearch-driver": "^6.1"
+        "teamtnt/laravel-scout-tntsearch-driver": "^6.1",
+        "unisharp/laravel-ckeditor": "^4.7"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
