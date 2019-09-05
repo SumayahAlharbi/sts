@@ -89,6 +89,15 @@
                                           </script>
                                       </div>
 
+                                      <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Region</label>
+                                        <select required class="form-control" name="region_id" id="exampleFormControlSelect1">
+                                          <option value="">None</option>
+                                          @foreach ($regions as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                            @endforeach
+                                        </select>
+                                      </div>
 
                                       <div class="form-group">
                                         <label for="exampleFormControlSelect1">Category</label>
@@ -126,8 +135,7 @@
                                         @endforeach
                                       </select>
                                     </div>
-
-
+                             
 
 
                               <div class="form-group" required>
@@ -223,6 +231,15 @@
                                         </select>
                                       </div>
 
+                                      <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Region</label>
+                                        <select required class="form-control" name="region_id" id="exampleFormControlSelect1">
+                                          <option value="">None</option>
+                                          @foreach ($regions as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                            @endforeach
+                                        </select>
+                                      </div>
 
                                       <div class="form-group">
                                         <label for="exampleFormControlSelect1">Location</label>
