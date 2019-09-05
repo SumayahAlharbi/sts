@@ -27,8 +27,8 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
-          return view('group.create');
+        $regions = region::get();
+          return view('group.create', compact('regions'));
     }
 
     /**
@@ -43,11 +43,14 @@ class GroupController extends Controller
         $request->validate([
           'group_name'=>'required',
           'group_description'=> 'required',
+          'region_id'=>'required',
         ]);
+
         $group = new group;
 
         $group->group_name = $request->group_name;
         $group->group_description = $request->group_description;
+        $group->region_id = $request->region_id;
 
         $group->save();
         return redirect('/group')->with('success', 'Group has been added');

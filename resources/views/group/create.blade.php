@@ -32,6 +32,16 @@
               <label for="price">group description</label>
               <input type="text" class="form-control" name="group_description"/>
           </div>
+
+          <div class="form-group">
+          <label for="exampleFormControlSelect1">Group region</label>
+          <select required class="form-control" name="region_id">
+          <option value="">Please Select Region</option>
+            @foreach ($regions as $region)
+           <option value="{{$region->id}}">{{$region->name}}</option>
+            @endforeach
+          </select>
+        </div>
           <button type="submit" class="btn btn-primary">Add</button>
       </form>
   </div>
