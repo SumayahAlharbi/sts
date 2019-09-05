@@ -88,6 +88,7 @@ class GroupController extends Controller
         //
         $group = group::find($id);
         $group->group_name = $request->group_name;
+        $group->region_id = $request->region_id; // to assign region to a group and update it
         $group->group_description = $request->group_description;
         $group->save();
 
