@@ -89,6 +89,8 @@ Route::group(['middleware' => ['role:admin']], function () {
   Route::resource('status','StatusController');
   //Groups Routes
   Route::resource('group','GroupController');
+    //Regions Routes
+  Route::resource('regions','RegionController');
 
   Route::resource('permissions','PermissionController');
   Route::resource('roles','RoleController');

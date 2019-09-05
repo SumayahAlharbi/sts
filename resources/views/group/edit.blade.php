@@ -1,5 +1,5 @@
 @extends('layouts.material')
-@section('title', 'Edit: ' . $group->group_name)
+@section('title', 'Edit: ' . $group->group_name  ) 
 @section('content')
 
 <div class = 'container'>
@@ -24,10 +24,26 @@
           <label for="name">group name:</label>
           <input type="text" class="form-control" name="group_name" value="{{ $group->group_name }}" />
         </div>
+
         <div class="form-group">
           <label for="price">group description:</label>
           <input type="text" class="form-control" name="group_description" value="{{ $group->group_description }}" />
         </div>
+
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Regions</label>
+          <select required class="form-control" name="region_id" id="exampleFormControlSelect1">
+            @foreach ($regions as $region)
+            
+            @if ($region->id == $group->region_id && $group->region_id !=NULL)
+           <option selected value="{{$region->id}}">{{$group->region->name}}</option>
+           @else
+           <option value="{{$region->id}}">{{$region->name}}</option>
+           @endif
+            @endforeach
+          </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
   </div>

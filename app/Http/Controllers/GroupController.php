@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\Region;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -73,7 +74,8 @@ class GroupController extends Controller
     {
         //
         $group = group::find($id);
-        return view('group.edit', compact('group'));
+        $regions = region::get();
+        return view('group.edit', compact('group','regions'));
     }
 
     /**
