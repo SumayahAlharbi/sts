@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Region;
+use App\Region;
 
 class RegionController extends Controller
 {
