@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\Region;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -26,8 +27,8 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
-          return view('group.create');
+        $regions = region::get();
+          return view('group.create', compact('regions'));
     }
 
     /**
@@ -42,11 +43,14 @@ class GroupController extends Controller
         $request->validate([
           'group_name'=>'required',
           'group_description'=> 'required',
+          'region_id'=>'required',
         ]);
+
         $group = new group;
 
         $group->group_name = $request->group_name;
         $group->group_description = $request->group_description;
+        $group->region_id = $request->region_id;
 
         $group->save();
         return redirect('/group')->with('success', 'Group has been added');
@@ -73,7 +77,8 @@ class GroupController extends Controller
     {
         //
         $group = group::find($id);
-        return view('group.edit', compact('group'));
+        $regions = region::get();
+        return view('group.edit', compact('group','regions'));
     }
 
     /**
@@ -88,6 +93,7 @@ class GroupController extends Controller
         //
         $group = group::find($id);
         $group->group_name = $request->group_name;
+        $group->region_id = $request->region_id; // to assign region to a group and update it
         $group->group_description = $request->group_description;
         $group->save();
 

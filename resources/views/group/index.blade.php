@@ -23,6 +23,7 @@
         <tr>
           <td>ID</td>
           <td>Group Name</td>
+          <td>Region Name</td>
           <td>Action</td>
         </tr>
     </thead>
@@ -31,6 +32,11 @@
         <tr>
             <td>{{$group->id}}</td>
             <td>{{$group->group_name}}</td>
+            <td>
+            @if($group->region_id != NULL)
+            {{$group->region->name}}
+            @endif
+            </td>
             <td><a href="{{ route('group.edit',$group->id)}}" class="btn btn-primary">Edit</a></td>
             <td>
                 <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('group.destroy', $group->id)}}" method="post">

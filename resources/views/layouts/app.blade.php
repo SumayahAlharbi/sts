@@ -63,6 +63,9 @@
                               <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/group') }}">Groups</a>
                                 </li>
+                                <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/regions') }}">Regions</a>
+                                </li>
                               <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/location') }}">Locations</a>
                                 </li>

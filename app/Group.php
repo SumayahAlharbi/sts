@@ -24,4 +24,8 @@ class Group extends Model
   {
       return $this->hasMany('App\Category');
   }
+  public function region()
+  {
+    return $this->belongsTo('App\Region');
+  }
 }

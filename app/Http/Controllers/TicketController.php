@@ -9,6 +9,7 @@ use App\Status;
 use App\Group;
 use App\User;
 use App\Rating;
+use App\Region;
 use Auth;
 use App;
 use App\Mail\agent;
@@ -17,7 +18,6 @@ use App\Mail\TicketRating;
 use App\Mail\RequestedBy;
 use Spatie\Activitylog\Models\Activity;
 use Carbon\Carbon;
-
 // use App\Events\TicketAssigned;
 
 
@@ -42,6 +42,7 @@ class TicketController extends Controller
     {
         $statuses = Status::all();
         $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate(10);
+        $regions = Region::all()->pluck('name','id');
         $categories = Category::all()->pluck('category_name','id');
         $locations = Location::all()->pluck('location_name','id');
         $users = User::all()->pluck('name','id');
@@ -53,7 +54,7 @@ class TicketController extends Controller
           $groups = Auth::user()->group;
         }
 
-        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups'));
+        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions'));
     }
 
         /**
@@ -87,6 +88,7 @@ class TicketController extends Controller
     {
         $categories = Category::all()->pluck('category_name','id');
         $locations = Location::all()->pluck('location_name','id');
+        $regions = Region::all()->pluck('name','id');
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
         if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('enduser')) {
@@ -94,7 +96,7 @@ class TicketController extends Controller
         }else {
           $groups = Auth::user()->group;
         }
-        return view('ticket.create', compact('categories','locations','users','created_by', 'groups'));
+        return view('ticket.create', compact('categories','locations','users','created_by', 'groups','regions'));
     }
 
     /**
@@ -408,7 +410,27 @@ class TicketController extends Controller
 
     }
 
+   // Fetch groups by region id
+   public function getGroups($region_id){
 
+      $selectedgroups =Group::where('region_id','=',$region_id)->get();
+      return response()->json($selectedgroups);
+  }
+
+     // Fetch location by group id
+     public function getLocations($group_id){
+
+      $selectedlocations =Location::where('group_id','=',$group_id)->get();
+      return response()->json($selectedlocations);
+  }
+
+
+     // Fetch category by group id
+     public function getCategory($group_id){
+
+      $selectedcategory =Category::where('group_id','=',$group_id)->get();
+      return response()->json($selectedcategory);
+  }
 
 
     public function statusFilter(Request $request)

@@ -13,7 +13,82 @@
     {{ session()->get('danger') }}
   </div><br />
 @endif
+<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+        //update group after region select in defult model
+        $(document).on('change','.region', function(e){
+        var region_id = e.target.value;
+        $.getJSON('/getGroups/' + region_id, function(data) {
+              $("#groupDiv").show();
+              $('#group').empty(); 
+              $('#group').append("<option value=''>Select your department</option>");
+              $.each(data,function(index, subcatObj){
+                $('#group').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
 
+              });
+          });
+
+        });
+        //update location after group select in defult model
+        $(document).on('change','.group', function(e){
+        var group_id = e.target.value;
+        $.getJSON('/getLocations/' + group_id, function(data) {
+              $("#locationDiv").show();
+              $('#location').empty(); 
+              $('#location').append("<option value=''>Select your location</option>");
+              $.each(data,function(index, subcatObj){
+                $('#location').append("<option value="+subcatObj.id+">"+subcatObj.location_name+"</option>");
+
+              });
+          });
+          $.getJSON('/getCategory/' + group_id, function(data) {
+                console.log(data);
+                $("#categoryDiv").show();
+                    $('#category').empty(); 
+                    $('#category').append("<option value=''>Select a category</option>");
+                    $.each(data,function(index, subcatObj){
+                      $('#category').append("<option value="+subcatObj.id+">"+subcatObj.category_name+"</option>");
+
+                });
+            });
+        });
+        //update group after region select in Enduser model
+        $(document).on('change','.regionEnduser', function(e){
+        var region_id = e.target.value;
+        $.getJSON('/getGroups/' + region_id, function(data) {
+              $("#groupDivEnduser").show();
+              $('#groupEnduser').empty(); 
+              $('#groupEnduser').append("<option value=''>Select your department</option>");
+              $.each(data,function(index, subcatObj){
+                $('#groupEnduser').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
+
+              });
+          });
+        });
+        //update location after group select in Enduser model
+        $(document).on('change','.groupEnduser', function(e){
+          var group_id = e.target.value;
+          $.getJSON('/getLocations/' + group_id, function(data) {
+                $("#locationDivEnduser").show();
+                $('#locationEnduser').empty(); 
+                $('#locationEnduser').append("<option value=''>Select your location</option>");
+                $.each(data,function(index, subcatObj){
+                  $('#locationEnduser').append("<option value="+subcatObj.id+">"+subcatObj.location_name+"</option>");
+
+                });
+            });
+          $.getJSON('/getCategory/' + group_id, function(data) {
+                $("#categoryDivEnduser").show();
+                    $('#categoryEnduser').empty(); 
+                    $('#categoryEnduser').append("<option value=''>Select a category</option>");
+                    $.each(data,function(index, subcatObj){
+                      $('#categoryEnduser').append("<option value="+subcatObj.id+">"+subcatObj.category_name+"</option>");
+
+                });
+            });
+        });
+</script>
 <div class="row">
     <div class="col-12">
       <h1 class="text-center" id="type"></h1>
@@ -75,34 +150,47 @@
 
                                     </div>
 
-                                    <!-- <div class="form-group">
-                                      <label for="name">Due Date (Optional)</label>
-                                      <input type="text" id="datetimepicker" placeholder="YYYY-MM-DD hh:mm:ss" class="form-control" name="due_date" value="{{ old('due_date') }}" minlength="19" maxlength="19" readonly/>
-                                      {{-- <small class="form-control-feedback"> Date/Time Format: {{ $now }} </small> --}}
-                                    </div> -->
-
                                       <div class="form-group">
                                           <label for="ticket_content">Ticket Content</label>
                                           <textarea name="ticket_content" class="form-control" id="editor" rows="3" value="{{ old('ticket_content') }}" required></textarea>
+                                          <script>
+                                              CKEDITOR.replace( 'editor' );
+                                          </script>
                                       </div>
 
-
                                       <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Category</label>
-                                        <select required class="form-control" name="category_id" id="exampleFormControlSelect1">
+                                        <label for="exampleFormControlSelect1">Region</label>
+                                        <select required class="form-control regionEnduser" name="regionEnduser" id="regionEnduser">
                                           <option value="">None</option>
-                                          @foreach ($categories as $key => $value)
+                                          @foreach ($regions as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                            @endforeach
+                                        </select>
+                                      </div>
+                                      <div class="form-group" style="display:none;" id="groupDivEnduser">
+                                      <label for="exampleFormControlSelect1">Department</label>
+                                      <select required class="form-control groupEnduser" name="groupEnduser" id="groupEnduser">
+                                        <!-- @foreach ($groups as $group) -->
+                                          <option value="{{$group->id}}">{{$group->group_name}}</option>
+                                        <!-- @endforeach -->
+                                      </select>
+                                    </div>
+                                    
+                                      <div class="form-group" style="display:none;" id="locationDivEnduser">
+                                        <label for="exampleFormControlSelect1">Location</label>
+                                        <select required class="form-control" name="locationEnduser" id="locationEnduser">
+                                          <option value="">None</option>
+                                          @foreach ($locations as $key => $value)
                                             <option value="{{$key}}">{{$value}}</option>
                                           @endforeach
                                         </select>
                                       </div>
 
-
-                                      <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Location</label>
-                                        <select required class="form-control" name="location_id" id="exampleFormControlSelect1">
+                                      <div class="form-group" style="display:none;" id="categoryDivEnduser">
+                                        <label for="exampleFormControlSelect1">Category</label>
+                                        <select required class="form-control" name="categoryEnduser" id="categoryEnduser">
                                           <option value="">None</option>
-                                          @foreach ($locations as $key => $value)
+                                          @foreach ($categories as $key => $value)
                                             <option value="{{$key}}">{{$value}}</option>
                                           @endforeach
                                         </select>
@@ -112,19 +200,7 @@
                                       <label for="name">Room Number</label>
                                       <input type="text" class="form-control" name="room_number" value="{{ old('room_number') }}"/>
                                     </div>
-
-
-
-                                    <div class="form-group">
-                                      <label for="exampleFormControlSelect1">Department</label>
-                                      <select required class="form-control" name="group_id" id="exampleFormControlSelect1">
-                                        @foreach ($groups as $group)
-                                          <option value="{{$group->id}}">{{$group->group_name}}</option>
-                                        @endforeach
-                                      </select>
-                                    </div>
-
-
+                             
 
 
                               <div class="form-group" required>
@@ -203,26 +279,45 @@
 
                                       <div class="form-group">
                                           <label for="ticket_content">Ticket Content</label>
-                                          <textarea name="ticket_content" class="form-control" id="editor" rows="3" value="{{ old('ticket_content') }}" required></textarea>
+                                          <textarea name="ticket_content" class="form-control" id="contentEditor" rows="3" value="{{ old('ticket_content') }}" required></textarea>
+                                          <script>
+                                              CKEDITOR.replace( 'contentEditor' );
+                                          </script>
                                       </div>
 
-
                                       <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Category</label>
-                                        <select required class="form-control" name="category_id" id="exampleFormControlSelect1">
+                                        <label for="exampleFormControlSelect1">Region</label>
+                                        <select required class="form-control region" name="region" id="region">
                                           <option value="">None</option>
-                                          @foreach ($categories as $key => $value)
+                                          @foreach ($regions as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                            @endforeach
+                                        </select>
+                                      </div>
+                                      <div class="form-group" style="display:none;" id="groupDiv">
+                                      <label for="exampleFormControlSelect1">Department</label>
+                                      <select required class="form-control group" name="group" id="group" placeholder="please select the department">
+                                        <!-- @foreach ($groups as $group) -->
+                                          <option value="{{$group->id}}">{{$group->group_name}}</option>
+                                        <!-- @endforeach -->
+                                      </select>
+                                    </div>
+
+                                      <div class="form-group" style="display:none;" id="locationDiv">
+                                        <label for="exampleFormControlSelect1">Location</label>
+                                        <select required class="form-control" name="location" id="location">
+                                          <option value="">None</option>
+                                          @foreach ($locations as $key => $value)
                                             <option value="{{$key}}">{{$value}}</option>
                                           @endforeach
                                         </select>
                                       </div>
 
-
-                                      <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Location</label>
-                                        <select required class="form-control" name="location_id" id="exampleFormControlSelect1">
+                                      <div class="form-group" style="display:none;" id="categoryDiv">
+                                        <label for="exampleFormControlSelect1">Category</label>
+                                        <select required class="form-control" name="category" id="category">
                                           <option value="">None</option>
-                                          @foreach ($locations as $key => $value)
+                                          @foreach ($categories as $key => $value)
                                             <option value="{{$key}}">{{$value}}</option>
                                           @endforeach
                                         </select>
@@ -231,17 +326,6 @@
                                     <div class="form-group">
                                       <label for="name">Room Number</label>
                                       <input type="text" class="form-control" name="room_number" value="{{ old('room_number') }}"/>
-                                    </div>
-
-
-
-                                    <div class="form-group">
-                                      <label for="exampleFormControlSelect1">Group</label>
-                                      <select required class="form-control" name="group_id" id="exampleFormControlSelect1">
-                                        @foreach ($groups as $group)
-                                          <option value="{{$group->id}}">{{$group->group_name}}</option>
-                                        @endforeach
-                                      </select>
                                     </div>
 
                               <div class="form-group" required>

@@ -98,19 +98,19 @@ class UserController extends Controller
 
     //    $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->simplePaginate(10);
 
-    if ($user->group->isEmpty()) {
+    // if ($user->group->isEmpty()) {
 
 
-        if  (!empty(array_intersect($userGroupIDs, $ProfileGroupsIDs)))
-        {
+    //     if  (!empty(array_intersect($userGroupIDs, $ProfileGroupsIDs)))
+    //     {
 
             return view('profile.index', compact('user','assigned_tickets','statuses','categories'));
 
 
-        }
-        } else {
-            return redirect('/profile/'.Auth::user()->id);
-          }
+        // }
+        // } else {
+        //     return redirect('/profile/'.Auth::user()->id);
+        //   }
     }
 
     public function profileSearch(Request $request)

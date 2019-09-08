@@ -94,6 +94,7 @@ Breadcrumbs::resource('category','Category');
 Breadcrumbs::resource('users','User');
 Breadcrumbs::resource('status','Status');
 Breadcrumbs::resource('group','Group');
+Breadcrumbs::resource('regions','Region');
 Breadcrumbs::resource('roles','Role');
 Breadcrumbs::resource('permissions','Permission');
 Breadcrumbs::resource('reports','Report');
