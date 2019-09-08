@@ -77,6 +77,8 @@ Route::get('/emaillayout', function(){
       return view('emails.emaillayout');
 });
 
+
+
 Route::group(['middleware' => ['role:admin']], function () {
 
 
@@ -89,6 +91,7 @@ Route::group(['middleware' => ['role:admin']], function () {
   Route::resource('status','StatusController');
   //Groups Routes
   Route::resource('group','GroupController');
+
     //Regions Routes
   Route::resource('regions','RegionController');
 
@@ -115,6 +118,10 @@ Route::group(['middleware' => ['role:admin']], function () {
 
 // });
 });
+
+Route::get('getGroups/{cat_id}','TicketController@getGroups')->middleware('permission:end user create ticket, create ticket');
+Route::get('getLocations/{cat_id}','TicketController@getLocations')->middleware('permission:end user create ticket, create ticket');
+Route::get('getCategory/{cat_id}','TicketController@getCategory')->middleware('permission:end user create ticket, create ticket');
 
 //category Routes
 //Route::resource('category','CategoryController');
@@ -180,3 +187,4 @@ Route::post('/reply/store', 'CommentController@replyStore')->name('reply.add');
 
 // Route::post('ticket/ChangeTicketStatus','\App\Http\Controllers\TicketController@ChangeTicketStatus');
 });
+

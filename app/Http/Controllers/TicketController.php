@@ -18,8 +18,6 @@ use App\Mail\TicketRating;
 use App\Mail\RequestedBy;
 use Spatie\Activitylog\Models\Activity;
 use Carbon\Carbon;
-
-
 // use App\Events\TicketAssigned;
 
 
@@ -412,7 +410,27 @@ class TicketController extends Controller
 
     }
 
+   // Fetch groups by region id
+   public function getGroups($region_id){
 
+      $selectedgroups =Group::where('region_id','=',$region_id)->get();
+      return response()->json($selectedgroups);
+  }
+
+     // Fetch location by group id
+     public function getLocations($group_id){
+
+      $selectedlocations =Location::where('group_id','=',$group_id)->get();
+      return response()->json($selectedlocations);
+  }
+
+
+     // Fetch category by group id
+     public function getCategory($group_id){
+
+      $selectedcategory =Category::where('group_id','=',$group_id)->get();
+      return response()->json($selectedcategory);
+  }
 
 
     public function statusFilter(Request $request)
