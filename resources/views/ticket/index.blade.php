@@ -131,7 +131,7 @@
                                     </ul>
                                   </div><br />
                                 @endif
-                                  <form method="post" action="{{ route('ticket.store') }}">
+                                  <form method="post" action="{{ route('ticket.Enduserstore') }}">
 
                                       <div class="form-group">
                                           @csrf

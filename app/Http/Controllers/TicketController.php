@@ -135,6 +135,36 @@ class TicketController extends Controller
         return redirect('ticket/'. $ticket->id)->with('success', 'Ticket has been created');
     }
 
+    public function Enduserstore(Request $request)
+    {
+        $request->validate([
+          'ticket_title'=>'required',
+          'ticket_content'=> 'required',
+          'groupEnduser'=> 'required',
+          'locationEnduser'=> 'required',
+          'categoryEnduser'=> 'required',
+          // 'due_date'=> 'date_format:Y-m-d H:i:s|nullable',
+        ]);
+        $ticket = new Ticket;
+
+        $ticket->ticket_title = $request->ticket_title;
+        $ticket->ticket_content = $request->ticket_content;
+        $ticket->category_id = $request->categoryEnduser;
+        $ticket->location_id = $request->locationEnduser;
+        $ticket->group_id = $request->groupEnduser;
+        $ticket->status_id = '3';
+        $ticket->priority = $request->priority;
+        // $ticket->due_date = $request->due_date;
+        $ticket->room_number = $request->room_number;
+        $ticket->created_by = $request->created_by;
+        $ticket->requested_by = $request->requested_by;
+
+        $ticket->save();
+        $user = $ticket->requested_by_user;
+        // \Mail::to($user)->send(new RequestedBy($user));
+        return redirect('ticket/'. $ticket->id)->with('success', 'Ticket has been created');
+    }
+
     /**
      * Display the specified resource.
      *

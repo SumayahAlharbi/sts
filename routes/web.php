@@ -149,6 +149,7 @@ Route::delete('location/{location}', 'LocationController@destroy')->name('locati
 Route::get('ticket', 'TicketController@index')->name('ticket.index')->middleware('permission:view tickets list');
 Route::get('ticket/create', 'TicketController@create')->name('ticket.create')->middleware('permission:create ticket');
 Route::post('ticket', 'TicketController@store')->name('ticket.store')->middleware('permission:end user create ticket, create ticket');
+Route::post('ticket/store', 'TicketController@Enduserstore')->name('ticket.Enduserstore')->middleware('permission:end user create ticket, create ticket');
 // Route::post('ticket/create', 'TicketController@store')->name('ticket.store')->middleware('permission:create ticket');
 Route::get('ticket/{ticket}', 'TicketController@show')->name('ticket.show')->middleware('permission:show ticket');
 Route::get('ticket/{ticket}/edit', 'TicketController@edit')->name('ticket.edit')->middleware('permission:update ticket');
