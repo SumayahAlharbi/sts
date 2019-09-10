@@ -17,10 +17,10 @@
 
 Auth::routes();
 
-Route::get('test', function () {
-    event(new App\Events\TicketAssigned('Someone'));
-    return "Event has been sent!";
-});
+// Route::get('test', function () {
+//     event(new App\Events\TicketAssigned('Someone'));
+//     return "Event has been sent!";
+// });
 
 Route::get('total-tickets-api', 'HomeController@TicketsChartsApi');
 
