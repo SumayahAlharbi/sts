@@ -24,6 +24,7 @@ add('writable_dirs', []);
 
 host('68.183.60.58')
     ->user('deployer')
+    ->stage('staging')
     ->identityFile('~/.ssh/deployerkey')
     ->set('deploy_path', '/var/www/staging');   
     
