@@ -28,7 +28,7 @@
               <label for="name">region name</label>
               <input type="text" class="form-control" name="name"/>
           </div>
-          <br>
+          
           <button type="submit" class="btn btn-primary">Add</button>
       </form>
   </div>

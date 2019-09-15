@@ -18,7 +18,7 @@
         </ul>
       </div><br />
     @endif
-
+    <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
 
       <form method="post" action="{{ route('ticket.update', $ticket->id) }}">
         @method('PATCH')
@@ -49,7 +49,9 @@
           <label for="price">Ticket content:</label>
           {{-- <input type="text" class="form-control" name="ticket_content" value="{{ $ticket->ticket_content }}" /> --}}
           <textarea name="ticket_content" class="form-control" id="editor" rows="3">{{ $ticket->ticket_content }}</textarea>
-
+          <script>
+                CKEDITOR.replace( 'editor' );
+          </script>
         </div>
         <div class="row">
         <div class="form-group col-md-4">

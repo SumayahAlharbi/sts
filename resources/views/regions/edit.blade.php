@@ -24,7 +24,7 @@
           <label for="name">region name:</label>
           <input type="text" class="form-control" name="name" value="{{ $region->name }}" />
         </div>
-        <br>
+      
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
   </div>

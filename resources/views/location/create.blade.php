@@ -33,7 +33,6 @@
           <div class="form-group">
             <label for="exampleFormControlSelect1">Group</label>
             <select required class="form-control" name="group_id" id="exampleFormControlSelect1">
-            <option disabled selected value> Please select group </option>
               @foreach ($groups as $group)
                 <option value="{{$group->id}}">{{$group->group_name}}</option>
               @endforeach
