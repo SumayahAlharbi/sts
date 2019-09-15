@@ -17,38 +17,44 @@
 
 Auth::routes();
 
-Route::get('test', function () {
-    event(new App\Events\TicketAssigned('Someone'));
-    return "Event has been sent!";
-});
+// Route::get('test', function () {
+//     event(new App\Events\TicketAssigned('Someone'));
+//     return "Event has been sent!";
+// });
 
 Route::get('total-tickets-api', 'HomeController@TicketsChartsApi');
 
-// CAS Login
-Route::get('/cas/login', function(){
-  // if the user isn't authenticated by CAS
-  if ( !cas()->isAuthenticated() ) {
-    // take the user to CAS
-    cas()->authenticate();
-    }
-    // if the user is authenticated by CAS
-    if ( cas()->isAuthenticated() ) {
-      // if the user is authenticated by CAS and found by user maper and matched a existing account
-      if (Auth::check()) {
-        // he shall enter :)
-        return redirect()->intended('/');;
-      // if the user is authenticated by CAS and not found by user maper in the app :(
-      }elseif (!(Auth::check())) {
-        // See ya !
-        abort(403, 'Access Denied, Your KSAU-HS account is correct but you don not have access to this application.');
-      }
-    }
-})->name('cas');
+// // CAS Login
+// Route::get('/cas/login', function(){
+//   // if the user isn't authenticated by CAS
+//   if ( !cas()->isAuthenticated() ) {
+//     // take the user to CAS
+//     cas()->authenticate();
+//     }
+//     // if the user is authenticated by CAS
+//     if ( cas()->isAuthenticated() ) {
+//       // if the user is authenticated by CAS and found by user maper and matched a existing account
+//       if (Auth::check()) {
+//         // he shall enter :)
+//         return redirect()->intended('/');;
+//       // if the user is authenticated by CAS and not found by user maper in the app :(
+//       }elseif (!(Auth::check())) {
+//         // See ya !
+//         abort(403, 'Access Denied, Your KSAU-HS account is correct but you don not have access to this application.');
+//       }
+//     }
+// })->name('cas');
 
-// CAS Logout
-Route::get('/cas/logout', function(){
-      cas()->logout();
-});
+// CAS Login 2.0
+Route::get('/cas/login', 'CasController@CasLogin')->name('cas');
+
+// // CAS Logout
+// Route::get('/cas/logout', function(){
+//       cas()->logout();
+// });
+
+// CAS Logout 2.0
+Route::get('/cas/logout', 'CasController@CasLogout');
 
 Route::get('/', 'HomeController@index')->name('home');
 
@@ -59,25 +65,23 @@ Route::group(['middleware'=> 'auth'],function(){
   ->name('profile.show');
   Route::get('/profileSearch', 'UserController@profileSearch')->name('user.profileSearch');
 
-// Email HTML Viewer
-  Route::get('/email', function () {
-      $user = App\user::find(1);
+// // Email HTML Viewer
+//   Route::get('/email', function () {
+//       $user = App\user::find(1);
 
-      return new App\Mail\RequestedBy($user);
-  });
+//       return new App\Mail\RequestedBy($user);
+//   });
 
-  Route::get('/assign', function () {
-    $agentticket = App\ticket::find(1);
+//   Route::get('/assign', function () {
+//     $agentticket = App\ticket::find(1);
 
-    return new App\Mail\TicketAgentAssigned($agentticket);
-});
+//     return new App\Mail\TicketAgentAssigned($agentticket);
+// });
 
-// Email HTML Viewer layout
-Route::get('/emaillayout', function(){
-      return view('emails.emaillayout');
-});
-
-
+// // Email HTML Viewer layout
+// Route::get('/emaillayout', function(){
+//   return view('emails.emaillayout');
+// });
 
 Route::group(['middleware' => ['role:admin']], function () {
 

@@ -24,6 +24,7 @@ add('writable_dirs', []);
 
 host('68.183.60.58')
     ->user('deployer')
+    ->stage('staging')
     ->identityFile('~/.ssh/deployerkey')
     ->set('deploy_path', '/var/www/staging');   
     
@@ -38,5 +39,5 @@ after('deploy:failed', 'deploy:unlock');
 
 // Migrate database before symlink new release.
 
-// before('deploy:symlink', 'artisan:migrate');
+before('deploy:symlink', 'artisan:migrate');
 
