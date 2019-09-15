@@ -177,24 +177,24 @@
               </div>
             </div>
       </div>
-    
+    </div>
                 
 
 <!-- Show tickets that is due date today in dashboard -->
 
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-lg-12 col-md-12">
                   <div class="card">
 
                       <div class="card-body">
                             <a class="btn text-muted" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                            <i class="far fa-caret-square-down"></i>  Releases <span class="label label-warning">New</span>
+                            <h3 class="card-title"> <i class="far fa-caret-square-down"></i>  Releases <span class="label label-warning">New</span> </h3>
                             </a>
                             <div class="collapse" id="collapseExample">
                               <div class="m-t-20 m-b-20">
                               </div>
                               <div class="row">
-                              <div class="col-md-12">
+                              <div class="col-lg-12 col-md-12">
 
                                 <h5><span class="label label-info">v0.4.4</span></h5>
 

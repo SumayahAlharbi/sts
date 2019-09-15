@@ -451,9 +451,9 @@
                             <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
                               @csrf
                               @method('DELETE')
-                              <a href="{{ route('ticket.show',$ticket->id)}}" title="Show" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                              <a href="{{ route('ticket.show',$ticket->id)}}" title="Show" class="btn btn-success"><i class="fa fa-eye"></i></a>
                               @can('update ticket')
-                              <a href="{{ route('ticket.edit',$ticket->id)}}" title="Edit" class="btn btn-primary"><i class="far fa-edit"></i></a>
+                              <a href="{{ route('ticket.edit',$ticket->id)}}" title="Edit" class="btn btn-warning"><i class="far fa-edit"></i></a>
                               @endcan
                               @can('delete ticket')
                               <button class="btn btn-danger" title="Delete" type="submit"><i class="fa fa-trash-alt"></i></button>
