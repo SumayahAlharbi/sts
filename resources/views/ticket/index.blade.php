@@ -21,10 +21,10 @@
         var region_id = e.target.value;
         $.getJSON('/getGroups/' + region_id, function(data) {
               $("#groupDiv").show();
-              $('#group').empty(); 
-              $('#group').append("<option value=''>Select your department</option>");
+              $('#group_id').empty(); 
+              $('#group_id').append("<option value=''>Select your department</option>");
               $.each(data,function(index, subcatObj){
-                $('#group').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
+                $('#group_id').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
 
               });
           });
@@ -35,20 +35,20 @@
         var group_id = e.target.value;
         $.getJSON('/getLocations/' + group_id, function(data) {
               $("#locationDiv").show();
-              $('#location').empty(); 
-              $('#location').append("<option value=''>Select your location</option>");
+              $('#location_id').empty(); 
+              $('#location_id').append("<option value=''>Select your location</option>");
               $.each(data,function(index, subcatObj){
-                $('#location').append("<option value="+subcatObj.id+">"+subcatObj.location_name+"</option>");
+                $('#location_id').append("<option value="+subcatObj.id+">"+subcatObj.location_name+"</option>");
 
               });
           });
           $.getJSON('/getCategory/' + group_id, function(data) {
                 console.log(data);
                 $("#categoryDiv").show();
-                    $('#category').empty(); 
-                    $('#category').append("<option value=''>Select a category</option>");
+                    $('#category_id').empty(); 
+                    $('#category_id').append("<option value=''>Select a category</option>");
                     $.each(data,function(index, subcatObj){
-                      $('#category').append("<option value="+subcatObj.id+">"+subcatObj.category_name+"</option>");
+                      $('#category_id').append("<option value="+subcatObj.id+">"+subcatObj.category_name+"</option>");
 
                 });
             });
@@ -296,7 +296,7 @@
                                       </div>
                                       <div class="form-group" style="display:none;" id="groupDiv">
                                       <label for="exampleFormControlSelect1">Department</label>
-                                      <select required class="form-control group" name="group" id="group" placeholder="please select the department">
+                                      <select required class="form-control group" name="group_id" id="group_id" placeholder="please select the department">
                                         <!-- @foreach ($groups as $group) -->
                                           <option value="{{$group->id}}">{{$group->group_name}}</option>
                                         <!-- @endforeach -->
@@ -305,7 +305,7 @@
 
                                       <div class="form-group" style="display:none;" id="locationDiv">
                                         <label for="exampleFormControlSelect1">Location</label>
-                                        <select required class="form-control" name="location" id="location">
+                                        <select required class="form-control" name="location_id" id="location_id">
                                           <option value="">None</option>
                                           @foreach ($locations as $key => $value)
                                             <option value="{{$key}}">{{$value}}</option>
@@ -315,7 +315,7 @@
 
                                       <div class="form-group" style="display:none;" id="categoryDiv">
                                         <label for="exampleFormControlSelect1">Category</label>
-                                        <select required class="form-control" name="category" id="category">
+                                        <select required class="form-control" name="category_id" id="category_id">
                                           <option value="">None</option>
                                           @foreach ($categories as $key => $value)
                                             <option value="{{$key}}">{{$value}}</option>
@@ -451,9 +451,9 @@
                             <form onsubmit="return confirm('Do you really want to delete?');" action="{{ route('ticket.destroy', $ticket->id)}}" method="post">
                               @csrf
                               @method('DELETE')
-                              <a href="{{ route('ticket.show',$ticket->id)}}" title="Show" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                              <a href="{{ route('ticket.show',$ticket->id)}}" title="Show" class="btn btn-success"><i class="fa fa-eye"></i></a>
                               @can('update ticket')
-                              <a href="{{ route('ticket.edit',$ticket->id)}}" title="Edit" class="btn btn-primary"><i class="far fa-edit"></i></a>
+                              <a href="{{ route('ticket.edit',$ticket->id)}}" title="Edit" class="btn btn-warning"><i class="far fa-edit"></i></a>
                               @endcan
                               @can('delete ticket')
                               <button class="btn btn-danger" title="Delete" type="submit"><i class="fa fa-trash-alt"></i></button>

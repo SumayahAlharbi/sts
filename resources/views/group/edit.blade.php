@@ -32,8 +32,7 @@
 
         <div class="form-group">
           <label for="exampleFormControlSelect1">Regions</label>
-          <select required class="form-control" name="region_id" value="Please Select Region">
-          <option disabled selected value> Please select region </option>
+          <select required class="form-control" name="region_id">
             @foreach ($regions as $region)
             @if ($region->id == $group->region_id)
            <option selected value="{{$region->id}}">{{$group->region->name}}</option>
