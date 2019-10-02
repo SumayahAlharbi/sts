@@ -26,7 +26,13 @@ host('68.183.60.58')
     ->user('deployer')
     ->stage('staging')
     ->identityFile('~/.ssh/deployerkey')
-    ->set('deploy_path', '/var/www/staging');   
+    ->set('deploy_path', '/var/www/staging');
+
+host('68.183.60.58')
+    ->user('deployer')
+    ->stage('production')
+    ->identityFile('~/.ssh/deployerkey')
+    ->set('deploy_path', '/var/www/sts');  
     
 // Tasks
 
