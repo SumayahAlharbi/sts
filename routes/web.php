@@ -97,7 +97,14 @@ Route::group(['middleware' => ['role:admin']], function () {
   Route::resource('group','GroupController');
 
     //Regions Routes
-  Route::resource('regions','RegionController');
+  //Route::resource('regions','RegionController');
+  Route::get('regions/create', 'RegionController@create')->name('regions.create');
+  Route::post('regions', 'RegionController@store')->name('regions.store');
+  Route::post('regions/create', 'RegionController@store')->name('regions.store');
+  //Route::get('regions/{regions}', 'RegionController@show')->name('regions.show');
+  Route::get('regions/{regions}/edit', 'RegionController@edit')->name('regions.edit');
+  Route::patch('regions/{regions}', 'RegionController@update')->name('regions.update');
+  Route::delete('regions/{regions}', 'RegionController@destroy')->name('regions.destroy');
 
   Route::resource('permissions','PermissionController');
   Route::resource('roles','RoleController');
@@ -123,9 +130,13 @@ Route::group(['middleware' => ['role:admin']], function () {
 // });
 });
 
-Route::get('getGroups/{cat_id}','TicketController@getGroups')->middleware('permission:end user create ticket, create ticket');
-Route::get('getLocations/{cat_id}','TicketController@getLocations')->middleware('permission:end user create ticket, create ticket');
-Route::get('getCategory/{cat_id}','TicketController@getCategory')->middleware('permission:end user create ticket, create ticket');
+//Regions Routes
+Route::get('regions', 'RegionController@index')->name('regions.index');
+
+
+Route::get('getGroups/{cat_id}','TicketController@getGroups');
+Route::get('getLocations/{cat_id}','TicketController@getLocations');
+Route::get('getCategory/{cat_id}','TicketController@getCategory');
 
 //category Routes
 //Route::resource('category','CategoryController');
@@ -192,4 +203,3 @@ Route::post('/reply/store', 'CommentController@replyStore')->name('reply.add');
 
 // Route::post('ticket/ChangeTicketStatus','\App\Http\Controllers\TicketController@ChangeTicketStatus');
 });
-
