@@ -465,7 +465,7 @@
 <script src="{{ asset('js/jquery.slimscroll.js') }}"></script>
 <!--Wave Effects -->
 <script src="{{ asset('js/waves.js') }}"></script>
-<!-- rateing JS -->
+<!-- Rating JS -->
 <script src="{{ asset('js/rate.js') }}"></script>
 <!--Menu sidebar -->
 <script src="{{ asset('js/sidebarmenu.js') }}"></script>

@@ -262,7 +262,7 @@ class TicketController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function storeTicketRateing(Request $request)
+    public function storeTicketRating(Request $request)
     {
       // Validate the form data
       $this->validate($request, [

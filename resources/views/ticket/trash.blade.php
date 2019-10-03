@@ -60,7 +60,7 @@
                             @endif
                             <br> {{$ticket->created_at->diffForHumans()}}</td>
 
-                          <td title="{{$ticket->status['status_name']}}">
+                          <!-- <td title="{{$ticket->status['status_name']}}">
                             @if(auth()->user()->can('change ticket status'))
                                <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
                                @elseif ($ticket->status['status_name'] == 'Completed') btn-success
@@ -92,7 +92,7 @@
                             {{$ticket->status['status_name']}}
                           </span>
                           @endif
-                          </td>
+                          </td> -->
                           <td>{{$ticket->category['category_name']}}</td>
                           @if(count($groups) > 1)
                           <td>

@@ -95,13 +95,13 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-          <form action="{{url('ticket/storeTicketRateing')}}" method = "post">
+          <form action="{{url('ticket/storeTicketRating')}}" method = "post">
 
             @csrf
             <input type="hidden" name ="ticket_id" value ="{{$tickets->id}}">
 
             <div class="form-group col-md-12">
-              <label for="name">Rateing Scale</label>
+              <label for="name">Rating Scale</label>
 
               <div class="btn-group customRating">
 
