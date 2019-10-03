@@ -97,7 +97,14 @@ Route::group(['middleware' => ['role:admin']], function () {
   Route::resource('group','GroupController');
 
     //Regions Routes
-  Route::resource('regions','RegionController');
+  //Route::resource('regions','RegionController');
+  Route::get('regions/create', 'RegionController@create')->name('regions.create');
+  Route::post('regions', 'RegionController@store')->name('regions.store');
+  Route::post('regions/create', 'RegionController@store')->name('regions.store');
+  //Route::get('regions/{regions}', 'RegionController@show')->name('regions.show');
+  Route::get('regions/{regions}/edit', 'RegionController@edit')->name('regions.edit');
+  Route::patch('regions/{regions}', 'RegionController@update')->name('regions.update');
+  Route::delete('regions/{regions}', 'RegionController@destroy')->name('regions.destroy');
 
   Route::resource('permissions','PermissionController');
   Route::resource('roles','RoleController');
@@ -116,16 +123,20 @@ Route::group(['middleware' => ['role:admin']], function () {
 
 
   //Activity Routes
-  Route::resource('activity','ActivityController');
+  // Route::resource('activity','ActivityController');
 
 // Route::group(['middleware' => ['role:supervisor|admin']], function () {
 
 // });
 });
 
-Route::get('getGroups/{cat_id}','TicketController@getGroups')->middleware('permission:end user create ticket, create ticket');
-Route::get('getLocations/{cat_id}','TicketController@getLocations')->middleware('permission:end user create ticket, create ticket');
-Route::get('getCategory/{cat_id}','TicketController@getCategory')->middleware('permission:end user create ticket, create ticket');
+//Regions Routes
+Route::get('regions', 'RegionController@index')->name('regions.index');
+
+
+Route::get('getGroups/{cat_id}','TicketController@getGroups');
+Route::get('getLocations/{cat_id}','TicketController@getLocations');
+Route::get('getCategory/{cat_id}','TicketController@getCategory');
 
 //category Routes
 //Route::resource('category','CategoryController');
@@ -152,7 +163,7 @@ Route::delete('location/{location}', 'LocationController@destroy')->name('locati
 
 Route::get('ticket', 'TicketController@index')->name('ticket.index')->middleware('permission:view tickets list');
 Route::get('ticket/create', 'TicketController@create')->name('ticket.create')->middleware('permission:create ticket');
-Route::post('ticket', 'TicketController@store')->name('ticket.store')->middleware('permission:end user create ticket, create ticket');
+Route::post('ticket', 'TicketController@store')->name('ticket.store')->middleware('permission:create ticket');
 Route::post('ticket/store', 'TicketController@Enduserstore')->name('ticket.Enduserstore')->middleware('permission:end user create ticket, create ticket');
 // Route::post('ticket/create', 'TicketController@store')->name('ticket.store')->middleware('permission:create ticket');
 Route::get('ticket/{ticket}', 'TicketController@show')->name('ticket.show')->middleware('permission:show ticket');
@@ -171,8 +182,8 @@ Route::post('ticket/addTicketAgent','TicketController@addTicketAgent')->middlewa
 Route::get('ticket/removeTicketAgent/{user_id}/{ticket_id}','\App\Http\Controllers\TicketController@removeTicketAgent')->middleware('permission:unassign ticket');
 
 //trashed tickets route
-Route::get('trash', 'TicketController@deletedTickets')->name('ticket.trash')->middleware('role:admin' ?? 'role:manager' ?? 'role:supervisor');
-Route::get('trash/{ticket}/restore', 'TicketController@restore')->name('ticket.restore')->middleware('role:admin' ?? 'role:manager' ?? 'role:supervisor');
+Route::get('trash', 'TicketController@deletedTickets')->name('ticket.trash')->middleware('role:admin|manager|supervisor');
+Route::get('trash/{ticket}/restore', 'TicketController@restore')->name('ticket.restore')->middleware('role:admin|manager|supervisor');
 
   //Route::resource('ticket','TicketController');
 
@@ -192,4 +203,3 @@ Route::post('/reply/store', 'CommentController@replyStore')->name('reply.add');
 
 // Route::post('ticket/ChangeTicketStatus','\App\Http\Controllers\TicketController@ChangeTicketStatus');
 });
-

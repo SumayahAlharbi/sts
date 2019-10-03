@@ -18,6 +18,8 @@ use App\Mail\TicketRating;
 use App\Mail\RequestedBy;
 use Spatie\Activitylog\Models\Activity;
 use Carbon\Carbon;
+use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
+
 // use App\Events\TicketAssigned;
 
 
@@ -48,12 +50,12 @@ class TicketController extends Controller
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
       //  $now = Carbon::now()->addHours(3);
-        if (Auth::user()->hasRole('admin')|| Auth::user()->hasRole('enduser')) {
+        if (Auth::user()->hasRole('admin|enduser')) {
           $groups = Group::all();
         }else {
           $groups = Auth::user()->group;
         }
-
+        ActivityLogger::activity("Ticket index");
         return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions'));
     }
 
@@ -71,7 +73,7 @@ class TicketController extends Controller
           $users = User::all()->pluck('name','id');
           $created_by = Auth::user();
         //  $now = Carbon::now()->addHours(3);
-          if (Auth::user()->hasRole('admin')|| Auth::user()->hasRole('enduser')) {
+          if (Auth::user()->hasRole('admin|enduser')) {
             $groups = Group::all();
           }else {
             $groups = Auth::user()->group;
@@ -91,7 +93,7 @@ class TicketController extends Controller
         $regions = Region::all()->pluck('name','id');
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
-        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('enduser')) {
+        if (Auth::user()->hasRole('admin|enduser')) {
           $groups = Group::all();
         }else {
           $groups = Auth::user()->group;
@@ -207,6 +209,7 @@ class TicketController extends Controller
         //   // code...
         //
         // }
+        ActivityLogger::activity("Viewed Ticket");
 
         return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets', 'next','previous'));
 

@@ -26,7 +26,7 @@ class LocationScope implements Scope
         foreach ($userGroups as $userGroup) {
           $userGroupIDs[] =  $userGroup->id;
         };
-      if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('enduser')) {
+      if (Auth::user()->hasRole('admin|enduser')) {
         $builder;
       }
       else {
