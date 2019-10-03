@@ -57,7 +57,7 @@ class HomeController extends Controller
       $statuses = Status::all();
       $created_by = Auth::user();
       //  $now = Carbon::now()->addHours(3);
-        if (Auth::user()->hasRole('admin')|| Auth::user()->hasRole('enduser')) {
+        if (Auth::user()->hasRole('admin|enduser')) {
           $groups = Group::all();
         }else {
           $groups = Auth::user()->group;
