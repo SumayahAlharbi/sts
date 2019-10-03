@@ -175,7 +175,7 @@ Route::get('ticket/ChangeTicketStatus/{status_id}/{ticket_id}','\App\Http\Contro
 Route::get('/search', 'TicketController@search')->name('ticket.search');
 Route::get('/statusFilter', 'TicketController@statusFilter')->name('ticket.statusFilter');
 // assign agent to a ticket
-Route::post('ticket/storeTicketRateing','TicketController@storeTicketRateing');
+Route::post('ticket/storeTicketRating','TicketController@storeTicketRating');
 // store ticket rating
 Route::post('ticket/addTicketAgent','TicketController@addTicketAgent')->middleware('permission:assign ticket');
 // remove agent from a ticket
