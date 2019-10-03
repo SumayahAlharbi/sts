@@ -20,14 +20,14 @@
       <form method="post" action="{{ route('regions.update', $region->id) }}">
         @method('PATCH')
         @csrf
-        <div class="form-regions">
-          <label for="name">region name:</label>
-          <input type="text" class="form-control" name="name" value="{{ $region->name }}" />
-        </div>
-      
+         <div class="form-regions">
+              <label for="name">region name:</label>
+              <input type="text" class="form-control" name="name" value="{{ $region->name }}" />
+           </div>
+          <br>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
+    </div>
   </div>
-</div>
 </div>
 @endsection
