@@ -123,7 +123,7 @@ Route::group(['middleware' => ['role:admin']], function () {
 
 
   //Activity Routes
-  Route::resource('activity','ActivityController');
+  // Route::resource('activity','ActivityController');
 
 // Route::group(['middleware' => ['role:supervisor|admin']], function () {
 
@@ -182,8 +182,8 @@ Route::post('ticket/addTicketAgent','TicketController@addTicketAgent')->middlewa
 Route::get('ticket/removeTicketAgent/{user_id}/{ticket_id}','\App\Http\Controllers\TicketController@removeTicketAgent')->middleware('permission:unassign ticket');
 
 //trashed tickets route
-Route::get('trash', 'TicketController@deletedTickets')->name('ticket.trash')->middleware('role:admin' ?? 'role:manager' ?? 'role:supervisor');
-Route::get('trash/{ticket}/restore', 'TicketController@restore')->name('ticket.restore')->middleware('role:admin' ?? 'role:manager' ?? 'role:supervisor');
+Route::get('trash', 'TicketController@deletedTickets')->name('ticket.trash')->middleware('role:admin|manager|supervisor');
+Route::get('trash/{ticket}/restore', 'TicketController@restore')->name('ticket.restore')->middleware('role:admin|manager|supervisor');
 
   //Route::resource('ticket','TicketController');
 
