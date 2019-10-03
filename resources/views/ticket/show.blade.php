@@ -29,7 +29,9 @@
 
     <!-- condition if ticket is completed -->
     @if ($tickets->status->status_name == "Completed" && $tickets->rating ==NULL)
-    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#rateModal" data-whatever="@rate" title="Rate" ><i class="fas fa-star"></i></button>
+    @can('rate ticket')
+    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#rateModal" data-whatever="@rate" title="Rate" ><i class="fas fa-star"></i></button>
+    @endcan
     @endif
 
     @if ($tickets->rating)
