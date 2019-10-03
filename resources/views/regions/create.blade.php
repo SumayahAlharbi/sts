@@ -20,10 +20,10 @@
               <li>{{ $error }}</li>
             @endforeach
         </ul>
-      </div><br />
+      </div>
     @endif
       <form method="post" action="{{ route('regions.store') }}">
-          <div class="form-region">
+          <div class="form-group">
               @csrf
               <label for="name">region name</label>
               <input type="text" class="form-control" name="name"/>
