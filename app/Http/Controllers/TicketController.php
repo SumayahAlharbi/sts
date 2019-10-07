@@ -393,7 +393,7 @@ class TicketController extends Controller
       $ticket->status()->associate($status_id);
       $ticket->save();
 
-      if ($status_id == "2") {
+      if ($status_id == "1") {
         return $this->sendTicketRatingEmail($tickets_id);
       }
 
