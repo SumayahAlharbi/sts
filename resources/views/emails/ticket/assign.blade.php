@@ -7,7 +7,7 @@
 
 <p>Title: <a href='{!!url('ticket/'. $ticket->id)!!}'>{{ $ticket->ticket_title }}</a></p>
 
-<p>Content:  {{ $ticket->ticket_content }}</p>
+<p>Content:</p>  {!!$ticket->ticket_content!!}
 
 <p>Priority:  {{ $ticket->priority }}</p>
 
