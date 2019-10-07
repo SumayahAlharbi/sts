@@ -17,7 +17,8 @@
 
 <p>in:  {{ $ticket->category->category_name }}</p>
 
+@isset($ticket->requested_by_user->name)
 <p>Requested by:  {{ $ticket->requested_by_user->name }}</p>
-
+@endisset
 
 @endsection
