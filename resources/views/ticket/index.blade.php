@@ -21,7 +21,7 @@
         var region_id = e.target.value;
         $.getJSON('/getGroups/' + region_id, function(data) {
               $("#groupDiv").show();
-              $('#group_id').empty(); 
+              $('#group_id').empty();
               $('#group_id').append("<option value=''>Select your department</option>");
               $.each(data,function(index, subcatObj){
                 $('#group_id').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
@@ -35,7 +35,7 @@
         var group_id = e.target.value;
         $.getJSON('/getLocations/' + group_id, function(data) {
               $("#locationDiv").show();
-              $('#location_id').empty(); 
+              $('#location_id').empty();
               $('#location_id').append("<option value=''>Select your location</option>");
               $.each(data,function(index, subcatObj){
                 $('#location_id').append("<option value="+subcatObj.id+">"+subcatObj.location_name+"</option>");
@@ -45,7 +45,7 @@
           $.getJSON('/getCategory/' + group_id, function(data) {
                 console.log(data);
                 $("#categoryDiv").show();
-                    $('#category_id').empty(); 
+                    $('#category_id').empty();
                     $('#category_id').append("<option value=''>Select a category</option>");
                     $.each(data,function(index, subcatObj){
                       $('#category_id').append("<option value="+subcatObj.id+">"+subcatObj.category_name+"</option>");
@@ -58,7 +58,7 @@
         var region_id = e.target.value;
         $.getJSON('/getGroups/' + region_id, function(data) {
               $("#groupDivEnduser").show();
-              $('#groupEnduser').empty(); 
+              $('#groupEnduser').empty();
               $('#groupEnduser').append("<option value=''>Select your department</option>");
               $.each(data,function(index, subcatObj){
                 $('#groupEnduser').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
@@ -71,7 +71,7 @@
           var group_id = e.target.value;
           $.getJSON('/getLocations/' + group_id, function(data) {
                 $("#locationDivEnduser").show();
-                $('#locationEnduser').empty(); 
+                $('#locationEnduser').empty();
                 $('#locationEnduser').append("<option value=''>Select your location</option>");
                 $.each(data,function(index, subcatObj){
                   $('#locationEnduser').append("<option value="+subcatObj.id+">"+subcatObj.location_name+"</option>");
@@ -80,7 +80,7 @@
             });
           $.getJSON('/getCategory/' + group_id, function(data) {
                 $("#categoryDivEnduser").show();
-                    $('#categoryEnduser').empty(); 
+                    $('#categoryEnduser').empty();
                     $('#categoryEnduser').append("<option value=''>Select a category</option>");
                     $.each(data,function(index, subcatObj){
                       $('#categoryEnduser').append("<option value="+subcatObj.id+">"+subcatObj.category_name+"</option>");
@@ -112,7 +112,7 @@
                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#EndUserCreateTicketModal" data-whatever="@create" title="Create New Ticket" ><i class="fa fa-plus-circle"></i> New</button>
                         @endcan
                   @endif
-                
+
                 <div class="modal fade" id="EndUserCreateTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -175,7 +175,7 @@
                                         <!-- @endforeach -->
                                       </select>
                                     </div>
-                                    
+
                                       <div class="form-group" style="display:none;" id="locationDivEnduser">
                                         <label for="exampleFormControlSelect1">Location</label>
                                         <select required class="form-control" name="locationEnduser" id="locationEnduser">
@@ -200,15 +200,16 @@
                                       <label for="name">Room Number</label>
                                       <input type="text" class="form-control" name="room_number" value="{{ old('room_number') }}"/>
                                     </div>
-                             
+
 
 
                               <div class="form-group" required>
                                 <label for="exampleFormControlSelect1">Requested by</label>
-                              <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true" disabled>
+                              <select class="selectpicker form-control" data-show-subtext="true" data-live-search="true" disabled>
                                 @foreach ($users as $key => $value)
                                   @if ($key == $created_by->id)
                                   <option value="{{$key}}">(Current) {{$value}}</option>
+                                  <input type="text" class="form-control" name="requested_by" value="{{$key}}" hidden/>
                                   @endif
                                 @endforeach
                               </select>
@@ -226,14 +227,14 @@
                         </div>
                         </div>
                 </div>
-                
-                
+
+
                 <!--/.End User Create Ticket -->
 
                     {{-- <button id="btn" class="btn btn-danger">Ready?</button> --}}
                   </div>
                 </div>
-                
+
                 <div class="modal fade" id="CreateTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
