@@ -22,18 +22,38 @@ add('writable_dirs', []);
 
 // Hosts
 
-host('68.183.60.58')
-    ->user('deployer')
-    ->stage('staging')
-    ->identityFile('~/.ssh/deployerkey')
-    ->set('deploy_path', '/var/www/staging');
+// host('68.183.60.58')
+//     ->user('deployer')
+//     ->stage('staging')
+//     ->set('branch', 'development')
+//     ->identityFile('~/.ssh/deployerkey')
+//     ->set('deploy_path', '/var/www/staging');
 
-host('68.183.60.58')
+// host('68.183.60.58')
+//     ->user('deployer')
+//     ->stage('production')
+//     ->identityFile('~/.ssh/deployerkey')
+//     ->set('deploy_path', '/var/www/sts');  
+
+host('staging')
+    ->hostname('68.183.60.58')
+    ->stage('staging')
+    ->set('branch', 'development')
+    ->user('deployer')
+    ->identityFile('~/.ssh/deployerkey')
+    ->set('deploy_path', '/var/www/staging')
+;
+
+host('production')
+    ->hostname('68.183.60.58/test')
     ->user('deployer')
     ->stage('production')
+    ->set('branch', 'master')
+    // ->user('production_user')
     ->identityFile('~/.ssh/deployerkey')
-    ->set('deploy_path', '/var/www/sts');  
-    
+    ->set('deploy_path', '/var/www/sts')
+;
+
 // Tasks
 
 task('build', function () {

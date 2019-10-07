@@ -7,7 +7,7 @@
 
 <p>Title: <a href='{!!url('ticket/'. $ticket->id)!!}'>{{ $ticket->ticket_title }}</a></p>
 
-<p>Content:  {{ $ticket->ticket_content }}</p>
+<p>Content:</p>  {!!$ticket->ticket_content!!}
 
 <p>Priority:  {{ $ticket->priority }}</p>
 
@@ -17,7 +17,8 @@
 
 <p>in:  {{ $ticket->category->category_name }}</p>
 
+@isset($ticket->requested_by_user->name)
 <p>Requested by:  {{ $ticket->requested_by_user->name }}</p>
-
+@endisset
 
 @endsection
