@@ -39,21 +39,20 @@
 
 CKEDITOR.editorConfig = function( config ) {
 	config.toolbarGroups = [
-		{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
-		{ name: 'styles', groups: [ 'styles' ] },
-		{ name: 'colors', groups: [ 'colors' ] },
 		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+		{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
 		{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
 		{ name: 'forms', groups: [ 'forms' ] },
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		{ name: 'paragraph', groups: [ 'align', 'list', 'indent', 'bidi', 'blocks', 'paragraph' ] },
-		{ name: 'insert', groups: [ 'insert' ] },
+		{ name: 'colors', groups: [ 'colors' ] },
+		{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
 		{ name: 'links', groups: [ 'links' ] },
-		'/',
+		{ name: 'insert', groups: [ 'insert' ] },
+		{ name: 'styles', groups: [ 'styles' ] },
 		{ name: 'tools', groups: [ 'tools' ] },
 		{ name: 'others', groups: [ 'others' ] },
 		{ name: 'about', groups: [ 'about' ] }
 	];
 
-	config.removeButtons = 'Source,Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,RemoveFormat,Blockquote,CreateDiv,Language,Anchor,Image,Flash,Table,Smiley,SpecialChar,PageBreak,Iframe,Styles,Format,ShowBlocks,About,Outdent,Indent';
+	config.removeButtons = 'Source,Save,NewPage,Preview,Print,Templates,Cut,Find,SelectAll,Scayt,Copy,Paste,PasteText,PasteFromWord,Replace,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Superscript,Subscript,CopyFormatting,RemoveFormat,Outdent,Indent,CreateDiv,JustifyRight,JustifyCenter,JustifyBlock,JustifyLeft,BidiLtr,BidiRtl,Language,Anchor,Image,Flash,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Styles,Format,Font,FontSize,Maximize,ShowBlocks,About';
 };
