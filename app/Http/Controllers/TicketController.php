@@ -16,6 +16,7 @@ use App\Mail\agent;
 use App\Mail\TicketAgentAssigned;
 use App\Mail\TicketRating;
 use App\Mail\RequestedBy;
+use App\Mail\TicketCreated;
 use Spatie\Activitylog\Models\Activity;
 use Carbon\Carbon;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
@@ -117,6 +118,7 @@ class TicketController extends Controller
           'category_id'=> 'required',
           // 'due_date'=> 'date_format:Y-m-d H:i:s|nullable',
         ]);
+
         $ticket = new Ticket;
 
         $ticket->ticket_title = $request->ticket_title;
@@ -132,9 +134,34 @@ class TicketController extends Controller
         $ticket->requested_by = $request->requested_by;
 
         $ticket->save();
+
         $user = $ticket->requested_by_user;
         // \Mail::to($user)->send(new RequestedBy($user));
+
+        // send the ticket group email about new unassigned ticket
+        return $this->sendTicketCreatedEmail($ticket->id);
+
         return redirect('ticket/'. $ticket->id)->with('success', 'Ticket has been created');
+    }
+
+    // Send Email to the ticket Group if the ticket is unassigned for 5 min
+    public function sendTicketCreatedEmail($ticket_id)
+    {
+      $ticket = Ticket::findorfail($ticket_id);
+      $group_email = $ticket->group->email;
+      $created_by = $ticket->created_by;
+      $requested_by = $ticket->requested_by;
+
+      // Prevent sending group notification email if (created by != requested by)
+      // Prevent sending group notification email if the group email is empty
+      if($group_email && ($requested_by != $created_by)){
+        if (App::environment('production')) {
+            // The environment is production
+            \Mail::to($group_email)->send(new TicketCreated($ticket));
+        }
+      }
+
+      return back();
     }
 
     public function Enduserstore(Request $request)

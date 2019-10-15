@@ -23,8 +23,9 @@
         <tr>
           <td>ID</td>
           <td>Group Name</td>
+          <td>Group Email</td>
           <td>Region Name</td>
-          <td>Action</td>
+          <td colspan="2">Action</td>
         </tr>
     </thead>
     <tbody>
@@ -32,6 +33,7 @@
         <tr>
             <td>{{$group->id}}</td>
             <td>{{$group->group_name}}</td>
+            <td>{{$group->email}}</td>
             <td>
             @if($group->region_id != NULL)
             {{$group->region->name}}
