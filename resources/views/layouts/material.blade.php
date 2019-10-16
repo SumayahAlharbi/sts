@@ -567,5 +567,6 @@ $(".reply-cancel").click(function() {
     // notificationsWrapper.show();
   });
 </script> --}}
+ @stack('scripts')
 </body>
 </html>
