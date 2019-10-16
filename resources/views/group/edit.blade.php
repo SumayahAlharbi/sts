@@ -21,14 +21,19 @@
         @method('PATCH')
         @csrf
         <div class="form-group">
-          <label for="name">group name:</label>
+          <label for="name">group name</label>
           <input type="text" class="form-control" name="group_name" value="{{ $group->group_name }}" />
         </div>
 
         <div class="form-group">
-          <label for="price">group description:</label>
+          <label for="price">group description</label>
           <input type="text" class="form-control" name="group_description" value="{{ $group->group_description }}" />
         </div>
+        
+        <div class="form-group">
+              <label for="price">group email</label>
+              <input type="email" class="form-control" name="email" value="{{ $group->email}}"/>
+          </div>
 
         <div class="form-group">
           <label for="exampleFormControlSelect1">Regions</label>
