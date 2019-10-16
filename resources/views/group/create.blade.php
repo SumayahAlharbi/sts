@@ -32,7 +32,10 @@
               <label for="price">group description</label>
               <input type="text" class="form-control" name="group_description"/>
           </div>
-
+          <div class="form-group">
+              <label for="price">group email</label>
+              <input type="email" class="form-control" name="email"/>
+          </div>
           <div class="form-group">
           <label for="exampleFormControlSelect1">Group region</label>
           <select required class="form-control" name="region_id">
