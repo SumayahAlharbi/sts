@@ -23,9 +23,9 @@ class CommentController extends Controller
 
     $requested_by = $ticket->requested_by_user;
     if ($requested_by){
-      //if (App::environment('production')) {
+      if (App::environment('production')) {
         \Mail::to($requested_by)->send(new TicketNewComment($ticket, $comment));
-      //}
+      }
     }
 
     if ($ticketAgent->isEmpty()) {
