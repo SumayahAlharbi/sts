@@ -271,6 +271,6 @@ $(function () {
           //or hide: ['data1', 'data2']
         },
         color: {
-              pattern: ['#FFB22B', '#745af2', '#000', '#25C6DA', '#1e88e5']
+              pattern: ['#FFB22B', '#745af2', '#000', '#fc4b6c']
         }
     });
