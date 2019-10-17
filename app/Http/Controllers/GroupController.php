@@ -44,6 +44,8 @@ class GroupController extends Controller
           'group_name'=>'required',
           'group_description'=> 'required',
           'region_id'=>'required',
+          'email'=>'required',
+          
         ]);
 
         $group = new group;
@@ -51,7 +53,7 @@ class GroupController extends Controller
         $group->group_name = $request->group_name;
         $group->group_description = $request->group_description;
         $group->region_id = $request->region_id;
-
+        $group->email = $request->email;
         $group->save();
         return redirect('/group')->with('success', 'Group has been added');
     }
@@ -95,6 +97,7 @@ class GroupController extends Controller
         $group->group_name = $request->group_name;
         $group->region_id = $request->region_id; // to assign region to a group and update it
         $group->group_description = $request->group_description;
+        $group->email = $request->email;
         $group->save();
 
         return redirect('/group')->with('success', 'group has been updated');

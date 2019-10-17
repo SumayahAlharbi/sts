@@ -71,12 +71,12 @@ class HomeController extends Controller
         $Pending = Ticket::where('status_id','=','4')->count();
         $InProgress = Ticket::where('status_id','=','5')->count();
         $Scheduled = Ticket::where('status_id','=','2')->count();
-        $Completed = Ticket::where('status_id','=','1')->count();
+        // $Completed = Ticket::where('status_id','=','1')->count();
         $Unassigned = Ticket::where('status_id','=','3')->count();
         $StatsArray = array('Pending'=>$Pending,
                             'InProgress'=>$InProgress,
                             'Scheduled'=>$Scheduled,
-                            'Completed'=>$Completed,
+                            // 'Completed'=>$Completed,
                             'Unassigned'=>$Unassigned);
         return response()->json($StatsArray);
     }
