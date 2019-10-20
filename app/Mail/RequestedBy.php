@@ -7,20 +7,22 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\User;
+use App\Ticket;
 
 class RequestedBy extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $ticket;
     public $user;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(User $user, Ticket $ticket)
     {
         $this->user = $user;
+        $this->ticket = $ticket;
     }
 
     /**
