@@ -2,7 +2,7 @@
 
 @section('content')
 
-<p>Dear {{ $ticket->requested_by_user->name }},</p>
+<p>Dear {{ $ticket->group->group_name }},</p>
 
 <p>Kindly assign agent to the following ticket,</p>
 
