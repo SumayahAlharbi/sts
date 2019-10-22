@@ -136,13 +136,14 @@ class TicketController extends Controller
         $ticket->save();
 
         $user = $ticket->requested_by_user;
-        
-        if (App::environment('production')) {
-          \Mail::to($user)->send(new RequestedBy($user,$ticket));
+        if ($user){
+          if (App::environment('production')) {
+            \Mail::to($user)->send(new RequestedBy($user,$ticket));
+          }
         }
 
         // send the ticket group email about new unassigned ticket
-        return $this->sendTicketCreatedEmail($ticket->id);
+        $this->sendTicketCreatedEmail($ticket->id);
 
         return redirect('ticket/'. $ticket->id)->with('success', 'Ticket has been created');
     }
@@ -197,6 +198,9 @@ class TicketController extends Controller
         if (App::environment('production')) {
           \Mail::to($user)->send(new RequestedBy($user,$ticket));
         }
+
+        // send the ticket group email about new unassigned ticket
+        $this->sendTicketCreatedEmail($ticket->id);
 
         return redirect('ticket/'. $ticket->id)->with('success', 'Ticket has been created');
     }
