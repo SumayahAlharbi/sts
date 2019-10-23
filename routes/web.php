@@ -15,12 +15,22 @@
 //     return view('welcome');
 // });
 
+Route::get('/welcome', 'WelcomeController@welcome');
+
+Route::get('/signin', 'AuthController@signin');
+Route::get('/callback', 'AuthController@callback');
+Route::get('/signout', 'AuthController@signout');
+Route::get('/calendar', 'CalendarController@calendar');
+
 Auth::routes();
 
 // Route::get('test', function () {
 //     event(new App\Events\TicketAssigned('Someone'));
 //     return "Event has been sent!";
 // });
+
+Route::get('/redirect/graph', 'Auth\LoginController@redirectToProvider');
+Route::get('/callback/graph', 'Auth\LoginController@handleProviderCallback');
 
 Route::get('total-tickets-api', 'HomeController@TicketsChartsApi');
 
