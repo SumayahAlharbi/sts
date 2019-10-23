@@ -15,6 +15,9 @@
 //     return view('welcome');
 // });
 
+Route::get('login/graph', 'Auth\LoginController@redirectToProvider');
+Route::get('callback', 'Auth\LoginController@handleProviderCallback');
+
 Auth::routes();
 
 // Route::get('test', function () {
