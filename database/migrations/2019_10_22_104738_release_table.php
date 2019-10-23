@@ -13,11 +13,12 @@ class ReleaseTable extends Migration
      */
     public function up()
     {
-        Schema::create('release', function (Blueprint $table) {
+        Schema::create('releases', function (Blueprint $table) {
             $table->increments('id');
             $table->string('release_version');
             $table->text('release_description');
             $table->timestamps();
+            $table->softDeletes();
 
         });
     }
@@ -29,6 +30,6 @@ class ReleaseTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('release');
+        Schema::dropIfExists('releases');
     }
 }
