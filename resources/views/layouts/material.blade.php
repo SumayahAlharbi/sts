@@ -307,6 +307,7 @@
                                 <li><a href="{{ url('/regions') }}">Regions</a></li>
                                 <li><a href="{{ url('/roles') }}">Roles</a></li>
                                 <li><a href="{{ url('/permissions') }}">Permissions</a></li>
+                                <li><a href="{{ url('/releases') }}">Releases</a></li>
                                 <li><a href="{{ url('/activity') }}">Activity</a></li>
 
                             {{-- </ul> --}}

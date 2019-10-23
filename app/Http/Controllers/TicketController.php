@@ -10,6 +10,7 @@ use App\Group;
 use App\User;
 use App\Rating;
 use App\Region;
+use App\Release;
 use Auth;
 use App;
 use App\Mail\agent;
@@ -44,6 +45,8 @@ class TicketController extends Controller
     public function index()
     {
         $statuses = Status::all();
+        $releases = Release::orderByRaw('created_at DESC')->first();
+        //$diffHours = diffInHours($releases['created_at'])->now();
         $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate(10);
         $regions = Region::all()->pluck('name','id');
         $categories = Category::all()->pluck('category_name','id');
@@ -57,7 +60,7 @@ class TicketController extends Controller
           $groups = Auth::user()->group;
         }
         ActivityLogger::activity("Ticket index");
-        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions'));
+        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases'));
     }
 
         /**

@@ -16,7 +16,7 @@ class ReleaseController extends Controller
     {
         
         $releases = Release::all();
-        return view('release.index', compact('releases'));
+        return view('releases.index', compact('releases'));
     }
 
     /**
@@ -27,7 +27,7 @@ class ReleaseController extends Controller
     public function create()
     {
         
-        return view('release.create');
+        return view('releases.create');
 
     }
 
@@ -37,8 +37,9 @@ class ReleaseController extends Controller
         
         $release = new Release;
         $release->release_version = $request->release_version;
+        $release->release_description = $request->release_description;
         $release->save();
-        return redirect('/release')->with('success', 'release has been added');
+        return redirect('/releases')->with('success', 'release has been added');
 
     }
 
@@ -46,7 +47,7 @@ class ReleaseController extends Controller
     {
 
         $releases = Release::all();
-        return view('release.show', compact('releases'));
+        return view('releases.show', compact('releases'));
         
     }
 
@@ -54,8 +55,8 @@ class ReleaseController extends Controller
     public function edit($id)
     {
         
-        $release = Release::find($id);
-        return view('release.edit', compact('releases'));
+        $releases = Release::find($id);
+        return view('releases.edit', compact('releases'));
 
     }
 
@@ -63,11 +64,12 @@ class ReleaseController extends Controller
     public function update(Request $request, $id)
     {
         
-        $release = Release::find($id);
-        $release->release_version = $request->release_version;
-        $release->save();
+        $releases = Release::find($id);
+        $releases->release_version = $request->release_version;
+        $releases->release_description = $request->release_description;
+        $releases->save();
 
-        return redirect('/release')->with('success', 'release has been updated');
+        return redirect('/releases')->with('success', 'release has been updated');
 
     }
 
@@ -77,6 +79,6 @@ class ReleaseController extends Controller
 
        $release = Release::findOrfail($id);
        $release->delete();
-       return redirect('/release')->with('success', 'release has been deleted');
+       return redirect('/releases')->with('success', 'release has been deleted');
      }
 }

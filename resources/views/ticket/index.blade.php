@@ -92,6 +92,7 @@
 <div class="row">
     <div class="col-12">
       <h1 class="text-center" id="type"></h1>
+      <div class="alert alert-success">version {{$releases->release_version}} has been released 🚀 {{ $releases->created_at->diffForHumans() }}</div>
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Support Ticket List</h4>
