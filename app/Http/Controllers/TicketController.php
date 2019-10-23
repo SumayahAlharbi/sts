@@ -20,7 +20,9 @@ use App\Mail\TicketCreated;
 use Spatie\Activitylog\Models\Activity;
 use Carbon\Carbon;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
-use App\Notifications\AssignedTicket;
+
+// use App\Events\TicketAssigned;
+
 
 use Illuminate\Http\Request;
 
@@ -388,7 +390,7 @@ class TicketController extends Controller
           \Mail::to($user)->send(new TicketAgentAssigned($ticket));
       }
 
-      $user->notify(new AssignedTicket($user, $ticket));
+      // event(new App\Events\TicketAssigned('Someone'));
       return back();
     }
 
