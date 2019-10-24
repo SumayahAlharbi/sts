@@ -63,6 +63,8 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::group(['middleware'=> 'auth'],function(){
 
+  Route::get('/notifications', 'UserController@notifications');
+
 // Show User Profile
   Route::get('/profile/{id}', '\App\Http\Controllers\UserController@showUserProfile')
   ->name('profile.show');
