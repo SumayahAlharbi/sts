@@ -1725,8 +1725,6 @@ File: scss
   .topbar .profile-pic {
     width: 30px;
     border-radius: 100%; }
-    .profile-pic SVG{
-      vertical-align: middle; }
   .topbar .dropdown-menu {
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
     -webkit-box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
@@ -8029,32 +8027,11 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
       background-color: #ffffff; }
 
 
-/* Custom profile SVG */
+
 .svg-avatar svg{
   display: inline-block;
   vertical-align: middle;
 }
-/* end custom profile SVG  */
-
-.drop-title-notify-list {
-  font-weight: 500;
-  padding: 11px 20px 15px;
-  border-bottom: 1px solid rgba(120, 130, 140, 0.13); }
-.mailbox ul li .drop-title-notify {
-  font-weight: 500;
-  padding: 11px 20px 0px;}
-
-.notify-box-title{
-  font-size: 12px;
-  display: block;
-  margin: 1px 0;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  color: #67757c;
-  white-space: nowrap;
-}
-/* end custom notify menu  */
 
 /* Custom Rating Style */
 .btn-group.customRating {

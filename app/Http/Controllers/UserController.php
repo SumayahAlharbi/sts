@@ -296,10 +296,4 @@ public function revokePermission($permission, $user_id)
 
    return back();
 }
-
-public function notifications()
-{
-    return auth()->user()->unreadNotifications()->limit(5)->get()->toArray();
-}
-
 }

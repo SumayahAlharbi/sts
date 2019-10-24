@@ -14,6 +14,7 @@
   </div><br />
 @endif
 <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
         //update group after region select in defult model
         $(document).on('change','.region', function(e){
@@ -42,6 +43,7 @@
               });
           });
           $.getJSON('/getCategory/' + group_id, function(data) {
+                console.log(data);
                 $("#categoryDiv").show();
                     $('#category_id').empty();
                     $('#category_id').append("<option value=''>Select a category</option>");
@@ -90,6 +92,7 @@
 <div class="row">
     <div class="col-12">
       <h1 class="text-center" id="type"></h1>
+      <div class="alert alert-success">version {{$releases->release_version}} has been released 🚀 {{ $releases->created_at->diffForHumans() }}</div>
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Support Ticket List</h4>
