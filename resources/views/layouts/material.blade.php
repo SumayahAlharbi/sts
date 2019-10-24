@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.png') }}">
     <title>@yield('title') | STS</title>
@@ -49,6 +50,11 @@
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
 @endif
+<!-- ============================================================== -->
+<!-- All Jquery -->
+<!-- ============================================================== -->
+<script src="{{ asset('js/app.js') }}"></script>
+
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -117,11 +123,24 @@
                         <!-- ============================================================== -->
                         <!-- Comment -->
                         <!-- ============================================================== -->
-                        {{-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-message"></i>
+                            <!-- Scripts -->
+                            <script>
+                                
+                                window.Laravel = <?php echo json_encode([
+                                    'csrfToken' => csrf_token(),
+                                ]); ?>
+                            </script>
+                            <!-- This makes the current user's id available in javascript -->
+                            @if(!auth()->guest())
+                                <script>
+                                    window.Laravel.userId = <?php echo auth()->user()->id; ?>
+                                </script>
+                            @endif
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-muted text-muted waves-effect waves-dark" id="notifications" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-bell" style="font-size: 24px;"></i>
                                 <div class="notify"> <span id="heartbit" class="heartbit" style="display:none;"></span> <span id="point" class="point" style="display:none;"></span> </div>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right mailbox scale-up">
+                            <div class="dropdown-menu dropdown-menu-right mailbox scale-up" aria-labelledby="notificationsMenu" id="notificationsMenu">
                                 <ul>
                                     <li>
                                         <div class="drop-title">Notifications</div>
@@ -130,9 +149,9 @@
                                         <div class="message-center">
                                             <!-- Message -->
                                             <a href="#">
-                                                <div class="btn btn-danger btn-circle"><i class="fa fa-link"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Luanch Admin</h5> <span class="mail-desc">Just see the my new admin!</span> <span class="time">9:30 AM</span> </div>
+                                                
+                                                    <h5 class="drop-title-notify">No notifications</h5> 
+                                                
                                             </a>
                                             <!-- Message -->
                                         </div>
@@ -142,7 +161,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li> --}}
+                        </li>
                         <!-- ============================================================== -->
                         <!-- End Comment -->
                         <!-- ============================================================== -->
@@ -199,7 +218,11 @@
                         <!-- Profile -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><div class="profile-pic">{!! Avatar::create(Auth::user()->name)->setFontSize(14)->setDimension(30, 30)->toSvg(); !!}</div></a>
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="profile-pic">
+                                    {!! Avatar::create(Auth::user()->name)->setFontSize(14)->setDimension(30, 30)->toSvg(); !!}
+                                </div>
+                            </a>
                             <div class="dropdown-menu dropdown-menu-right scale-up">
                                 <ul class="dropdown-user">
                                     <li>
@@ -307,6 +330,7 @@
                                 <li><a href="{{ url('/regions') }}">Regions</a></li>
                                 <li><a href="{{ url('/roles') }}">Roles</a></li>
                                 <li><a href="{{ url('/permissions') }}">Permissions</a></li>
+                                <li><a href="{{ url('/releases') }}">Releases</a></li>
                                 <li><a href="{{ url('/activity') }}">Activity</a></li>
 
                             {{-- </ul> --}}
@@ -457,10 +481,9 @@
 <!-- ============================================================== -->
 <!-- All Jquery -->
 <!-- ============================================================== -->
-<script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
+
 <!-- Bootstrap tether Core JavaScript -->
-<script src="{{ asset('assets/plugins/popper/popper.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+
 <!-- slimscrollbar scrollbar JavaScript -->
 <script src="{{ asset('js/jquery.slimscroll.js') }}"></script>
 <!--Wave Effects -->
@@ -513,60 +536,13 @@ $(".reply-cancel").click(function() {
     document.getElementById("comment-form").action = "{{ route('comment.add') }}";
 });
 </script>
-{{-- <script src="//js.pusher.com/3.1/pusher.min.js"></script> --}}
+
 <!-- ============================================================== -->
 <!-- Style switcher -->
 <!-- ============================================================== -->
 {{-- <script src="{{ asset('assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script> --}}
 
-{{-- <script type="text/javascript">
-  var notificationsWrapper   = $('.dropdown-notifications');
-  var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
-  var notificationsCountElem = notificationsToggle.find('i[data-count]');
-  var notificationsCount     = parseInt(notificationsCountElem.data('count'));
-  var notifications          = notificationsWrapper.find('ul.dropdown-menu');
 
-  if (notificationsCount <= 0) {
-    notificationsWrapper.hide();
-  }
-
-  // Enable pusher logging - don't include this in production
-  Pusher.logToConsole = true;
-
-  var pusher = new Pusher('{{env("PUSHER_APP_KEY")}}', {
-    cluster: '{{env("PUSHER_APP_CLUSTER")}}',
-    encrypted: true
-  });
-
-  // Subscribe to the channel we specified in our Laravel Event
-  var channel = pusher.subscribe('ticket-assigned');
-
-  // Bind a function to a Event (the full Laravel class)
-  channel.bind('App\\Events\\TicketAssigned', function(data) {
-    var existingNotifications = notifications.html();
-    var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
-    $('.notification-label').addClass('label-warning');
-		$('.message-center').append(
-      '<a href="/ticket/'+data.ticket+'">\
-            <div class="btn btn-danger btn-circle"><i class="fa fa-link"></i></div>\
-            <div class="mail-contnet">\
-            <h5>'+data.title+'</h5> <span class="mail-desc"> '+data.message+'\
-            </span>\
-             <span class="time">9:30 AM</span>\
-              </div>\
-    				</a>\
-      ' );
-    var newNotificationHtml = ``;
-    notifications.html(newNotificationHtml + existingNotifications);
-
-    notificationsCount += 1;
-    notificationsCountElem.attr('data-count', notificationsCount);
-    notificationsWrapper.find('.notif-count').text(notificationsCount);
-    document.getElementById("heartbit").style.display = "block";
-    document.getElementById("point").style.display = "block";
-    // notificationsWrapper.show();
-  });
-</script> --}}
  @stack('scripts')
 </body>
 </html>

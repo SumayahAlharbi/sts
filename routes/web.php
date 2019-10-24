@@ -15,6 +15,9 @@
 //     return view('welcome');
 // });
 
+Route::get('login/graph', 'Auth\LoginController@redirectToProvider');
+Route::get('callback', 'Auth\LoginController@handleProviderCallback');
+
 Auth::routes();
 
 // Route::get('test', function () {
@@ -60,6 +63,8 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::group(['middleware'=> 'auth'],function(){
 
+  Route::get('/notifications', 'UserController@notifications');
+
 // Show User Profile
   Route::get('/profile/{id}', '\App\Http\Controllers\UserController@showUserProfile')
   ->name('profile.show');
@@ -95,6 +100,8 @@ Route::group(['middleware' => ['role:admin']], function () {
   Route::resource('status','StatusController');
   //Groups Routes
   Route::resource('group','GroupController');
+  //Releases
+  Route::resource('releases','ReleaseController');
 
     //Regions Routes
   //Route::resource('regions','RegionController');

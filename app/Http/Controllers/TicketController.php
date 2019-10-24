@@ -10,6 +10,7 @@ use App\Group;
 use App\User;
 use App\Rating;
 use App\Region;
+use App\Release;
 use Auth;
 use App;
 use App\Mail\agent;
@@ -20,9 +21,7 @@ use App\Mail\TicketCreated;
 use Spatie\Activitylog\Models\Activity;
 use Carbon\Carbon;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
-
-// use App\Events\TicketAssigned;
-
+use App\Notifications\AssignedTicket;
 
 use Illuminate\Http\Request;
 
@@ -44,6 +43,8 @@ class TicketController extends Controller
     public function index()
     {
         $statuses = Status::all();
+        $releases = Release::orderByRaw('created_at DESC')->first();
+        //$diffHours = diffInHours($releases['created_at'])->now();
         $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate(10);
         $regions = Region::all()->pluck('name','id');
         $categories = Category::all()->pluck('category_name','id');
@@ -57,7 +58,7 @@ class TicketController extends Controller
           $groups = Auth::user()->group;
         }
         ActivityLogger::activity("Ticket index");
-        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions'));
+        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases'));
     }
 
         /**
@@ -390,7 +391,7 @@ class TicketController extends Controller
           \Mail::to($user)->send(new TicketAgentAssigned($ticket));
       }
 
-      // event(new App\Events\TicketAssigned('Someone'));
+      $user->notify(new AssignedTicket($user, $ticket));
       return back();
     }
 
