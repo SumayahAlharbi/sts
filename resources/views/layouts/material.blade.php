@@ -394,7 +394,9 @@
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
-
+                @isset($releases->release_version)
+                <div class="alert alert-success">version {{$releases->release_version}} has been released 🚀 {{ $releases->created_at->diffForHumans() }}</div>
+                @endisset
 
             @yield('content')
 
