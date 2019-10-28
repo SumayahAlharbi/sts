@@ -100,6 +100,10 @@ Route::group(['middleware' => ['role:admin']], function () {
   Route::resource('status','StatusController');
   //Groups Routes
   Route::resource('group','GroupController');
+  Route::get('/changeGroupVisibilty','GroupController@changeGroupVisibilty')->name('group.change.visibility');
+
+
+
   //Releases
   Route::resource('releases','ReleaseController');
 

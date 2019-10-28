@@ -48,9 +48,40 @@
           </select>
         </div>
 
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Available to Enduser?</label>
+            <div class="switch">
+                <label>
+                  OFF
+                  {{-- <input type="checkbox" checked=""> --}}
+                  <input data-id="{{$group->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $group->visibility_id  == 1 ? 'checked' : '' }}>
+                  <span class="lever switch-col-light-green"></span>
+                  ON
+                </label>
+        </div>
+      </div>
+
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
   </div>
 </div>
 </div>
+<script>
+    $(function() {
+      $('.toggle-class').change(function() {
+          var visibility_id = $(this).prop('checked') == true ? 1 : 0;
+          var group_id = $(this).data('id'); 
+           
+          $.ajax({
+              type: "GET",
+              dataType: "json",
+              url: '{{ route('group.change.visibility') }}',
+              data: {'visibility_id': visibility_id, 'group_id': group_id},
+            success: function (data) {
+                // console.log(data.message);
+            }
+          });
+      })
+    })
+  </script>
 @endsection
