@@ -115,4 +115,12 @@ class GroupController extends Controller
        $group->delete();
        return redirect('/group')->with('success', 'Group has been deleted');
      }
+    public function changeGroupVisibilty(Request $request)
+{
+    $group = Group::findOrFail($request->group_id);
+    $group->visibility_id = $request->visibility_id;
+    $group->save();
+
+    return response()->json(['message' => 'User status updated successfully.']);
+}
 }
