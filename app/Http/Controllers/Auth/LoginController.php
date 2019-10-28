@@ -30,7 +30,7 @@ class LoginController extends Controller
      * @var string
      */
 
-   
+
     protected $redirectTo = '/';
 
     /**
@@ -49,7 +49,7 @@ class LoginController extends Controller
         if (Auth::guard($guard)->check()) {
             return $redirectTo;
         }
-    
+
         return $next($request);
     }
 
@@ -70,7 +70,7 @@ class LoginController extends Controller
         $user = $this->userFindorCreate($msGraphUser);
 
         Auth::login($user, true);
-
+ 
         return redirect()->intended();
         // $user->token;
         // OAuth Two Providers
