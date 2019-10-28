@@ -71,7 +71,7 @@ class LoginController extends Controller
 
         Auth::login($user, true);
 
-        return redirect('/');
+        return redirect()->intended();
         // $user->token;
         // OAuth Two Providers
 // $token = $user->token;
