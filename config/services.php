@@ -39,5 +39,10 @@ return [
             'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),
         ],
     ],
+    'graph' => [
+        'client_id' => env('GRAPH_KEY'),
+        'client_secret' => env('GRAPH_SECRET'),
+        'redirect' => env('GRAPH_REDIRECT_URI')
+    ],
 
 ];

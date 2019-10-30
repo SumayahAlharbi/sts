@@ -11,7 +11,7 @@
 <button type="button" class="btn btn-link"></button>
 <div class="card uper">
   <div class="card-header">
-   All Categories
+   All Groups
   </div>
   @if(session()->get('success'))
     <div class="alert alert-success">
@@ -50,6 +50,20 @@
         </tr>
         @endforeach
     </tbody>
-  </table>
+    <tfoot>
+        <tr>
+            <td colspan="6">
+                <div class="text-right">
+                    <ul class="pagination pagination-centered hide-if-no-paging"> </ul>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+    </table>
+    <div class="row">
+      <div class="col-md-12">
+  {{ $groups->onEachSide(1)->links() }}
+    </div>
+    </div>
 </div></div>
 @endsection
