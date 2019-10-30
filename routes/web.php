@@ -17,10 +17,11 @@
 
 Route::get('/welcome', 'WelcomeController@welcome');
 
-Route::get('/signin', 'AuthController@signin');
-Route::get('/callback', 'AuthController@callback');
+Route::get('/signin', 'auth\MsGraphLoginController@signin');
+Route::get('/callback', 'auth\MsGraphLoginController@callback');
 Route::get('/signout', 'AuthController@signout');
-Route::get('/calendar', 'CalendarController@calendar');
+// Route::get('/userslist', 'auth\MsGraphLoginController@usersList');
+Route::get('/userslist', 'auth\MsGraphLoginController@usersList')->name('graph.users.list');
 
 Auth::routes();
 

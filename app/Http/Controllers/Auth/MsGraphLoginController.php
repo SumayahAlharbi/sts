@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
 use Illuminate\Http\Request;
-use Auth;
 use Microsoft\Graph\Graph;
 use Microsoft\Graph\Model;
 use App\TokenStore\TokenCache;
+use Auth;
+use App\User;
 
-
-class AuthController extends Controller
+class MsGraphLoginController extends Controller
 {
   public function signin()
   {
@@ -68,17 +66,20 @@ class AuthController extends Controller
         $accessToken = $oauthClient->getAccessToken('authorization_code', [
           'code' => $authCode
         ]);
-      
+
         $graph = new Graph();
         $graph->setAccessToken($accessToken->getToken());
-      
+
         $user = $graph->createRequest('GET', '/me')
           ->setReturnType(Model\User::class)
           ->execute();
-      
+
         $tokenCache = new TokenCache();
         $tokenCache->storeTokens($accessToken, $user);
-        Auth::login($user, true);
+        $userData = $this->userFindorCreate($user);
+
+        Auth::login($userData, true);
+        
         return redirect('/');
       }
       catch (League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
@@ -92,10 +93,53 @@ class AuthController extends Controller
       ->with('error', $request->query('error'))
       ->with('errorDetail', $request->query('error_description'));
   }
-  public function signout()
-{
-  $tokenCache = new TokenCache();
-  $tokenCache->clearTokens();
-  return redirect('/');
+
+  public function userFindorCreate($user){
+    $user = User::where('email', $user->getMail())->first();
+    if(!$user){
+        $user = new User;
+    $user->name = $user->getName();
+    $user->email = $user->getEmail();
+    $user->password= Hash::make('the-password-of-choice');
+    // $user->name= $username;
+    // $user->email= $username."@ksau-hs.edu.sa";
+    // $user->password= Hash::make('the-password-of-choice');
+    $user->save();
+    $user->assignRole('enduser');
+    }
+    return $user;
 }
+
+  public function signout()
+  {
+    $tokenCache = new TokenCache();
+    $tokenCache->clearTokens();
+    return redirect('/');
+  }
+
+  public function usersList(Request $request)
+  {
+        // Get the access token from the cache
+        $tokenCache = new TokenCache();
+        $accessToken = $tokenCache->getAccessToken();
+    
+        // Create a Graph client
+        $graph = new Graph();
+        $graph->setAccessToken($accessToken);
+
+        $userParams = $request->q;
+        $queryParams = array(
+          '$filter' => "startswith(displayName,'". $userParams ."')  or startswith(mail,'". $userParams ."')",
+          // '$orderby' => 'createdDateTime DESC'
+        );
+    
+        // Append query parameters to the '/me/events' url
+        $getEventsUrl = '/users?'.http_build_query($queryParams);
+    
+        $events = $graph->createRequest('GET', $getEventsUrl)
+          ->setReturnType(Model\Event::class)
+          ->execute();
+          return response()->json($events);
+
+  }
 }

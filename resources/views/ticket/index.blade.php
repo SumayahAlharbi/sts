@@ -329,7 +329,7 @@
 
                               <div class="form-group" required>
                                 <label for="exampleFormControlSelect1">Requested by</label>
-                              <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true">
+                              {{-- <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true">
                                 <option selected value> -- Who requested this ticket? -- </option>
                                 @foreach ($users as $key => $value)
                                   @if ($key == $created_by->id)
@@ -338,8 +338,85 @@
                                   <option value="{{$key}}">{{$value}}</option>
                                   @endif
                                 @endforeach
-                              </select>
+                              </select> --}}
+
+                              <select id="ajax-select" class="selectpicker" name="requested_by" data-live-search="true"></select>
+                              <input type="text" class="form-control" id="requested_by_name" name="requested_by_name" value="" hidden/>
                             </div>
+
+                            {{-- <script>
+                                $(function() {
+                                  $('.toggle-class').change(function() {
+                                      // var visibility_id = $(this).prop('checked') == true ? 1 : 0;
+                                      var userKeyword = $(this).data('id'); 
+                                       
+                                      $.ajax({
+                                          type: "GET",
+                                          dataType: "json",
+                                          url: '{{ route('graph.users.list') }}',
+                                          data: {'userKeyword': userKeyword},
+                                        success: function (data) {
+                                            // console.log(data.message);
+                                        }
+                                      });
+                                  })
+                                })
+                              </script> --}}
+                              <script>
+                              $('.selectpicker').selectpicker().ajaxSelectPicker({
+ajax: {
+
+  // data source
+  url: '{{ route('graph.users.list') }}', 
+
+  // ajax type
+  type: 'GET',
+
+  // data type
+  dataType: 'json',
+
+  // Use  as a placeholder and Ajax Bootstrap Select will
+  // automatically replace it with the value of the search query.
+  data: {
+    q: '{@{{q}}}'
+  }
+},
+
+// function to preprocess JSON data
+preprocessData: function (data) {
+  var i, l = data.length, array = [];
+  // var hiddenField = $( "optgroup option:selected" ).text();
+  if (l) {
+      for (i = 0; i < l; i++) {
+          array.push($.extend(true, data[i], {
+              text : data[i].displayName,
+              value: data[i].mail,
+              data : {
+                  subtext: data[i].mail
+              }
+          }));
+          // $( "optgroup option:selected" ).text();
+      }
+      // console.log(hiddenField);
+      // console.log(data);
+  }
+  // You must always return a valid array when processing data. The
+  // data argument passed is a clone and cannot be modified directly.
+  return array;
+  // $( "optgroup option:selected" ).text();
+}
+
+});
+// var hiddenField = $( "optgroup option:selected" ).text();
+// console.log(hiddenField);
+                              $(function() {
+                                  $('.selectpicker').change(function() {
+                                      var hiddenField = $( "optgroup option:selected" ).text();
+                                      document.getElementById("requested_by_name").value = hiddenField;
+                                      console.log(hiddenField);
+                                  })
+                                })
+                              </script>
 
 
 

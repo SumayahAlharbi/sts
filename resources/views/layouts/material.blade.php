@@ -18,6 +18,7 @@
     <link href="{{ asset('assets/plugins/footable/css/footable.core.css') }}" rel="stylesheet">
     <!-- Footable CSS -->
     <link href="{{ asset('assets/plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.3.8/css/ajax-bootstrap-select.min.css" rel="stylesheet">
     <!-- bootstrap-notifications CSS -->
     <link href="{{ asset('assets/plugins/bootstrap-notifications/bootstrap-notifications.css') }}" rel="stylesheet">
     <!-- Font Awesome v5.5 -->
@@ -54,7 +55,9 @@
 <!-- All Jquery -->
 <!-- ============================================================== -->
 <script src="{{ asset('js/app.js') }}"></script>
-
+<!--bootstrap-select-->
+<script src="{{ asset('assets/plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.3.8/js/ajax-bootstrap-select.min.js"></script>
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -499,13 +502,12 @@
 <script src="{{ asset('assets/plugins/footable/js/footable.filter.js') }}"></script>
 <!--FooTable init-->
 <script src="{{ asset('js/footable-init.js') }}"></script>
-<!--bootstrap-select-->
-<script src="{{ asset('assets/plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
 
 <script src="{{ asset('assets/plugins/d3/d3.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/c3-master/c3.min.js') }}"></script>
 
 <script src="{{ asset('assets/plugins/datetimepicker/jquery.datetimepicker.full.min.js') }}"></script>
+
 
 <!--Custom JavaScript -->
 <script src="{{ asset('js/custom.js') }}"></script>
