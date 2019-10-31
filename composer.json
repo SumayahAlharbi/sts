@@ -23,7 +23,6 @@
         "orangehill/iseed": "^2.6",
         "pragmarx/version": "^0.2.8",
         "pusher/pusher-php-server": "^3.2",
-        "socialiteproviders/microsoft-graph": "^2.1",
         "spatie/flysystem-dropbox": "^1.0",
         "spatie/laravel-activitylog": "^3.1",
         "spatie/laravel-backup": "^5.11",
