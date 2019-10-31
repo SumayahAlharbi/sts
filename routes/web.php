@@ -17,7 +17,7 @@
 
 Route::get('/welcome', 'WelcomeController@welcome');
 
-Route::get('/signin', 'auth\MsGraphLoginController@signin');
+Route::get('/signin', 'Auth\MsGraphLoginController@signin');
 Route::get('/callback', 'auth\MsGraphLoginController@callback');
 Route::get('/signout', 'AuthController@signout');
 // Route::get('/userslist', 'auth\MsGraphLoginController@usersList');
