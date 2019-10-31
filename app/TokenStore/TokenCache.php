@@ -1,16 +1,26 @@
 <?php
 
 namespace App\TokenStore;
+use App\MsGraphToken;
+use Auth;
 
 class TokenCache {
   public function storeTokens($accessToken, $user) {
-    session([
-      'accessToken' => $accessToken->getToken(),
-      'refreshToken' => $accessToken->getRefreshToken(),
-      'tokenExpires' => $accessToken->getExpires(),
-      'userName' => $user->getDisplayName(),
-      'userEmail' => null !== $user->getMail() ? $user->getMail() : $user->getUserPrincipalName()
-    ]);
+    // session([
+    //   'accessToken' => $accessToken->getToken(),
+    //   'refreshToken' => $accessToken->getRefreshToken(),
+    //   'tokenExpires' => $accessToken->getExpires(),
+    //   'userName' => $user->getDisplayName(),
+    //   'userEmail' => null !== $user->getMail() ? $user->getMail() : $user->getUserPrincipalName()
+    // ]);
+            //cretate a new record or if the user id exists update record
+        return MsGraphToken::updateOrCreate(['email' => $user->getMail()], [
+            'user_id'       => $user->getId(),
+            'access_token'  => $accessToken->getToken(),
+            'email'  => $user->getMail(),
+            'expires'       => $accessToken->getExpires(),
+            'refresh_token' => $accessToken->getRefreshToken()
+        ]);
   }
 
   public function clearTokens() {
@@ -22,17 +32,29 @@ class TokenCache {
   }
 
   public function getAccessToken() {
+    
+    $token = MsGraphToken::where('email', Auth::user()->email)->first();
+    
+    // // Check if tokens exist
+    // if (empty(session('accessToken')) ||
+    //     empty(session('refreshToken')) ||
+    //     empty(session('tokenExpires'))) {
+    //   return '';
+    // }
     // Check if tokens exist
-    if (empty(session('accessToken')) ||
-        empty(session('refreshToken')) ||
-        empty(session('tokenExpires'))) {
-      return '';
-    }
-  
+    if (empty($token->access_token) ||
+        empty($token->refresh_token) ||
+        empty($token->expires)) {
+    return '';
+}
+    
+    
+    
+    
     // Check if token is expired
     //Get current time + 5 minutes (to allow for time differences)
     $now = time() + 300;
-    if (session('tokenExpires') <= $now) {
+    if ($token->expires <= $now) {
       // Token is expired (or very close to it)
       // so let's refresh
   
@@ -63,14 +85,22 @@ class TokenCache {
     }
   
     // Token is still valid, just return it
-    return session('accessToken');
+    return $token->access_token;
   }
 
   public function updateTokens($accessToken) {
-    session([
-      'accessToken' => $accessToken->getToken(),
-      'refreshToken' => $accessToken->getRefreshToken(),
-      'tokenExpires' => $accessToken->getExpires()
-    ]);
+    // session([
+    //   'accessToken' => $accessToken->getToken(),
+    //   'refreshToken' => $accessToken->getRefreshToken(),
+    //   'tokenExpires' => $accessToken->getExpires()
+    // ]);
+                //cretate a new record or if the user id exists update record
+                return MsGraphToken::updateOrCreate(['email' => $user->getMail()], [
+                  // 'user_id'       => $user->getId(),
+                  'access_token'  => $accessToken->getToken(),
+                  // 'email'  => $user->getMail(),
+                  'expires'       => $accessToken->getExpires(),
+                  'refresh_token' => $accessToken->getRefreshToken()
+              ]);
   }
 }
