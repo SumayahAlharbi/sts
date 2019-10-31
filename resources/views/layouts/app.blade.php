@@ -1,117 +1,82 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+  <head>
+    <title>PHP Graph Tutorial</title>
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+        integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  </head>
 
-      <title>{{ config('app.name', 'STS') }}</title>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="https://unpkg.com/ionicons@4.4.6/dist/css/ionicons.min.css" rel="stylesheet">
-</head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'STS') }}
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container">
+        <a href="/" class="navbar-brand">PHP Graph Tutorial</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a href="/" class="nav-link {{$_SERVER['REQUEST_URI'] == '/' ? ' active' : ''}}">Home</a>
+            </li>
+            @if(isset($userName))
+              <li class="nav-item" data-turbolinks="false">
+                <a href="/calendar" class="nav-link{{$_SERVER['REQUEST_URI'] == '/calendar' ? ' active' : ''}}">Calendar</a>
+              </li>
+            @endif
+          </ul>
+          <ul class="navbar-nav justify-content-end">
+            <li class="nav-item">
+              <a class="nav-link" href="https://developer.microsoft.com/graph/docs/concepts/overview" target="_blank">
+                <i class="fas fa-external-link-alt mr-1"></i>Docs
+              </a>
+            </li>
+            @if(isset($userName))
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                  aria-haspopup="true" aria-expanded="false">
+                  @if(isset($user_avatar))
+                    <img src="{{ $user_avatar }}" class="rounded-circle align-self-center mr-2" style="width: 32px;">
+                  @else
+                    <i class="far fa-user-circle fa-lg rounded-circle align-self-center mr-2" style="width: 32px;"></i>
+                  @endif
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                @if (Route::has('register'))
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                @endif
-                            </li>
-                        @else
-                          <li class="nav-item">
-                            <a class="nav-link" href="{{ route('ticket.index') }}">Tickets</a>
-                            </li>
-                            @role('admin')
-                            <li class="nav-item">
-                              <a class="nav-link" href="{{ url('/users') }}">Users</a>
-                              </li>
-                            <li class="nav-item">
-                              <a class="nav-link" href="{{ url('/category') }}">Categories</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/group') }}">Groups</a>
-                                </li>
-                                <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/regions') }}">Regions</a>
-                                </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/location') }}">Locations</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" href="{{ url('/status') }}">Status</a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/roles') }}">Roles</a>
-                                    </li>
-                                    <li class="nav-item">
-                                      <a class="nav-link" href="{{ url('/permissions') }}">Permissions</a>
-                                      </li>
-                                      @endrole
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <h5 class="dropdown-item-text mb-0">{{ $userName }}</h5>
+                  <p class="dropdown-item-text text-muted mb-0">{{ $userEmail }}</p>
+                  <div class="dropdown-divider"></div>
+                  <a href="/signout" class="dropdown-item">Sign Out</a>
                 </div>
-            </div>
-        </nav>
-
-        <main class="py-4">
-            @yield('content')
-        </main>
-
-        <div class="row justify-content-md-center">
-          <div class="col-md-auto">
-            {{Version::full()}}
-          </div>
-          </div>
+              </li>
+            @else
+              <li class="nav-item">
+                <a href="/signin" class="nav-link">Sign In</a>
+              </li>
+            @endif
+          </ul>
         </div>
+      </div>
+    </nav>
+    <main role="main" class="container">
+      @if(session('error'))
+        <div class="alert alert-danger" role="alert">
+          <p class="mb-3">{{ session('error') }}</p>
+          @if(session('errorDetail'))
+            <pre class="alert-pre border bg-light p-2"><code>{{ session('errorDetail') }}</code></pre>
+          @endif
+        </div>
+      @endif
 
-</body>
+      @yield('content')
+    </main>
+  </body>
 </html>

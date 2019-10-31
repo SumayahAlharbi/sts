@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Socialite;
 use App\User;
 use Auth;
 use Illuminate\Support\Facades\Hash;
@@ -71,7 +70,7 @@ class LoginController extends Controller
 
         Auth::login($user, true);
 
-        return redirect('/');
+        return redirect()->intended();
         // $user->token;
         // OAuth Two Providers
 // $token = $user->token;

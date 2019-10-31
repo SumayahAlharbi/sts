@@ -167,7 +167,7 @@ return [
         App\Providers\DropboxServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
-        \SocialiteProviders\Manager\ServiceProvider::class,
+        // \SocialiteProviders\Manager\ServiceProvider::class,
         // Barryvdh\Debugbar\ServiceProvider::class,
         /*
          * Application Service Providers...
