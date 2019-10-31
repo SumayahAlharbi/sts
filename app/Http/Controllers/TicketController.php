@@ -501,7 +501,9 @@ class TicketController extends Controller
    // Fetch groups by region id
    public function getGroups($region_id){
 
-      $selectedgroups =Group::where('region_id','=',$region_id)->get();
+      $selectedgroups =Group::where('region_id','=',$region_id)
+      ->where('visibility_id','=','1')
+      ->get();
       return response()->json($selectedgroups);
   }
 

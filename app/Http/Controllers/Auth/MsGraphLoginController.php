@@ -74,6 +74,8 @@ class MsGraphLoginController extends Controller
           ->setReturnType(Model\User::class)
           ->execute();
 
+        // $id = $user->getId();
+
         $tokenCache = new TokenCache();
         $tokenCache->storeTokens($accessToken, $user);
         $userData = $this->userFindorCreate($user);
@@ -112,8 +114,9 @@ class MsGraphLoginController extends Controller
 
   public function signout()
   {
+    $user = Auth::user();
     $tokenCache = new TokenCache();
-    $tokenCache->clearTokens();
+    $tokenCache->clearTokens($user);
     return redirect('/');
   }
 
