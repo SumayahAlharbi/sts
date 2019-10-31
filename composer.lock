@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ab294a1d7c77d5f7488bcfe5d2d6b7a",
+    "content-hash": "22adb4a3962fcd549b30e521f45f7f12",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -2624,16 +2624,16 @@
         },
         {
             "name": "league/oauth2-client",
-            "version": "dev-master",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-client.git",
-                "reference": "8c318529c0a951ec46b59b675711815a9231a87e"
+                "reference": "cc114abc622a53af969e8664722e84ca36257530"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-client/zipball/8c318529c0a951ec46b59b675711815a9231a87e",
-                "reference": "8c318529c0a951ec46b59b675711815a9231a87e",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-client/zipball/cc114abc622a53af969e8664722e84ca36257530",
+                "reference": "cc114abc622a53af969e8664722e84ca36257530",
                 "shasum": ""
             },
             "require": {
@@ -2687,7 +2687,7 @@
                 "oauth2",
                 "single sign on"
             ],
-            "time": "2019-09-18T15:36:52+00:00"
+            "time": "2018-11-22T18:33:57+00:00"
         },
         {
             "name": "lorisleiva/laravel-deployer",
@@ -8481,9 +8481,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "league/oauth2-client": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
