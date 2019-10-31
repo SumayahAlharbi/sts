@@ -18,10 +18,10 @@
 Route::get('/welcome', 'WelcomeController@welcome');
 
 Route::get('/signin', 'Auth\MsGraphLoginController@signin');
-Route::get('/callback', 'auth\MsGraphLoginController@callback');
-Route::get('/signout', 'AuthController@signout');
+Route::get('/callback', 'Auth\MsGraphLoginController@callback');
+Route::get('/signout', 'Auth\MsGraphLoginController@signout');
 // Route::get('/userslist', 'auth\MsGraphLoginController@usersList');
-Route::get('/userslist', 'auth\MsGraphLoginController@usersList')->name('graph.users.list');
+Route::get('/userslist', 'Auth\MsGraphLoginController@usersList')->name('graph.users.list');
 
 Auth::routes();
 
