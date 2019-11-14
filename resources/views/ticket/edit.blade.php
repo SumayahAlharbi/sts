@@ -111,21 +111,90 @@
           <input type="text" class="form-control" name="room_number" value="{{ $ticket->room_number }}"/>
         </div>
         <div class="form-group col-md-4">
-          <label for="exampleFormControlSelect1">Requested by</label>
-          <select class="selectpicker form-control" name="requested_by"data-show-subtext="true" data-live-search="true"  id="exampleFormControlSelect1">
-          @empty($user->id)
-          <option selected value> -- Who requested this ticket? -- </option>
-          @endempty
-            @foreach($users as $user)
+          <label for="exampleFormControlSelect1">Requested by
+              @foreach($users as $user)
               @if ($user->id == $ticket->requested_by)
-             <option selected value="{{$user->id}}">{{$user->name}}</option>
+             {{$user->name}}
            @else
-           <option value="{{$user->id}}">{{$user->name}}</option>
+           {{-- <option value="{{$user->id}}">{{$user->name}}</option> --}}
            @endif
             @endforeach
+          </label>
+          {{-- <select class="selectpicker form-control" name="requested_by"data-show-subtext="true" data-live-search="true"  id="exampleFormControlSelect1"> --}}
+          <select id="ajax-select" class="selectpicker form-control" name="requested_by" data-live-search="true"></select>
+          <input type="text" class="form-control" id="requested_by_name" name="requested_by_name" value="" hidden/>
+            {{-- @empty($user->id) --}}
+          {{-- <option selected value> -- Who requested this ticket? -- </option> --}}
+          {{-- @endempty --}}
+            {{-- @foreach($users as $user)
+              @if ($user->id == $ticket->requested_by)
+             <option selected value="{{$user->id}}">{{$user->name}}</option>
+           @else --}}
+           {{-- <option value="{{$user->id}}">{{$user->name}}</option> --}}
+           {{-- @endif
+            @endforeach --}}
           </select>
         </div>
       </div>
+
+      <script>
+          $('.selectpicker').selectpicker().ajaxSelectPicker({
+ajax: {
+
+// data source
+url: '{{ route('graph.users.list') }}', 
+
+// ajax type
+type: 'GET',
+
+// data type
+dataType: 'json',
+
+// Use  as a placeholder and Ajax Bootstrap Select will
+// automatically replace it with the value of the search query.
+data: {
+q: '{@{{q}}}'
+}
+},
+locale: {
+            emptyTitle: 'Click to change'
+        },
+// function to preprocess JSON data
+preprocessData: function (data) {
+var i, l = data.length, array = [];
+// var hiddenField = $( "optgroup option:selected" ).text();
+if (l) {
+for (i = 0; i < l; i++) {
+array.push($.extend(true, data[i], {
+text : data[i].displayName,
+value: data[i].mail,
+data : {
+subtext: data[i].mail
+}
+}));
+// $( "optgroup option:selected" ).text();
+}
+// console.log(hiddenField);
+// console.log(data);
+}
+// You must always return a valid array when processing data. The
+// data argument passed is a clone and cannot be modified directly.
+return array;
+// $( "optgroup option:selected" ).text();
+}
+
+});
+// var hiddenField = $( "optgroup option:selected" ).text();
+// console.log(hiddenField);
+          $(function() {
+              $('.selectpicker').change(function() {
+                  var hiddenField = $( "optgroup option:selected" ).text();
+                  document.getElementById("requested_by_name").value = hiddenField;
+                  console.log(hiddenField);
+              })
+            })
+          </script>
+
         <div class="form-group">
         <button type="submit" class="btn btn-primary">Update</button>
         </div>

@@ -365,7 +365,24 @@ class TicketController extends Controller
       $ticket->priority = $request->priority;
       $ticket->due_date = $request->due_date;
       $ticket->room_number = $request->room_number;
-      $ticket->requested_by = $request->requested_by;
+      // $ticket->requested_by = $request->requested_by;
+      $graphUserEmail = $request->requested_by;
+
+      $userFinder = User::where('email', $graphUserEmail)->first();
+      if(!$userFinder){
+        $userFinder = new User;
+        $userFinder->name = $request->requested_by_name;
+        $userFinder->email = $graphUserEmail;
+        $userFinder->password= Hash::make('the-password-of-choice');
+        // $user->name= $username;
+        // $user->email= $username."@ksau-hs.edu.sa";
+        // $user->password= Hash::make('the-password-of-choice');
+        $userFinder->save();
+        $userFinder->assignRole('enduser');
+      }
+      
+      $ticket->requested_by = $userFinder->id;
+
       $ticket->save();
 
     //  $user = $ticket->requested_by_user;
