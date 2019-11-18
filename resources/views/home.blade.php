@@ -174,6 +174,7 @@
                       </tr>
                   </tfoot>
                </table>
+               {{ $todayTickets->links() }}
               </div>
             </div>
       </div>
