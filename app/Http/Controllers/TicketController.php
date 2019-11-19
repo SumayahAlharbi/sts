@@ -150,7 +150,7 @@ class TicketController extends Controller
           $userFinder->save();
           $userFinder->assignRole('enduser');
         }
-        
+
         $ticket->requested_by = $userFinder->id;
       }
         $ticket->save();
@@ -437,8 +437,15 @@ class TicketController extends Controller
     {
       $ticket = Ticket::findorfail($ticket_id);
       $user = User::find($ticket->requested_by_user);
+      $TicketAgents = $ticket->user;
 
-      if ($user) {
+      $match = 1;
+      foreach ($TicketAgents as $TicketAgent){
+        if ($user[0]->id == $TicketAgent->id)
+        $match = 0;
+      }
+
+      if ($user && $match) {
         if (App::environment('production')) {
             // The environment is production
             \Mail::to($user)->send(new TicketRating($ticket));
