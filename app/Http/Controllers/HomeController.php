@@ -44,7 +44,7 @@ class HomeController extends Controller
       // $userId = Auth::user()->id;
       // $userGroup = Auth::user()->group->first()->id;
       // $ticketUserGroup = Group::find($userGroup)->ticket;
-      $todayTickets = Ticket::whereDate('due_date', Carbon::now() )->paginate(5);
+      $todayTickets = Ticket::whereDate('due_date', Carbon::now() )->simplePaginate(5);
       
       
       
