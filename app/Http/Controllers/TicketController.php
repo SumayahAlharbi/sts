@@ -137,6 +137,7 @@ class TicketController extends Controller
         $ticket->created_by = $request->created_by;
         $graphUserEmail = $request->requested_by;
 
+        if ($request->requested_by){
         $userFinder = User::where('email', $graphUserEmail)->first();
         if(!$userFinder){
           $userFinder = new User;
@@ -151,7 +152,7 @@ class TicketController extends Controller
         }
         
         $ticket->requested_by = $userFinder->id;
-
+      }
         $ticket->save();
 
         $user = $ticket->requested_by_user;
@@ -368,6 +369,7 @@ class TicketController extends Controller
       // $ticket->requested_by = $request->requested_by;
       $graphUserEmail = $request->requested_by;
 
+      if ($request->requested_by){
       $userFinder = User::where('email', $graphUserEmail)->first();
       if(!$userFinder){
         $userFinder = new User;
@@ -382,7 +384,7 @@ class TicketController extends Controller
       }
       
       $ticket->requested_by = $userFinder->id;
-
+    }
       $ticket->save();
 
     //  $user = $ticket->requested_by_user;
