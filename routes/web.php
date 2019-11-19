@@ -15,8 +15,13 @@
 //     return view('welcome');
 // });
 
-Route::get('login/graph', 'Auth\LoginController@redirectToProvider');
-Route::get('callback', 'Auth\LoginController@handleProviderCallback');
+Route::get('/welcome', 'WelcomeController@welcome');
+
+Route::get('/signin', 'Auth\MsGraphLoginController@signin');
+Route::get('/callback', 'Auth\MsGraphLoginController@callback');
+Route::get('/signout', 'Auth\MsGraphLoginController@signout');
+// Route::get('/userslist', 'auth\MsGraphLoginController@usersList');
+Route::get('/userslist', 'Auth\MsGraphLoginController@usersList')->name('graph.users.list');
 
 Auth::routes();
 
@@ -24,6 +29,9 @@ Auth::routes();
 //     event(new App\Events\TicketAssigned('Someone'));
 //     return "Event has been sent!";
 // });
+
+Route::get('/redirect/graph', 'Auth\LoginController@redirectToProvider');
+Route::get('/callback/graph', 'Auth\LoginController@handleProviderCallback');
 
 Route::get('total-tickets-api', 'HomeController@TicketsChartsApi');
 

@@ -22,6 +22,9 @@ use Spatie\Activitylog\Models\Activity;
 use Carbon\Carbon;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use App\Notifications\AssignedTicket;
+use Illuminate\Support\Facades\Hash;
+use Microsoft\Graph\Graph;
+use Microsoft\Graph\Model;
 
 use Illuminate\Http\Request;
 
@@ -132,8 +135,24 @@ class TicketController extends Controller
         $ticket->due_date = $request->due_date;
         $ticket->room_number = $request->room_number;
         $ticket->created_by = $request->created_by;
-        $ticket->requested_by = $request->requested_by;
+        $graphUserEmail = $request->requested_by;
 
+        if ($request->requested_by){
+        $userFinder = User::where('email', $graphUserEmail)->first();
+        if(!$userFinder){
+          $userFinder = new User;
+          $userFinder->name = $request->requested_by_name;
+          $userFinder->email = $graphUserEmail;
+          $userFinder->password= Hash::make('the-password-of-choice');
+          // $user->name= $username;
+          // $user->email= $username."@ksau-hs.edu.sa";
+          // $user->password= Hash::make('the-password-of-choice');
+          $userFinder->save();
+          $userFinder->assignRole('enduser');
+        }
+
+        $ticket->requested_by = $userFinder->id;
+      }
         $ticket->save();
 
         $user = $ticket->requested_by_user;
@@ -347,7 +366,25 @@ class TicketController extends Controller
       $ticket->priority = $request->priority;
       $ticket->due_date = $request->due_date;
       $ticket->room_number = $request->room_number;
-      $ticket->requested_by = $request->requested_by;
+      // $ticket->requested_by = $request->requested_by;
+      $graphUserEmail = $request->requested_by;
+
+      if ($request->requested_by){
+      $userFinder = User::where('email', $graphUserEmail)->first();
+      if(!$userFinder){
+        $userFinder = new User;
+        $userFinder->name = $request->requested_by_name;
+        $userFinder->email = $graphUserEmail;
+        $userFinder->password= Hash::make('the-password-of-choice');
+        // $user->name= $username;
+        // $user->email= $username."@ksau-hs.edu.sa";
+        // $user->password= Hash::make('the-password-of-choice');
+        $userFinder->save();
+        $userFinder->assignRole('enduser');
+      }
+      
+      $ticket->requested_by = $userFinder->id;
+    }
       $ticket->save();
 
     //  $user = $ticket->requested_by_user;
@@ -400,8 +437,15 @@ class TicketController extends Controller
     {
       $ticket = Ticket::findorfail($ticket_id);
       $user = User::find($ticket->requested_by_user);
+      $TicketAgents = $ticket->user;
 
-      if ($user) {
+      $match = 1;
+      foreach ($TicketAgents as $TicketAgent){
+        if ($user[0]->id == $TicketAgent->id)
+        $match = 0;
+      }
+
+      if ($user && $match) {
         if (App::environment('production')) {
             // The environment is production
             \Mail::to($user)->send(new TicketRating($ticket));
@@ -483,7 +527,9 @@ class TicketController extends Controller
    // Fetch groups by region id
    public function getGroups($region_id){
 
-      $selectedgroups =Group::where('region_id','=',$region_id)->get();
+      $selectedgroups =Group::where('region_id','=',$region_id)
+      ->where('visibility_id','=','1')
+      ->get();
       return response()->json($selectedgroups);
   }
 
