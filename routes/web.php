@@ -174,6 +174,7 @@ Route::delete('ticket/{ticket}', 'TicketController@destroy')->name('ticket.destr
 Route::get('ticket/ChangeTicketStatus/{status_id}/{ticket_id}','\App\Http\Controllers\TicketController@ChangeTicketStatus')->middleware('permission:change ticket status');
 Route::get('/search', 'TicketController@search')->name('ticket.search');
 Route::get('/statusFilter', 'TicketController@statusFilter')->name('ticket.statusFilter');
+Route::get('/todayTicket', 'TicketController@todayTicket')->name('ticket.todayTicket');
 // assign agent to a ticket
 Route::post('ticket/storeTicketRating','TicketController@storeTicketRating');
 // store ticket rating

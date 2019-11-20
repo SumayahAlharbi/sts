@@ -516,5 +516,17 @@ class TicketController extends Controller
        return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
    }
 
+   public function todayTicket()
+   {
+     $statuses = Status::all();
+     if (Auth::user()->hasRole('admin')) {
+       $groups = Group::all();
+     }else {
+       $groups = Auth::user()->group;
+     }
 
+     $findTickets = Ticket::whereDate('due_date', Carbon::now() )->simplePaginate(10);
+
+       return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
+   }
   }

@@ -35,6 +35,12 @@ Breadcrumbs::for('ticket.statusFilter', function ($trail) {
     $trail->push('Status Filter', route('ticket.statusFilter'));
 });
 
+// ticket.search
+Breadcrumbs::for('ticket.todayTicket', function ($trail) {
+    $trail->parent('ticket.index');
+    $trail->push('Today Ticket', route('ticket.todayTicket'));
+});
+
 // ticket.create
 Breadcrumbs::for('ticket.create', function ($trail) {
     $trail->parent('ticket.index');
