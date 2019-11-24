@@ -157,7 +157,7 @@ class TicketController extends Controller
         $user = $ticket->requested_by_user;
         if ($user){
           if (App::environment('production')) {
-            //\Mail::to($user)->send(new RequestedBy($user,$ticket));
+            \Mail::to($user)->send(new RequestedBy($user,$ticket));
           }
         }
 
@@ -215,7 +215,7 @@ class TicketController extends Controller
         $user = $ticket->requested_by_user;
 
         if (App::environment('production')) {
-          //\Mail::to($user)->send(new RequestedBy($user,$ticket));
+          \Mail::to($user)->send(new RequestedBy($user,$ticket));
         }
 
         // send the ticket group email about new unassigned ticket
@@ -429,7 +429,7 @@ class TicketController extends Controller
       if ($user && $match) {
         if (App::environment('production')) {
             // The environment is production
-            //\Mail::to($user)->send(new TicketRating($ticket));
+            \Mail::to($user)->send(new TicketRating($ticket));
         }
       }
 
