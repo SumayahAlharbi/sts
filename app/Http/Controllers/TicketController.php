@@ -55,11 +55,14 @@ class TicketController extends Controller
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
       //  $now = Carbon::now()->addHours(3);
-        if (Auth::user()->hasRole('admin|enduser')) {
+        if (Auth::user()->hasRole('admin')) {
           $groups = Group::all();
+        }elseif(Auth::user()->hasRole('enduser')){
+          $groups = Group::where('visibility_id','=','1')->get();
         }else {
           $groups = Auth::user()->group;
         }
+        //return $groups;
         ActivityLogger::activity("Ticket index");
         return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases'));
     }
@@ -78,8 +81,10 @@ class TicketController extends Controller
           $users = User::all()->pluck('name','id');
           $created_by = Auth::user();
         //  $now = Carbon::now()->addHours(3);
-          if (Auth::user()->hasRole('admin|enduser')) {
+          if (Auth::user()->hasRole('admin')) {
             $groups = Group::all();
+          }elseif(Auth::user()->hasRole('enduser')){
+            $groups = Group::where('visibility_id','=','1')->get();
           }else {
             $groups = Auth::user()->group;
           }
@@ -98,8 +103,10 @@ class TicketController extends Controller
         $regions = Region::all()->pluck('name','id');
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
-        if (Auth::user()->hasRole('admin|enduser')) {
+        if (Auth::user()->hasRole('admin')) {
           $groups = Group::all();
+        }elseif(Auth::user()->hasRole('enduser')){
+          $groups = Group::where('visibility_id','=','1')->get();
         }else {
           $groups = Auth::user()->group;
         }
@@ -528,7 +535,6 @@ class TicketController extends Controller
    public function getGroups($region_id){
 
       $selectedgroups =Group::where('region_id','=',$region_id)
-      ->where('visibility_id','=','1')
       ->get();
       return response()->json($selectedgroups);
   }
