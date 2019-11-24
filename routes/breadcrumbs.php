@@ -103,6 +103,7 @@ Breadcrumbs::resource('group','Group');
 Breadcrumbs::resource('regions','Region');
 Breadcrumbs::resource('roles','Role');
 Breadcrumbs::resource('permissions','Permission');
+Breadcrumbs::resource('releases','Release');
 Breadcrumbs::resource('reports','Report');
 
 // ticket.index

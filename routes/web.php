@@ -15,12 +15,23 @@
 //     return view('welcome');
 // });
 
+Route::get('/welcome', 'WelcomeController@welcome');
+
+Route::get('/signin', 'Auth\MsGraphLoginController@signin');
+Route::get('/callback', 'Auth\MsGraphLoginController@callback');
+Route::get('/signout', 'Auth\MsGraphLoginController@signout');
+// Route::get('/userslist', 'auth\MsGraphLoginController@usersList');
+Route::get('/userslist', 'Auth\MsGraphLoginController@usersList')->name('graph.users.list');
+
 Auth::routes();
 
 // Route::get('test', function () {
 //     event(new App\Events\TicketAssigned('Someone'));
 //     return "Event has been sent!";
 // });
+
+Route::get('/redirect/graph', 'Auth\LoginController@redirectToProvider');
+Route::get('/callback/graph', 'Auth\LoginController@handleProviderCallback');
 
 Route::get('total-tickets-api', 'HomeController@TicketsChartsApi');
 
@@ -60,6 +71,8 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::group(['middleware'=> 'auth'],function(){
 
+  Route::get('/notifications', 'UserController@notifications');
+
 // Show User Profile
   Route::get('/profile/{id}', '\App\Http\Controllers\UserController@showUserProfile')
   ->name('profile.show');
@@ -95,6 +108,12 @@ Route::group(['middleware' => ['role:admin']], function () {
   Route::resource('status','StatusController');
   //Groups Routes
   Route::resource('group','GroupController');
+  Route::get('/changeGroupVisibilty','GroupController@changeGroupVisibilty')->name('group.change.visibility');
+
+
+
+  //Releases
+  Route::resource('releases','ReleaseController');
 
     //Regions Routes
   //Route::resource('regions','RegionController');

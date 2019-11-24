@@ -19,7 +19,7 @@
                                   <div class="card-body">
                                     <div class="form-group text-center m-t-20">
                                         <div class="col-xs-12">
-                                            <a class="btn btn-primary btn-lg waves-effect waves-light" href="{{ url('cas/login')}}">{{ __('Login with KSAU-HS ID') }}</a>
+                                            <a class="btn btn-primary btn-lg waves-effect waves-light" href="{{ url('signin')}}">{{ __('Login with KSAU-HS ID') }}</a>
                                         </div>
                                     </div>
 
