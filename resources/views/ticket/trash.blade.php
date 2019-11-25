@@ -39,7 +39,7 @@
                           <th data-hide="phone">Group</th>
                           @endif
                           <th data-hide="phone">Agents</th>
-                          <th data-hide="all">Requested by</th>
+                          
                           <th data-hide="all">Action</th>
                       </tr>
                   </thead>
@@ -112,10 +112,12 @@
                             @endisset
 
                           </td>
+                          @can('restore ticket')
                           <td>
                               <a href="{{ route('ticket.restore',$ticket->id)}}" title="restore" class="btn btn-success"><i class="fa fa-recycle"></i></a>
                         
                           </td>
+                          @endcan
 
                       </tr>
                     @endforeach

@@ -312,9 +312,9 @@
                               @can('view category list')
                                 <li><a href="{{ url('/category') }}">Categories</a></li>
                               @endcan
-                              @hasanyrole('admin|manager|supervisor')
+                              @can('view trashed tickets')
                                 <li><a href="{{ url('/trash') }}">Trashed</a></li>
-                              @endhasanyrole
+                              @endcan
                             @role('admin')
                                 {{-- <li><a href="{{ route('ticket.create') }}">New Ticket</a></li> --}}
 
