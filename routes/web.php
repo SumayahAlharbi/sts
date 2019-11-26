@@ -17,11 +17,11 @@
 
 Route::get('/welcome', 'WelcomeController@welcome');
 
-Route::get('/signin', 'auth\MsGraphLoginController@signin');
-Route::get('/callback', 'auth\MsGraphLoginController@callback');
-Route::get('/signout', 'AuthController@signout');
+Route::get('/signin', 'Auth\MsGraphLoginController@signin');
+Route::get('/callback', 'Auth\MsGraphLoginController@callback');
+Route::get('/signout', 'Auth\MsGraphLoginController@signout');
 // Route::get('/userslist', 'auth\MsGraphLoginController@usersList');
-Route::get('/userslist', 'auth\MsGraphLoginController@usersList')->name('graph.users.list');
+Route::get('/userslist', 'Auth\MsGraphLoginController@usersList')->name('graph.users.list');
 
 Auth::routes();
 
@@ -193,6 +193,7 @@ Route::delete('ticket/{ticket}', 'TicketController@destroy')->name('ticket.destr
 Route::get('ticket/ChangeTicketStatus/{status_id}/{ticket_id}','\App\Http\Controllers\TicketController@ChangeTicketStatus')->middleware('permission:change ticket status');
 Route::get('/search', 'TicketController@search')->name('ticket.search');
 Route::get('/statusFilter', 'TicketController@statusFilter')->name('ticket.statusFilter');
+Route::get('/todayTicket', 'TicketController@todayTicket')->name('ticket.todayTicket');
 // assign agent to a ticket
 Route::post('ticket/storeTicketRating','TicketController@storeTicketRating');
 // store ticket rating
@@ -201,8 +202,8 @@ Route::post('ticket/addTicketAgent','TicketController@addTicketAgent')->middlewa
 Route::get('ticket/removeTicketAgent/{user_id}/{ticket_id}','\App\Http\Controllers\TicketController@removeTicketAgent')->middleware('permission:unassign ticket');
 
 //trashed tickets route
-Route::get('trash', 'TicketController@deletedTickets')->name('ticket.trash')->middleware('role:admin|manager|supervisor');
-Route::get('trash/{ticket}/restore', 'TicketController@restore')->name('ticket.restore')->middleware('role:admin|manager|supervisor');
+Route::get('trash', 'TicketController@deletedTickets')->name('ticket.trash')->middleware('permission:view trashed tickets');
+Route::get('trash/{ticket}/restore', 'TicketController@restore')->name('ticket.restore')->middleware('permission:restore ticket');
 
   //Route::resource('ticket','TicketController');
 

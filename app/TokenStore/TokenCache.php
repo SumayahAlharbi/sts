@@ -71,9 +71,9 @@ class TokenCache {
   
       try {
         $newToken = $oauthClient->getAccessToken('refresh_token', [
-          'refresh_token' => session('refreshToken')
+          'refresh_token' => $token->refresh_token
         ]);
-  
+        
         // Store the new values
         $this->updateTokens($newToken);
   
@@ -88,19 +88,19 @@ class TokenCache {
     return $token->access_token;
   }
 
-  public function updateTokens($accessToken) {
+  public function updateTokens($newToken) {
     // session([
     //   'accessToken' => $accessToken->getToken(),
     //   'refreshToken' => $accessToken->getRefreshToken(),
     //   'tokenExpires' => $accessToken->getExpires()
     // ]);
                 //cretate a new record or if the user id exists update record
-                return MsGraphToken::updateOrCreate(['email' => $user->getMail()], [
+                return MsGraphToken::updateOrCreate(['email' => Auth::user()->email], [
                   // 'user_id'       => $user->getId(),
-                  'access_token'  => $accessToken->getToken(),
+                  'access_token'  => $newToken->getToken(),
                   // 'email'  => $user->getMail(),
-                  'expires'       => $accessToken->getExpires(),
-                  'refresh_token' => $accessToken->getRefreshToken()
+                  'expires'       => $newToken->getExpires(),
+                  'refresh_token' => $newToken->getRefreshToken()
               ]);
   }
 }
