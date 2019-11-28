@@ -174,7 +174,9 @@
                       </tr>
                   </tfoot>
                </table>
+              
               </div>
+              <a class="btn" href="{{route('ticket.todayTicket')}}" role="button">Show More <i class="fa fa-plus-circle"></i></a>
             </div>
       </div>
     </div>

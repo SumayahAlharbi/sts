@@ -55,11 +55,14 @@ class TicketController extends Controller
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
       //  $now = Carbon::now()->addHours(3);
-        if (Auth::user()->hasRole('admin|enduser')) {
+        if (Auth::user()->hasRole('admin')) {
           $groups = Group::all();
+        }elseif(Auth::user()->hasRole('enduser')){
+          $groups = Group::where('visibility_id','=','1')->get();
         }else {
           $groups = Auth::user()->group;
         }
+        //return $groups;
         ActivityLogger::activity("Ticket index");
         return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases'));
     }
@@ -78,8 +81,10 @@ class TicketController extends Controller
           $users = User::all()->pluck('name','id');
           $created_by = Auth::user();
         //  $now = Carbon::now()->addHours(3);
-          if (Auth::user()->hasRole('admin|enduser')) {
+          if (Auth::user()->hasRole('admin')) {
             $groups = Group::all();
+          }elseif(Auth::user()->hasRole('enduser')){
+            $groups = Group::where('visibility_id','=','1')->get();
           }else {
             $groups = Auth::user()->group;
           }
@@ -98,8 +103,10 @@ class TicketController extends Controller
         $regions = Region::all()->pluck('name','id');
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
-        if (Auth::user()->hasRole('admin|enduser')) {
+        if (Auth::user()->hasRole('admin')) {
           $groups = Group::all();
+        }elseif(Auth::user()->hasRole('enduser')){
+          $groups = Group::where('visibility_id','=','1')->get();
         }else {
           $groups = Auth::user()->group;
         }
@@ -527,9 +534,15 @@ class TicketController extends Controller
    // Fetch groups by region id
    public function getGroups($region_id){
 
-      $selectedgroups =Group::where('region_id','=',$region_id)
-      ->where('visibility_id','=','1')
-      ->get();
+          if (Auth::user()->hasRole('admin')) {
+            $selectedgroups =Group::where('region_id','=',$region_id)
+            ->get();
+          }elseif(Auth::user()->hasRole('enduser')){
+            $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->get();
+          }else {
+            $selectedgroups = Auth::user()->group->where('region_id','=',$region_id);
+          }
+    
       return response()->json($selectedgroups);
   }
 
@@ -563,5 +576,17 @@ class TicketController extends Controller
        return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
    }
 
+   public function todayTicket()
+   {
+     $statuses = Status::all();
+     if (Auth::user()->hasRole('admin')) {
+       $groups = Group::all();
+     }else {
+       $groups = Auth::user()->group;
+     }
 
+     $findTickets = Ticket::whereDate('due_date', Carbon::now() )->simplePaginate(10);
+
+       return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
+   }
   }
