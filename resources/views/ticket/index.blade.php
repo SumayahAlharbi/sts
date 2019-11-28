@@ -169,9 +169,9 @@
                                       <div class="form-group" style="display:none;" id="groupDivEnduser">
                                       <label for="exampleFormControlSelect1">Department</label>
                                       <select required class="form-control groupEnduser" name="groupEnduser" id="groupEnduser">
-                                        <!-- @foreach ($groups as $group) -->
+                                        @foreach ($groups as $group)
                                           <option value="{{$group->id}}">{{$group->group_name}}</option>
-                                        <!-- @endforeach -->
+                                        @endforeach
                                       </select>
                                     </div>
 
@@ -297,9 +297,9 @@
                                       <div class="form-group" style="display:none;" id="groupDiv">
                                       <label for="exampleFormControlSelect1">Department</label>
                                       <select required class="form-control group" name="group_id" id="group_id" placeholder="please select the department">
-                                        <!-- @foreach ($groups as $group) -->
+                                        @foreach ($groups as $group)
                                           <option value="{{$group->id}}">{{$group->group_name}}</option>
-                                        <!-- @endforeach -->
+                                        @endforeach
                                       </select>
                                     </div>
 
