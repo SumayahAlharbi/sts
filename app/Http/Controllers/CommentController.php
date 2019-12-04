@@ -22,7 +22,6 @@ class CommentController extends Controller
     $ticket = Ticket::find($request->get('ticket_id'));
     $ticket->comments()->save($comment);
     $ticketAgent = $ticket->user;
-
     $requested_by = $ticket->requested_by_user;
     if ($requested_by) {
       if (App::environment('production')) {
@@ -33,7 +32,9 @@ class CommentController extends Controller
     if ($ticketAgent->isEmpty()) {
       return back();
     } else {
-      \Mail::to($ticketAgent)->send(new TicketNewComment($ticket, $comment));
+      if (App::environment('production')) {
+        \Mail::to($ticketAgent)->send(new TicketNewComment($ticket, $comment));
+      }
     }
     return back();
   }
