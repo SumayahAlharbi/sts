@@ -21,7 +21,7 @@
           <div class="form-group">
               @csrf
               <label for="name">category name</label>
-              <input type="text" class="form-control" name="category_name"/>
+              <input type="text" class="form-control" name="category_name" required/>
           </div>
 
           <div class="form-group">
