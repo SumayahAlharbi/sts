@@ -4,10 +4,16 @@
 
 
 
-<div class = 'container'>
+<div class='container'>
   @if(session()->get('success'))
   <div class="alert alert-success">
     {{ session()->get('success') }}
+  </div><br />
+  @endif
+
+  @if(session()->get('errors'))
+  <div class="alert alert-danger">
+    {{ session()->get('errors') }}
   </div><br />
   @endif
 
@@ -31,7 +37,7 @@
     @if(@isset($tickets->requested_by_user->id) && Auth::user()->id == $tickets->requested_by_user->id)
     @if ($tickets->status->status_name == "Completed" && $tickets->rating ==NULL)
     @can('rate ticket')
-    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#rateModal" data-whatever="@rate" title="Rate" ><i class="fas fa-star"></i></button>
+    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#rateModal" data-whatever="@rate" title="Rate"><i class="fas fa-star"></i></button>
     @push('scripts')
     <script src="{{ asset('js/openRating.js') }}"></script>
     @endpush
@@ -62,7 +68,7 @@
     @endif
 
     @can('update ticket')<a class="btn btn-outline-success" href="{{ route('ticket.edit',$tickets->id)}}" title="Edit" role="button"><i class="far fa-edit"></i></a>@endcan
-    @can('assign ticket')<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#assignModal" data-whatever="@assign" title="Assign" ><i class="fas fa-users"></i></button>@endcan
+    @can('assign ticket')<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#assignModal" data-whatever="@assign" title="Assign"><i class="fas fa-users"></i></button>@endcan
     @can('change ticket status')<button type="button" title="Status" class="btn btn-outline-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-check-square"></i></button>@endcan
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
       @foreach ($statuses as $status)
@@ -100,10 +106,10 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-          <form action="{{url('ticket/storeTicketRating')}}" method = "post">
+          <form action="{{url('ticket/storeTicketRating')}}" method="post">
 
             @csrf
-            <input type="hidden" name ="ticket_id" value ="{{$tickets->id}}">
+            <input type="hidden" name="ticket_id" value="{{$tickets->id}}">
 
             <div class="form-group col-md-12">
               <label for="name">Rating Scale</label>
@@ -131,176 +137,174 @@
                 </label>
               </div>
               <br><br>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button class="btn btn-primary">Save</button>
+            </div>
+          </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button class="btn btn-primary">Save</button>
-        </div>
-        </form>
       </div>
     </div>
   </div>
-</div>
-<!-- End of Rating Modal -->
+  <!-- End of Rating Modal -->
 
-<div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel1">Assign an agent to this ticket</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
-        <form action="{{url('ticket/addTicketAgent')}}" method = "post">
+  <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel1">Assign an agent to this ticket</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <form action="{{url('ticket/addTicketAgent')}}" method="post">
 
-          @csrf
-          <input type="hidden" name = "ticket_id" value = "{{$tickets->id}}">
+            @csrf
+            <input type="hidden" name="ticket_id" value="{{$tickets->id}}">
 
-          <div class="form-group col-md-12">
-            <label for="name">Agent list</label>
-            <select name="user_id" id="" data-show-subtext="true" data-live-search="true" class="selectpicker form-control">
-              <option selected disabled value> -- Choose an Agent -- </option>
-              @foreach($users as $user)
-              <option value="{{$user->id}}">{{$user->name}}</option>
+            <div class="form-group col-md-12">
+              <label for="name">Agent list</label>
+              <select name="user_id" id="" data-show-subtext="true" data-live-search="true" class="selectpicker form-control">
+                <option selected disabled value> -- Choose an Agent -- </option>
+                @foreach($users as $user)
+                <option value="{{$user->id}}">{{$user->name}}</option>
+                @endforeach
+              </select>
+            </div>
+
+
+            <!-- unassign Users from Ticket -->
+            <div class="form-group">
+              <h5>Ticket Assigned to:</h5>
+              @foreach($TicketAgents as $TicketAgent)
+              <a class='btn btn-primary' @can('unassign ticket') onclick="return confirm('Do you really want to unassign {{$TicketAgent->name}} ?');" href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$tickets->id}}' @endcan data-activates=''><i class="fas fa-user-times"></i> {{$TicketAgent->name}} </a>
               @endforeach
-            </select>
-          </div>
-
-
-          <!-- unassign Users from Ticket -->
-          <div class="form-group">
-            <h5>Ticket Assigned to:</h5>
-            @foreach($TicketAgents as $TicketAgent)
-            <a class='btn btn-primary' @can('unassign ticket') onclick="return confirm('Do you really want to unassign {{$TicketAgent->name}} ?');" href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$tickets->id}}'@endcan data-activates=''><i class="fas fa-user-times"></i> {{$TicketAgent->name}} </a>
-            @endforeach
-          </div>
+            </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button class="btn btn-primary">Assign</button>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!-- /.modal -->
+  <!-- /.modal -->
 
 
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="ribbon ribbon-right
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="ribbon ribbon-right
       @if ($tickets->status->status_name == 'Unassigned') ribbon-danger
       @elseif ($tickets->status->status_name == 'Completed') ribbon-success
       @elseif ($tickets->status->status_name == 'Pending') ribbon-warning
       @elseif ($tickets->status->status_name == 'In Progress') ribbon-primary
       @else ribbon-default
       @endif">
-      {{$tickets->status->status_name}}
-    </div>
+          {{$tickets->status->status_name}}
+        </div>
 
 
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-12">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
 
-          <h3 class="card-title">{{title_case($tickets->ticket_title)}}</h3>
-          <h6 class="card-subtitle mb-2 text-muted">
-            <span class="label label-light-inverse"
-            @isset($tickets->group->group_description)
-            title="{{$tickets->group->group_description}}"
-            @endisset
-            >
-            <i class="fas fa-users"></i>
-            {{$tickets->group->group_name}}
-          </span>
-          <span class="label label-light-inverse">
-            <i class="fas fa-exclamation-circle"></i>
-            {{$tickets->priority}}
-          </span>
-          <span class="label label-light-inverse"
-          @isset($tickets->location->location_description)
-          title="{{$tickets->location->location_description}}"
-          @endisset
-          >
+              <h3 class="card-title">{{title_case($tickets->ticket_title)}}</h3>
+              <h6 class="card-subtitle mb-2 text-muted">
+                <span class="label label-light-inverse" @isset($tickets->group->group_description)
+                  title="{{$tickets->group->group_description}}"
+                  @endisset
+                  >
+                  <i class="fas fa-users"></i>
+                  {{$tickets->group->group_name}}
+                </span>
+                <span class="label label-light-inverse">
+                  <i class="fas fa-exclamation-circle"></i>
+                  {{$tickets->priority}}
+                </span>
+                <span class="label label-light-inverse" @isset($tickets->location->location_description)
+                  title="{{$tickets->location->location_description}}"
+                  @endisset
+                  >
 
-          <i class="far fa-building"></i>
-          @isset($tickets->location->location_name)
-          {{$tickets->location->location_name}}
-          @endisset
+                  <i class="far fa-building"></i>
+                  @isset($tickets->location->location_name)
+                  {{$tickets->location->location_name}}
+                  @endisset
 
-        </span> <span class="label label-light-inverse">
-          <i class="far fa-building"></i>
-          {{$tickets->room_number}}</span>
-          <span class="label label-light-inverse">
-            <i class="fas fa-user-plus"></i>
-            @isset($tickets->created_by_user->name)
-            {{$tickets->created_by_user->name}}
-            @endisset
-          </span>
-          <span class="label label-light-inverse">
-            <i class="far fa-user"></i>
-            @isset($tickets->requested_by_user->name)
-            {{$tickets->requested_by_user->name}}
-            @endisset
-          </span>
-          <span class="label label-light-inverse">
-            <i class="fas fa-bookmark"></i>
-            @isset($tickets->category->category_name)
-            {{$tickets->category->category_name}}
-            @endisset
-          </span>
-          <span class="label label-light-inverse"><i class="far fa-clock"></i>
-            {{$tickets->created_at->diffForHumans()}}
-          </span>
-          <span class="label label-light-inverse"><i class="fas fa-stopwatch"></i>
-            {{$tickets->due_date}}
-          </span>
-        </h6>
-      </div>
+                </span> <span class="label label-light-inverse">
+                  <i class="far fa-building"></i>
+                  {{$tickets->room_number}}</span>
+                <span class="label label-light-inverse">
+                  <i class="fas fa-user-plus"></i>
+                  @isset($tickets->created_by_user->name)
+                  {{$tickets->created_by_user->name}}
+                  @endisset
+                </span>
+                <span class="label label-light-inverse">
+                  <i class="far fa-user"></i>
+                  @isset($tickets->requested_by_user->name)
+                  {{$tickets->requested_by_user->name}}
+                  @endisset
+                </span>
+                <span class="label label-light-inverse">
+                  <i class="fas fa-bookmark"></i>
+                  @isset($tickets->category->category_name)
+                  {{$tickets->category->category_name}}
+                  @endisset
+                </span>
+                <span class="label label-light-inverse"><i class="far fa-clock"></i>
+                  {{$tickets->created_at->diffForHumans()}}
+                </span>
+                <span class="label label-light-inverse"><i class="fas fa-stopwatch"></i>
+                  {{$tickets->due_date}}
+                </span>
+              </h6>
+            </div>
 
-    </div>
-  </div>
-  <div class="card-footer text-muted">
-    <div class="row">
-      <div class="col-md-10">
-        {{-- <h6> Agents </h6> --}}
+          </div>
+        </div>
+        <div class="card-footer text-muted">
+          <div class="row">
+            <div class="col-md-10">
+              {{-- <h6> Agents </h6> --}}
 
-        @foreach($tickets->user as $ticket_assignee)
-        <span class="label label-light-info">{{$ticket_assignee->name}}</span>
-        @endforeach
+              @foreach($tickets->user as $ticket_assignee)
+              <span class="label label-light-info">{{$ticket_assignee->name}}</span>
+              @endforeach
 
-        {{-- <span class="badge badge-warning">{{$tickets->status->status_name}}</span> --}}
-        {{-- <span class="badge badge-warning"> {{$tickets->group->group_name}} </span> --}}
-      </div>
+              {{-- <span class="badge badge-warning">{{$tickets->status->status_name}}</span> --}}
+              {{-- <span class="badge badge-warning"> {{$tickets->group->group_name}} </span> --}}
+            </div>
 
 
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-
-
-
-
-
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
-
-      <div class="card-body">
-        <h6 class="card-subtitle mb-2 text-muted">Ticket Content</h6>
-        <p class="card-text">{!! $tickets->ticket_content !!}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
- <!-- Group Row -->
- <!-- <div class="row">
+
+
+
+
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">Ticket Content</h6>
+          <p class="card-text">{!! $tickets->ticket_content !!}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Group Row -->
+  <!-- <div class="row">
   <div class="col-md-12">
     <div class="card">
 
@@ -311,59 +315,59 @@
     </div>
   </div>
 </div> -->
- <!-- Group Row -->
+  <!-- Group Row -->
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
 
-      <div class="card-body">
-        <a class="btn text-muted" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-          Ticket Activity <i class="far fa-caret-square-down"></i>
-        </a>
-        <div class="collapse" id="collapseExample">
+        <div class="card-body">
+          <a class="btn text-muted" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Ticket Activity <i class="far fa-caret-square-down"></i>
+          </a>
+          <div class="collapse" id="collapseExample">
 
-          @foreach($activityTickets as $activityTicket)
-          <!-- activity Row -->
+            @foreach($activityTickets as $activityTicket)
+            <!-- activity Row -->
 
-          <div class="d-flex flex-row comment-row">
-            @if( isset( $activityTicket->causer->name ))
-            <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
-            <div class="comment-text w-100">
-              <h5>
-                {{$activityTicket->causer->name}}
-              </h5>
-              @endif
-              <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
-              <div class="comment-footer">
-                <!-- changes -->
-                @if( isset( $activityTicket->changes['attributes']['status_id'] ))
-                @if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')
-                @foreach ($statuses as $status)
-                @if($status->id == $activityTicket->changes['attributes']['status_id'])
-                status to <span class="label label-light-info"> {{$status->status_name}} </span>
+            <div class="d-flex flex-row comment-row">
+              @if( isset( $activityTicket->causer->name ))
+              <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
+              <div class="comment-text w-100">
+                <h5>
+                  {{$activityTicket->causer->name}}
+                </h5>
                 @endif
-                @endforeach
-                @endif
-                @endif
-                <!-- end changes -->
-                <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
-                {{-- <span class="label label-light-info">{{$activityTicket->description}}</span> --}}
-                {{-- <span class="action-icons">
+                <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
+                <div class="comment-footer">
+                  <!-- changes -->
+                  @if( isset( $activityTicket->changes['attributes']['status_id'] ))
+                  @if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')
+                  @foreach ($statuses as $status)
+                  @if($status->id == $activityTicket->changes['attributes']['status_id'])
+                  status to <span class="label label-light-info"> {{$status->status_name}} </span>
+                  @endif
+                  @endforeach
+                  @endif
+                  @endif
+                  <!-- end changes -->
+                  <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
+                  {{-- <span class="label label-light-info">{{$activityTicket->description}}</span> --}}
+                  {{-- <span class="action-icons">
                   <a href="javascript:void(0)"><i class="ti-pencil-alt"></i></a>
                   <a href="javascript:void(0)"><i class="ti-check"></i></a>
                   <a href="javascript:void(0)"><i class="ti-heart"></i></a>
                 </span> --}}
+                </div>
               </div>
             </div>
+            <!-- activity Row -->
+            @endforeach
           </div>
-          <!-- activity Row -->
-          @endforeach
         </div>
       </div>
     </div>
   </div>
-</div>
 
 
 
@@ -371,7 +375,7 @@
 
 
 
-{{-- <div class="row">
+  {{-- <div class="row">
   <div class="col-md-12">
     <div class="card">
 
@@ -388,30 +392,30 @@
           <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
           <div class="comment-text w-100">
             <h5>{{$activityTicket->causer->name}}</h5>
-            <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
-            <div class="comment-footer">
-              <!-- changes -->
-              @if(array_key_exists('attributes', $activityTicket->changes()->toArray()))
-              @if (json_encode($activityTicket->changes['attributes']['status_id']) !== null)
-              @if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')
-              @foreach ($statuses as $status)
-              @if($status->id == $activityTicket->changes['attributes']['status_id'])
-              status to <span class="label label-light-info"> {{$status->status_name}} </span>
-              @endif
-              @endforeach
-              @endif
-              @endif
-              @endif
-              <!-- end changes -->
-              <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
-            </div>
-          </div>
-        </div>
-        <!-- activity Row -->
-        @endforeach
-      </div>
-    </div>
+  <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
+  <div class="comment-footer">
+    <!-- changes -->
+    @if(array_key_exists('attributes', $activityTicket->changes()->toArray()))
+    @if (json_encode($activityTicket->changes['attributes']['status_id']) !== null)
+    @if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')
+    @foreach ($statuses as $status)
+    @if($status->id == $activityTicket->changes['attributes']['status_id'])
+    status to <span class="label label-light-info"> {{$status->status_name}} </span>
+    @endif
+    @endforeach
+    @endif
+    @endif
+    @endif
+    <!-- end changes -->
+    <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
   </div>
+</div>
+</div>
+<!-- activity Row -->
+@endforeach
+</div>
+</div>
+</div>
 </div> --}}
 
 
@@ -433,7 +437,8 @@
 
         @include('comments._comment_replies', ['comments' => $tickets->comments, 'ticket_id' => $tickets->id])
 
-        <div class="col-lg-12 add-comment-box">  <hr />
+        <div class="col-lg-12 add-comment-box">
+          <hr />
           <h4>Add comment</h4> <a href="#" class="reply-cancel" id="myCANCEL" style="display:none;">cancel?</a>
           <form method="post" action="{{ route('comment.add') }}" id="comment-form">
             @csrf
@@ -455,5 +460,6 @@
 
 
 
-</div></div>
+</div>
+</div>
 @endsection
