@@ -26,14 +26,14 @@ class CommentController extends Controller
     $requested_by = $ticket->requested_by_user;
     if ($requested_by) {
       if (App::environment('production')) {
-        //\Mail::to($requested_by)->send(new TicketNewComment($ticket, $comment));
+        \Mail::to($requested_by)->send(new TicketNewComment($ticket, $comment));
       }
     }
 
     if ($ticketAgent->isEmpty()) {
       return back();
     } else {
-      //\Mail::to($ticketAgent)->send(new TicketNewComment($ticket, $comment));
+      \Mail::to($ticketAgent)->send(new TicketNewComment($ticket, $comment));
     }
     return back();
   }
@@ -60,11 +60,12 @@ class CommentController extends Controller
     $updatedAt = $comment->updated_at;
     $diffInMinutes = $currentTime->diffInMinutes($updatedAt, true);
     if ($diffInMinutes < 5) {
-      $comment->delete();
-      return back()->with('success', 'Comment was deleted');
+      $comment->deleted_at = $currentTime;
+      $comment->body = 'this comment was deleted';
+      $comment->save();
+      return back()->with('success', 'comment was deleted');
     } else {
-      return back()->with('error' . 'User not found by ID ')
-        ->with('errorDetail', 'The provided auth state did not match the expected value');
+      return back()->with('errors', 'this comment cannot be deleted');
     }
   }
 }

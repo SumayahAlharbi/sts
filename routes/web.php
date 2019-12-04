@@ -220,6 +220,6 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::post('/comment/store', 'CommentController@store')->name('comment.add');
   Route::post('/reply/store', 'CommentController@replyStore')->name('reply.add');
-  Route::delete('/comment/destroyComment/{ticket_id}', 'CommentController@destroyComment')->name('comment.destroyComment');
+  Route::delete('/comment/destroyComment/{comment}', 'CommentController@destroyComment')->name('comment.destroyComment');
   // Route::post('ticket/ChangeTicketStatus','\App\Http\Controllers\TicketController@ChangeTicketStatus');
 });

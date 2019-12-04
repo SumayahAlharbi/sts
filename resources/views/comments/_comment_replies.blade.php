@@ -1,14 +1,5 @@
 <!-- _comment_replies.blade.php -->
 
-@if ($errors->any())
-<div class="alert alert-danger">
-  <ul>
-    @foreach ($errors->all() as $error)
-    <li>{{ $error }}</li>
-    @endforeach
-  </ul>
-</div><br />
-@endif
 
 @foreach($comments as $comment)
 <div class="display-comment">
@@ -24,14 +15,15 @@
       <div class="comment-footer"> <span class="text-muted pull-right">{{$comment->created_at->diffForHumans() }}</span>
         <span class="action-icons">
           <a href="#" class="reply-init"><i class="fas fa-reply"></i></a>
-          <input type="hidden" class="commentParentId" name="comment_id" value="{{ $comment->id }}" />
+          <input type="hidden" class="commentParentId" name="comment_id" value="{{ $comment->id  }}" />
         </span>
-        <form style="display:inline;" onsubmit="return confirm('Do you really want to delete?');" action="{{ route('comment.destroyComment', $comment->id)}}" method="post">
+        @if(auth()->user()->id==$comment->user_id)
+        <form style="display:inline;" onsubmit="return confirm('Do you really want to delete?');" action="{{ route('comment.destroyComment', $comment)}}" method="post">
           @csrf
           @method('DELETE')
           <button class="btn btn-outline-danger" title="Delete" type="submit"><i class="fas fa-trash-alt"></i></button>
         </form>
-
+        @endif
       </div>
     </div>
   </div>
