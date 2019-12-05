@@ -10,6 +10,7 @@
         "davejamesmiller/laravel-breadcrumbs": "5.x",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
+        "glorand/laravel-model-settings": "^3.5",
         "jeremykenedy/laravel-logger": "^3.0",
         "jimmyjs/laravel-report-generator": "^1.0",
         "laravel/framework": "5.7.*",
