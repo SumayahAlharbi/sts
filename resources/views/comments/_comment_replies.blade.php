@@ -11,19 +11,22 @@
         {{ $comment->user->name }}
         @endif
       </h5>
-      <p class="m-b-5">{{ $comment->body }}</p>
+      <p class="m-b-5 @if($comment->body == 'This comment has been deleted')alert alert-warning @endif">{{ $comment->body }}</p>
+      {{-- <div class="alert alert-warning alert-rounded"> This is an example top alert. You can edit what u wish.
+    </div> --}}
       <div class="comment-footer"> <span class="text-muted pull-right">{{$comment->created_at->diffForHumans() }}</span>
         <span class="action-icons">
           <a href="#" class="reply-init"><i class="fas fa-reply"></i></a>
           <input type="hidden" class="commentParentId" name="comment_id" value="{{ $comment->id  }}" />
+
+          @if(auth()->user()->id==$comment->user_id && $comment->body != 'This comment has been deleted')
+          <form style="display:inline;" onsubmit="return confirm('Do you really want to delete?');" action="{{ route('comment.destroyComment', $comment)}}" method="post">
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-link" title="Delete" type="submit"><i class="fas fa-trash-alt"></i></button>
+          </form>
+          @endif
         </span>
-        @if(auth()->user()->id==$comment->user_id)
-        <form style="display:inline;" onsubmit="return confirm('Do you really want to delete?');" action="{{ route('comment.destroyComment', $comment)}}" method="post">
-          @csrf
-          @method('DELETE')
-          <button class="btn btn-outline-danger" title="Delete" type="submit"><i class="fas fa-trash-alt"></i></button>
-        </form>
-        @endif
       </div>
     </div>
   </div>

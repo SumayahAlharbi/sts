@@ -62,11 +62,11 @@ class CommentController extends Controller
     $diffInMinutes = $currentTime->diffInMinutes($updatedAt, true);
     if ($diffInMinutes < 5) {
       $comment->deleted_at = $currentTime;
-      $comment->body = 'this comment was deleted';
+      $comment->body = 'This comment has been deleted';
       $comment->save();
-      return back()->with('success', 'comment was deleted');
+      return back()->with('success', 'The comment has been deleted successfully');
     } else {
-      return back()->with('errors', 'this comment cannot be deleted');
+      return back()->with('errors', 'This comment cannot be deleted');
     }
   }
 }
