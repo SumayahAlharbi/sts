@@ -21,12 +21,12 @@
           <div class="form-group">
               @csrf
               <label for="name">Location Name</label>
-              <input type="text" class="form-control" name="location_name"/>
+              <input type="text" class="form-control" name="location_name" required/>
               <small class="form-control-feedback"> example: COMJ - Male </small>
           </div>
           <div class="form-group">
               <label for="name">Location Description</label>
-              <input type="text" class="form-control" name="location_description"/>
+              <input type="text" class="form-control" name="location_description" required/>
               <small class="form-control-feedback"> example: College of Medicine - Jeddah Male Building </small>
           </div>
 
