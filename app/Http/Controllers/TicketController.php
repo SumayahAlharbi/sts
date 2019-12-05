@@ -389,7 +389,7 @@ class TicketController extends Controller
         $userFinder->save();
         $userFinder->assignRole('enduser');
       }
-      
+
       $ticket->requested_by = $userFinder->id;
     }
       $ticket->save();
@@ -542,7 +542,7 @@ class TicketController extends Controller
           }else {
             $selectedgroups = Auth::user()->group->where('region_id','=',$region_id);
           }
-    
+
       return response()->json($selectedgroups);
   }
 
