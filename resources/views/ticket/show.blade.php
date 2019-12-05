@@ -27,6 +27,8 @@
   <!-- sample modal content -->
   <div class="button-box text-right">
 
+    <!-- condition if ticket is completed & current user is the requested by -->
+    @if(@isset($tickets->requested_by_user->id) && Auth::user()->id == $tickets->requested_by_user->id)
     @if ($tickets->status->status_name == "Completed" && $tickets->rating ==NULL)
     @can('rate ticket')
     <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#rateModal" data-whatever="@rate" title="Rate" ><i class="fas fa-star"></i></button>
