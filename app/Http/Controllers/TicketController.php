@@ -22,6 +22,9 @@ use Spatie\Activitylog\Models\Activity;
 use Carbon\Carbon;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use App\Notifications\AssignedTicket;
+use Illuminate\Support\Facades\Hash;
+use Microsoft\Graph\Graph;
+use Microsoft\Graph\Model;
 
 use Illuminate\Http\Request;
 
@@ -52,11 +55,14 @@ class TicketController extends Controller
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
       //  $now = Carbon::now()->addHours(3);
-        if (Auth::user()->hasRole('admin|enduser')) {
+        if (Auth::user()->hasRole('admin')) {
           $groups = Group::all();
+        }elseif(Auth::user()->hasRole('enduser')){
+          $groups = Group::where('visibility_id','=','1')->get();
         }else {
           $groups = Auth::user()->group;
         }
+        //return $groups;
         ActivityLogger::activity("Ticket index");
         return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases'));
     }
@@ -75,8 +81,10 @@ class TicketController extends Controller
           $users = User::all()->pluck('name','id');
           $created_by = Auth::user();
         //  $now = Carbon::now()->addHours(3);
-          if (Auth::user()->hasRole('admin|enduser')) {
+          if (Auth::user()->hasRole('admin')) {
             $groups = Group::all();
+          }elseif(Auth::user()->hasRole('enduser')){
+            $groups = Group::where('visibility_id','=','1')->get();
           }else {
             $groups = Auth::user()->group;
           }
@@ -95,8 +103,10 @@ class TicketController extends Controller
         $regions = Region::all()->pluck('name','id');
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
-        if (Auth::user()->hasRole('admin|enduser')) {
+        if (Auth::user()->hasRole('admin')) {
           $groups = Group::all();
+        }elseif(Auth::user()->hasRole('enduser')){
+          $groups = Group::where('visibility_id','=','1')->get();
         }else {
           $groups = Auth::user()->group;
         }
@@ -132,14 +142,30 @@ class TicketController extends Controller
         $ticket->due_date = $request->due_date;
         $ticket->room_number = $request->room_number;
         $ticket->created_by = $request->created_by;
-        $ticket->requested_by = $request->requested_by;
+        $graphUserEmail = $request->requested_by;
 
+        if ($request->requested_by){
+        $userFinder = User::where('email', $graphUserEmail)->first();
+        if(!$userFinder){
+          $userFinder = new User;
+          $userFinder->name = $request->requested_by_name;
+          $userFinder->email = $graphUserEmail;
+          $userFinder->password= Hash::make('the-password-of-choice');
+          // $user->name= $username;
+          // $user->email= $username."@ksau-hs.edu.sa";
+          // $user->password= Hash::make('the-password-of-choice');
+          $userFinder->save();
+          $userFinder->assignRole('enduser');
+        }
+
+        $ticket->requested_by = $userFinder->id;
+      }
         $ticket->save();
 
         $user = $ticket->requested_by_user;
         if ($user){
           if (App::environment('production')) {
-            \Mail::to($user)->send(new RequestedBy($user,$ticket));
+            //\Mail::to($user)->send(new RequestedBy($user,$ticket));
           }
         }
 
@@ -197,7 +223,7 @@ class TicketController extends Controller
         $user = $ticket->requested_by_user;
 
         if (App::environment('production')) {
-          \Mail::to($user)->send(new RequestedBy($user,$ticket));
+          //\Mail::to($user)->send(new RequestedBy($user,$ticket));
         }
 
         // send the ticket group email about new unassigned ticket
@@ -347,7 +373,25 @@ class TicketController extends Controller
       $ticket->priority = $request->priority;
       $ticket->due_date = $request->due_date;
       $ticket->room_number = $request->room_number;
-      $ticket->requested_by = $request->requested_by;
+      // $ticket->requested_by = $request->requested_by;
+      $graphUserEmail = $request->requested_by;
+
+      if ($request->requested_by){
+      $userFinder = User::where('email', $graphUserEmail)->first();
+      if(!$userFinder){
+        $userFinder = new User;
+        $userFinder->name = $request->requested_by_name;
+        $userFinder->email = $graphUserEmail;
+        $userFinder->password= Hash::make('the-password-of-choice');
+        // $user->name= $username;
+        // $user->email= $username."@ksau-hs.edu.sa";
+        // $user->password= Hash::make('the-password-of-choice');
+        $userFinder->save();
+        $userFinder->assignRole('enduser');
+      }
+
+      $ticket->requested_by = $userFinder->id;
+    }
       $ticket->save();
 
     //  $user = $ticket->requested_by_user;
@@ -400,11 +444,18 @@ class TicketController extends Controller
     {
       $ticket = Ticket::findorfail($ticket_id);
       $user = User::find($ticket->requested_by_user);
+      $TicketAgents = $ticket->user;
 
-      if ($user) {
+      $match = 1;
+      foreach ($TicketAgents as $TicketAgent){
+        if ($user[0]->id == $TicketAgent->id)
+        $match = 0;
+      }
+
+      if ($user && $match) {
         if (App::environment('production')) {
             // The environment is production
-            \Mail::to($user)->send(new TicketRating($ticket));
+            //\Mail::to($user)->send(new TicketRating($ticket));
         }
       }
 
@@ -483,7 +534,15 @@ class TicketController extends Controller
    // Fetch groups by region id
    public function getGroups($region_id){
 
-      $selectedgroups =Group::where('region_id','=',$region_id)->get();
+          if (Auth::user()->hasRole('admin')) {
+            $selectedgroups =Group::where('region_id','=',$region_id)
+            ->get();
+          }elseif(Auth::user()->hasRole('enduser')){
+            $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->get();
+          }else {
+            $selectedgroups = Auth::user()->group->where('region_id','=',$region_id);
+          }
+
       return response()->json($selectedgroups);
   }
 
@@ -517,5 +576,17 @@ class TicketController extends Controller
        return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
    }
 
+   public function todayTicket()
+   {
+     $statuses = Status::all();
+     if (Auth::user()->hasRole('admin')) {
+       $groups = Group::all();
+     }else {
+       $groups = Auth::user()->group;
+     }
 
+     $findTickets = Ticket::whereDate('due_date', Carbon::now() )->simplePaginate(10);
+
+       return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
+   }
   }
