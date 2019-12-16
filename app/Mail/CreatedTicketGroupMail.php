@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TicketCreated extends Mailable
+class CreatedTicketGroupMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $ticket;
@@ -31,7 +31,7 @@ class TicketCreated extends Mailable
      */
     public function build()
     {
-      return $this->subject('Assign ticket to agent')
-      ->view('emails.ticket.notify');
+      return $this->subject('[New] Ticket recivied')
+      ->view('emails.ticket.createdticketgroup');
     }
 }

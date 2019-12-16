@@ -2,9 +2,9 @@
 
 @section('content')
 
-<p>Dear {{ $user->name }},</p>
+<p>Dear {{ $ticket->group->group_name }},</p>
 
-<p>Kindly note that we received your below ticket,</p>
+<p>Kindly assign agent to the following ticket:</p>
 
 <a href='{!!url('ticket/'. $ticket->id)!!}'>{{ $ticket->ticket_title }}</a>
 

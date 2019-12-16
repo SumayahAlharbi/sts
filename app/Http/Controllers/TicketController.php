@@ -16,8 +16,8 @@ use App;
 use App\Mail\agent;
 use App\Mail\TicketAgentAssigned;
 use App\Mail\TicketRating;
-use App\Mail\RequestedBy;
-use App\Mail\TicketCreated;
+use App\Mail\CreatedTicketEnduserMail;
+use App\Mail\CreatedTicketGroupMail;
 use Spatie\Activitylog\Models\Activity;
 use Carbon\Carbon;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
@@ -25,6 +25,9 @@ use App\Notifications\AssignedTicket;
 use Illuminate\Support\Facades\Hash;
 use Microsoft\Graph\Graph;
 use Microsoft\Graph\Model;
+use App\Jobs\AssignedTicketJob;
+use App\Jobs\CreatedTicketGroupJob;
+use App\Jobs\CreatedTicketEnduserJob;
 
 use Illuminate\Http\Request;
 
@@ -166,6 +169,8 @@ class TicketController extends Controller
         if ($user){
           if (App::environment('production')) {
             //\Mail::to($user)->send(new RequestedBy($user,$ticket));
+            CreatedTicketEnduserJob::dispatch($user, $ticket);
+
           }
         }
 
@@ -179,16 +184,19 @@ class TicketController extends Controller
     public function sendTicketCreatedEmail($ticket_id)
     {
       $ticket = Ticket::findorfail($ticket_id);
-      $group_email = $ticket->group->email;
+      $group_id = $ticket->group->id;
+      $group = Group::findorfail($group_id);
+
       $created_by = $ticket->created_by;
       $requested_by = $ticket->requested_by;
 
       // Prevent sending group notification email if (created by != requested by)
       // Prevent sending group notification email if the group email is empty
-      if($group_email && ($requested_by != $created_by)){
+      if($group->email && ($requested_by != $created_by)){
         if (App::environment('production')) {
             // The environment is production
-            \Mail::to($group_email)->send(new TicketCreated($ticket));
+            // \Mail::to($group_email)->send(new TicketCreated($ticket));
+            CreatedTicketGroupJob::dispatch($group, $ticket);
         }
       }
 
@@ -224,6 +232,7 @@ class TicketController extends Controller
 
         if (App::environment('production')) {
           //\Mail::to($user)->send(new RequestedBy($user,$ticket));
+          CreatedTicketEnduserJob::dispatch($user, $ticket);
         }
 
         // send the ticket group email about new unassigned ticket
@@ -430,12 +439,13 @@ class TicketController extends Controller
 
       $ticket->user()->syncWithoutDetaching($request->user_id);
       $user = User::findorfail($request->user_id);
-      if (App::environment('production')) {
+      // if (App::environment('production')) {
           // The environment is production
-          \Mail::to($user)->send(new TicketAgentAssigned($ticket));
-      }
+          // \Mail::to($user)->send(new TicketAgentAssigned($ticket));
+          AssignedTicketJob::dispatch($user, $ticket);
+      // }
 
-      $user->notify(new AssignedTicket($user, $ticket));
+      // $user->notify(new AssignedTicket($user, $ticket));
       return back();
     }
 
