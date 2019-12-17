@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TicketNewComment extends Mailable
+class TicketNewCommentRequestedMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $ticket;
@@ -32,7 +32,7 @@ class TicketNewComment extends Mailable
      */
     public function build()
     {
-        return $this->subject('New Comment in Your Ticket')
-        ->view('emails.ticket.comment');
+        return $this->subject('[New] Comment in Your Ticket')
+        ->view('emails.ticket.ticketnewcommentrequested');
     }
 }
