@@ -15,7 +15,7 @@ use Auth;
 use App;
 use App\Mail\agent;
 use App\Mail\TicketAgentAssigned;
-use App\Mail\TicketRating;
+use App\Mail\TicketRatingMail;
 use App\Mail\CreatedTicketEnduserMail;
 use App\Mail\CreatedTicketGroupMail;
 use Spatie\Activitylog\Models\Activity;
@@ -28,6 +28,7 @@ use Microsoft\Graph\Model;
 use App\Jobs\AssignedTicketJob;
 use App\Jobs\CreatedTicketGroupJob;
 use App\Jobs\CreatedTicketEnduserJob;
+use App\Jobs\TicketRatingJob;
 
 use Illuminate\Http\Request;
 
@@ -466,6 +467,7 @@ class TicketController extends Controller
         if (App::environment('production')) {
             // The environment is production
             //\Mail::to($user)->send(new TicketRating($ticket));
+            TicketRatingJob::dispatch($ticket);
         }
       }
 
