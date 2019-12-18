@@ -19,7 +19,30 @@
       </div><br />
     @endif
     <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+    <script>
+            
+          $(document).on('change','.group', function(e){
 
+              var group_id = e.target.value;
+
+              $.getJSON('/getLocations/' + group_id, function(data) {
+                    $('#location_id').empty();
+                    $('#location_id').append("<option value=''>Select your location</option>");
+                    $.each(data,function(index, subcatObj){
+                      $('#location_id').append("<option value="+subcatObj.id+">"+subcatObj.location_name+"</option>");
+
+                    });
+              });
+              $.getJSON('/getCategory/' + group_id, function(data) {
+                        $('#category_id').empty();
+                        $('#category_id').append("<option value=''>Select a category</option>");
+                        $.each(data,function(index, subcatObj){
+                          $('#category_id').append("<option value="+subcatObj.id+">"+subcatObj.category_name+"</option>");
+
+                        });
+              });
+          });
+    </script>
       <form method="post" action="{{ route('ticket.update', $ticket->id) }}">
         @method('PATCH')
         @csrf
@@ -67,8 +90,8 @@
           </select>
         </div>
         <div class="form-group col-md-4">
-          <label for="exampleFormControlSelect1">Category</label>
-          <select class="form-control" name="category_id" id="exampleFormControlSelect1">
+          <label for="category_id">Category</label>
+          <select required class="form-control category" name="category_id" id="category_id">
             @foreach ($categories as $key => $value)
               @if ($key == $ticket->category_id)
            <option selected value="{{$key}}">{{$value}}</option>
@@ -80,8 +103,8 @@
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <label for="exampleFormControlSelect1">Group</label>
-            <select class="form-control" name="group_id" id="exampleFormControlSelect1">
+            <label for="group_id">Group</label>
+            <select required class="form-control group" name="group_id" id="group_id">
               @foreach ($groups as $group)
                 @if ($group->id == $ticket->group_id)
              <option selected value="{{$group->id}}">{{$group->group_name}}</option>
@@ -95,8 +118,8 @@
       </div>
       <div class="row">
         <div class="form-group col-md-4">
-          <label for="exampleFormControlSelect1">Location</label>
-          <select class="form-control" name="location_id" id="exampleFormControlSelect1">
+          <label for="location_id">Location</label>
+          <select required class="form-control location" name="location_id" id="location_id">
             @foreach ($locations as $key => $value)
               @if ($key == $ticket->location_id)
            <option selected value="{{$key}}">{{$value}}</option>
