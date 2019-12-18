@@ -1166,16 +1166,16 @@
         },
         {
             "name": "glorand/laravel-model-settings",
-            "version": "3.5.0",
+            "version": "3.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/glorand/laravel-model-settings.git",
-                "reference": "ab9cd5cde6b120d87dde95a85ed7be59ac663501"
+                "reference": "6c027322100ae18560ebba392d9435b7afede613"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/glorand/laravel-model-settings/zipball/ab9cd5cde6b120d87dde95a85ed7be59ac663501",
-                "reference": "ab9cd5cde6b120d87dde95a85ed7be59ac663501",
+                "url": "https://api.github.com/repos/glorand/laravel-model-settings/zipball/6c027322100ae18560ebba392d9435b7afede613",
+                "reference": "6c027322100ae18560ebba392d9435b7afede613",
                 "shasum": ""
             },
             "require": {
@@ -1228,7 +1228,7 @@
                 "laravel-model-settings",
                 "laravel-settings"
             ],
-            "time": "2019-10-14T13:08:11+00:00"
+            "time": "2019-12-11T20:22:37+00:00"
         },
         {
             "name": "graham-campbell/guzzle-factory",

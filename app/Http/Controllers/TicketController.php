@@ -52,8 +52,12 @@ class TicketController extends Controller
         $statuses = Status::all();
         $releases = Release::orderByRaw('created_at DESC')->first();
         //$diffHours = diffInHours($releases['created_at'])->now();
-        $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate(10);
+        $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
+        // Auth::user()->settings()->delete('total_tickets');
+        // $user->settings()->update('total_tickets', 'new value');
+        $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
         $regions = Region::all()->pluck('name','id');
+        $user_id = Auth::user()->id;
         $categories = Category::all()->pluck('category_name','id');
         $locations = Location::all()->pluck('location_name','id');
         $users = User::all()->pluck('name','id');
@@ -68,7 +72,7 @@ class TicketController extends Controller
         }
         //return $groups;
         ActivityLogger::activity("Ticket index");
-        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases'));
+        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases','user_id','totalTicketSetting'));
     }
 
         /**
@@ -506,6 +510,13 @@ class TicketController extends Controller
 
       return back();
     }
+
+    public function ChangeTicketTotal($user_id, $setting_value)
+    {
+      Auth::user()->settings()->set('total_tickets', $setting_value);
+      return back();
+    }
+    
 
 
     public function search(Request $request)
