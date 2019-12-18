@@ -15,6 +15,7 @@
         "jimmyjs/laravel-report-generator": "^1.0",
         "laravel/framework": "5.7.*",
         "laravel/horizon": "^3.4",
+        "laravel/telescope": "~1.0",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.7",
         "laravolt/avatar": "^2.1",

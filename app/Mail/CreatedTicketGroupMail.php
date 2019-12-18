@@ -3,27 +3,26 @@
 namespace App\Mail;
 
 use App\Ticket;
-use App\Comment;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TicketNewComment extends Mailable
+class CreatedTicketGroupMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $ticket;
-    public $comment;
+    public $user;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-     public function __construct(Ticket $ticket, Comment $comment)
-     {
-         $this->ticket = $ticket;
-         $this->comment = $comment;
-     }
+    public function __construct(Ticket $ticket)
+    {
+      $this->ticket = $ticket;
+    }
 
     /**
      * Build the message.
@@ -32,7 +31,7 @@ class TicketNewComment extends Mailable
      */
     public function build()
     {
-        return $this->subject('New Comment in Your Ticket')
-        ->view('emails.ticket.comment');
+      return $this->subject('[New] Ticket recivied')
+      ->view('emails.ticket.createdticketgroup');
     }
 }

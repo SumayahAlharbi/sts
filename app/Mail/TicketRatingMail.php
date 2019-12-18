@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TicketRating extends Mailable
+class TicketRatingMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $ticket;
