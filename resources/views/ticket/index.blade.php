@@ -392,8 +392,8 @@ $(function () {
                                 $(function() {
                                   $('.toggle-class').change(function() {
                                       // var visibility_id = $(this).prop('checked') == true ? 1 : 0;
-                                      var userKeyword = $(this).data('id'); 
-                                       
+                                      var userKeyword = $(this).data('id');
+
                                       $.ajax({
                                           type: "GET",
                                           dataType: "json",
@@ -411,7 +411,7 @@ $(function () {
 ajax: {
 
   // data source
-  url: '{{ route('graph.users.list') }}', 
+  url: '{{ route('graph.users.list') }}',
 
   // ajax type
   type: 'GET',
@@ -507,7 +507,7 @@ preprocessData: function (data) {
                               <span class="badge badge-pill badge-info"> {{$ticket->comments()->count()}}</span>
                             @endif
                             <br>
-                            <small class="text-muted"> {{ $ticket->created_at->diffForHumans() }} </small></td>
+                            <small class="text-muted"> {{ $ticket->created_at }} ({{ $ticket->created_at->diffForHumans() }}) </small></td>
 
                           <td>{{ str_limit($ticket->ticket_title, 35)}}
                             @if ($ticket->comments()->count() != 0)

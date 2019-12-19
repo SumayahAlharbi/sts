@@ -352,16 +352,16 @@
         },
         {
             "name": "deployer/deployer",
-            "version": "v6.7.2",
+            "version": "v6.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/deployphp/deployer.git",
-                "reference": "97c63e91cce93fb46b921de9908f69c7bcbebd32"
+                "reference": "5095b5de166498aedb6ef7ffff98d7243fa036ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/deployphp/deployer/zipball/97c63e91cce93fb46b921de9908f69c7bcbebd32",
-                "reference": "97c63e91cce93fb46b921de9908f69c7bcbebd32",
+                "url": "https://api.github.com/repos/deployphp/deployer/zipball/5095b5de166498aedb6ef7ffff98d7243fa036ea",
+                "reference": "5095b5de166498aedb6ef7ffff98d7243fa036ea",
                 "shasum": ""
             },
             "require": {
@@ -400,7 +400,7 @@
             ],
             "description": "Deployment Tool",
             "homepage": "https://deployer.org",
-            "time": "2019-12-16T11:41:57+00:00"
+            "time": "2019-12-18T17:30:49+00:00"
         },
         {
             "name": "deployer/phar-update",

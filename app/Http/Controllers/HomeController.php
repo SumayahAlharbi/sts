@@ -44,7 +44,8 @@ class HomeController extends Controller
       // $userId = Auth::user()->id;
       // $userGroup = Auth::user()->group->first()->id;
       // $ticketUserGroup = Group::find($userGroup)->ticket;
-      $todayTickets = Ticket::whereDate('due_date', Carbon::now() )->simplePaginate(5);
+      $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
+      $todayTickets = Ticket::whereDate('due_date', Carbon::now() )->simplePaginate($totalTicketSetting);
       $tickets = Ticket::paginate(5);
       $ticketsStats = Ticket::all();
       $users = User::withCount('ticket')->take(5)->orderBy('ticket_count', 'desc')->get();
@@ -77,5 +78,5 @@ class HomeController extends Controller
                             'Unassigned'=>$Unassigned);
         return response()->json($StatsArray);
     }
-    
+
 }

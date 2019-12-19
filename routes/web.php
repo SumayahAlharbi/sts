@@ -194,6 +194,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('ticket/ChangeTicketTotal/{user_id}/{setting_value}', '\App\Http\Controllers\TicketController@ChangeTicketTotal');
   Route::get('/search', 'TicketController@search')->name('ticket.search');
   Route::get('/statusFilter', 'TicketController@statusFilter')->name('ticket.statusFilter');
+  Route::get('/groupFilter', 'TicketController@groupFilter')->name('ticket.groupFilter');
   Route::get('/todayTicket', 'TicketController@todayTicket')->name('ticket.todayTicket');
   // assign agent to a ticket
   Route::post('ticket/storeTicketRating', 'TicketController@storeTicketRating');
