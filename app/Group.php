@@ -10,6 +10,14 @@ class Group extends Model
 {
   use SoftDeletes,
   HasSettingsTable;
+
+  public $defaultSettings = [
+    'email_assigned_agent' => true,
+    'email_ticket_departmental' => true,
+    'email_ticket_confirmation' => true,
+    'email_ticket_rating' => true,
+    'allow_enduser_ticket' => true,
+];
   
   public function user()
   {
