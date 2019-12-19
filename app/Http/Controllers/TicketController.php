@@ -202,7 +202,9 @@ class TicketController extends Controller
         if (App::environment('production')) {
             // The environment is production
             // \Mail::to($group_email)->send(new TicketCreated($ticket));
-            CreatedTicketGroupJob::dispatch($group, $ticket);
+            if ($group->settings()->get('email_ticket_departmental')) {
+              CreatedTicketGroupJob::dispatch($group, $ticket);
+            }
         }
       }
 
@@ -238,7 +240,9 @@ class TicketController extends Controller
 
         if (App::environment('production')) {
           //\Mail::to($user)->send(new RequestedBy($user,$ticket));
-          CreatedTicketEnduserJob::dispatch($user, $ticket);
+          if ($group->settings()->get('email_ticket_confirmation')) {
+            CreatedTicketEnduserJob::dispatch($user, $ticket);
+          }
         }
 
         // send the ticket group email about new unassigned ticket
@@ -257,7 +261,8 @@ class TicketController extends Controller
     {
         $tickets =  Ticket::findOrfail($id);
         $user = Auth::user();
-
+        // echo $user->settings()->get('email_assigned_agent');
+        // $user->settings()->delete('email_assigned_agent', 'new value');
         $groupId = $tickets->group_id;
             $users = User::whereHas('group', function ($q) use ($groupId) {
                 $q->where('group_id', $groupId);
@@ -445,13 +450,18 @@ class TicketController extends Controller
 
       $ticket->user()->syncWithoutDetaching($request->user_id);
       $user = User::findorfail($request->user_id);
-      // if (App::environment('production')) {
+      $group = Group::findOrFail($ticket->group->id);
+      
+      if (App::environment('production')) {
           // The environment is production
           // \Mail::to($user)->send(new TicketAgentAssigned($ticket));
-          AssignedTicketJob::dispatch($user, $ticket);
-      // }
+          if ($group->settings()->get('email_assigned_agent')) {
+            AssignedTicketJob::dispatch($user, $ticket);
+          }
+          
+      }
 
-      // $user->notify(new AssignedTicket($user, $ticket));
+      $user->notify(new AssignedTicket($user, $ticket));
       return back();
     }
 
@@ -472,7 +482,9 @@ class TicketController extends Controller
         if (App::environment('production')) {
             // The environment is production
             //\Mail::to($user)->send(new TicketRating($ticket));
-            TicketRatingJob::dispatch($ticket);
+            if ($group->settings()->get('email_ticket_rating')) {
+              TicketRatingJob::dispatch($ticket);
+            }
         }
       }
 
