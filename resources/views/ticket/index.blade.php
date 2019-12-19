@@ -507,7 +507,7 @@ preprocessData: function (data) {
                               <span class="badge badge-pill badge-info"> {{$ticket->comments()->count()}}</span>
                             @endif
                             <br>
-                            <small class="text-muted"> {{ $ticket->created_at->diffForHumans() }} </small></td>
+                            <small class="text-muted"><a class="text-muted" title="{{$ticket->created_at}}">  {{ $ticket->created_at->diffForHumans() }} </small></td>
 
                           <td>{{ str_limit($ticket->ticket_title, 35)}}
                             @if ($ticket->comments()->count() != 0)
