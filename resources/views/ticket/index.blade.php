@@ -392,8 +392,8 @@ $(function () {
                                 $(function() {
                                   $('.toggle-class').change(function() {
                                       // var visibility_id = $(this).prop('checked') == true ? 1 : 0;
-                                      var userKeyword = $(this).data('id'); 
-                                       
+                                      var userKeyword = $(this).data('id');
+
                                       $.ajax({
                                           type: "GET",
                                           dataType: "json",
@@ -411,7 +411,7 @@ $(function () {
 ajax: {
 
   // data source
-  url: '{{ route('graph.users.list') }}', 
+  url: '{{ route('graph.users.list') }}',
 
   // ajax type
   type: 'GET',

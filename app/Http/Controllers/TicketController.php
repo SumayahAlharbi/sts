@@ -83,7 +83,8 @@ class TicketController extends Controller
     public function deletedTickets()
     {
           $statuses = Status::all();
-          $tickets = Ticket::onlyTrashed()->orderByRaw('created_at DESC')->simplePaginate(10);
+          $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
+          $tickets = Ticket::onlyTrashed()->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
           $categories = Category::all()->pluck('category_name','id');
           $locations = Location::all()->pluck('location_name','id');
           $users = User::all()->pluck('name','id');
@@ -528,7 +529,7 @@ class TicketController extends Controller
       Auth::user()->settings()->set('total_tickets', $setting_value);
       return back();
     }
-    
+
 
 
     public function search(Request $request)
@@ -543,23 +544,24 @@ class TicketController extends Controller
       //   foreach ($userGroups as $userGroup) {
       //     $userGroupIDs[] =  $userGroup->id;
       //   };
+      $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
 
 
       if ($user->hasRole('admin')) {
 
-              $findTickets = Ticket::search($request->searchKey)->paginate(10);
+              $findTickets = Ticket::search($request->searchKey)->paginate($totalTicketSetting);
 
 
           } elseif ($user->hasPermissionTo('view group tickets')) {
             $matching = Ticket::search($request->searchKey)->get()->pluck('id');
-            $findTickets = Ticket::whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate(10);
+            $findTickets = Ticket::whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
 
 
             } else {
               $matching = Ticket::search($request->searchKey)->get()->pluck('id');
 
                   $findTickets = Ticket::whereHas('user', function ($q) use ($userId) {
-                  $q->where('user_id', $userId);})->whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate(10);
+                  $q->where('user_id', $userId);})->whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
 
           }
           return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
@@ -600,19 +602,36 @@ class TicketController extends Controller
     public function statusFilter(Request $request)
    {
      $statuses = Status::all();
+     $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
      if (Auth::user()->hasRole('admin')) {
        $groups = Group::all();
      }else {
        $groups = Auth::user()->group;
      }
 
-     $findTickets = Ticket::where('status_id', $request->status)->orderByRaw('created_at DESC')->simplePaginate(10);
+     $findTickets = Ticket::where('status_id', $request->status)->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
 
        return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
    }
 
+   public function groupFilter(Request $request)
+  {
+    $statuses = Status::all();
+  $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
+    if (Auth::user()->hasRole('admin')) {
+      $groups = Group::all();
+    }else {
+      $groups = Auth::user()->group;
+    }
+
+    $findTickets = Ticket::where('group_id', $request->group)->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
+
+      return view('ticket.search', compact('findTickets','statuses','groups'));
+  }
+
    public function todayTicket()
    {
+     $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
      $statuses = Status::all();
      if (Auth::user()->hasRole('admin')) {
        $groups = Group::all();
@@ -620,7 +639,7 @@ class TicketController extends Controller
        $groups = Auth::user()->group;
      }
 
-     $findTickets = Ticket::whereDate('due_date', Carbon::now() )->simplePaginate(10);
+     $findTickets = Ticket::whereDate('due_date', Carbon::now() )->simplePaginate($totalTicketSetting);
 
        return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
    }
