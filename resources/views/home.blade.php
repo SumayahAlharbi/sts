@@ -61,17 +61,18 @@
                                     </div> --}}
                                     <div class="mail-contnet  d-inline-block  align-middle">
                                         <h5 class="my-1">{{ $group->group_name }}</h5> <span class="mail-desc font-12 text-truncate overflow-hidden text-nowrap d-block">{{ $group->group_description }}</span>
-                                    </div>
-                                   </div>
-                                          @if($userGroup =$group)
+                                       @if($userGroup =$group)
                                        @foreach($userGroup->user as $hereUsers)
                                        
                                        <span class="label label-light-info">{{$hereUsers->name}}</span>
                       
                                           <!-- <span class="label label-success"> {{$hereUsers->name}}</span> -->
-                                        @endforeach
-                                         @endif
+                                      @endforeach
+                                      @endif
                                  
+                                      </div>
+                                   </div>
+       
                                     </a>
                                 @endforeach
                           </div>
