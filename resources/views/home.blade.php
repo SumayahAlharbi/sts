@@ -46,29 +46,31 @@
     </div>
     @if(count($groups) > 1)
     {{-- My Groups --}}
-          <div class="card">
-                  <div class="card-body bg-info">
-                      <h4 class="text-white card-title">My Groups</h4>
-                  </div>
-                  <div class="card-body p-2">
-                      <div class="message-box contact-box position-relative mt-2">
-                          <div class="message-widget contact-widget position-relative">
-                              <!-- Message -->
-                              @foreach($groups as $group)
-                                <a href={{url('/groupFilter?group='.$group->id)}} class="py-3 px-2 border-bottom d-block text-decoration-none">
-                                    {{-- <div class="user-img position-relative d-inline-block mr-2"> <img src="../assets/images/users/1.jpg" alt="user" class="rounded-circle">
-                                        <span class="profile-status pull-right d-inline-block position-absolute bg-success rounded-circle"></span>
-                                    </div> --}}
-                                    <div class="mail-contnet d-inline-block align-middle">
-                                        <h5 class="my-1">{{ $group->group_name }}</h5> <span class="mail-desc font-12 text-truncate overflow-hidden text-nowrap d-block">{{ $group->group_description }}</span>
-                                    </div>
-                                </a>
-                                @endforeach
-                          </div>
-                      </div>
-                  </div>
-              </div>
+          @if(!Auth::user()->hasRole('enduser'))
+            <div class="card">
+                    <div class="card-body bg-info">
+                        <h4 class="text-white card-title">My Groups</h4>
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="message-box contact-box position-relative mt-2">
+                            <div class="message-widget contact-widget position-relative">
+                                <!-- Message -->
+                                @foreach($groups as $group)
+                                  <a href={{url('/groupFilter?group='.$group->id)}} class="py-3 px-2 border-bottom d-block text-decoration-none">
+                                      {{-- <div class="user-img position-relative d-inline-block mr-2"> <img src="../assets/images/users/1.jpg" alt="user" class="rounded-circle">
+                                          <span class="profile-status pull-right d-inline-block position-absolute bg-success rounded-circle"></span>
+                                      </div> --}}
+                                      <div class="mail-contnet d-inline-block align-middle">
+                                          <h5 class="my-1">{{ $group->group_name }}</h5> <span class="mail-desc font-12 text-truncate overflow-hidden text-nowrap d-block">{{ $group->group_description }}</span>
+                                      </div>
+                                  </a>
+                                  @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endif
+      @endif
 <!-- Show tickets that is due date today in dashboard -->
 <div class="row">
             <div class="col-lg-12 col-md-12">
