@@ -71,16 +71,17 @@
                                       @endif
                                  
                                       </div>
+                                    </a>
                                    </div>
        
-                                    </a>
+                                    
                                 @endforeach
                           </div>
                       </div>
                   </div>
               </div>
               
-            @endif
+            
       @endif
 <!-- Show tickets that is due date today in dashboard -->
 <div class="row">
