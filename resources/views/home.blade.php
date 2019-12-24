@@ -5,6 +5,7 @@
 
     <!-- Start Page Content -->
     <!-- ============================================================== -->
+
     <div class="row">
             <div class="col-lg-12 col-md-12">
                     <div class="card">
@@ -44,18 +45,45 @@
 
     </div>
 
+        {{-- My Groups --}}
+        @if(!Auth::user()->hasRole('enduser'))
+    <div class="row">
+    <div class="col-12">
+        <!-- Card -->
+        @foreach($groups as $group)
+        <div class="card">
+            <div class="card-body">
+                <a href={{url('/groupFilter?group='.$group->id)}}><h4 class="card-title">{{ $group->group_name }}</h4></a>
+                <p class="card-text">
+                    @if($userGroup =$group)
+                    @foreach($userGroup->user as $users)
+                    
+                    <a href={{url('/profile/' . $users->id)}}><span class="label label-light-info">{{$users->name}}</span></a>
+   
+                   @endforeach
+                   @endif
+                </p>
+                {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+            </div>
+        </div>
+        @endforeach
+        <!-- Card -->
+    </div>
+  </div>
+  @endif
+  
 <!-- Show tickets that is due date today in dashboard -->
 <div class="row">
             <div class="col-lg-12 col-md-12">
                     <div class="card">
                         <div class="card-body">
                             <h3 class="card-title"><i class="far fa-calendar"></i> Today Tickets <span class="label label-light-inverse">{{$todayTickets->count()}}</span></h3>
-                  
+
                   @if($todayTickets->isEmpty())
                   <th> Nothing is Due Today</th>
-                  
-                  @else            
-                        
+
+                  @else
+
              <table class="footable table m-b-0 toggle-circle" data-sort="false">
                   <thead>
                         <tr>
@@ -73,10 +101,10 @@
                       </tr>
                   </thead>
                   <tbody>
-               
-                  
+
+
                   @foreach($todayTickets as $ticket)
-                  
+
                       <tr>
                           <td>{{$ticket->id}}</td>
                           <td><a href="{{ route('ticket.show',$ticket->id)}}" title="{{$ticket->ticket_title}}"> {{ str_limit($ticket->ticket_title, 35)}}</a>
@@ -157,11 +185,11 @@
                               @endcan
                             </form>
                           </td>
-                          
+
 
                       </tr>
-                      
-                    @endforeach 
+
+                    @endforeach
                   @endif
                   </tbody>
                   <tfoot>
@@ -174,13 +202,15 @@
                       </tr>
                   </tfoot>
                </table>
-              
+
               </div>
               <a class="btn" href="{{route('ticket.todayTicket')}}" role="button">Show More <i class="fa fa-plus-circle"></i></a>
             </div>
       </div>
     </div>
-                
+
+
+
 
 <!-- Show tickets that is due date today in dashboard -->
 

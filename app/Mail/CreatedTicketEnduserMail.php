@@ -9,19 +9,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\User;
 use App\Ticket;
 
-class RequestedBy extends Mailable
+class CreatedTicketEnduserMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $ticket;
     public $user;
+    public $ticket;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, Ticket $ticket)
+    public function __construct(Ticket $ticket)
     {
-        $this->user = $user;
         $this->ticket = $ticket;
     }
 
@@ -32,7 +32,7 @@ class RequestedBy extends Mailable
      */
     public function build()
     {
-      return $this->subject('New Ticket Requested By You!')
-      ->view('emails.requestedby');
+      return $this->subject('[Confirmation] Your ticket has been recivied')
+      ->view('emails.ticket.createdticketenduser');
     }
 }
