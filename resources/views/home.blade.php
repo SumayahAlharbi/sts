@@ -44,8 +44,36 @@
              </div>
 
     </div>
-    @if(count($groups) > 1)
+
+        {{-- My Groups --}}
+        @if(!Auth::user()->hasRole('enduser'))
+    <div class="row">
+    <div class="col-12">
+        <!-- Card -->
+        @foreach($groups as $group)
+        <div class="card">
+            <div class="card-body">
+                <a href={{url('/groupFilter?group='.$group->id)}}><h4 class="card-title">{{ $group->group_name }}</h4></a>
+                <p class="card-text">
+                    @if($userGroup =$group)
+                    @foreach($userGroup->user as $users)
+                    
+                    <a href={{url('/profile/' . $users->id)}}><span class="label label-light-info">{{$users->name}}</span></a>
+   
+                   @endforeach
+                   @endif
+                </p>
+                {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+            </div>
+        </div>
+        @endforeach
+        <!-- Card -->
+    </div>
+  </div>
+  @endif
+  
     {{-- My Groups --}}
+    @if(!Auth::user()->hasRole('enduser'))
           <div class="card">
                   <div class="card-body bg-info">
                       <h4 class="text-white card-title">My Groups</h4>
@@ -81,7 +109,6 @@
                   </div>
               </div>
               
-            
       @endif
 <!-- Show tickets that is due date today in dashboard -->
 <div class="row">
