@@ -60,8 +60,11 @@ class HomeController extends Controller
         }else {
           $groups = Auth::user()->group;
         }
-
-      return view('home', compact('tickets','todayTickets', 'categories','locations','users','statuses','created_by', 'groups', 'ticketsStats', 'activityTickets'));
+       $user = Auth::user();
+       $group=Group::all();
+     $userGroups = Group::with('user')->get()->unique();
+   
+      return view('home', compact('tickets','todayTickets', 'categories','locations','users','statuses','created_by', 'groups', 'ticketsStats', 'activityTickets','userGroups'));
     }
 
     public function TicketsChartsApi()
