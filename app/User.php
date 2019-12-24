@@ -39,6 +39,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    public $defaultSettings = [
+        'total_tickets' => '10',
+    ];
     public function ticket()
     {
         return $this->belongsToMany('App\Ticket','tickets_assignee');

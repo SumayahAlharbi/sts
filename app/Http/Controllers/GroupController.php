@@ -79,6 +79,7 @@ class GroupController extends Controller
     {
         //
         $group = group::find($id);
+        // $group->settings()->delete('email');
         $regions = region::get();
         return view('group.edit', compact('group','regions'));
     }
@@ -121,6 +122,17 @@ class GroupController extends Controller
     $group->visibility_id = $request->visibility_id;
     $group->save();
 
-    return response()->json(['message' => 'User status updated successfully.']);
+    return response()->json(['message' => 'Setting updated successfully.']);
+}
+public function changeGroupSetting(Request $request)
+{
+    $group = Group::findOrFail($request->group_id);
+    $group->settings()->set($request->setting_name, $request->setting_value);
+    $groupId = $group->id;
+    if ($request->setting_name == 'allow_enduser_ticket') {
+        $this->changeGroupVisibilty($groupId);
+    }
+    
+    return response()->json(['message' => 'Setting updated successfully.']);
 }
 }

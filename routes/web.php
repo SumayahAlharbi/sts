@@ -108,7 +108,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('status', 'StatusController');
     //Groups Routes
     Route::resource('group', 'GroupController');
+    //Groups Settings
     Route::get('/changeGroupVisibilty', 'GroupController@changeGroupVisibilty')->name('group.change.visibility');
+    Route::get('/changeAssignedEmail', 'GroupController@changeAssignedEmail')->name('group.change.assignemail');
+    Route::get('/changeDepartmentalEmail', 'GroupController@changeDepartmentalEmail')->name('group.change.departmentalemail');
+    Route::get('/changeGroupSetting', 'GroupController@changeGroupSetting')->name('group.change.setting');
 
 
 
@@ -191,8 +195,10 @@ Route::group(['middleware' => 'auth'], function () {
   Route::patch('ticket/{ticket}', 'TicketController@update')->name('ticket.update')->middleware('permission:update ticket');
   Route::delete('ticket/{ticket}', 'TicketController@destroy')->name('ticket.destroy')->middleware('permission:delete ticket');
   Route::get('ticket/ChangeTicketStatus/{status_id}/{ticket_id}', '\App\Http\Controllers\TicketController@ChangeTicketStatus')->middleware('permission:change ticket status');
+  Route::get('ticket/ChangeTicketTotal/{user_id}/{setting_value}', '\App\Http\Controllers\TicketController@ChangeTicketTotal');
   Route::get('/search', 'TicketController@search')->name('ticket.search');
   Route::get('/statusFilter', 'TicketController@statusFilter')->name('ticket.statusFilter');
+  Route::get('/groupFilter', 'TicketController@groupFilter')->name('ticket.groupFilter');
   Route::get('/todayTicket', 'TicketController@todayTicket')->name('ticket.todayTicket');
   // assign agent to a ticket
   Route::post('ticket/storeTicketRating', 'TicketController@storeTicketRating');

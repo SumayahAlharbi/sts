@@ -11,7 +11,7 @@
         {{ $comment->user->name }}
         @endif
       </h5>
-      <p class="m-b-5 @if($comment->body == 'This comment has been deleted')alert alert-warning @endif">{{ $comment->body }}</p>
+      <p class="m-b-5 @if($comment->body == 'This comment has been deleted')alert alert-warning @endif">{!! $comment->body !!}</p>
       {{-- <div class="alert alert-warning alert-rounded"> This is an example top alert. You can edit what u wish.
     </div> --}}
       <div class="comment-footer"> <span class="text-muted pull-right">{{$comment->created_at->diffForHumans() }}</span>

@@ -433,6 +433,7 @@
       <div class="comment-widgets">
 
         {{-- end comment new --}}
+        <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
 
 
         @include('comments._comment_replies', ['comments' => $tickets->comments, 'ticket_id' => $tickets->id])
@@ -443,7 +444,10 @@
           <form method="post" action="{{ route('comment.add') }}" id="comment-form">
             @csrf
             <div class="form-group">
-              <input type="text" name="comment_body" class="form-control" />
+              <textarea type="text" name="comment_body" id="editor"  class="form-control"></textarea>
+              <script>
+                  CKEDITOR.replace( 'editor' );
+              </script>
               <input type="hidden" name="ticket_id" value="{{ $tickets->id }}" />
               <input type="hidden" name="comment_id" id="comment_id" value="" />
             </div>
@@ -462,4 +466,6 @@
 
 </div>
 </div>
+
+
 @endsection

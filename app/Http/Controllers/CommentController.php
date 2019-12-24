@@ -6,8 +6,9 @@ use App;
 use Illuminate\Http\Request;
 use App\Comment;
 use App\Ticket;
-use App\Mail\TicketNewComment;
+use App\Mail\TicketNewCommentRequestedMail;
 use Carbon\Carbon;
+use App\Jobs\TicketNewCommentRequestedJob;
 
 class CommentController extends Controller
 {
@@ -26,6 +27,7 @@ class CommentController extends Controller
     if ($requested_by) {
       if (App::environment('production')) {
         //\Mail::to($requested_by)->send(new TicketNewComment($ticket, $comment));
+        TicketNewCommentRequestedJob::dispatch($ticket, $comment);
       }
     }
 
@@ -33,7 +35,7 @@ class CommentController extends Controller
       return back();
     } else {
       if (App::environment('production')) {
-        \Mail::to($ticketAgent)->send(new TicketNewComment($ticket, $comment));
+        // \Mail::to($ticketAgent)->send(new TicketNewComment($ticket, $comment));
       }
     }
     return back();

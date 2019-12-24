@@ -13,7 +13,7 @@ class CreateModelSettingsTable extends Migration
                 $table->increments('id');
                 $table->bigInteger('model_id');
                 $table->string('model_type');
-                $table->text('settings');
+                $table->json('settings');
                 $table->timestamps();
 
                 $table->unique(['model_id', 'model_type']);
