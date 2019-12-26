@@ -114,7 +114,7 @@ $(function () {
                         @endcan
                   @endif
 
-                <div class="modal fade" id="EndUserCreateTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                <div class="modal fade" id="EndUserCreateTicketModal" data-focus="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -277,7 +277,7 @@ $(function () {
                     </select>
                 </div> --}}
 
-                <div class="modal fade" id="CreateTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                <div class="modal fade" id="CreateTicketModal" data-focus="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
