@@ -15,7 +15,9 @@
 @endif
 <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
 <script>
-        //update group after region select in defult model
+$(function () {
+    $('.myselect').selectpicker();
+});        //update group after region select in defult model
         $(document).on('change','.region', function(e){
         var region_id = e.target.value;
         $.getJSON('/getGroups/' + region_id, function(data) {
@@ -96,7 +98,7 @@
                 <h4 class="card-title">Support Ticket List</h4>
                 {{-- <h6 class="card-subtitle">List of ticket</h6> --}}
                 <div class="row">
-                  <div class="col-lg-12">
+                  <div class="col-lg-11">
                     @can('create ticket')
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreateTicketModal" data-whatever="@create" title="Create New Ticket" ><i class="fa fa-plus-circle"></i> New</button>
                     @endcan
@@ -112,7 +114,7 @@
                         @endcan
                   @endif
 
-                <div class="modal fade" id="EndUserCreateTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                <div class="modal fade" id="EndUserCreateTicketModal" data-focus="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -232,9 +234,50 @@
 
                     {{-- <button id="btn" class="btn btn-danger">Ready?</button> --}}
                   </div>
+                  <div class="col-md-1">
+                      {{-- <select class="myselect" name="total_tickets" data-style="form-control btn-secondary">
+                          <option value="10">10</option>
+                          <option value="25">25</option>
+                          <option>50</option>
+                          <option>100</option>
+                      </select>
+
+                      @section('scripts')
+                          <script type="text/javascript">
+                              $("#country").change(function(){
+                                  $.ajax({
+                                      url: "{{ route('admin.cities.get_by_country') }}?country_id=" + $(this).val(),
+                                      method: 'GET',
+                                      success: function(data) {
+                                          $('#city').html(data.html);
+                                      }
+                                  });
+                              });
+                          </script>
+                      @endsection --}}
+
+                      <button class="btn btn-inverse dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {{$totalTicketSetting}}
+                    </button>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                          <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/10'>10</a>
+                          <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/25'>25</a>
+                          <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/50'>50</a>
+                          <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/100'>100</a>
+                        </div>
+                  </div>
                 </div>
 
-                <div class="modal fade" id="CreateTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                {{-- <div class="col-sm-1">
+                    <select class="myselect m-b-20 m-r-10" data-style="btn-primary">
+                        <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+                        <option data-tokens="mustard">Burger, Shake and a Smile</option>
+                        <option data-tokens="frosting">Sugar, Spice and all things nice</option>
+                    </select>
+                </div> --}}
+
+                <div class="modal fade" id="CreateTicketModal" data-focus="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -349,8 +392,8 @@
                                 $(function() {
                                   $('.toggle-class').change(function() {
                                       // var visibility_id = $(this).prop('checked') == true ? 1 : 0;
-                                      var userKeyword = $(this).data('id'); 
-                                       
+                                      var userKeyword = $(this).data('id');
+
                                       $.ajax({
                                           type: "GET",
                                           dataType: "json",
@@ -368,7 +411,7 @@
 ajax: {
 
   // data source
-  url: '{{ route('graph.users.list') }}', 
+  url: '{{ route('graph.users.list') }}',
 
   // ajax type
   type: 'GET',
@@ -464,7 +507,7 @@ preprocessData: function (data) {
                               <span class="badge badge-pill badge-info"> {{$ticket->comments()->count()}}</span>
                             @endif
                             <br>
-                            <small class="text-muted"> {{ $ticket->created_at->diffForHumans() }} </small></td>
+                            <small class="text-muted"><a class="text-muted" title="{{$ticket->created_at}}">  {{ $ticket->created_at->diffForHumans() }} </small></td>
 
                           <td>{{ str_limit($ticket->ticket_title, 35)}}
                             @if ($ticket->comments()->count() != 0)

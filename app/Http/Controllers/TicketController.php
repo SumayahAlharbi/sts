@@ -15,9 +15,9 @@ use Auth;
 use App;
 use App\Mail\agent;
 use App\Mail\TicketAgentAssigned;
-use App\Mail\TicketRating;
-use App\Mail\RequestedBy;
-use App\Mail\TicketCreated;
+use App\Mail\TicketRatingMail;
+use App\Mail\CreatedTicketEnduserMail;
+use App\Mail\CreatedTicketGroupMail;
 use Spatie\Activitylog\Models\Activity;
 use Carbon\Carbon;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
@@ -25,6 +25,10 @@ use App\Notifications\AssignedTicket;
 use Illuminate\Support\Facades\Hash;
 use Microsoft\Graph\Graph;
 use Microsoft\Graph\Model;
+use App\Jobs\AssignedTicketJob;
+use App\Jobs\CreatedTicketGroupJob;
+use App\Jobs\CreatedTicketEnduserJob;
+use App\Jobs\TicketRatingJob;
 
 use Illuminate\Http\Request;
 
@@ -48,8 +52,12 @@ class TicketController extends Controller
         $statuses = Status::all();
         $releases = Release::orderByRaw('created_at DESC')->first();
         //$diffHours = diffInHours($releases['created_at'])->now();
-        $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate(10);
+        $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
+        // Auth::user()->settings()->delete('total_tickets');
+        // $user->settings()->update('total_tickets', 'new value');
+        $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
         $regions = Region::all()->pluck('name','id');
+        $user_id = Auth::user()->id;
         $categories = Category::all()->pluck('category_name','id');
         $locations = Location::all()->pluck('location_name','id');
         $users = User::all()->pluck('name','id');
@@ -64,7 +72,7 @@ class TicketController extends Controller
         }
         //return $groups;
         ActivityLogger::activity("Ticket index");
-        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases'));
+        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases','user_id','totalTicketSetting'));
     }
 
         /**
@@ -75,7 +83,8 @@ class TicketController extends Controller
     public function deletedTickets()
     {
           $statuses = Status::all();
-          $tickets = Ticket::onlyTrashed()->orderByRaw('created_at DESC')->simplePaginate(10);
+          $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
+          $tickets = Ticket::onlyTrashed()->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
           $categories = Category::all()->pluck('category_name','id');
           $locations = Location::all()->pluck('location_name','id');
           $users = User::all()->pluck('name','id');
@@ -166,6 +175,8 @@ class TicketController extends Controller
         if ($user){
           if (App::environment('production')) {
             //\Mail::to($user)->send(new RequestedBy($user,$ticket));
+            CreatedTicketEnduserJob::dispatch($user, $ticket);
+
           }
         }
 
@@ -179,16 +190,21 @@ class TicketController extends Controller
     public function sendTicketCreatedEmail($ticket_id)
     {
       $ticket = Ticket::findorfail($ticket_id);
-      $group_email = $ticket->group->email;
+      $group_id = $ticket->group->id;
+      $group = Group::findorfail($group_id);
+
       $created_by = $ticket->created_by;
       $requested_by = $ticket->requested_by;
 
       // Prevent sending group notification email if (created by != requested by)
       // Prevent sending group notification email if the group email is empty
-      if($group_email && ($requested_by != $created_by)){
+      if($group->email && ($requested_by != $created_by)){
         if (App::environment('production')) {
             // The environment is production
-            \Mail::to($group_email)->send(new TicketCreated($ticket));
+            // \Mail::to($group_email)->send(new TicketCreated($ticket));
+            if ($group->settings()->get('email_ticket_departmental')) {
+              CreatedTicketGroupJob::dispatch($group, $ticket);
+            }
         }
       }
 
@@ -221,9 +237,13 @@ class TicketController extends Controller
 
         $ticket->save();
         $user = $ticket->requested_by_user;
+        $group = Group::findOrFail($ticket->group_id);
 
         if (App::environment('production')) {
           //\Mail::to($user)->send(new RequestedBy($user,$ticket));
+          if ($group->settings()->get('email_ticket_confirmation')) {
+            CreatedTicketEnduserJob::dispatch($user, $ticket);
+          }
         }
 
         // send the ticket group email about new unassigned ticket
@@ -242,7 +262,8 @@ class TicketController extends Controller
     {
         $tickets =  Ticket::findOrfail($id);
         $user = Auth::user();
-
+        // echo $user->settings()->get('email_assigned_agent');
+        // $user->settings()->delete('email_assigned_agent', 'new value');
         $groupId = $tickets->group_id;
             $users = User::whereHas('group', function ($q) use ($groupId) {
                 $q->where('group_id', $groupId);
@@ -430,9 +451,15 @@ class TicketController extends Controller
 
       $ticket->user()->syncWithoutDetaching($request->user_id);
       $user = User::findorfail($request->user_id);
+      $group = Group::findOrFail($ticket->group->id);
+      
       if (App::environment('production')) {
           // The environment is production
-          \Mail::to($user)->send(new TicketAgentAssigned($ticket));
+          // \Mail::to($user)->send(new TicketAgentAssigned($ticket));
+          if ($group->settings()->get('email_assigned_agent')) {
+            AssignedTicketJob::dispatch($user, $ticket);
+          }
+          
       }
 
       $user->notify(new AssignedTicket($user, $ticket));
@@ -445,6 +472,7 @@ class TicketController extends Controller
       $ticket = Ticket::findorfail($ticket_id);
       $user = User::find($ticket->requested_by_user);
       $TicketAgents = $ticket->user;
+      $group = Group::findOrFail($ticket->group->id);
 
       $match = 1;
       foreach ($TicketAgents as $TicketAgent){
@@ -456,6 +484,9 @@ class TicketController extends Controller
         if (App::environment('production')) {
             // The environment is production
             //\Mail::to($user)->send(new TicketRating($ticket));
+            if ($group->settings()->get('email_ticket_rating')) {
+              TicketRatingJob::dispatch($ticket);
+            }
         }
       }
 
@@ -495,6 +526,13 @@ class TicketController extends Controller
       return back();
     }
 
+    public function ChangeTicketTotal($user_id, $setting_value)
+    {
+      Auth::user()->settings()->set('total_tickets', $setting_value);
+      return back();
+    }
+
+
 
     public function search(Request $request)
     {
@@ -508,23 +546,24 @@ class TicketController extends Controller
       //   foreach ($userGroups as $userGroup) {
       //     $userGroupIDs[] =  $userGroup->id;
       //   };
+      $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
 
 
       if ($user->hasRole('admin')) {
 
-              $findTickets = Ticket::search($request->searchKey)->paginate(10);
+              $findTickets = Ticket::search($request->searchKey)->paginate($totalTicketSetting);
 
 
           } elseif ($user->hasPermissionTo('view group tickets')) {
             $matching = Ticket::search($request->searchKey)->get()->pluck('id');
-            $findTickets = Ticket::whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate(10);
+            $findTickets = Ticket::whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
 
 
             } else {
               $matching = Ticket::search($request->searchKey)->get()->pluck('id');
 
                   $findTickets = Ticket::whereHas('user', function ($q) use ($userId) {
-                  $q->where('user_id', $userId);})->whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate(10);
+                  $q->where('user_id', $userId);})->whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
 
           }
           return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
@@ -565,19 +604,36 @@ class TicketController extends Controller
     public function statusFilter(Request $request)
    {
      $statuses = Status::all();
+     $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
      if (Auth::user()->hasRole('admin')) {
        $groups = Group::all();
      }else {
        $groups = Auth::user()->group;
      }
 
-     $findTickets = Ticket::where('status_id', $request->status)->orderByRaw('created_at DESC')->simplePaginate(10);
+     $findTickets = Ticket::where('status_id', $request->status)->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
 
        return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
    }
 
+   public function groupFilter(Request $request)
+  {
+    $statuses = Status::all();
+  $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
+    if (Auth::user()->hasRole('admin')) {
+      $groups = Group::all();
+    }else {
+      $groups = Auth::user()->group;
+    }
+
+    $findTickets = Ticket::where('group_id', $request->group)->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
+
+      return view('ticket.search', compact('findTickets','statuses','groups'));
+  }
+
    public function todayTicket()
    {
+     $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
      $statuses = Status::all();
      if (Auth::user()->hasRole('admin')) {
        $groups = Group::all();
@@ -585,7 +641,7 @@ class TicketController extends Controller
        $groups = Auth::user()->group;
      }
 
-     $findTickets = Ticket::whereDate('due_date', Carbon::now() )->simplePaginate(10);
+     $findTickets = Ticket::whereDate('due_date', Carbon::now() )->simplePaginate($totalTicketSetting);
 
        return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
    }

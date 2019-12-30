@@ -3,26 +3,27 @@
 namespace App\Mail;
 
 use App\Ticket;
-use App\User;
+use App\Comment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TicketCreated extends Mailable
+class TicketNewCommentRequestedMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $ticket;
-    public $user;
+    public $comment;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Ticket $ticket)
-    {
-      $this->ticket = $ticket;
-    }
+     public function __construct(Ticket $ticket, Comment $comment)
+     {
+         $this->ticket = $ticket;
+         $this->comment = $comment;
+     }
 
     /**
      * Build the message.
@@ -31,7 +32,7 @@ class TicketCreated extends Mailable
      */
     public function build()
     {
-      return $this->subject('Assign ticket to agent')
-      ->view('emails.ticket.notify');
+        return $this->subject('[New] Comment in Your Ticket')
+        ->view('emails.ticket.ticketnewcommentrequested');
     }
 }

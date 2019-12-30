@@ -2,6 +2,8 @@
 namespace Deployer;
 
 require 'recipe/laravel.php';
+require 'recipe/cachetool.php';
+
 
 // Project name
 set('application', 'staging');
@@ -67,3 +69,4 @@ after('deploy:failed', 'deploy:unlock');
 
 before('deploy:symlink', 'artisan:migrate');
 
+after('deploy:symlink', 'cachetool:clear:opcache');
