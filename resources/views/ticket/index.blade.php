@@ -232,7 +232,7 @@ $(function () {
 
                 <!--/.End User Create Ticket -->
 
-                    {{-- <button id="btn" class="btn btn-danger">Ready?</button> --}}
+                    <button id="btn" class="btn btn-danger">Ready?</button>
                   </div>
                   <div class="col-md-1">
                       {{-- <select class="myselect" name="total_tickets" data-style="form-control btn-secondary">
@@ -605,8 +605,8 @@ preprocessData: function (data) {
         </div>
     </div>
 </div>
-{{-- <script>
-var myText = 'Happy New Year 2019 🎉',
+<script>
+var myText = 'Happy New Year 2020 🎉',
     i = 0,
     myBtn = document.getElementById('btn');
 myBtn.onclick = function () {
@@ -624,6 +624,6 @@ $('#btn') .hide();
 };
 
 
-</script> --}}
+</script>
 
 @endsection
