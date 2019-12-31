@@ -237,6 +237,7 @@ class TicketController extends Controller
 
         $ticket->save();
         $user = $ticket->requested_by_user;
+        $group = Group::findOrFail($ticket->group_id);
 
         if (App::environment('production')) {
           //\Mail::to($user)->send(new RequestedBy($user,$ticket));
@@ -471,6 +472,7 @@ class TicketController extends Controller
       $ticket = Ticket::findorfail($ticket_id);
       $user = User::find($ticket->requested_by_user);
       $TicketAgents = $ticket->user;
+      $group = Group::findOrFail($ticket->group->id);
 
       $match = 1;
       foreach ($TicketAgents as $TicketAgent){
