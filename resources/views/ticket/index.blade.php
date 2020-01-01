@@ -59,7 +59,7 @@ $(function () {
         $.getJSON('/getGroups/' + region_id, function(data) {
               $("#groupDivEnduser").show();
               $('#groupEnduser').empty();
-              $('#groupEnduser').append("<option value=''>Select your department</option>");
+              $('#groupEnduser').append("<option value=''>Select department</option>");
               $.each(data,function(index, subcatObj){
                 $('#groupEnduser').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
 
@@ -169,7 +169,7 @@ $(function () {
                                         </select>
                                       </div>
                                       <div class="form-group" style="display:none;" id="groupDivEnduser">
-                                      <label for="exampleFormControlSelect1">Department</label>
+                                      <label for="exampleFormControlSelect1">Request From</label>
                                       <select required class="form-control groupEnduser" name="groupEnduser" id="groupEnduser">
                                         @foreach ($groups as $group)
                                           <option value="{{$group->id}}">{{$group->group_name}}</option>
