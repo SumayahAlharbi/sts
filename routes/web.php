@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/profile/{id}', '\App\Http\Controllers\UserController@showUserProfile')
     ->name('profile.show');
   Route::get('/profileSearch', 'UserController@profileSearch')->name('user.profileSearch');
+  Route::get('/userSearch', 'UserController@userSearch')->name('user.userSearch');
 
   // // Email HTML Viewer
   //   Route::get('/email', function () {

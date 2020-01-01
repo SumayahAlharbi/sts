@@ -17,6 +17,12 @@ Breadcrumbs::for('user.profileSearch', function ($trail) {
   $trail->push('Search', route('user.profileSearch'));
 });
 
+//user Search
+Breadcrumbs::for('user.userSearch', function ($trail) {
+    $trail->parent('users.index');
+    $trail->push('Search', route('user.userSearch'));
+});
+
 // ticket.index
 Breadcrumbs::for('ticket.index', function ($trail) {
     $trail->parent('home');
