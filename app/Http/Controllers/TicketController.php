@@ -55,7 +55,11 @@ class TicketController extends Controller
         $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
         // Auth::user()->settings()->delete('total_tickets');
         // $user->settings()->update('total_tickets', 'new value');
-        $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
+        if (Auth::user()->settings()->get('hide_completed_tickets') == true) {
+          $tickets = Ticket::orderByRaw('created_at DESC')->where('status_id', '!=' , '1')->simplePaginate($totalTicketSetting);
+        }else{
+          $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
+        }
         $regions = Region::all()->pluck('name','id');
         $user_id = Auth::user()->id;
         $categories = Category::all()->pluck('category_name','id');

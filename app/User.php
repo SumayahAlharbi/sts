@@ -41,6 +41,7 @@ class User extends Authenticatable
     ];
     public $defaultSettings = [
         'total_tickets' => '10',
+        'hide_completed_tickets' => false,
     ];
     public function ticket()
     {

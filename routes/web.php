@@ -114,6 +114,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/changeAssignedEmail', 'GroupController@changeAssignedEmail')->name('group.change.assignemail');
     Route::get('/changeDepartmentalEmail', 'GroupController@changeDepartmentalEmail')->name('group.change.departmentalemail');
     Route::get('/changeGroupSetting', 'GroupController@changeGroupSetting')->name('group.change.setting');
+    Route::get('/changeUserSetting', 'UserController@changeUserSetting')->name('user.change.setting');
+
 
 
 

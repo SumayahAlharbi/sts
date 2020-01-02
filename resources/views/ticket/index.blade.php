@@ -256,7 +256,7 @@ $(function () {
                           </script>
                       @endsection --}}
 
-                      <button class="btn btn-inverse dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           {{$totalTicketSetting}}
                     </button>
 

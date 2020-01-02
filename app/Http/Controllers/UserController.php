@@ -79,6 +79,8 @@ class UserController extends Controller
     public function showUserProfile($id)
     {
         $user =  \App\User::findOrfail($id);
+        $user_id = $user->id;
+        $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
         $userGroups = Auth::user()->group;
         $ProfileGroups = $user->group;
 
@@ -104,7 +106,7 @@ class UserController extends Controller
     //     if  (!empty(array_intersect($userGroupIDs, $ProfileGroupsIDs)))
     //     {
 
-            return view('profile.index', compact('user','assigned_tickets','statuses','categories'));
+            return view('profile.index', compact('user','assigned_tickets','statuses','categories','totalTicketSetting','user_id'));
 
 
         // }
@@ -311,6 +313,15 @@ public function revokePermission($permission, $user_id)
 public function notifications()
 {
     return auth()->user()->unreadNotifications()->limit(5)->get()->toArray();
+}
+
+public function changeUserSetting(Request $request)
+{
+    $user = User::findOrFail($request->user_id);
+    $user->settings()->set($request->setting_name, $request->setting_value);
+    $settingValue = $request->setting_value;
+    
+    return response()->json(['message' => 'Setting updated successfully.']);
 }
 
 }
