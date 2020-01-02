@@ -100,7 +100,7 @@ $(function () {
                 <div class="row">
                   <div class="col-lg-11">
                     @can('create ticket')
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreateTicketModal" data-whatever="@create" title="Create New Ticket" ><i class="fa fa-plus-circle"></i> New</button>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreateTicketModal" data-whatever="@create" title="Create New Ticket in Your Department as an Agent" ><i class="fa fa-plus-circle"></i> Create Ticket</button>
                     @endcan
 
                     {{--@can('create ticket')
@@ -110,7 +110,7 @@ $(function () {
                 <!-- End User Create Ticket -->
                 @if(Auth::user()->hasRole('enduser'))
                     @can('end user create ticket')
-                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#EndUserCreateTicketModal" data-whatever="@create" title="Create New Ticket" ><i class="fa fa-plus-circle"></i> New</button>
+                          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#EndUserCreateTicketModal" data-whatever="@create" title="Request New Ticket From a Department" ><i class="fas fa-spinner"></i> Request Ticket</button>
                         @endcan
                   @endif
 
@@ -118,7 +118,7 @@ $(function () {
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="exampleModalLabel1">+ New Ticket</h4>
+                                <h4 class="modal-title" id="exampleModalLabel1">+ Request Ticket</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
@@ -281,7 +281,7 @@ $(function () {
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="exampleModalLabel1">+ New Ticket</h4>
+                                <h4 class="modal-title" id="exampleModalLabel1">+ Create Ticket</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
