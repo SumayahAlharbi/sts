@@ -45,7 +45,10 @@ class HomeController extends Controller
       // $userGroup = Auth::user()->group->first()->id;
       // $ticketUserGroup = Group::find($userGroup)->ticket;
       $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
-      $todayTickets = Ticket::whereDate('due_date', Carbon::now() )->simplePaginate($totalTicketSetting);
+      $todayTickets = Ticket::whereDate('due_date', Carbon::now() )->limit(5)->get();
+      $todayTicketsTotal = Ticket::whereDate('due_date', Carbon::now() )->count();
+      $lateTickets = Ticket::whereDate('due_date', '<', Carbon::now() )->where('status_id','!=', '1')->limit(5)->get();
+      $lateTicketsTotal = Ticket::whereDate('due_date', '<', Carbon::now() )->where('status_id','!=', '1')->count();
       $tickets = Ticket::paginate(5);
       $ticketsStats = Ticket::all();
       $users = User::withCount('ticket')->take(5)->orderBy('ticket_count', 'desc')->get();
@@ -63,8 +66,8 @@ class HomeController extends Controller
        $user = Auth::user();
        $group=Group::all();
      $userGroups = Group::with('user')->get()->unique();
-   
-      return view('home', compact('tickets','todayTickets', 'categories','locations','users','statuses','created_by', 'groups', 'ticketsStats', 'activityTickets','userGroups'));
+
+      return view('home', compact('tickets','todayTickets', 'todayTicketsTotal', 'lateTickets', 'lateTicketsTotal', 'categories','locations','users','statuses','created_by', 'groups', 'ticketsStats', 'activityTickets','userGroups'));
     }
 
     public function TicketsChartsApi()
