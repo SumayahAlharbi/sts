@@ -127,6 +127,17 @@ class UserController extends Controller
        return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
    }
 
+  public function userSearch(Request $request)
+  {
+    $groups = Auth::user()->group;
+
+    $matchingUsers = User::where('id', 'LIKE', '%' . $request->searchKey . '%')
+      ->orWhere('name', 'LIKE', '%' . $request->searchKey . '%')
+      ->orWhere('email', 'LIKE', '%' . $request->searchKey . '%')
+      ->orWhere('name', 'LIKE', '%' . $request->searchKey . '%')->paginate(10);
+
+    return view('users.search', compact('matchingUsers'));
+  }
 
     /**
      * Display the specified resource.
