@@ -53,6 +53,12 @@ Breadcrumbs::for('ticket.todayTicket', function ($trail) {
     $trail->push('Today Ticket', route('ticket.todayTicket'));
 });
 
+// ticket.late
+Breadcrumbs::for('ticket.lateTicket', function ($trail) {
+    $trail->parent('ticket.index');
+    $trail->push('late Tickets', route('ticket.lateTicket'));
+});
+
 // ticket.create
 Breadcrumbs::for('ticket.create', function ($trail) {
     $trail->parent('ticket.index');

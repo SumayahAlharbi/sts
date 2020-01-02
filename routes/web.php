@@ -201,6 +201,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/statusFilter', 'TicketController@statusFilter')->name('ticket.statusFilter');
   Route::get('/groupFilter', 'TicketController@groupFilter')->name('ticket.groupFilter');
   Route::get('/todayTicket', 'TicketController@todayTicket')->name('ticket.todayTicket');
+  Route::get('/lateTicket', 'TicketController@lateTicket')->name('ticket.lateTicket');
   // assign agent to a ticket
   Route::post('ticket/storeTicketRating', 'TicketController@storeTicketRating');
   // store ticket rating
