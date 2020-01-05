@@ -1,5 +1,5 @@
 @extends('layouts.material')
-@section('title', 'Edit: ' . $group->group_name  ) 
+@section('title', 'Edit: ' . $group->group_name  )
 @section('content')
 
 <div class = 'container'>
@@ -29,7 +29,7 @@
           <label for="price">group description</label>
           <input type="text" class="form-control" name="group_description" value="{{ $group->group_description }}" />
         </div>
-        
+
         <div class="form-group">
               <label for="price">group email</label>
               <input type="email" class="form-control" name="email" value="{{ $group->email}}"/>
@@ -113,6 +113,19 @@
 </div>
 </div>
 
+<div class="form-group">
+    <label for="exampleFormControlSelect1">Send comments notification email to enduser</label>
+    <div class="switch">
+        <label>
+          OFF
+          {{-- <input type="checkbox" checked=""> --}}
+          <input data-id="{{$group->id}}" data-setting="email_comments_enduser" class="toggle-class change-group-setting" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="true" data-off="false" {{ $group->settings()->get('email_comments_enduser')  == true ? 'checked' : '' }}>
+          <span class="lever switch-col-light-green"></span>
+          ON
+        </label>
+</div>
+</div>
+
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
   </div>
@@ -123,14 +136,14 @@
       $('.change-group-setting').change(function() {
           var setting_value = $(this).prop('checked') == true ? 1 : 0;
           var group_id = $(this).data('id');
-          var setting_name = $(this).data('setting'); 
-           
+          var setting_name = $(this).data('setting');
+
           $.ajax({
               type: "GET",
               dataType: "json",
               url: '{{ route('group.change.setting') }}',
-              data: {'setting_value': setting_value, 
-              'group_id': group_id, 
+              data: {'setting_value': setting_value,
+              'group_id': group_id,
               'setting_name': setting_name
             },
             success: function (data) {
