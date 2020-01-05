@@ -55,7 +55,11 @@ class TicketController extends Controller
         $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
         // Auth::user()->settings()->delete('total_tickets');
         // $user->settings()->update('total_tickets', 'new value');
-        $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
+        if (Auth::user()->settings()->get('hide_completed_tickets') == true) {
+          $tickets = Ticket::orderByRaw('created_at DESC')->where('status_id', '!=' , '1')->simplePaginate($totalTicketSetting);
+        }else{
+          $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
+        }
         $regions = Region::all()->pluck('name','id');
         $user_id = Auth::user()->id;
         $categories = Category::all()->pluck('category_name','id');
@@ -642,6 +646,21 @@ class TicketController extends Controller
      }
 
      $findTickets = Ticket::whereDate('due_date', Carbon::now() )->simplePaginate($totalTicketSetting);
+
+       return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
+   }
+
+   public function lateTicket()
+   {
+     $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
+     $statuses = Status::all();
+     if (Auth::user()->hasRole('admin')) {
+       $groups = Group::all();
+     }else {
+       $groups = Auth::user()->group;
+     }
+
+     $findTickets = Ticket::whereDate('due_date', '<', Carbon::now() )->where('status_id','!=', '1')->simplePaginate($totalTicketSetting);
 
        return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
    }
