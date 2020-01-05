@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Comment;
 use App\User;
 use App\Ticket;
+use App\Group;
 use App\Mail\TicketNewCommentRequestedMail;
 use Carbon\Carbon;
 use App\Jobs\TicketNewCommentRequestedJob;
@@ -28,13 +29,17 @@ class CommentController extends Controller
     $ticketAgents = $ticket->user;
     $requested_by = $ticket->requested_by_user;
     $comment_author = $request->user();
+    $group_id = $ticket->group->id;
+    $group = Group::findorfail($group_id);
     // New email to Enduser if anyone except himself commented on his ticket
     if ($requested_by)
     if ($requested_by != $comment_author)
     {
       if (App::environment('production')) {
         //\Mail::to($requested_by)->send(new TicketNewComment($ticket, $comment));
-        //TicketNewCommentRequestedJob::dispatch($ticket, $comment);
+        if ($group->settings()->get('email_comments_enduser')) {
+        TicketNewCommentRequestedJob::dispatch($ticket, $comment);
+        }
       }
     }
 
@@ -43,7 +48,7 @@ class CommentController extends Controller
     } else {
       // New email to ticket Agent(s) if anyone except himself commented on his ticket
       if (App::environment('production')) {
-        //TicketNewCommentAgentJob::dispatch($ticket, $comment);
+        TicketNewCommentAgentJob::dispatch($ticket, $comment);
       }
     }
     return back();
@@ -60,6 +65,8 @@ class CommentController extends Controller
     $comment->parent_id = $request->get('comment_id');
     $ticket = Ticket::find($request->get('ticket_id'));
     $ticket->comments()->save($comment);
+    $group_id = $ticket->group->id;
+    $group = Group::findorfail($group_id);
 
     //Send Email to Comment Parent if anyone replys to his comment except himself
     $comment_author = $request->user()->id;
@@ -67,7 +74,9 @@ class CommentController extends Controller
     if ($comment_author != $comment_parent_id)
     {
       if (App::environment('production')) {
-        //TicketNewCommentReplyJob::dispatch($ticket, $comment);
+        if ($group->settings()->get('email_comments_enduser')) {
+        TicketNewCommentReplyJob::dispatch($ticket, $comment);
+        }
       }
     }
 

@@ -16,6 +16,7 @@ class Group extends Model
     'email_ticket_departmental' => true,
     'email_ticket_confirmation' => true,
     'email_ticket_rating' => true,
+    'email_comments_enduser' => true,
     'allow_enduser_ticket' => true,
   ];
 
