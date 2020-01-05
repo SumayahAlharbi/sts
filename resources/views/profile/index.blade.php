@@ -52,6 +52,8 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs profile-tab" role="tablist">
           <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#userTickets" role="tab">Assigned Tickets</a> </li>
+          <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a></li>
+
           {{-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#activity" role="tab">Activity</a> </li> --}}
         </ul>
         <!-- Tab panes -->
@@ -166,6 +168,53 @@
           </div>
         </div>
 
+              {{-- user settings --}}
+              <div class="tab-pane" id="settings" role="tabpanel">
+                  <div class="card-body">
+                      {{-- <h4 class="card-title">Account Settings</h4> --}}
+                      
+                          <table class="table stylish-table">
+                              
+                              <tbody>
+                                  <tr>
+                                      <td><h6>Tickets per page</h6><small class="text-muted">Set how many ticket you want to list in a single page.</small></td>
+                                      <td class="text-right">
+                                          <div class="btn-group">
+                                              <button class="btn btn-inverse dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                  {{$totalTicketSetting}}
+                                            </button>
+                        
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                  <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/10'>10</a>
+                                                  <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/25'>25</a>
+                                                  <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/50'>50</a>
+                                                  <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/100'>100</a>
+                                                </div>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td><h6>Hide completed tickets</h6><small class="text-muted">Hide it from the tickets page (you can still reach it from the dashboard)</small></td>
+                                      <td class="text-right">
+                                          <div class="switch">
+                                              <label>
+                                                OFF
+                                                {{-- <input type="checkbox" checked=""> --}}
+                                                <input data-id="{{$user->id}}" data-setting="hide_completed_tickets" class="toggle-class change-user-setting" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="true" data-off="false" {{ $user->settings()->get('hide_completed_tickets')   == 1 ? 'checked' : '' }}>
+                                                <span class="lever switch-col-light-green"></span>
+                                                ON
+                                              </label>
+                                      </div>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      
+
+            </div>
+            </div>
+            {{-- end of user settings --}}
+
         {{----------- Profile Activity Tab Start -----------}}
 
         {{-- <div class="tab-pane" id="activity" role="tabpanel">
@@ -229,5 +278,28 @@
   </div>
 </div>
 </div>
+<script>
+    $(function() {
+      $('.change-user-setting').change(function() {
+          var setting_value = $(this).prop('checked') == true ? 1 : 0;
+          var user_id = $(this).data('id');
+          var setting_name = $(this).data('setting'); 
+           
+          $.ajax({
+              type: "GET",
+              dataType: "json",
+              url: '{{ route('user.change.setting') }}',
+              data: {'setting_value': setting_value, 
+              'user_id': user_id, 
+              'setting_name': setting_name
+            },
+            success: function (data) {
+                // console.log(data.message);
+            }
+          });
+      })
+    })
 
+
+  </script>
 @endsection
