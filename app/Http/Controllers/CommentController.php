@@ -34,7 +34,7 @@ class CommentController extends Controller
     {
       if (App::environment('production')) {
         //\Mail::to($requested_by)->send(new TicketNewComment($ticket, $comment));
-        TicketNewCommentRequestedJob::dispatch($ticket, $comment);
+        //TicketNewCommentRequestedJob::dispatch($ticket, $comment);
       }
     }
 
@@ -43,7 +43,7 @@ class CommentController extends Controller
     } else {
       // New email to ticket Agent(s) if anyone except himself commented on his ticket
       if (App::environment('production')) {
-        TicketNewCommentAgentJob::dispatch($ticket, $comment);
+        //TicketNewCommentAgentJob::dispatch($ticket, $comment);
       }
     }
     return back();
@@ -66,9 +66,9 @@ class CommentController extends Controller
     $comment_parent_id = Comment::where('id','=',$request->get('comment_id'))->value('user_id');
     if ($comment_author != $comment_parent_id)
     {
-      //if (App::environment('production')) {
-        TicketNewCommentReplyJob::dispatch($ticket, $comment);
-      //}
+      if (App::environment('production')) {
+        //TicketNewCommentReplyJob::dispatch($ticket, $comment);
+      }
     }
 
     return back();
