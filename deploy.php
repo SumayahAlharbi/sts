@@ -69,4 +69,9 @@ after('deploy:failed', 'deploy:unlock');
 
 before('deploy:symlink', 'artisan:migrate');
 
+after('artisan:migrate', 'artisan:horizon:terminate');
+
 after('deploy:symlink', 'cachetool:clear:opcache');
+
+after('cachetool:clear:opcache', 'artisan:cache:clear');
+
