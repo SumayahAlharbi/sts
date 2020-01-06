@@ -21,7 +21,7 @@
   <div class="card-body">
 <h4 class="card-title">Data Generator v0.0.1</h4>
 
-      <form method="post" action="{{url('reports/display')}}">
+      <form method="post" action="{{url('report/display')}}">
         <div class="row">
           <div class="form-group col-md-4">
               @csrf

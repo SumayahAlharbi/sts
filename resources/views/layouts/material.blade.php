@@ -303,6 +303,9 @@
                             @can('view tickets list')
                               <li><a href="{{ route('ticket.index') }}">Tickets</a></li>
                             @endcan
+                            @can('generate reports')
+                              <li><a href="{{ url('/Reports') }}">Reports</a></li>
+                              @endcan
                             @can('export tickets')
                               <li><a href="{{ url('/Exports') }}">Export</a></li>
                               @endcan
