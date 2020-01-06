@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/profile/{id}', '\App\Http\Controllers\UserController@showUserProfile')
     ->name('profile.show');
   Route::get('/profileSearch', 'UserController@profileSearch')->name('user.profileSearch');
+  Route::get('/userSearch', 'UserController@userSearch')->name('user.userSearch');
 
   // // Email HTML Viewer
   //   Route::get('/email', function () {
@@ -113,6 +114,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/changeAssignedEmail', 'GroupController@changeAssignedEmail')->name('group.change.assignemail');
     Route::get('/changeDepartmentalEmail', 'GroupController@changeDepartmentalEmail')->name('group.change.departmentalemail');
     Route::get('/changeGroupSetting', 'GroupController@changeGroupSetting')->name('group.change.setting');
+
 
 
 
@@ -153,6 +155,8 @@ Route::group(['middleware' => 'auth'], function () {
     // });
   });
 
+  Route::get('/changeUserSetting', 'UserController@changeUserSetting')->name('user.change.setting');
+  
   //Regions Routes
   Route::get('regions', 'RegionController@index')->name('regions.index');
 
@@ -200,6 +204,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/statusFilter', 'TicketController@statusFilter')->name('ticket.statusFilter');
   Route::get('/groupFilter', 'TicketController@groupFilter')->name('ticket.groupFilter');
   Route::get('/todayTicket', 'TicketController@todayTicket')->name('ticket.todayTicket');
+  Route::get('/lateTicket', 'TicketController@lateTicket')->name('ticket.lateTicket');
   // assign agent to a ticket
   Route::post('ticket/storeTicketRating', 'TicketController@storeTicketRating');
   // store ticket rating

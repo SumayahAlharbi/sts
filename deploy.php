@@ -62,6 +62,10 @@ task('build', function () {
     run('cd {{release_path}} && build');
 });
 
+task('supervisor:reload', function () {
+    run("cd {{release_path}} && supervisorctl reload");
+});
+
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
@@ -69,4 +73,13 @@ after('deploy:failed', 'deploy:unlock');
 
 before('deploy:symlink', 'artisan:migrate');
 
+// Horizon and Msgraph clear.
+
+after('artisan:migrate', 'artisan:horizon:terminate');
+
 after('deploy:symlink', 'cachetool:clear:opcache');
+
+after('cachetool:clear:opcache', 'supervisor:reload');
+
+after('supervisor:reload', 'artisan:config:clear');
+
