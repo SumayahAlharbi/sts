@@ -11,7 +11,7 @@ use App\Ticket;
 use App\User;
 use App\Location;
 
-class ReportController extends Controller
+class ExportController extends Controller
 {
 
     /**
@@ -27,7 +27,7 @@ class ReportController extends Controller
         $query->where('name', '=', 'agent');
         })->get();
 
-        return view('report.index', compact('agentUsers'));
+        return view('export.index', compact('agentUsers'));
     }
 
     /**

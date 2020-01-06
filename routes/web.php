@@ -222,9 +222,9 @@ Route::group(['middleware' => 'auth'], function () {
   // Route::post('/ticket/create', 'TicketController@create');
   // Route::get('/ticket/show', 'TicketController@show');
 
-  // Reports
-  Route::resource('reports', 'ReportController')->middleware('permission:export tickets');
-  Route::post('reports/display', 'ReportController@displayReport')->middleware('permission:export tickets');
+  // Exports
+  Route::resource('Exports', 'ExportController')->middleware('permission:export tickets');
+  Route::post('export/display', 'ExportController@displayReport')->middleware('permission:export tickets');
 
 
   //Comments Routes

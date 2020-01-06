@@ -122,7 +122,7 @@ Breadcrumbs::resource('regions','Region');
 Breadcrumbs::resource('roles','Role');
 Breadcrumbs::resource('permissions','Permission');
 Breadcrumbs::resource('releases','Release');
-Breadcrumbs::resource('reports','Report');
+Breadcrumbs::resource('Exports','Export');
 
 // ticket.index
 Breadcrumbs::for('activity.index', function ($trail) {

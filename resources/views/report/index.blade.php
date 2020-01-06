@@ -1,5 +1,5 @@
 @extends('layouts.material')
-@section('title', 'Export')
+@section('title', 'Report')
 
 @section('content')
 
