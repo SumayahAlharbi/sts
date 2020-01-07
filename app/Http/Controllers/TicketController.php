@@ -301,7 +301,9 @@ class TicketController extends Controller
         // }
         ActivityLogger::activity("Viewed Ticket");
 
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets', 'next','previous'));
+
+
+      return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets', 'next','previous'));
 
         }
 
@@ -389,6 +391,27 @@ class TicketController extends Controller
         'due_date'=> 'date_format:Y-m-d H:i:s|nullable',
       ]);
       $ticket = Ticket::findOrfail($id);
+
+      // Log ticket updates before saving
+      $requestData = $request->except('_token','_method');
+
+      foreach ($requestData as $key => $value) {
+        if ($requestData[$key] != $ticket[$key]) // Log ticket updates only
+        {
+          activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'change' => $key,
+                'from' => $ticket[$key],
+                'to' => $requestData[$key],
+              ]
+            ])
+            ->log('updated');
+        }
+      }
+
       $ticket->ticket_title = $request->ticket_title;
       $ticket->ticket_content = $request->ticket_content;
       $ticket->location_id = $request->location_id;
@@ -461,8 +484,7 @@ class TicketController extends Controller
         ->causedBy(auth()->user())
         ->withProperties([
           'attributes' => [
-            'assign' => $request->user_id,
-            'updated_at' => $ticket->updated_at,
+            'assign' => $request->user_id
           ]
         ])
         ->log('updated');
@@ -525,8 +547,7 @@ class TicketController extends Controller
           ->causedBy(auth()->user())
           ->withProperties([
             'attributes' => [
-              'unassign' => $user_id,
-              'updated_at' => $ticket->updated_at,
+              'unassign' => $user_id
             ]
           ])
           ->log('updated');

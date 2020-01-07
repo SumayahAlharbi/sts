@@ -369,6 +369,13 @@
                   @endforeach
                   @endif
 
+                  <!-- ticket info -->
+                  @if( isset( $activityTicket->changes['attributes']['change'] ))
+                  @foreach( $activityTicket->changes['attributes'] as $key => $index)
+                  {{$key}}: <span class="label label-light-info">{{$index}}</span>
+                  @endforeach
+                  @endif
+
                   <!-- end changes -->
                   <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
                   {{-- <span class="label label-light-info">{{$activityTicket->description}}</span> --}}
