@@ -16,7 +16,7 @@ addons:
     packages:
       - mysql-server
 
-dist: trusty
+dist: xenial
 
 cache:
   directories:
