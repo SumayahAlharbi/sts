@@ -306,6 +306,9 @@
                             @can('view tickets list')
                               <li><a href="{{ route('ticket.index') }}">Tickets</a></li>
                             @endcan
+                            @can('view tickets list')
+                              <li><a href="{{ route('calendar.index') }}">Calendar</a></li>
+                            @endcan
                             @can('export tickets')
                               <li><a href="{{ url('/reports') }}">Export</a></li>
                               @endcan
