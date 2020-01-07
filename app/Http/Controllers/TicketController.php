@@ -454,16 +454,29 @@ class TicketController extends Controller
         }
 
       $ticket->user()->syncWithoutDetaching($request->user_id);
+
+      // Log assigned agent
+      activity()
+        ->performedOn($ticket)
+        ->causedBy(auth()->user())
+        ->withProperties([
+          'attributes' => [
+            'assign' => $request->user_id,
+            'updated_at' => $ticket->updated_at,
+          ]
+        ])
+        ->log('updated');
+
       $user = User::findorfail($request->user_id);
       $group = Group::findOrFail($ticket->group->id);
-      
+
       if (App::environment('production')) {
           // The environment is production
           // \Mail::to($user)->send(new TicketAgentAssigned($ticket));
           if ($group->settings()->get('email_assigned_agent')) {
             AssignedTicketJob::dispatch($user, $ticket);
           }
-          
+
       }
 
       $user->notify(new AssignedTicket($user, $ticket));
@@ -505,6 +518,19 @@ class TicketController extends Controller
     {
         $ticket = Ticket::findorfail($ticket_id);
         $ticket->user()->detach($user_id);
+
+        // Log unassigned agent
+        activity()
+          ->performedOn($ticket)
+          ->causedBy(auth()->user())
+          ->withProperties([
+            'attributes' => [
+              'unassign' => $user_id,
+              'updated_at' => $ticket->updated_at,
+            ]
+          ])
+          ->log('updated');
+
         $TicketAgents = $ticket->user;
 
           if ($TicketAgents->isEmpty()) {
@@ -521,10 +547,18 @@ class TicketController extends Controller
       $ticket->status()->associate($status_id);
       $ticket->save();
 
+      $group = Group::findOrFail($ticket->group->id);
       $user = User::find($ticket->requested_by_user);
 
       if ($status_id == "1" && $user) {
-        return $this->sendTicketRatingEmail($tickets_id);
+        //return $this->sendTicketRatingEmail($tickets_id);
+        if (App::environment('production')) {
+            // The environment is production
+            //\Mail::to($user)->send(new TicketRating($ticket));
+            if ($group->settings()->get('email_ticket_rating')) {
+              TicketRatingJob::dispatch($ticket);
+            }
+          }
       }
 
       return back();

@@ -350,6 +350,25 @@
                   @endforeach
                   @endif
                   @endif
+
+                  <!-- assign agent -->
+                  @if( isset( $activityTicket->changes['attributes']['assign'] ))
+                  @foreach($users as $user)
+                  @if($user->id == $activityTicket->changes['attributes']['assign'])
+                  assigned <span class="label label-light-info"> {{$user->name}} </span>
+                  @endif
+                  @endforeach
+                  @endif
+
+                  <!-- unassign agent -->
+                  @if( isset( $activityTicket->changes['attributes']['unassign'] ))
+                  @foreach($users as $user)
+                  @if($user->id == $activityTicket->changes['attributes']['unassign'])
+                  unassigned <span class="label label-light-info"> {{$user->name}} </span>
+                  @endif
+                  @endforeach
+                  @endif
+
                   <!-- end changes -->
                   <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
                   {{-- <span class="label label-light-info">{{$activityTicket->description}}</span> --}}
