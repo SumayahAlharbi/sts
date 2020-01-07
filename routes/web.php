@@ -233,4 +233,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('/reply/store', 'CommentController@replyStore')->name('reply.add');
   Route::delete('/comment/destroyComment/{comment}', 'CommentController@destroyComment')->name('comment.destroyComment');
   // Route::post('ticket/ChangeTicketStatus','\App\Http\Controllers\TicketController@ChangeTicketStatus');
+
+  // Calendar
+  Route::get('calendar', 'CalendarController@index')->name('calendar.index');
 });
