@@ -355,7 +355,7 @@
                   @if( isset( $activityTicket->changes['attributes']['assign'] ))
                   @foreach($users as $user)
                   @if($user->id == $activityTicket->changes['attributes']['assign'])
-                  assigned <span class="label label-light-info"> {{$user->name}} </span>
+                  assign <span class="label label-light-info"> {{$user->name}} </span>
                   @endif
                   @endforeach
                   @endif
@@ -364,7 +364,7 @@
                   @if( isset( $activityTicket->changes['attributes']['unassign'] ))
                   @foreach($users as $user)
                   @if($user->id == $activityTicket->changes['attributes']['unassign'])
-                  unassigned <span class="label label-light-info"> {{$user->name}} </span>
+                  unassign <span class="label label-light-info"> {{$user->name}} </span>
                   @endif
                   @endforeach
                   @endif
