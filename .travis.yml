@@ -6,8 +6,17 @@ language: php
 php:
   - 7.2
 
+services:
+  - mysql
+
 addons:
-  mysql: 5.7.8
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+
+dist: trusty
 
 cache:
   directories:
