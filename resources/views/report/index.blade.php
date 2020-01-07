@@ -34,13 +34,6 @@
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <label for="sort_by">Sort by</label>
-              <select class="form-control" name="sort_by">
-                  <option value="id">id</option>
-              </select>
-            </div>
-          </div>
-          {{-- <div class="form-group col-md-12">
             <label for="name">Agent list</label>
               <select name="user_id" id="" data-show-subtext="true" data-live-search="true" class="selectpicker form-control">
                 <option selected disabled value> -- Choose an Agent -- </option>
@@ -48,7 +41,8 @@
                   <option value="{{$agentUser->id}}">{{$agentUser->name}}</option>
                   @endforeach
               </select>
-          </div> --}}
+            </div>
+          </div>
         </div>
         <button type="submit" class="btn btn-primary">Generate & Download</button>
       </form>

@@ -104,7 +104,7 @@ public function displayReport(Request $request)
     $fromDate = Carbon::parse($request->input('from_date'))->startOfDay();
     $toDate = Carbon::parse($request->input('to_date'))->endOfDay();
     $sortBy = $request->input('sort_by');
-    $byUser = $request->input('by_User');
+    $agentId = $request->input('user_id');
 
     // $users = User::with(['roles' => function($q){
     // $q->where('name', 'admin');
@@ -119,12 +119,17 @@ public function displayReport(Request $request)
 
     $meta = [ // For displaying filters description on header
         'Tickets from' => $fromDate . ' To ' . $toDate,
-        'Sort By' => $sortBy
+        //'Sort By' => $sortBy
     ];
 
       $queryBuilder = Ticket::select(['id', 'ticket_title', 'created_at', 'location_id', 'created_at', 'status_id', 'category_id']) // Do some querying..
                           ->whereBetween('created_at', [$fromDate, $toDate])
-                          ->orderBy($sortBy);
+                          ->where('status_id','=',1)
+                          ->with(['user' => function ($query) {
+                            $query->where('id', '=', $agentId);
+                        }])->with(['rating' => function ($query) {
+                            $query->select('rating_value');
+                        }])->orderBy('id');
 
 
     $columns = [ // Set Column to be displayed
@@ -138,15 +143,11 @@ public function displayReport(Request $request)
             // return json_encode($date);
             return implode(', ', $date);
           },
-        'Location' => function($queryBuilder) {
-            return $queryBuilder->location->location_name;
-          },
-        'created at' => 'created_at',
-        'Category' => function($queryBuilder) {
-            return $queryBuilder->category->category_name;
-          },
         'Status' => function($queryBuilder) {
             return $queryBuilder->status->status_name;
+          },
+          'Rating' => function($queryBuilder) {
+            return $queryBuilder->rating->rating_value;
           }
     ];
 
