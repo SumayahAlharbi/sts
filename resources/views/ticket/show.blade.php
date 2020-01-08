@@ -338,24 +338,24 @@
                   {{$activityTicket->causer->name}}
                 </h5>
                 @endif
-                <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
+                <!--<p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>-->
                 <div class="comment-footer">
-                  <!-- changes -->
+                  <!-- changes from the ticket Modal to the status
                   @if( isset( $activityTicket->changes['attributes']['status_id'] ))
                   @if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')
                   @foreach ($statuses as $status)
                   @if($status->id == $activityTicket->changes['attributes']['status_id'])
-                  status to <span class="label label-light-info"> {{$status->status_name}} </span>
+                  <span class="label label-light-info"> updated </span> status to <span class="label label-light-info"> {{$status->status_name}} </span>
                   @endif
                   @endforeach
                   @endif
-                  @endif
+                  @endif -->
 
                   <!-- assign agent -->
                   @if( isset( $activityTicket->changes['attributes']['assign'] ))
                   @foreach($users as $user)
                   @if($user->id == $activityTicket->changes['attributes']['assign'])
-                  assign <span class="label label-light-info"> {{$user->name}} </span>
+                  assigned <span class="label label-light-info"> {{$user->name}} </span>
                   @endif
                   @endforeach
                   @endif
@@ -364,15 +364,17 @@
                   @if( isset( $activityTicket->changes['attributes']['unassign'] ))
                   @foreach($users as $user)
                   @if($user->id == $activityTicket->changes['attributes']['unassign'])
-                  unassign <span class="label label-light-info"> {{$user->name}} </span>
+                  unassigned <span class="label label-light-info"> {{$user->name}} </span>
                   @endif
                   @endforeach
                   @endif
 
                   <!-- ticket info -->
-                  @if( isset( $activityTicket->changes['attributes']['change'] ))
+                  @if( isset( $activityTicket->changes['attributes']['updated']))
                   @foreach( $activityTicket->changes['attributes'] as $key => $index)
-                  {{$key}}: <span class="label label-light-info">{{$index}}</span>
+                  @if ($key != 'from')
+                  {{$key}} <span class="label label-light-info"> {{$index}} </span>
+                  @endif
                   @endforeach
                   @endif
 
