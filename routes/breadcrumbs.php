@@ -125,6 +125,12 @@ Breadcrumbs::resource('releases','Release');
 Breadcrumbs::resource('reports','Report');
 Breadcrumbs::resource('calendar', 'Calendar');
 
+// releases.whatsnew
+Breadcrumbs::for('releases.whatsnew', function ($trail) {
+    $trail->parent('home');
+    $trail->push('Whats new', route('releases.whatsnew'));
+});
+
 // ticket.index
 Breadcrumbs::for('activity.index', function ($trail) {
     $trail->parent('home');

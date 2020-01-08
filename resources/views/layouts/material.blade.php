@@ -404,7 +404,7 @@
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 @isset($releases->release_version)
-                <div class="alert alert-success">version {{$releases->release_version}} has been released 🚀 {{ $releases->created_at->diffForHumans() }}</div>
+                <div class="alert alert-success">Version <a href="{{ route('releases.whatsnew')}}">{{$releases->release_version}}</a> has been released 🚀 {{ $releases->created_at->diffForHumans() }} </div>
                 @endisset
 
             @yield('content')

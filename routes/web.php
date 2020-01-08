@@ -236,4 +236,6 @@ Route::group(['middleware' => 'auth'], function () {
 
   // Calendar
   Route::get('calendar', 'CalendarController@index')->name('calendar.index');
+
+  Route::get('whatsnew', 'ReleaseController@whatsnew')->name('releases.whatsnew');
 });
