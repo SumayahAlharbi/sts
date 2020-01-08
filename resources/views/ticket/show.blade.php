@@ -353,7 +353,7 @@
 
                   <!-- assign agent -->
                   @if( isset( $activityTicket->changes['attributes']['assign'] ))
-                  @foreach($users as $user)
+                  @foreach($all_users as $user)
                   @if($user->id == $activityTicket->changes['attributes']['assign'])
                   assigned <span class="label label-light-info"> {{$user->name}} </span>
                   @endif
@@ -362,7 +362,7 @@
 
                   <!-- unassign agent -->
                   @if( isset( $activityTicket->changes['attributes']['unassign'] ))
-                  @foreach($users as $user)
+                  @foreach($all_users as $user)
                   @if($user->id == $activityTicket->changes['attributes']['unassign'])
                   unassigned <span class="label label-light-info"> {{$user->name}} </span>
                   @endif
@@ -372,9 +372,47 @@
                   <!-- ticket info -->
                   @if( isset( $activityTicket->changes['attributes']['updated']))
                   @foreach( $activityTicket->changes['attributes'] as $key => $index)
+
+                  <!-- case status -->
+                  @if ($index == 'status')
+                  @foreach ($statuses as $status)
+                  @if($status->id == $activityTicket->changes['attributes']['to'])
+                  {{$key}} <span class="label label-light-info"> status </span> to <span class="label label-light-info">{{$status->status_name}} </span>
+                  @endif
+                  @endforeach
+                  @endif
+
+                  <!-- case category -->
+                  @if ($index == 'category')
+                  @foreach ($categories as $category)
+                  @if($category->id == $activityTicket->changes['attributes']['to'])
+                  {{$key}} <span class="label label-light-info"> category </span> to <span class="label label-light-info">{{$category->category_name}} </span>
+                  @endif
+                  @endforeach
+                  @endif
+
+                  <!-- case location -->
+                  @if ($index == 'location')
+                  @foreach ($locations as $location)
+                  @if($location->id == $activityTicket->changes['attributes']['to'])
+                  {{$key}} <span class="label label-light-info"> location </span> to <span class="label label-light-info">{{$location->location_name}} </span>
+                  @endif
+                  @endforeach
+                  @endif
+
+                  <!-- case group -->
+                  @if ($index == 'group')
+                  @foreach ($groups as $group)
+                  @if($group->id == $activityTicket->changes['attributes']['to'])
+                  {{$key}} <span class="label label-light-info"> group </span> to <span class="label label-light-info">{{$group->group_name}} </span>
+                  @endif
+                  @endforeach
+                  @endif
+
                   @if ($key != 'from')
                   {{$key}} <span class="label label-light-info"> {{$index}} </span>
                   @endif
+
                   @endforeach
                   @endif
 

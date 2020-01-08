@@ -301,8 +301,10 @@ class TicketController extends Controller
         // }
         ActivityLogger::activity("Viewed Ticket");
         $categories = Category::all();
+        $groups = Group::all();
+        $all_users = User::all();
 
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets', 'next','previous','categories'));
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets', 'next','previous','categories','groups','all_users'));
 
         }
 
