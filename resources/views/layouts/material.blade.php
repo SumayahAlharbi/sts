@@ -306,11 +306,14 @@
                             @can('view tickets list')
                               <li><a href="{{ route('ticket.index') }}">Tickets</a></li>
                             @endcan
+                            @can('generate reports')
+                              <li><a href="{{ url('/Reports') }}">Reports</a></li>
+                              @endcan
                             @can('view tickets list')
                               <li><a href="{{ route('calendar.index') }}">Calendar</a></li>
                             @endcan
                             @can('export tickets')
-                              <li><a href="{{ url('/reports') }}">Export</a></li>
+                              <li><a href="{{ url('/Exports') }}">Export</a></li>
                               @endcan
                               @can('view location list')
                                 <li><a href="{{ url('/location') }}">Locations</a></li>
