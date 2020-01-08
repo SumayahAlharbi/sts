@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use PdfReport;
 use CSVReport;
 use Carbon\Carbon;
-
+use App\Group;
 use App\Ticket;
 use App\User;
 use App\Location;
+use Auth;
 
 class ReportController extends Controller
 {
@@ -21,10 +22,9 @@ class ReportController extends Controller
      */
     public function index()
     {
-
-
-        $agentUsers = User::whereHas('roles', function ($query) {
-        $query->where('name', '=', 'agent');
+        $groups = Auth::user()->group;
+        $agentUsers = User::whereHas('group', function($query) use($groups){
+            $query->whereIn('group_id', $groups);
         })->get();
 
         return view('report.index', compact('agentUsers'));
