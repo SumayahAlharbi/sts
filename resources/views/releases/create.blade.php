@@ -1,6 +1,7 @@
 @extends('layouts.material')
 @section('title', 'Create Release')
 @section('content')
+<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
 
 <div class = 'container'>
 <div class="card uper">
@@ -24,7 +25,10 @@
               <input type="text" class="form-control" name="release_version"/>
 
               <label for="name">Release Description</label>
-              <input type="text" class="form-control" name="release_description"/>
+              <textarea name="release_description" class="form-control" id="editor" rows="3"></textarea>
+              <script>
+                    CKEDITOR.replace( 'editor' );
+              </script>
               
           </div>
 
