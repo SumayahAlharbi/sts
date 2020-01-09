@@ -300,8 +300,9 @@ class TicketController extends Controller
         //
         // }
         ActivityLogger::activity("Viewed Ticket");
+        $all_users=User::all();
 
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets', 'next','previous'));
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets', 'next','previous','all_users'));
 
         }
 
@@ -449,21 +450,55 @@ class TicketController extends Controller
       $TicketAgents = $ticket->user;
 
         if ($TicketAgents->isEmpty()) {
+          // Log assigned agent
+          activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'user_id' => $request->user_id,
+                'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+              ],
+              'old' => [
+                'user_id' => null,
+                'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+              ]
+            ])
+            ->log('assigned');
           $ticket->status_id = "4";
           $ticket->save();
+        }else{
+          // Log assigned agent
+          activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'user_id' => $request->user_id,
+                'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+              ],
+              'old' => [
+                'user_id' => $TicketAgents,
+                'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+              ]
+            ])
+            ->log('assigned');
         }
 
       $ticket->user()->syncWithoutDetaching($request->user_id);
+
+
+
       $user = User::findorfail($request->user_id);
       $group = Group::findOrFail($ticket->group->id);
-      
+
       if (App::environment('production')) {
           // The environment is production
           // \Mail::to($user)->send(new TicketAgentAssigned($ticket));
           if ($group->settings()->get('email_assigned_agent')) {
             AssignedTicketJob::dispatch($user, $ticket);
           }
-          
+
       }
 
       $user->notify(new AssignedTicket($user, $ticket));
@@ -504,7 +539,25 @@ class TicketController extends Controller
         public function removeTicketAgent($user_id, $ticket_id)
     {
         $ticket = Ticket::findorfail($ticket_id);
+        $TicketAgents = $ticket->user;
+        // Log unassigned agent
+        activity()
+          ->performedOn($ticket)
+          ->causedBy(auth()->user())
+          ->withProperties([
+            'attributes' => [
+              'user_id' => $user_id,
+              'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+            ],
+            'old' => [
+              'user_id' => $TicketAgents,
+              'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+            ]
+          ])
+          ->log('unassigned');
+
         $ticket->user()->detach($user_id);
+
         $TicketAgents = $ticket->user;
 
           if ($TicketAgents->isEmpty()) {

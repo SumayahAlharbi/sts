@@ -338,18 +338,33 @@
                   {{$activityTicket->causer->name}}
                 </h5>
                 @endif
-                <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
+                {{--<p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>--}}
                 <div class="comment-footer">
+
+                  @if ($activityTicket->description == 'created')
+                  <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
+                  @endif
                   <!-- changes -->
                   @if( isset( $activityTicket->changes['attributes']['status_id'] ))
-                  @if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')
+                  {{--@if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')--}}
+                  @if ($activityTicket->description != 'created')
                   @foreach ($statuses as $status)
                   @if($status->id == $activityTicket->changes['attributes']['status_id'])
-                  status to <span class="label label-light-info"> {{$status->status_name}} </span>
+                  <span class="label label-light-info"> {{$activityTicket->description}} </span> status to <span class="label label-light-info"> {{$status->status_name}} </span>
                   @endif
                   @endforeach
                   @endif
                   @endif
+
+                  {{--assigned and unassigned agent--}}
+                  @if( isset( $activityTicket->changes['attributes']['user_id'] ))
+                  @foreach ($all_users as $each_user)
+                  @if($each_user->id == $activityTicket->changes['attributes']['user_id'])
+                  <span class="label label-light-info"> {{$activityTicket->description}} </span> {{$each_user->name}}
+                  @endif
+                  @endforeach
+                  @endif
+
                   <!-- end changes -->
                   <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
                   {{-- <span class="label label-light-info">{{$activityTicket->description}}</span> --}}
