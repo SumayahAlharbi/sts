@@ -303,7 +303,6 @@ class TicketController extends Controller
         $all_users=User::all();
 
         return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets', 'next','previous','all_users'));
-
         }
 
 
@@ -390,6 +389,176 @@ class TicketController extends Controller
         'due_date'=> 'date_format:Y-m-d H:i:s|nullable',
       ]);
       $ticket = Ticket::findOrfail($id);
+
+      // Log ticket updates before saving
+      $requestData = $request->except('_token','_method');
+
+      // Log ticket updates only
+      foreach ($requestData as $key => $value) {
+        switch ($key) {
+          case 'ticket_title':
+          if ($requestData[$key] != $ticket[$key])
+          {
+            activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'updated' => 'ticket title',
+                'from' => $ticket[$key],
+                'to' => $requestData[$key],
+              ]
+            ])
+            ->log('updated');
+          }
+          break;
+          case 'ticket_content':
+          if ($requestData[$key] != $ticket[$key])
+          {
+            activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'updated' => 'ticket content',
+                'from' => strip_tags($ticket[$key]), //Remove <p> & </p>
+                'to' => strip_tags($requestData[$key]), //Remove <p> & </p>
+              ]
+            ])
+            ->log('updated');
+          }
+          break;
+          case 'group_id':
+          if ($requestData[$key] != $ticket[$key])
+          {
+            activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'updated' => 'group',
+                'from' => $ticket[$key],
+                'to' => $requestData[$key],
+              ]
+            ])
+            ->log('updated');
+          }
+          break;
+          case 'location_id':
+          if ($requestData[$key] != $ticket[$key])
+          {
+            activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'updated' => 'location',
+                'from' => $ticket[$key],
+                'to' => $requestData[$key],
+              ]
+            ])
+            ->log('updated');
+          }
+          break;
+          case 'category_id':
+          if ($requestData[$key] != $ticket[$key])
+          {
+            activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'updated' => 'category',
+                'from' => $ticket[$key],
+                'to' => $requestData[$key],
+              ]
+            ])
+            ->log('updated');
+          }
+          break;
+          case 'due_date':
+          if ($requestData[$key] != $ticket[$key])
+          {
+            activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'updated' => 'due date',
+                'from' => $ticket[$key],
+                'to' => $requestData[$key],
+              ]
+            ])
+            ->log('updated');
+          }
+          break;
+          case 'status_id':
+          if ($requestData[$key] != $ticket[$key])
+          {
+            activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'updated' => 'status',
+                'from' => $ticket[$key],
+                'to' => $requestData[$key],
+              ]
+            ])
+            ->log('updated');
+          }
+          break;
+          case 'room_number':
+          if ($requestData[$key] != $ticket[$key])
+          {
+            activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'updated' => 'room number',
+                'from' => $ticket[$key],
+                'to' => $requestData[$key],
+              ]
+            ])
+            ->log('updated');
+          }
+          break;
+          case 'requested_by':
+          if ($requestData[$key] != $ticket[$key])
+          {
+            activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'updated' => 'requested by',
+                'from' => $ticket[$key],
+                'to' => $requestData[$key],
+              ]
+            ])
+            ->log('updated');
+          }
+          break;
+          case 'priority':
+          if ($requestData[$key] != $ticket[$key])
+          {
+            activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'updated' => 'priority',
+                'from' => $ticket[$key],
+                'to' => $requestData[$key],
+              ]
+            ])
+            ->log('updated');
+          }
+          break;
+        }
+      }
+
       $ticket->ticket_title = $request->ticket_title;
       $ticket->ticket_content = $request->ticket_content;
       $ticket->location_id = $request->location_id;
@@ -487,8 +656,6 @@ class TicketController extends Controller
 
       $ticket->user()->syncWithoutDetaching($request->user_id);
 
-
-
       $user = User::findorfail($request->user_id);
       $group = Group::findOrFail($ticket->group->id);
 
@@ -557,7 +724,7 @@ class TicketController extends Controller
           ->log('unassigned');
 
         $ticket->user()->detach($user_id);
-
+          
         $TicketAgents = $ticket->user;
 
           if ($TicketAgents->isEmpty()) {
@@ -571,13 +738,34 @@ class TicketController extends Controller
     public function ChangeTicketStatus($status_id, $tickets_id)
     {
       $ticket = Ticket::findorfail($tickets_id);
+
+      activity()
+      ->performedOn($ticket)
+      ->causedBy(auth()->user())
+      ->withProperties([
+        'attributes' => [
+          'updated' => 'status',
+          'from' => $ticket->status,
+          'to' => $status_id,
+        ]
+      ])
+      ->log('updated');
+
       $ticket->status()->associate($status_id);
       $ticket->save();
 
+      $group = Group::findOrFail($ticket->group->id);
       $user = User::find($ticket->requested_by_user);
 
       if ($status_id == "1" && $user) {
-        return $this->sendTicketRatingEmail($tickets_id);
+        //return $this->sendTicketRatingEmail($tickets_id);
+        if (App::environment('production')) {
+            // The environment is production
+            //\Mail::to($user)->send(new TicketRating($ticket));
+            if ($group->settings()->get('email_ticket_rating')) {
+              TicketRatingJob::dispatch($ticket);
+            }
+          }
       }
 
       return back();
