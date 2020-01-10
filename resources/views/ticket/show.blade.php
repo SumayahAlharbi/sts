@@ -350,7 +350,7 @@
                   @if ($activityTicket->description != 'created')
                   @foreach ($statuses as $status)
                   @if($status->id == $activityTicket->changes['attributes']['status_id'])
-                  <span class="label label-light-info"> {{$activityTicket->description}} </span> status to <span class="label label-light-info"> {{$status->status_name}} </span>
+                  <span class="label label-light-info"> {{$activityTicket->description}} </span> Status to <span class="label label-light-info"> {{$status->status_name}} </span> <br>
                   @endif
                   @endforeach
                   @endif
@@ -363,6 +363,62 @@
                   <span class="label label-light-info"> {{$activityTicket->description}} </span> {{$each_user->name}}
                   @endif
                   @endforeach
+                  @endif
+
+                  {{--group--}}
+                  @if( isset( $activityTicket->changes['attributes']['group_id'] ))
+                  @if ($activityTicket->description != 'created')
+                  @foreach ($groups as $group)
+                  @if($group->id == $activityTicket->changes['attributes']['group_id'])
+                  <span class="label label-light-info"> {{$activityTicket->description}} </span> Group to <span class="label label-light-info"> {{$group->group_name}} </span> <br>
+                  @endif
+                  @endforeach
+                  @endif
+                  @endif
+
+                  {{--location--}}
+                  @if( isset( $activityTicket->changes['attributes']['location_id'] ))
+                  @if ($activityTicket->description != 'created')
+                  @foreach ($locations as $location)
+                  @if($location->id == $activityTicket->changes['attributes']['location_id'])
+                  <span class="label label-light-info"> {{$activityTicket->description}} </span> Location to <span class="label label-light-info"> {{$location->location_name}} </span> <br>
+                  @endif
+                  @endforeach
+                  @endif
+                  @endif
+
+                  {{--category--}}
+                  @if( isset( $activityTicket->changes['attributes']['category_id'] ))
+                  @if ($activityTicket->description != 'created')
+                  @foreach ($categories as $category)
+                  @if($category->id == $activityTicket->changes['attributes']['category_id'])
+                  <span class="label label-light-info"> {{$activityTicket->description}} </span> Category to <span class="label label-light-info"> {{$category->category_name}} </span> <br>
+                  @endif
+                  @endforeach
+                  @endif
+                  @endif
+
+                  {{--requested by--}}
+                  @if( isset( $activityTicket->changes['attributes']['requested_by'] ))
+                  @if ($activityTicket->description != 'created')
+                  @foreach ($all_users as $each_user)
+                  @if($each_user->id == $activityTicket->changes['attributes']['requested_by'])
+                  <span class="label label-light-info"> {{$activityTicket->description}} </span> Requested By to <span class="label label-light-info"> {{$each_user->name}} </span> <br>
+                  @endif
+                  @endforeach
+                  @endif
+                  @endif
+
+                  {{--ticket details--}}
+                  @if( isset( $activityTicket->changes['attributes'])
+                  && !isset( $activityTicket->changes['attributes']['user_id'] ))
+                  @if ($activityTicket->description != 'created')
+                  @foreach ($activityTicket->changes['attributes'] as $key => $index)
+                  @if($key != 'updated_at' && $key !='status_id' && $key !='group_id' && $key !='category_id' && $key !='location_id' && $key !='requested_by' )
+                  <span class="label label-light-info"> {{$activityTicket->description}} </span> {{str_replace('_', ' ', ucfirst($key))}} to <span class="label label-light-info"> {{strip_tags($index)}} </span> <br>
+                  @endif
+                  @endforeach
+                  @endif
                   @endif
 
                   <!-- end changes -->
