@@ -222,9 +222,13 @@ Route::group(['middleware' => 'auth'], function () {
   // Route::post('/ticket/create', 'TicketController@create');
   // Route::get('/ticket/show', 'TicketController@show');
 
-  // Reports
-  Route::resource('reports', 'ReportController')->middleware('permission:export tickets');
-  Route::post('reports/display', 'ReportController@displayReport')->middleware('permission:export tickets');
+    // reports
+    Route::resource('Reports', 'ReportController')->middleware('permission:generate reports');
+    Route::post('report/display', 'ReportController@displayReport')->middleware('permission:generate reports');
+
+  // Exports
+  Route::resource('Exports', 'ExportController')->middleware('permission:export tickets');
+  Route::post('export/display', 'ExportController@displayReport')->middleware('permission:export tickets');
 
 
   //Comments Routes
@@ -233,4 +237,9 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('/reply/store', 'CommentController@replyStore')->name('reply.add');
   Route::delete('/comment/destroyComment/{comment}', 'CommentController@destroyComment')->name('comment.destroyComment');
   // Route::post('ticket/ChangeTicketStatus','\App\Http\Controllers\TicketController@ChangeTicketStatus');
+
+  // Calendar
+  Route::get('calendar', 'CalendarController@index')->name('calendar.index');
+
+  Route::get('whatsnew', 'ReleaseController@whatsnew')->name('releases.whatsnew');
 });

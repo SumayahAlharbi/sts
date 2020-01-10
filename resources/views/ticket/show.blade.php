@@ -338,6 +338,7 @@
                   {{$activityTicket->causer->name}}
                 </h5>
                 @endif
+
                 {{--<p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>--}}
                 <div class="comment-footer">
 
@@ -354,7 +355,7 @@
                   @endif
                   @endforeach
                   @endif
-                  @endif
+                  @endif 
 
                   {{--assigned and unassigned agent--}}
                   @if( isset( $activityTicket->changes['attributes']['user_id'] ))
