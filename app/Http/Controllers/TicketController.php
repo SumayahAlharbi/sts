@@ -269,7 +269,7 @@ class TicketController extends Controller
         // echo $user->settings()->get('email_assigned_agent');
         // $user->settings()->delete('email_assigned_agent', 'new value');
         $groupId = $tickets->group_id;
-            $users = User::whereHas('group', function ($q) use ($groupId) {
+            $group_users = User::whereHas('group', function ($q) use ($groupId) {
                 $q->where('group_id', $groupId);
             })->get();
 
@@ -302,9 +302,9 @@ class TicketController extends Controller
         ActivityLogger::activity("Viewed Ticket");
         $categories = Category::all();
         $groups = Group::all();
-        $all_users=User::all();
+        $users=User::all();
 
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets', 'next','previous','categories','groups','all_users'));
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users'));
 
         }
 
@@ -540,7 +540,10 @@ class TicketController extends Controller
         public function removeTicketAgent($user_id, $ticket_id)
     {
         $ticket = Ticket::findorfail($ticket_id);
-        $TicketAgents = $ticket->user;
+
+        $ticket_old_info = Ticket::findorfail($ticket_id);
+        $ticket_old_status = $ticket_old_info->status;
+        $ticket_old_agent = $ticket_old_info->user;
         // Log unassigned agent
         activity()
           ->performedOn($ticket)
@@ -551,19 +554,34 @@ class TicketController extends Controller
               'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
             ],
             'old' => [
-              'user_id' => $TicketAgents,
+              'user_id' => $ticket_old_agent,
               'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
             ]
           ])
           ->log('unassigned');
 
         $ticket->user()->detach($user_id);
-
         $TicketAgents = $ticket->user;
 
           if ($TicketAgents->isEmpty()) {
             $ticket->status_id = "3";
             $ticket->save();
+
+            // log unassigned status
+            activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'status_id' => 3,
+                'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+              ],
+              'old' => [
+                'status_id' => $ticket_old_status,
+                'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+              ]
+            ])
+            ->log('updated');
           }
 
         return back();

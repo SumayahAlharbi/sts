@@ -166,8 +166,8 @@
               <label for="name">Agent list</label>
               <select name="user_id" id="" data-show-subtext="true" data-live-search="true" class="selectpicker form-control">
                 <option selected disabled value> -- Choose an Agent -- </option>
-                @foreach($users as $user)
-                <option value="{{$user->id}}">{{$user->name}}</option>
+                @foreach($group_users as $group_user)
+                <option value="{{$group_user->id}}">{{$group_user->name}}</option>
                 @endforeach
               </select>
             </div>
@@ -342,13 +342,16 @@
                 {{--<p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>--}}
                 <div class="comment-footer">
 
+                  <!-- changes -->
+                  <!-- ticket creation -->
                   @if ($activityTicket->description == 'created')
                   <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
                   @endif
-                  <!-- changes -->
+
+                  <!-- Status -->
                   @if( isset( $activityTicket->changes['attributes']['status_id'] ))
                   {{--@if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')--}}
-                  @if ($activityTicket->description != 'created')
+                  @if ($activityTicket->description != 'created' && $activityTicket->description !='deleted')
                   @foreach ($statuses as $status)
                   @if($status->id == $activityTicket->changes['attributes']['status_id'])
                   <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Status to <span class="label label-light-info"> {{$status->status_name}} </span> </p>
@@ -357,18 +360,23 @@
                   @endif
                   @endif
 
-                  {{--assigned and unassigned agent--}}
+                  <!-- ticket deletion -->
+                  @if ($activityTicket->description == 'deleted')
+                  <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
+                  @endif
+
+                  <!-- assigned and unassigned agent -->
                   @if( isset( $activityTicket->changes['attributes']['user_id'] ))
-                  @foreach ($all_users as $each_user)
-                  @if($each_user->id == $activityTicket->changes['attributes']['user_id'])
-                  <span class="label label-light-info"> {{$activityTicket->description}} </span> {{$each_user->name}}
+                  @foreach ($users as $user)
+                  @if($user->id == $activityTicket->changes['attributes']['user_id'])
+                  <span class="label label-light-info"> {{$activityTicket->description}} </span> {{$user->name}}
                   @endif
                   @endforeach
                   @endif
 
-                  {{--group--}}
+                  <!-- group -->
                   @if( isset( $activityTicket->changes['attributes']['group_id'] ))
-                  @if ($activityTicket->description != 'created')
+                  @if ($activityTicket->description != 'created' && $activityTicket->description !='deleted')
                   @foreach ($groups as $group)
                   @if($group->id == $activityTicket->changes['attributes']['group_id'])
                   <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Group to <span class="label label-light-info"> {{$group->group_name}} </span> </p>
@@ -377,9 +385,9 @@
                   @endif
                   @endif
 
-                  {{--location--}}
+                  <!-- location -->
                   @if( isset( $activityTicket->changes['attributes']['location_id'] ))
-                  @if ($activityTicket->description != 'created')
+                  @if ($activityTicket->description != 'created' && $activityTicket->description !='deleted')
                   @foreach ($locations as $location)
                   @if($location->id == $activityTicket->changes['attributes']['location_id'])
                   <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Location to <span class="label label-light-info"> {{$location->location_name}} </span> </p>
@@ -388,9 +396,9 @@
                   @endif
                   @endif
 
-                  {{--category--}}
+                  <!-- category -->
                   @if( isset( $activityTicket->changes['attributes']['category_id'] ))
-                  @if ($activityTicket->description != 'created')
+                  @if ($activityTicket->description != 'created' && $activityTicket->description !='deleted')
                   @foreach ($categories as $category)
                   @if($category->id == $activityTicket->changes['attributes']['category_id'])
                   <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Category to <span class="label label-light-info"> {{$category->category_name}} </span> </p>
@@ -399,23 +407,35 @@
                   @endif
                   @endif
 
-                  {{--requested by--}}
+                  <!-- requested by -->
                   @if( isset( $activityTicket->changes['attributes']['requested_by'] ))
-                  @if ($activityTicket->description != 'created')
-                  @foreach ($all_users as $each_user)
-                  @if($each_user->id == $activityTicket->changes['attributes']['requested_by'])
-                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Requested By to <span class="label label-light-info"> {{$each_user->name}} </span> </p>
+                  @if ($activityTicket->description != 'created' && $activityTicket->description !='deleted')
+                  @foreach ($users as $user)
+                  @if($user->id == $activityTicket->changes['attributes']['requested_by'])
+                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Requested By to <span class="label label-light-info"> {{$user->name}} </span> </p>
                   @endif
                   @endforeach
                   @endif
                   @endif
 
-                  {{--ticket details--}}
+                  <!-- ticket details -->
                   @if( isset( $activityTicket->changes['attributes']) && !isset( $activityTicket->changes['attributes']['user_id'] ))
-                  @if ($activityTicket->description != 'created')
+                  @if ($activityTicket->description != 'created' && $activityTicket->description !='deleted')
                   @foreach ($activityTicket->changes['attributes'] as $key => $index)
-                  @if($key != 'updated_at' && $key !='status_id' && $key !='group_id' && $key !='category_id' && $key !='location_id' && $key !='requested_by' )
-                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> {{$key}} to <span class="label label-light-info"> {{$index}} </span> </p>
+                  @if($key == 'due_date')
+                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Due Date to <span class="label label-light-info"> {{$index}} </span> </p>
+                  @endif
+                  @if($key == 'ticket_content')
+                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Ticket Content to <span class="label label-light-info"> {{ strip_tags($index) }} </span> </p>
+                  @endif
+                  @if($key == 'ticket_title')
+                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Ticket Title to <span class="label label-light-info"> {{$index}} </span> </p>
+                  @endif
+                  @if($key == 'priority')
+                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Priority to <span class="label label-light-info"> {{$index}} </span> </p>
+                  @endif
+                  @if($key == 'room_number')
+                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Room Number to <span class="label label-light-info"> {{$index}} </span> </p>
                   @endif
                   @endforeach
                   @endif
