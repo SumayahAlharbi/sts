@@ -426,7 +426,7 @@
                   <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Due Date to <span class="label label-light-info"> {{$index}} </span> </p>
                   @endif
                   @if($key == 'ticket_content')
-                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Ticket Content to <span class="label label-light-info"> {{ strip_tags($index) }} </span> </p>
+                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Ticket Content to <span class="label label-light-info"> {{ html_entity_decode( strip_tags( $index ) ) }} </span> </p>
                   @endif
                   @if($key == 'ticket_title')
                   <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Ticket Title to <span class="label label-light-info"> {{$index}} </span> </p>

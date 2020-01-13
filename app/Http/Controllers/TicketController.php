@@ -546,16 +546,16 @@ class TicketController extends Controller
         $ticket_old_agent = $ticket_old_info->user;
         // Log unassigned agent
         activity()
-          ->performedOn($ticket)
+          ->performedOn($ticket_old_info)
           ->causedBy(auth()->user())
           ->withProperties([
             'attributes' => [
               'user_id' => $user_id,
-              'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+              'updated_at' => $ticket_old_info->updated_at->format('Y-m-d H:i:s'),
             ],
             'old' => [
               'user_id' => $ticket_old_agent,
-              'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+              'updated_at' => $ticket_old_info->updated_at->format('Y-m-d H:i:s'),
             ]
           ])
           ->log('unassigned');
@@ -566,22 +566,6 @@ class TicketController extends Controller
           if ($TicketAgents->isEmpty()) {
             $ticket->status_id = "3";
             $ticket->save();
-
-            // log unassigned status
-            activity()
-            ->performedOn($ticket)
-            ->causedBy(auth()->user())
-            ->withProperties([
-              'attributes' => [
-                'status_id' => 3,
-                'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
-              ],
-              'old' => [
-                'status_id' => $ticket_old_status,
-                'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
-              ]
-            ])
-            ->log('updated');
           }
 
         return back();
