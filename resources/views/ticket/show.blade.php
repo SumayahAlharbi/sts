@@ -330,6 +330,9 @@
             @foreach($activityTickets as $activityTicket)
             <!-- activity Row -->
 
+            <!-- Exclude the ticket content -->
+            @if( !isset( $activityTicket->changes['attributes']['ticket_content']))
+
             <div class="d-flex flex-row comment-row">
               @if( isset( $activityTicket->causer->name ))
               <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
@@ -369,7 +372,7 @@
                   @if( isset( $activityTicket->changes['attributes']['user_id'] ))
                   @foreach ($users as $user)
                   @if($user->id == $activityTicket->changes['attributes']['user_id'])
-                  <span class="label label-light-info"> {{$activityTicket->description}} </span> {{$user->name}}
+                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> {{$user->name}}</p>
                   @endif
                   @endforeach
                   @endif
@@ -425,9 +428,9 @@
                   @if($key == 'due_date')
                   <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Due Date to <span class="label label-light-info"> {{$index}} </span> </p>
                   @endif
-                  @if($key == 'ticket_content')
+                  {{--@if($key == 'ticket_content')
                   <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Ticket Content to <span class="label label-light-info"> {{ html_entity_decode( strip_tags( $index ) ) }} </span> </p>
-                  @endif
+                  @endif--}}
                   @if($key == 'ticket_title')
                   <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Ticket Title to <span class="label label-light-info"> {{$index}} </span> </p>
                   @endif
@@ -441,6 +444,7 @@
                   @endif
                   @endif
 
+
                   <!-- end changes -->
                   <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
                   {{-- <span class="label label-light-info">{{$activityTicket->description}}</span> --}}
@@ -452,6 +456,7 @@
                 </div>
               </div>
             </div>
+            @endif <!-- end of exclude the ticket content -->
             <!-- activity Row -->
             @endforeach
           </div>
