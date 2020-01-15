@@ -338,7 +338,7 @@
               <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
               <div class="comment-text w-100">
                 <h5>
-                  {{$activityTicket->causer->name}}: {{$activityTicket->id}}
+                  {{$activityTicket->causer->name}}
                 </h5>
                 @endif
 
