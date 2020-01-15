@@ -200,9 +200,9 @@ class TicketController extends Controller
       $created_by = $ticket->created_by;
       $requested_by = $ticket->requested_by;
 
-      // Prevent sending group notification email if (created by != requested by)
+      // Send group notification email if (created by == requested by)
       // Prevent sending group notification email if the group email is empty
-      if($group->email && ($requested_by != $created_by)){
+      if($group->email && ($requested_by == $created_by)){
         if (App::environment('production')) {
             // The environment is production
             // \Mail::to($group_email)->send(new TicketCreated($ticket));
