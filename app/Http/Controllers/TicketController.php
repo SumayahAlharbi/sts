@@ -575,6 +575,7 @@ class TicketController extends Controller
     {
       $ticket = Ticket::findorfail($tickets_id);
 
+      /*
       activity()
       ->performedOn($ticket)
       ->causedBy(auth()->user())
@@ -589,7 +590,7 @@ class TicketController extends Controller
         ]
       ])
       ->log('updated');
-
+      */
 
       $ticket->status()->associate($status_id);
       $ticket->save();
