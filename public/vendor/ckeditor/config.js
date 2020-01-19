@@ -26,7 +26,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
-	config.removeButtons = 'Underline,Subscript,Superscript,Source,Save,NewPage,Preview,Print,Cut,Find,SelectAll,Scayt,Copy,Paste,PasteText,PasteFromWord,Replace,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Superscript,Subscript,CopyFormatting,RemoveFormat,Outdent,Indent,CreateDiv,JustifyRight,JustifyCenter,JustifyBlock,JustifyLeft,BidiLtr,BidiRtl,Language,Anchor,Image,Flash,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Styles,Format,Font,FontSize,Maximize,ShowBlocks,About';
+	config.removeButtons = 'Subscript,Superscript,Source,Save,NewPage,Preview,Print,Cut,Find,SelectAll,Scayt,Copy,Paste,PasteText,PasteFromWord,Replace,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Superscript,Subscript,CopyFormatting,RemoveFormat,Outdent,Indent,CreateDiv,JustifyRight,JustifyCenter,JustifyBlock,JustifyLeft,BidiLtr,BidiRtl,Language,Anchor,Image,Flash,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Styles,Format,Font,FontSize,Maximize,ShowBlocks,About';
 
 	// Set the most common block elements.
 	config.format_tags = 'p;h1;h2;h3;pre';
@@ -37,6 +37,7 @@ CKEDITOR.editorConfig = function( config ) {
 	//needed plugins
 	config.extraPlugins = 'autocorrect,textmatch,textwatcher,autocomplete,toolbar,wysiwygarea,basicstyles,link,undo,placeholder';
 
+	config.disableNativeSpellChecker = false;
 };
 
 

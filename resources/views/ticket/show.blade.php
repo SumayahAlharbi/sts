@@ -491,9 +491,9 @@
               <script>
                       var PLACEHOLDERS = [{
                         id: 1,
-                        name: 'Done',
-                        title: 'This ticket is completed',
-                        description: 'inform that ths ticket has been completed.'
+                        name: 'Done Reply',
+                        title: 'This ticket is done!',
+                        description: 'inform that this ticket has been completed.'
                       }
                     ];
 
@@ -558,6 +558,11 @@
               <input type="hidden" name="ticket_id" value="{{ $tickets->id }}" />
               <input type="hidden" name="comment_id" id="comment_id" value="" />
             </div>
+            <blockquote class="m-t-10">
+                <p><b>Spell Checking:</b> Right click on the mispealed word holding <span class="label label-light-inverse">ctrl/ cmd</span>.</p>
+                <p><b>Auto format:</b> Links, emails and lists (write <span class="label label-light-inverse">*</span> simple followed by a space to start a list in the reply box).</p>
+                <p><b>Canned replies:</b> Write <span class="label label-light-inverse">[[</span> to choose from the available premade replies.</p>
+            </blockquote>
             <div class="form-group reply-box">
               <input type="submit" class="btn btn-dark" value="Add Comment" />
             </div>
