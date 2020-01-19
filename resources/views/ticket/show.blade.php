@@ -211,12 +211,19 @@
           <div class="row">
             <div class="col-md-12">
 
-              <h3 class="card-title">{{title_case($tickets->ticket_title)}}</h3>
+              <h3 class="card-title">
+                <span class="text-muted" title="Ticket Number">
+                  #{{$tickets->id}}
+                </span>
+
+                {{title_case($tickets->ticket_title)}}
+              </h3>
+
               <h6 class="card-subtitle mb-2 text-muted">
+
                 <span class="label label-light-inverse" @isset($tickets->group->group_description)
                   title="{{$tickets->group->group_description}}"
-                  @endisset
-                  >
+                  @endisset>
                   <i class="fas fa-users"></i>
                   {{$tickets->group->group_name}}
                 </span>
@@ -226,8 +233,7 @@
                 </span>
                 <span class="label label-light-inverse" @isset($tickets->location->location_description)
                   title="{{$tickets->location->location_description}}"
-                  @endisset
-                  >
+                  @endisset>
 
                   <i class="far fa-building"></i>
                   @isset($tickets->location->location_name)
