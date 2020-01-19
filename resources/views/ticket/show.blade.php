@@ -433,7 +433,7 @@
       <div class="comment-widgets">
 
         {{-- end comment new --}}
-        <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+        <script src="/vendor/ckeditor/ckeditor.js"></script>
 
 
         @include('comments._comment_replies', ['comments' => $tickets->comments, 'ticket_id' => $tickets->id])
@@ -446,7 +446,71 @@
             <div class="form-group">
               <textarea type="text" name="comment_body" id="editor"  class="form-control"></textarea>
               <script>
-                  CKEDITOR.replace( 'editor' );
+                      var PLACEHOLDERS = [{
+                        id: 1,
+                        name: 'Done',
+                        title: 'This ticket is completed',
+                        description: 'inform that ths ticket has been completed.'
+                      }
+                    ];
+
+                    CKEDITOR.addCss('span > .cke_placeholder { background-color: #ffeec2; }');
+
+                    CKEDITOR.replace('editor', {
+                      on: {
+                        instanceReady: function(evt) {
+                          var itemTemplate = '<li data-id="{id}">' +
+                            '<div><strong class="item-title">{name}</strong></div>' +
+                            '<div><i>{description}</i></div>' +
+                            '</li>',
+                            outputTemplate = '{title}<span>&nbsp;</span>';
+
+                          var autocomplete = new CKEDITOR.plugins.autocomplete(evt.editor, {
+                            textTestCallback: textTestCallback,
+                            dataCallback: dataCallback,
+                            itemTemplate: itemTemplate,
+                            outputTemplate: outputTemplate
+                          });
+
+                          // Override default getHtmlToInsert to enable rich content output.
+                          autocomplete.getHtmlToInsert = function(item) {
+                            return this.outputTemplate.output(item);
+                          }
+                        }
+                      }
+                    });
+
+                    function textTestCallback(range) {
+                      if (!range.collapsed) {
+                        return null;
+                      }
+
+                      return CKEDITOR.plugins.textMatch.match(range, matchCallback);
+                    }
+
+                    function matchCallback(text, offset) {
+                      var pattern = /\[{2}([A-z]|\])*$/,
+                        match = text.slice(0, offset)
+                        .match(pattern);
+
+                      if (!match) {
+                        return null;
+                      }
+
+                      return {
+                        start: match.index,
+                        end: offset
+                      };
+                    }
+
+                    function dataCallback(matchInfo, callback) {
+                      var data = PLACEHOLDERS.filter(function(item) {
+                        var itemName = '[[' + item.name + ']]';
+                        return itemName.indexOf(matchInfo.query.toLowerCase()) == 0;
+                      });
+
+                      callback(data);
+                    }
               </script>
               <input type="hidden" name="ticket_id" value="{{ $tickets->id }}" />
               <input type="hidden" name="comment_id" id="comment_id" value="" />
