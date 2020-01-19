@@ -9,9 +9,10 @@ use Laravel\Scout\Searchable;
 
 class Ticket extends Model
 {
-    use SoftDeletes, LogsActivity, Searchable;
+    //use SoftDeletes, LogsActivity, Searchable;
+    use SoftDeletes, Searchable;
 
-    protected static $logAttributes = ['*'];
+    //protected static $logAttributes = ['*'];
 
     protected static $logOnlyDirty = true;
 
