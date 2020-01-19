@@ -324,71 +324,7 @@ $(function () {
                                           <label for="ticket_content">Ticket Content</label>
                                           <textarea name="ticket_content" class="form-control" id="contentEditor" rows="3" value="{{ old('ticket_content') }}" required></textarea>
                                           <script>
-                                              var PLACEHOLDERS = [{
-                                                id: 1,
-                                                name: 'Comj-it',
-                                                title: 'Thank you,</br>COMJ-IT.',
-                                                description: 'Defult Signature for COMJ-IT.'
-                                              }
-                                            ];
-
-                                            CKEDITOR.addCss('span > .cke_placeholder { background-color: #ffeec2; }');
-
-                                            CKEDITOR.replace('contentEditor', {
-                                              on: {
-                                                instanceReady: function(evt) {
-                                                  var itemTemplate = '<li data-id="{id}">' +
-                                                    '<div><strong class="item-title">{name}</strong></div>' +
-                                                    '<div><i>{description}</i></div>' +
-                                                    '</li>',
-                                                    outputTemplate = '{title}<span>&nbsp;</span>';
-
-                                                  var autocomplete = new CKEDITOR.plugins.autocomplete(evt.editor, {
-                                                    textTestCallback: textTestCallback,
-                                                    dataCallback: dataCallback,
-                                                    itemTemplate: itemTemplate,
-                                                    outputTemplate: outputTemplate
-                                                  });
-
-                                                  // Override default getHtmlToInsert to enable rich content output.
-                                                  autocomplete.getHtmlToInsert = function(item) {
-                                                    return this.outputTemplate.output(item);
-                                                  }
-                                                }
-                                              }
-                                            });
-
-                                            function textTestCallback(range) {
-                                              if (!range.collapsed) {
-                                                return null;
-                                              }
-
-                                              return CKEDITOR.plugins.textMatch.match(range, matchCallback);
-                                            }
-
-                                            function matchCallback(text, offset) {
-                                              var pattern = /\[{2}([A-z]|\])*$/,
-                                                match = text.slice(0, offset)
-                                                .match(pattern);
-
-                                              if (!match) {
-                                                return null;
-                                              }
-
-                                              return {
-                                                start: match.index,
-                                                end: offset
-                                              };
-                                            }
-
-                                            function dataCallback(matchInfo, callback) {
-                                              var data = PLACEHOLDERS.filter(function(item) {
-                                                var itemName = '[[' + item.name + ']]';
-                                                return itemName.indexOf(matchInfo.query.toLowerCase()) == 0;
-                                              });
-
-                                              callback(data);
-                                            }
+                                            CKEDITOR.replace( 'contentEditor' );
                                           </script>
                                       </div>
 
