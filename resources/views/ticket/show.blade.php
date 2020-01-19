@@ -166,8 +166,8 @@
               <label for="name">Agent list</label>
               <select name="user_id" id="" data-show-subtext="true" data-live-search="true" class="selectpicker form-control">
                 <option selected disabled value> -- Choose an Agent -- </option>
-                @foreach($users as $user)
-                <option value="{{$user->id}}">{{$user->name}}</option>
+                @foreach($group_users as $group_user)
+                <option value="{{$group_user->id}}">{{$group_user->name}}</option>
                 @endforeach
               </select>
             </div>
@@ -335,56 +335,18 @@
 
             @foreach($activityTickets as $activityTicket)
             <!-- activity Row -->
-
+            <!-- changes -->
+            <!-- ticket creation -->
+            @if ($activityTicket->description == 'created')
             <div class="d-flex flex-row comment-row">
-              @if( isset( $activityTicket->causer->name ))
               <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
               <div class="comment-text w-100">
                 <h5>
                   {{$activityTicket->causer->name}}
                 </h5>
-                @endif
-                <!--<p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>-->
+                {{--<p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>--}}
                 <div class="comment-footer">
-                  <!-- changes from the ticket Modal to the status
-                  @if( isset( $activityTicket->changes['attributes']['status_id'] ))
-                  @if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')
-                  @foreach ($statuses as $status)
-                  @if($status->id == $activityTicket->changes['attributes']['status_id'])
-                  <span class="label label-light-info"> updated </span> status to <span class="label label-light-info"> {{$status->status_name}} </span>
-                  @endif
-                  @endforeach
-                  @endif
-                  @endif -->
-
-                  <!-- assign agent -->
-                  @if( isset( $activityTicket->changes['attributes']['assign'] ))
-                  @foreach($users as $user)
-                  @if($user->id == $activityTicket->changes['attributes']['assign'])
-                  assigned <span class="label label-light-info"> {{$user->name}} </span>
-                  @endif
-                  @endforeach
-                  @endif
-
-                  <!-- unassign agent -->
-                  @if( isset( $activityTicket->changes['attributes']['unassign'] ))
-                  @foreach($users as $user)
-                  @if($user->id == $activityTicket->changes['attributes']['unassign'])
-                  unassigned <span class="label label-light-info"> {{$user->name}} </span>
-                  @endif
-                  @endforeach
-                  @endif
-
-                  <!-- ticket info -->
-                  @if( isset( $activityTicket->changes['attributes']['updated']))
-                  @foreach( $activityTicket->changes['attributes'] as $key => $index)
-                  @if ($key != 'from')
-                  {{$key}} <span class="label label-light-info"> {{$index}} </span>
-                  @endif
-                  @endforeach
-                  @endif
-
-                  <!-- end changes -->
+                  <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
                   <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
                   {{-- <span class="label label-light-info">{{$activityTicket->description}}</span> --}}
                   {{-- <span class="action-icons">
@@ -395,6 +357,53 @@
                 </div>
               </div>
             </div>
+            @endif
+            <!-- end changes -->
+            <!-- changes -->
+            <!-- ticket status -->
+            @if( isset( $activityTicket->changes['attributes']['status_id'] ))
+            @if ($activityTicket->description != 'created' && $activityTicket->description !='deleted')
+            <div class="d-flex flex-row comment-row">
+              <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
+              <div class="comment-text w-100">
+                <h5>
+                  {{$activityTicket->causer->name}}
+                </h5>
+                <div class="comment-footer">
+                  {{--@if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')--}}
+                  @foreach ($statuses as $status)
+                  @if($status->id == $activityTicket->changes['attributes']['status_id'])
+                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Status to <span class="label label-light-info"> {{$status->status_name}} </span> </p>
+                  @endif
+                  @endforeach
+                  <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
+                </div>
+              </div>
+            </div>
+            @endif
+            @endif
+            <!-- end changes -->
+            <!-- changes -->
+            <!-- ticket assigned and unassigned agent -->
+            @if( isset( $activityTicket->changes['attributes']['user_id'] ))
+            <div class="d-flex flex-row comment-row">
+              <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
+              <div class="comment-text w-100">
+                <h5>
+                  {{$activityTicket->causer->name}}
+                </h5>
+                <div class="comment-footer">
+                  @foreach ($users as $user)
+                  @if($user->id == $activityTicket->changes['attributes']['user_id'])
+                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> {{$user->name}}</p>
+                  @endif
+                  @endforeach
+                  <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
+                </div>
+              </div>
+            </div>
+            @endif
+            <!-- end changes -->
             <!-- activity Row -->
             @endforeach
           </div>
