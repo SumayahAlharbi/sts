@@ -7,6 +7,7 @@
     "require": {
         "php": "^7.1.3",
         "arcanedev/log-viewer": "^4.6",
+        "ckeditor/ckeditor": "^4.13",
         "davejamesmiller/laravel-breadcrumbs": "5.x",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
@@ -32,8 +33,7 @@
         "spatie/laravel-backup": "^5.11",
         "spatie/laravel-permission": "^2.23",
         "springscs/cas": "^1.0",
-        "teamtnt/laravel-scout-tntsearch-driver": "^6.1",
-        "unisharp/laravel-ckeditor": "^4.7"
+        "teamtnt/laravel-scout-tntsearch-driver": "^6.1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
