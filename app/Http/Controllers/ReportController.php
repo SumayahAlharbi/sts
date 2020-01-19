@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use PdfReport;
 use CSVReport;
 use Carbon\Carbon;
-
+use App\Group;
 use App\Ticket;
 use App\User;
 use App\Location;
+use Auth;
 
 class ReportController extends Controller
 {
@@ -21,13 +22,12 @@ class ReportController extends Controller
      */
     public function index()
     {
-
-
-        $agentUsers = User::whereHas('roles', function ($query) {
-        $query->where('name', '=', 'agent');
+        $groups = Auth::user()->group;
+        $agentUsers = User::whereHas('group', function($query) use($groups){
+            $query->whereIn('group_id', $groups);
         })->get();
 
-        return view('reports.index', compact('agentUsers'));
+        return view('report.index', compact('agentUsers'));
     }
 
     /**
@@ -103,8 +103,7 @@ public function displayReport(Request $request)
     //app('debugbar')->disable();
     $fromDate = Carbon::parse($request->input('from_date'))->startOfDay();
     $toDate = Carbon::parse($request->input('to_date'))->endOfDay();
-    $sortBy = $request->input('sort_by');
-    $byUser = $request->input('by_User');
+    $agentId = $request->input('user_id');
 
     // $users = User::with(['roles' => function($q){
     // $q->where('name', 'admin');
@@ -119,17 +118,29 @@ public function displayReport(Request $request)
 
     $meta = [ // For displaying filters description on header
         'Tickets from' => $fromDate . ' To ' . $toDate,
-        'Sort By' => $sortBy
+        'user_id' => $agentId
     ];
 
-      $queryBuilder = Ticket::select(['id', 'ticket_title', 'created_at', 'location_id', 'created_at', 'status_id', 'category_id']) // Do some querying..
+      $queryBuilder = Ticket::select(['id', 'ticket_title', 'created_at', 'location_id', 'created_at', 'status_id', 'category_id','requested_by']) // Do some querying..
                           ->whereBetween('created_at', [$fromDate, $toDate])
-                          ->orderBy($sortBy);
+                          ->where('status_id','=',1)
+                          ->with(['user' => function ($query) {
+                            $query->where('id', '=', $agentId);
+                        }])->with(['rating' => function ($query) {
+                            $query->select('rating_value');
+                        }])->with(['requested_by_user' => function ($query) {
+                            $query->where('id', '=', 'requested_by');
+                        }])
+                        ->orderBy('id');
 
 
     $columns = [ // Set Column to be displayed
         'ID' => 'id',
         'Title' => 'ticket_title',
+        'requested_by' => function($queryBuilder) {
+            return $queryBuilder->requested_by_user->name;
+          },
+        'created_at' => 'created_at',
         'Agent' => function($queryBuilder) {
             $date = array();
             foreach ($queryBuilder->user as $Builder) {
@@ -138,20 +149,24 @@ public function displayReport(Request $request)
             // return json_encode($date);
             return implode(', ', $date);
           },
-        'Location' => function($queryBuilder) {
-            return $queryBuilder->location->location_name;
-          },
-        'created at' => 'created_at',
-        'Category' => function($queryBuilder) {
-            return $queryBuilder->category->category_name;
-          },
-        'Status' => function($queryBuilder) {
-            return $queryBuilder->status->status_name;
+          'Rating' => function($queryBuilder) {
+            return $queryBuilder->rating->rating_value;
           }
+    ];
+    $rows =[
+
     ];
 
     CSVReport::of($title, $meta, $queryBuilder, $columns)
-             // ->withoutManipulation()
+            ->editColumn('created_at', [ // Change column class or manipulate its data for displaying to report
+                'displayAs' => function($result) {
+                    return $result->created_at->format('d M Y');
+                },
+                'class' => 'center'
+                ])
+            ->showTotal([
+                'Rating' => 'point'
+                ])
              ->showNumColumn(false)
              ->download($filename);
            }

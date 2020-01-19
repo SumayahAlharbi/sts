@@ -166,8 +166,8 @@
               <label for="name">Agent list</label>
               <select name="user_id" id="" data-show-subtext="true" data-live-search="true" class="selectpicker form-control">
                 <option selected disabled value> -- Choose an Agent -- </option>
-                @foreach($users as $user)
-                <option value="{{$user->id}}">{{$user->name}}</option>
+                @foreach($group_users as $group_user)
+                <option value="{{$group_user->id}}">{{$group_user->name}}</option>
                 @endforeach
               </select>
             </div>
@@ -211,12 +211,19 @@
           <div class="row">
             <div class="col-md-12">
 
-              <h3 class="card-title">{{title_case($tickets->ticket_title)}}</h3>
+              <h3 class="card-title">
+                <span class="text-muted" title="Ticket Number">
+                  #{{$tickets->id}}
+                </span>
+
+                {{title_case($tickets->ticket_title)}}
+              </h3>
+
               <h6 class="card-subtitle mb-2 text-muted">
+
                 <span class="label label-light-inverse" @isset($tickets->group->group_description)
                   title="{{$tickets->group->group_description}}"
-                  @endisset
-                  >
+                  @endisset>
                   <i class="fas fa-users"></i>
                   {{$tickets->group->group_name}}
                 </span>
@@ -226,8 +233,7 @@
                 </span>
                 <span class="label label-light-inverse" @isset($tickets->location->location_description)
                   title="{{$tickets->location->location_description}}"
-                  @endisset
-                  >
+                  @endisset>
 
                   <i class="far fa-building"></i>
                   @isset($tickets->location->location_name)
@@ -329,28 +335,18 @@
 
             @foreach($activityTickets as $activityTicket)
             <!-- activity Row -->
-
+            <!-- changes -->
+            <!-- ticket creation -->
+            @if ($activityTicket->description == 'created')
             <div class="d-flex flex-row comment-row">
-              @if( isset( $activityTicket->causer->name ))
               <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
               <div class="comment-text w-100">
                 <h5>
                   {{$activityTicket->causer->name}}
                 </h5>
-                @endif
-                <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
+                {{--<p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>--}}
                 <div class="comment-footer">
-                  <!-- changes -->
-                  @if( isset( $activityTicket->changes['attributes']['status_id'] ))
-                  @if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')
-                  @foreach ($statuses as $status)
-                  @if($status->id == $activityTicket->changes['attributes']['status_id'])
-                  status to <span class="label label-light-info"> {{$status->status_name}} </span>
-                  @endif
-                  @endforeach
-                  @endif
-                  @endif
-                  <!-- end changes -->
+                  <p class="m-b-5"><span class="label label-light-info">{{$activityTicket->description}}</span> {{ $activityTicket->subject->ticket_title }}</p>
                   <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
                   {{-- <span class="label label-light-info">{{$activityTicket->description}}</span> --}}
                   {{-- <span class="action-icons">
@@ -361,6 +357,53 @@
                 </div>
               </div>
             </div>
+            @endif
+            <!-- end changes -->
+            <!-- changes -->
+            <!-- ticket status -->
+            @if( isset( $activityTicket->changes['attributes']['status_id'] ))
+            @if ($activityTicket->description != 'created' && $activityTicket->description !='deleted')
+            <div class="d-flex flex-row comment-row">
+              <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
+              <div class="comment-text w-100">
+                <h5>
+                  {{$activityTicket->causer->name}}
+                </h5>
+                <div class="comment-footer">
+                  {{--@if (json_encode($activityTicket->changes['attributes']['status_id']) !== '3')--}}
+                  @foreach ($statuses as $status)
+                  @if($status->id == $activityTicket->changes['attributes']['status_id'])
+                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> Status to <span class="label label-light-info"> {{$status->status_name}} </span> </p>
+                  @endif
+                  @endforeach
+                  <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
+                </div>
+              </div>
+            </div>
+            @endif
+            @endif
+            <!-- end changes -->
+            <!-- changes -->
+            <!-- ticket assigned and unassigned agent -->
+            @if( isset( $activityTicket->changes['attributes']['user_id'] ))
+            <div class="d-flex flex-row comment-row">
+              <div class="p-2"><span>{!! Avatar::create($activityTicket->causer->name)->setFontSize(20)->setDimension(50, 50)->toSvg(); !!}</span></div>
+              <div class="comment-text w-100">
+                <h5>
+                  {{$activityTicket->causer->name}}
+                </h5>
+                <div class="comment-footer">
+                  @foreach ($users as $user)
+                  @if($user->id == $activityTicket->changes['attributes']['user_id'])
+                  <p><span class="label label-light-info"> {{$activityTicket->description}} </span> {{$user->name}}</p>
+                  @endif
+                  @endforeach
+                  <span class="text-muted pull-right">{{$activityTicket->created_at->diffForHumans()}}</span>
+                </div>
+              </div>
+            </div>
+            @endif
+            <!-- end changes -->
             <!-- activity Row -->
             @endforeach
           </div>
@@ -433,7 +476,7 @@
       <div class="comment-widgets">
 
         {{-- end comment new --}}
-        <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+        <script src="/vendor/ckeditor/ckeditor.js"></script>
 
 
         @include('comments._comment_replies', ['comments' => $tickets->comments, 'ticket_id' => $tickets->id])
@@ -446,11 +489,80 @@
             <div class="form-group">
               <textarea type="text" name="comment_body" id="editor"  class="form-control"></textarea>
               <script>
-                  CKEDITOR.replace( 'editor' );
+                      var PLACEHOLDERS = [{
+                        id: 1,
+                        name: 'Done Reply',
+                        title: 'This ticket is done!',
+                        description: 'inform that this ticket has been completed.'
+                      }
+                    ];
+
+                    CKEDITOR.addCss('span > .cke_placeholder { background-color: #ffeec2; }');
+
+                    CKEDITOR.replace('editor', {
+                      on: {
+                        instanceReady: function(evt) {
+                          var itemTemplate = '<li data-id="{id}">' +
+                            '<div><strong class="item-title">{name}</strong></div>' +
+                            '<div><i>{description}</i></div>' +
+                            '</li>',
+                            outputTemplate = '{title}<span>&nbsp;</span>';
+
+                          var autocomplete = new CKEDITOR.plugins.autocomplete(evt.editor, {
+                            textTestCallback: textTestCallback,
+                            dataCallback: dataCallback,
+                            itemTemplate: itemTemplate,
+                            outputTemplate: outputTemplate
+                          });
+
+                          // Override default getHtmlToInsert to enable rich content output.
+                          autocomplete.getHtmlToInsert = function(item) {
+                            return this.outputTemplate.output(item);
+                          }
+                        }
+                      }
+                    });
+
+                    function textTestCallback(range) {
+                      if (!range.collapsed) {
+                        return null;
+                      }
+
+                      return CKEDITOR.plugins.textMatch.match(range, matchCallback);
+                    }
+
+                    function matchCallback(text, offset) {
+                      var pattern = /\[{2}([A-z]|\])*$/,
+                        match = text.slice(0, offset)
+                        .match(pattern);
+
+                      if (!match) {
+                        return null;
+                      }
+
+                      return {
+                        start: match.index,
+                        end: offset
+                      };
+                    }
+
+                    function dataCallback(matchInfo, callback) {
+                      var data = PLACEHOLDERS.filter(function(item) {
+                        var itemName = '[[' + item.name + ']]';
+                        return itemName.indexOf(matchInfo.query.toLowerCase()) == 0;
+                      });
+
+                      callback(data);
+                    }
               </script>
               <input type="hidden" name="ticket_id" value="{{ $tickets->id }}" />
               <input type="hidden" name="comment_id" id="comment_id" value="" />
             </div>
+            <blockquote class="m-t-10">
+                <p><b>Spell Checking:</b> Right click on the mispealed word holding <span class="label label-light-inverse">ctrl/ cmd</span>.</p>
+                <p><b>Auto format:</b> Links, emails and lists (write <span class="label label-light-inverse">*</span> simple followed by a space to start a list in the reply box).</p>
+                <p><b>Canned replies:</b> Write <span class="label label-light-inverse">[[</span> to choose from the available premade replies.</p>
+            </blockquote>
             <div class="form-group reply-box">
               <input type="submit" class="btn btn-dark" value="Add Comment" />
             </div>

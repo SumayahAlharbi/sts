@@ -200,9 +200,9 @@ class TicketController extends Controller
       $created_by = $ticket->created_by;
       $requested_by = $ticket->requested_by;
 
-      // Prevent sending group notification email if (created by != requested by)
+      // Send group notification email if (created by == requested by)
       // Prevent sending group notification email if the group email is empty
-      if($group->email && ($requested_by != $created_by)){
+      if($group->email && ($requested_by == $created_by)){
         if (App::environment('production')) {
             // The environment is production
             // \Mail::to($group_email)->send(new TicketCreated($ticket));
@@ -269,7 +269,7 @@ class TicketController extends Controller
         // echo $user->settings()->get('email_assigned_agent');
         // $user->settings()->delete('email_assigned_agent', 'new value');
         $groupId = $tickets->group_id;
-            $users = User::whereHas('group', function ($q) use ($groupId) {
+            $group_users = User::whereHas('group', function ($q) use ($groupId) {
                 $q->where('group_id', $groupId);
             })->get();
 
@@ -300,8 +300,11 @@ class TicketController extends Controller
         //
         // }
         ActivityLogger::activity("Viewed Ticket");
+        $categories = Category::all();
+        $groups = Group::all();
+        $users=User::all();
 
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'users','activityTickets', 'next','previous'));
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users'));
 
         }
 
@@ -389,6 +392,7 @@ class TicketController extends Controller
         'due_date'=> 'date_format:Y-m-d H:i:s|nullable',
       ]);
       $ticket = Ticket::findOrfail($id);
+
       $ticket->ticket_title = $request->ticket_title;
       $ticket->ticket_content = $request->ticket_content;
       $ticket->location_id = $request->location_id;
@@ -449,21 +453,53 @@ class TicketController extends Controller
       $TicketAgents = $ticket->user;
 
         if ($TicketAgents->isEmpty()) {
+          // Log assigned agent
+          activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'user_id' => $request->user_id,
+                'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+              ],
+              'old' => [
+                'user_id' => null,
+                'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+              ]
+            ])
+            ->log('assigned');
           $ticket->status_id = "4";
           $ticket->save();
+        }else{
+          // Log assigned agent
+          activity()
+            ->performedOn($ticket)
+            ->causedBy(auth()->user())
+            ->withProperties([
+              'attributes' => [
+                'user_id' => $request->user_id,
+                'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+              ],
+              'old' => [
+                'user_id' => $TicketAgents,
+                'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+              ]
+            ])
+            ->log('assigned');
         }
 
       $ticket->user()->syncWithoutDetaching($request->user_id);
+
       $user = User::findorfail($request->user_id);
       $group = Group::findOrFail($ticket->group->id);
-      
+
       if (App::environment('production')) {
           // The environment is production
           // \Mail::to($user)->send(new TicketAgentAssigned($ticket));
           if ($group->settings()->get('email_assigned_agent')) {
             AssignedTicketJob::dispatch($user, $ticket);
           }
-          
+
       }
 
       $user->notify(new AssignedTicket($user, $ticket));
@@ -504,6 +540,26 @@ class TicketController extends Controller
         public function removeTicketAgent($user_id, $ticket_id)
     {
         $ticket = Ticket::findorfail($ticket_id);
+
+        $ticket_old_info = Ticket::findorfail($ticket_id);
+        $ticket_old_status = $ticket_old_info->status;
+        $ticket_old_agent = $ticket_old_info->user;
+        // Log unassigned agent
+        activity()
+          ->performedOn($ticket_old_info)
+          ->causedBy(auth()->user())
+          ->withProperties([
+            'attributes' => [
+              'user_id' => $user_id,
+              'updated_at' => $ticket_old_info->updated_at->format('Y-m-d H:i:s'),
+            ],
+            'old' => [
+              'user_id' => $ticket_old_agent,
+              'updated_at' => $ticket_old_info->updated_at->format('Y-m-d H:i:s'),
+            ]
+          ])
+          ->log('unassigned');
+
         $ticket->user()->detach($user_id);
         $TicketAgents = $ticket->user;
 
@@ -518,13 +574,39 @@ class TicketController extends Controller
     public function ChangeTicketStatus($status_id, $tickets_id)
     {
       $ticket = Ticket::findorfail($tickets_id);
+
+      /*
+      activity()
+      ->performedOn($ticket)
+      ->causedBy(auth()->user())
+      ->withProperties([
+        'attributes' => [
+          'status_id' => $status_id,
+          'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+        ],
+        'old' => [
+          'status_id' => $ticket->status,
+          'updated_at' => $ticket->updated_at->format('Y-m-d H:i:s'),
+        ]
+      ])
+      ->log('updated');
+      */
+
       $ticket->status()->associate($status_id);
       $ticket->save();
 
+      $group = Group::findOrFail($ticket->group->id);
       $user = User::find($ticket->requested_by_user);
 
       if ($status_id == "1" && $user) {
-        return $this->sendTicketRatingEmail($tickets_id);
+        //return $this->sendTicketRatingEmail($tickets_id);
+        if (App::environment('production')) {
+            // The environment is production
+            //\Mail::to($user)->send(new TicketRating($ticket));
+            if ($group->settings()->get('email_ticket_rating')) {
+              TicketRatingJob::dispatch($ticket);
+            }
+          }
       }
 
       return back();
