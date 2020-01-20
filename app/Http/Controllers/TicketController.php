@@ -118,6 +118,8 @@ class TicketController extends Controller
         $created_by = Auth::user();
         if (Auth::user()->hasRole('admin')) {
           $groups = Group::all();
+        }elseif(Auth::user()->hasPermission('change ticket status')){
+          $groups = Auth::user()->group;
         }elseif(Auth::user()->hasRole('enduser')){
           $groups = Group::where('visibility_id','=','1')->get();
         }else {
@@ -265,7 +267,7 @@ class TicketController extends Controller
     public function show($id, Request $request)
     {
         $tickets =  Ticket::findOrfail($id);
-        $user = Auth::user();
+        $userGroups = Auth::user()->group;
         // echo $user->settings()->get('email_assigned_agent');
         // $user->settings()->delete('email_assigned_agent', 'new value');
         $groupId = $tickets->group_id;
@@ -304,7 +306,7 @@ class TicketController extends Controller
         $groups = Group::all();
         $users=User::all();
 
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users'));
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users','userGroups'));
 
         }
 
