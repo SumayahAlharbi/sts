@@ -18,7 +18,7 @@
         </ul>
       </div><br />
     @endif
-    <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+    <script src="/vendor/ckeditor/ckeditor.js"></script>
     <script>
             
           $(document).on('change','.group', function(e){

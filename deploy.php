@@ -66,6 +66,10 @@ task('supervisor:reload', function () {
     run("cd {{release_path}} && supervisorctl reload");
 });
 
+task('current:clear', function () {
+    run("cd /var/www/sts/current && php artisan artisan:config:clear");
+});
+
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
@@ -81,5 +85,5 @@ after('deploy:symlink', 'cachetool:clear:opcache');
 
 after('cachetool:clear:opcache', 'supervisor:reload');
 
-after('supervisor:reload', 'artisan:config:clear');
+after('supervisor:reload', 'current:clear');
 

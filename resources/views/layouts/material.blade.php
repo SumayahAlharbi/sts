@@ -23,8 +23,11 @@
     <link href="{{ asset('assets/plugins/bootstrap-notifications/bootstrap-notifications.css') }}" rel="stylesheet">
     <!-- Font Awesome v5.5 -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <!-- Calendar CSS -->
+    <link href="{{ asset('assets/plugins/calendar/dist/fullcalendar.css') }}" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
     <!-- You can change the theme colors from here -->
     <link href="{{ asset('css/colors/blue.css') }}" id="theme" rel="stylesheet">
 
@@ -303,8 +306,14 @@
                             @can('view tickets list')
                               <li><a href="{{ route('ticket.index') }}">Tickets</a></li>
                             @endcan
+                            @can('generate reports')
+                              <li><a href="{{ url('/Reports') }}">Reports</a></li>
+                              @endcan
+                            @can('view tickets list')
+                              <li><a href="{{ route('calendar.index') }}">Calendar</a></li>
+                            @endcan
                             @can('export tickets')
-                              <li><a href="{{ url('/reports') }}">Export</a></li>
+                              <li><a href="{{ url('/Exports') }}">Export</a></li>
                               @endcan
                               @can('view location list')
                                 <li><a href="{{ url('/location') }}">Locations</a></li>
@@ -398,7 +407,7 @@
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 @isset($releases->release_version)
-                <div class="alert alert-success">version {{$releases->release_version}} has been released 🚀 {{ $releases->created_at->diffForHumans() }}</div>
+                <div class="alert alert-success">Version <a href="{{ route('releases.whatsnew')}}">{{$releases->release_version}}</a> has been released 🚀 {{ $releases->created_at->diffForHumans() }} </div>
                 @endisset
 
             @yield('content')

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "85da031e788bf751005befaecb3101d6",
+    "content-hash": "afc003d964e73ebf0410ebc3a89171b4",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -234,6 +234,48 @@
                 "time"
             ],
             "time": "2019-11-30T02:33:19+00:00"
+        },
+        {
+            "name": "ckeditor/ckeditor",
+            "version": "4.13.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ckeditor/ckeditor4-releases.git",
+                "reference": "83ca48a5356d10cc7aec6a9e36f327b8bc1b5f2a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor4-releases/zipball/83ca48a5356d10cc7aec6a9e36f327b8bc1b5f2a",
+                "reference": "83ca48a5356d10cc7aec6a9e36f327b8bc1b5f2a",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+",
+                "LGPL-2.1+",
+                "MPL-1.1+"
+            ],
+            "authors": [
+                {
+                    "name": "CKSource",
+                    "homepage": "https://cksource.com"
+                }
+            ],
+            "description": "JavaScript WYSIWYG web text editor.",
+            "homepage": "https://ckeditor.com/ckeditor-4/",
+            "keywords": [
+                "CKEditor",
+                "ckeditor4",
+                "editor",
+                "fckeditor",
+                "html",
+                "javascript",
+                "richtext",
+                "text",
+                "wysiwyg"
+            ],
+            "time": "2019-12-09T13:24:37+00:00"
         },
         {
             "name": "danielstjules/stringy",
@@ -3263,6 +3305,7 @@
                 "bcmath",
                 "math"
             ],
+            "abandoned": "brick/math",
             "time": "2017-02-16T16:54:46+00:00"
         },
         {
@@ -5327,16 +5370,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.4.1",
+            "version": "v4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "f0aea3df20d15635b3cb9730ca5eea1c65b7f201"
+                "reference": "82437719dab1e6bdd28726af14cb345c2ec816d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/f0aea3df20d15635b3cb9730ca5eea1c65b7f201",
-                "reference": "f0aea3df20d15635b3cb9730ca5eea1c65b7f201",
+                "url": "https://api.github.com/repos/symfony/console/zipball/82437719dab1e6bdd28726af14cb345c2ec816d0",
+                "reference": "82437719dab1e6bdd28726af14cb345c2ec816d0",
                 "shasum": ""
             },
             "require": {
@@ -5399,7 +5442,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2019-12-01T10:06:17+00:00"
+            "time": "2019-12-17T10:32:23+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -5696,7 +5739,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v4.4.1",
+            "version": "v4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -7033,60 +7076,6 @@
             "time": "2019-10-24T08:53:34+00:00"
         },
         {
-            "name": "unisharp/laravel-ckeditor",
-            "version": "4.7.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/UniSharp/laravel-ckeditor.git",
-                "reference": "5c75f3f9128ec8567955913074795deee5869c5c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/UniSharp/laravel-ckeditor/zipball/5c75f3f9128ec8567955913074795deee5869c5c",
-                "reference": "5c75f3f9128ec8567955913074795deee5869c5c",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Unisharp\\Ckeditor\\": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+",
-                "LGPL-2.1+",
-                "MPL-1.1+"
-            ],
-            "authors": [
-                {
-                    "name": "CKSource",
-                    "homepage": "http://cksource.com"
-                },
-                {
-                    "name": "UniSharp Ltd. (Composer Package Maintainer)",
-                    "homepage": "http://www.unisharp.com"
-                }
-            ],
-            "description": "JavaScript WYSIWYG web text editor (for laravel).",
-            "homepage": "http://ckeditor.com",
-            "keywords": [
-                "CKEditor",
-                "editor",
-                "fckeditor",
-                "html",
-                "javascript",
-                "laravel",
-                "richtext",
-                "text",
-                "wysiwyg"
-            ],
-            "time": "2017-11-01T04:33:40+00:00"
-        },
-        {
             "name": "vlucas/phpdotenv",
             "version": "v2.6.1",
             "source": {
@@ -7202,6 +7191,7 @@
                 "psr",
                 "psr-7"
             ],
+            "abandoned": "laminas/laminas-diactoros",
             "time": "2019-11-13T19:16:13+00:00"
         }
     ],
@@ -7381,6 +7371,7 @@
                 "selenium",
                 "webdriver"
             ],
+            "abandoned": "php-webdriver/webdriver",
             "time": "2019-06-13T08:02:18+00:00"
         },
         {
