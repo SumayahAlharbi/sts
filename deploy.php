@@ -67,7 +67,7 @@ task('supervisor:reload', function () {
 });
 
 task('current:clear', function () {
-    run("cd {{deploy_path}}/current && artisan:config:clear");
+    run("cd {{deploy_path}}/current && php artisan config:clear");
 });
 
 // [Optional] if deploy fails automatically unlock.
