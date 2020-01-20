@@ -1,5 +1,5 @@
 @extends('layouts.material')
-@section('title', 'Edit: ' . $group->group_name  ) 
+@section('title', 'Edit: ' . $group->group_name  )
 @section('content')
 
 <div class = 'container'>
@@ -29,7 +29,7 @@
           <label for="price">group description</label>
           <input type="text" class="form-control" name="group_description" value="{{ $group->group_description }}" />
         </div>
-        
+
         <div class="form-group">
               <label for="price">group email</label>
               <input type="email" class="form-control" name="email" value="{{ $group->email}}"/>
@@ -49,17 +49,82 @@
         </div>
 
         <div class="form-group">
-            <label for="exampleFormControlSelect1">Available to Enduser?</label>
+            <label for="exampleFormControlSelect1">Allow KSAU-HS endusers to request tickets from this group</label>
             <div class="switch">
                 <label>
                   OFF
                   {{-- <input type="checkbox" checked=""> --}}
-                  <input data-id="{{$group->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $group->visibility_id  == 1 ? 'checked' : '' }}>
+                  <input data-id="{{$group->id}}" data-setting="allow_enduser_ticket" class="toggle-class change-group-setting" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="true" data-off="false" {{ $group->settings()->get('allow_enduser_ticket')   == 1 ? 'checked' : '' }}>
                   <span class="lever switch-col-light-green"></span>
                   ON
                 </label>
         </div>
       </div>
+
+      <div class="form-group">
+          <label for="exampleFormControlSelect1">Send assign email to agent</label>
+          <div class="switch">
+              <label>
+                OFF
+                {{-- <input type="checkbox" checked=""> --}}
+                <input data-id="{{$group->id}}" data-setting="email_assigned_agent"  class="toggle-class change-group-setting" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="true" data-off="false" {{ $group->settings()->get('email_assigned_agent')  == 1 ? 'checked' : '' }}>
+                <span class="lever switch-col-light-green"></span>
+                ON
+              </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Send new ticket email to departmental email</label>
+        <div class="switch">
+            <label>
+              OFF
+              {{-- <input type="checkbox" checked=""> --}}
+              <input data-id="{{$group->id}}" data-setting="email_ticket_departmental" class="toggle-class change-group-setting" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="true" data-off="false" {{ $group->settings()->get('email_ticket_departmental')  == 1 ? 'checked' : '' }}>
+              <span class="lever switch-col-light-green"></span>
+              ON
+            </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+      <label for="exampleFormControlSelect1">Send ticket confirmation email to enduser</label>
+      <div class="switch">
+          <label>
+            OFF
+            {{-- <input type="checkbox" checked=""> --}}
+            <input data-id="{{$group->id}}" data-setting="email_ticket_confirmation" class="toggle-class change-group-setting" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="true" data-off="false" {{ $group->settings()->get('email_ticket_confirmation')  == true ? 'checked' : '' }}>
+            <span class="lever switch-col-light-green"></span>
+            ON
+          </label>
+  </div>
+</div>
+
+<div class="form-group">
+    <label for="exampleFormControlSelect1">Send ticket rating email to enduser</label>
+    <div class="switch">
+        <label>
+          OFF
+          {{-- <input type="checkbox" checked=""> --}}
+          <input data-id="{{$group->id}}" data-setting="email_ticket_rating" class="toggle-class change-group-setting" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="true" data-off="false" {{ $group->settings()->get('email_ticket_rating')  == true ? 'checked' : '' }}>
+          <span class="lever switch-col-light-green"></span>
+          ON
+        </label>
+</div>
+</div>
+
+<div class="form-group">
+    <label for="exampleFormControlSelect1">Send comments notification email to enduser</label>
+    <div class="switch">
+        <label>
+          OFF
+          {{-- <input type="checkbox" checked=""> --}}
+          <input data-id="{{$group->id}}" data-setting="email_comments_enduser" class="toggle-class change-group-setting" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="true" data-off="false" {{ $group->settings()->get('email_comments_enduser')  == true ? 'checked' : '' }}>
+          <span class="lever switch-col-light-green"></span>
+          ON
+        </label>
+</div>
+</div>
 
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
@@ -68,20 +133,26 @@
 </div>
 <script>
     $(function() {
-      $('.toggle-class').change(function() {
-          var visibility_id = $(this).prop('checked') == true ? 1 : 0;
-          var group_id = $(this).data('id'); 
-           
+      $('.change-group-setting').change(function() {
+          var setting_value = $(this).prop('checked') == true ? 1 : 0;
+          var group_id = $(this).data('id');
+          var setting_name = $(this).data('setting');
+
           $.ajax({
               type: "GET",
               dataType: "json",
-              url: '{{ route('group.change.visibility') }}',
-              data: {'visibility_id': visibility_id, 'group_id': group_id},
+              url: '{{ route('group.change.setting') }}',
+              data: {'setting_value': setting_value,
+              'group_id': group_id,
+              'setting_name': setting_name
+            },
             success: function (data) {
                 // console.log(data.message);
             }
           });
       })
     })
+
+
   </script>
 @endsection

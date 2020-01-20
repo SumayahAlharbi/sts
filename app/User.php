@@ -8,12 +8,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
+use Glorand\Model\Settings\Traits\HasSettingsTable;
 
 class User extends Authenticatable
 {
     use HasRoles,
     Notifiable,
     LogsActivity,
+    HasSettingsTable,
     CausesActivity;
 
     protected static $logAttributes = ['*'];
@@ -36,6 +38,10 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+    public $defaultSettings = [
+        'total_tickets' => '10',
+        'hide_completed_tickets' => false,
     ];
     public function ticket()
     {

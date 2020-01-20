@@ -17,6 +17,12 @@ Breadcrumbs::for('user.profileSearch', function ($trail) {
   $trail->push('Search', route('user.profileSearch'));
 });
 
+//user Search
+Breadcrumbs::for('user.userSearch', function ($trail) {
+    $trail->parent('users.index');
+    $trail->push('Search', route('user.userSearch'));
+});
+
 // ticket.index
 Breadcrumbs::for('ticket.index', function ($trail) {
     $trail->parent('home');
@@ -36,9 +42,21 @@ Breadcrumbs::for('ticket.statusFilter', function ($trail) {
 });
 
 // ticket.search
+Breadcrumbs::for('ticket.groupFilter', function ($trail) {
+    $trail->parent('ticket.index');
+    $trail->push('Group Filter', route('ticket.groupFilter'));
+});
+
+// ticket.search
 Breadcrumbs::for('ticket.todayTicket', function ($trail) {
     $trail->parent('ticket.index');
     $trail->push('Today Ticket', route('ticket.todayTicket'));
+});
+
+// ticket.late
+Breadcrumbs::for('ticket.lateTicket', function ($trail) {
+    $trail->parent('ticket.index');
+    $trail->push('late Tickets', route('ticket.lateTicket'));
 });
 
 // ticket.create
@@ -104,7 +122,16 @@ Breadcrumbs::resource('regions','Region');
 Breadcrumbs::resource('roles','Role');
 Breadcrumbs::resource('permissions','Permission');
 Breadcrumbs::resource('releases','Release');
+Breadcrumbs::resource('Exports','Export');
+Breadcrumbs::resource('Reports','Report');
 Breadcrumbs::resource('reports','Report');
+Breadcrumbs::resource('calendar', 'Calendar');
+
+// releases.whatsnew
+Breadcrumbs::for('releases.whatsnew', function ($trail) {
+    $trail->parent('home');
+    $trail->push('Whats new', route('releases.whatsnew'));
+});
 
 // ticket.index
 Breadcrumbs::for('activity.index', function ($trail) {

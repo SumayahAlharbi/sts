@@ -2,6 +2,8 @@
 @section('title', 'Edit: ' . $releases->id)
 @section('content')
 
+<script src="/vendor/ckeditor/ckeditor.js"></script>
+
 <div class = 'container'>
 <div class="card uper">
   <div class="card-header">
@@ -24,7 +26,10 @@
           <label for="name">release_version</label>
           <input type="text" class="form-control" name="release_version" value="{{ $releases->release_version }}" />
           <label for="name">release_description</label>
-          <input type="text" class="form-control" name="release_description" value="{{ $releases->release_description }}" />
+          <textarea name="release_description" class="form-control" id="editor" rows="3">{{ $releases->release_description }}</textarea>
+          <script>
+              CKEDITOR.replace( 'editor' );
+        </script>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>

@@ -2,6 +2,8 @@
 namespace Deployer;
 
 require 'recipe/laravel.php';
+require 'recipe/cachetool.php';
+
 
 // Project name
 set('application', 'staging');
@@ -60,10 +62,28 @@ task('build', function () {
     run('cd {{release_path}} && build');
 });
 
+task('supervisor:reload', function () {
+    run("cd {{release_path}} && supervisorctl reload");
+});
+
+task('current:clear', function () {
+    run("cd /var/www/sts/current && php artisan artisan:config:clear");
+});
+
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
 // Migrate database before symlink new release.
 
 before('deploy:symlink', 'artisan:migrate');
+
+// Horizon and Msgraph clear.
+
+after('artisan:migrate', 'artisan:horizon:terminate');
+
+after('deploy:symlink', 'cachetool:clear:opcache');
+
+after('cachetool:clear:opcache', 'supervisor:reload');
+
+after('supervisor:reload', 'current:clear');
 
