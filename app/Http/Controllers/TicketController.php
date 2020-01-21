@@ -150,7 +150,10 @@ class TicketController extends Controller
         $ticket->category_id = $request->category_id;
         $ticket->location_id = $request->location_id;
         $ticket->group_id = $request->group_id;
-        $ticket->status_id = '3';
+
+        $unassigned = Status::Unassigned()->value('id');
+        $ticket->status_id = $unassigned;
+
         $ticket->priority = $request->priority;
         $ticket->due_date = $request->due_date;
         $ticket->room_number = $request->room_number;
