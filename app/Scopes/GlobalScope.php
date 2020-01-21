@@ -30,7 +30,7 @@ class GlobalScope implements Scope
         $builder;
       }
       elseif (Auth::user()->hasPermissionTo('view group tickets')) {
-     $builder->whereIn('group_id', $userGroupIDs)->where('requested_by', Auth::user()->id)->orWhere('created_by', Auth::user()->id);
+     $builder->whereIn('group_id', $userGroupIDs)->orWhere('requested_by', Auth::user()->id)->orWhere('created_by', Auth::user()->id);
    } elseif (Auth::user()->hasPermissionTo('change ticket status')) {
      $userId = Auth::user()->id;
     $builder->whereHas('user', function ($q) use ($userId) {

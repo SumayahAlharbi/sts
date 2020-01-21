@@ -99,16 +99,16 @@ $(function () {
                 {{-- <h6 class="card-subtitle">List of ticket</h6> --}}
                 <div class="row">
                   <div class="col-lg-11">
-                    @can('create ticket')
+                    {{-- @can('create ticket')
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreateTicketModal" data-whatever="@create" title="Create New Ticket in Your Department as an Agent" ><i class="fa fa-plus-circle"></i> Create Ticket</button>
+                    @endcan --}}
+
+                    @can('create ticket')
+                      <a class="btn btn-primary" href="{{ route('ticket.create')}}" role="button" title="Create New Ticket"><i class="fa fa-plus-circle"></i> Create Ticket</a>
                     @endcan
 
-                    {{--@can('create ticket')
-                      <a class="btn btn-primary" href="{{ route('ticket.create')}}" title="Create New Ticket" role="button"><i class="fa fa-plus-circle"></i> New</a>
-                    @endcan--}}
-
                 <!-- End User Create Ticket -->
-                @if(Auth::user()->hasRole('enduser'))
+                {{-- @if(Auth::user()->hasRole('enduser'))
                     @can('end user create ticket')
                           <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#EndUserCreateTicketModal" data-whatever="@create" title="Request New Ticket From a Department" ><i class="fas fa-spinner"></i> Request Ticket</button>
                         @endcan
@@ -227,7 +227,7 @@ $(function () {
                             </div>
                         </div>
                         </div>
-                </div>
+                </div> --}}
 
 
                 <!--/.End User Create Ticket -->
@@ -330,7 +330,7 @@ $(function () {
 
                                       <div class="form-group">
                                         <label for="exampleFormControlSelect1">Region</label>
-                                        <select required class="form-control region" name="region" id="region">
+                                        <select required class="form-control region" name="region" id="region" required>
                                           <option value="">None</option>
                                           @foreach ($regions as $key => $value)
                                             <option value="{{$key}}">{{$value}}</option>
@@ -339,7 +339,7 @@ $(function () {
                                       </div>
                                       <div class="form-group" style="display:none;" id="groupDiv">
                                       <label for="exampleFormControlSelect1">Department</label>
-                                      <select required class="form-control group" name="group_id" id="group_id" placeholder="please select the department">
+                                      <select required class="form-control group" name="group_id" id="group_id" required>
                                         @foreach ($groups as $group)
                                           <option value="{{$group->id}}">{{$group->group_name}}</option>
                                         @endforeach
@@ -490,9 +490,9 @@ preprocessData: function (data) {
                           <th> Status </th>
 
                           <th data-hide="phone">Category</th>
-                          @if(count($groups) > 1)
+                          
                           <th data-hide="phone">Group</th>
-                          @endif
+
                           <th data-hide="phone">Agents</th>
                           <th data-hide="all">Requested by</th>
                           <th data-hide="all">Action</th>
@@ -516,7 +516,9 @@ preprocessData: function (data) {
                             <br> {{$ticket->created_at->diffForHumans()}}</td>
 
                           <td title="{{$ticket->status['status_name']}}">
-                            @if(auth()->user()->can('change ticket status'))
+                              @foreach ($userGroups as $userGroup)
+                              @endforeach
+                            @if(auth()->user()->can('change ticket status') and $ticket->group_id == $userGroup->id)
                                <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
                                @elseif ($ticket->status['status_name'] == 'Completed') btn-success
                                @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
@@ -548,12 +550,13 @@ preprocessData: function (data) {
                           </span>
                           @endif
                           </td>
+                          
                           <td>{{$ticket->category['category_name']}}</td>
-                          @if(count($groups) > 1)
+
                           <td>
                             <small title="{{$ticket->group->group_description}}">{{$ticket->group->group_name}}</small>
                           </td>
-                           @endif
+
                           <td>
                           @foreach($ticket->user as $ticket_assignee)
                             <a href="{{url('/profile/' . $ticket_assignee->id)}}">
