@@ -44,8 +44,8 @@ class LoginTest extends DuskTestCase
             // $browser->driver->switchTo()->frame('#cke_1_contents > iframe');
             // $browser->script("document.querySelector( '#cke_1_contents iframe.cke_wysiwyg_frame' );");
             // $browser->script("$('body > p').append('Appended text');");
-            // $browser->script("CKEDITOR.instances['contentEditor'].setData('Test Data');");
-            $browser->fillHidden('ticket_content', 'test content');
+            $browser->script("CKEDITOR.instances['contentEditor'].setData('Test Data');");
+            // $browser->fillHidden('ticket_content', 'test content');
             $browser->pause(3000);
         //     $browser        ->withinFrame('iframe[name=stripe_checkout_app]', function($browser){
         //     $browser->pause(3000);
@@ -80,7 +80,8 @@ class LoginTest extends DuskTestCase
             // $browser->script("CKEDITOR.instances.contentEditor.insertHtml( '<p>This is a new paragraph.</p>' );");
             // $browser->fillHidden('ticket_content', 'test content');
             $browser->press('Create')
-                    ->assertSee('Comments');
+                    ->assertSee('Comments')
+                    ->screenshot('home-page');
         });
     }
 }
