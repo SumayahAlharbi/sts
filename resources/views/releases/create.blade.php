@@ -1,7 +1,7 @@
 @extends('layouts.material')
 @section('title', 'Create Release')
 @section('content')
-<script src="/vendor/ckeditor/ckeditor.js"></script>
+<script src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
 
 <div class = 'container'>
 <div class="card uper">

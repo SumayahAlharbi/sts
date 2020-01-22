@@ -13,7 +13,7 @@
     {{ session()->get('danger') }}
   </div><br />
 @endif
-<script src="/vendor/ckeditor/ckeditor.js"></script>
+{{-- <script src="/vendor/ckeditor/ckeditor.js"></script> --}}
 <script>
 $(function () {
     $('.myselect').selectpicker();
@@ -104,7 +104,7 @@ $(function () {
                     @endcan --}}
 
                     @can('create ticket')
-                      <a class="btn btn-primary" href="{{ route('ticket.create')}}" role="button" title="Create New Ticket"><i class="fa fa-plus-circle"></i> Create Ticket</a>
+                      <a class="btn btn-primary create-ticket-button" href="{{ route('ticket.create')}}" role="button" title="Create New Ticket"><i class="fa fa-plus-circle"></i> Create Ticket</a>
                     @endcan
 
                 <!-- End User Create Ticket -->

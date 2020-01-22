@@ -2,7 +2,7 @@
 @section('title', 'Create Ticket')
 
 @section('content')
-<script src="/vendor/ckeditor/ckeditor.js"></script>
+<script src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
 
 <style>
   .uper {
