@@ -154,7 +154,7 @@
                     <option value="{{$group->id}}">{{$group->group_name}}</option>
                   @endforeach
                 </select> --}}
-                <select id="ajax-select" class="selectpicker-group group" name="group_id" id="group_id"  data-live-search="true" placeholder="please select the department">
+                <select id="ajax-select" class="form-control group" name="group_id" id="group_id"  data-live-search="true" placeholder="please select the department">
                   @if(Auth::user()->group)
                   @unless(Auth::user()->hasRole('agent'))
                   <optgroup label="Your Departments/Groups">
@@ -224,7 +224,8 @@
           @foreach ($users as $key => $value)
             @if ($key == $created_by->id)
             <option value="{{$key}}">(Current) {{$value}}</option>
-            <input type="text" class="form-control" name="requested_by" value="{{$key}}" hidden/>
+            <input type="text" class="form-control" name="requested_by" value="{{$created_by->email}}" hidden/>
+            
             @endif
           @endforeach
         </select>
@@ -299,7 +300,7 @@ return array;
 // console.log(hiddenField);
         $(function() {
             $('.selectpicker').change(function() {
-                var hiddenField = $( "optgroup option:selected" ).text();
+                var hiddenField = $( ".filter-option-inner-inner" ).text();
                 document.getElementById("requested_by_name").value = hiddenField;
                 console.log(hiddenField);
             })
