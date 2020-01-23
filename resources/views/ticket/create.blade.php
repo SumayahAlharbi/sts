@@ -157,6 +157,7 @@
                 <select id="ajax-select" class="form-control group" name="group_id" id="group_id"  data-live-search="true" placeholder="please select the department">
                   @if(Auth::user()->group)
                   @unless(Auth::user()->hasRole('agent'))
+                  <option disabled="disabled" selected="selected">Select Departments/Groups</option>
                   <optgroup label="Your Departments/Groups">
                     @foreach ($userGroups as $userGroup)
                     <option value="{{$userGroup->id}}">{{$userGroup->group_name}}</option>
