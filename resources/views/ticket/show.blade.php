@@ -67,9 +67,14 @@
     @endif
     @endif
 
+    @foreach ($userGroups as $userGroup)
+    @if ($tickets->group->id == $userGroup->id)   
     @can('update ticket')<a class="btn btn-outline-success" href="{{ route('ticket.edit',$tickets->id)}}" title="Edit" role="button"><i class="far fa-edit"></i></a>@endcan
     @can('assign ticket')<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#assignModal" data-whatever="@assign" title="Assign"><i class="fas fa-users"></i></button>@endcan
     @can('change ticket status')<button type="button" title="Status" class="btn btn-outline-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-check-square"></i></button>@endcan
+ 
+    
+
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
       @foreach ($statuses as $status)
       @if($status != $tickets->status)
@@ -87,6 +92,9 @@
     </form>
     @endcan
 
+    @endif
+    @endforeach
+    
     @if (isset($previous))
     <a class="btn btn-outline-secondary" href="{{ route('ticket.show',$previous->id)}}" title="Previous" role="button"><i class="fas fa-chevron-left"></i></a>
     @endif

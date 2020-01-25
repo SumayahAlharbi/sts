@@ -69,14 +69,17 @@ class TicketController extends Controller
       //  $now = Carbon::now()->addHours(3);
         if (Auth::user()->hasRole('admin')) {
           $groups = Group::all();
+        }elseif(Auth::user()->hasPermissionTo('change ticket status')){
+          $groups = Auth::user()->group;
         }elseif(Auth::user()->hasRole('enduser')){
           $groups = Group::where('visibility_id','=','1')->get();
         }else {
           $groups = Auth::user()->group;
         }
         //return $groups;
+        $userGroups = Auth::user()->group;
         ActivityLogger::activity("Ticket index");
-        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases','user_id','totalTicketSetting'));
+        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases','user_id','totalTicketSetting','userGroups'));
     }
 
         /**
@@ -116,14 +119,32 @@ class TicketController extends Controller
         $regions = Region::all()->pluck('name','id');
         $users = User::all()->pluck('name','id');
         $created_by = Auth::user();
+        // if (Auth::user()->hasRole('admin')) {
+        //   $groups = Group::all();
+        // }elseif(Auth::user()->hasRole('enduser')){
+        //   $groups = Group::where('visibility_id','=','1')->get();
+        // }else {
+        //   $groups = Auth::user()->group;
+        // }
+        
+
+        
         if (Auth::user()->hasRole('admin')) {
+          $userGroups = Auth::user()->group;
           $groups = Group::all();
-        }elseif(Auth::user()->hasRole('enduser')){
-          $groups = Group::where('visibility_id','=','1')->get();
-        }else {
-          $groups = Auth::user()->group;
-        }
-        return view('ticket.create', compact('categories','locations','users','created_by', 'groups','regions'));
+        }elseif (Auth::user()->hasPermissionTo('change ticket status')) {
+          $userGroups = Auth::user()->group;
+
+          // Getting the user groups id array
+          foreach ($userGroups as $userGroupsId) {
+            $userGroupsIdArray[] =  $userGroupsId->id;
+          };
+            $groups = Group::where('visibility_id','=','1')->whereNotIn('id', $userGroupsIdArray)->get();
+          }elseif (Auth::user()->hasPermissionTo('rate ticket')){
+            $userGroups = Auth::user()->group;
+            $groups = Group::where('visibility_id','=','1')->get();
+          }
+        return view('ticket.create', compact('categories','locations','users','created_by', 'groups','regions','userGroups'));
     }
 
     /**
@@ -181,9 +202,9 @@ class TicketController extends Controller
         $user = $ticket->requested_by_user;
         if ($user){
           if (App::environment('production')) {
-            //\Mail::to($user)->send(new RequestedBy($user,$ticket));
+            if ($group->settings()->get('email_ticket_confirmation')) {
             CreatedTicketEnduserJob::dispatch($user, $ticket);
-
+          }
           }
         }
 
@@ -268,7 +289,7 @@ class TicketController extends Controller
     public function show($id, Request $request)
     {
         $tickets =  Ticket::findOrfail($id);
-        $user = Auth::user();
+        $userGroups = Auth::user()->group;
         // echo $user->settings()->get('email_assigned_agent');
         // $user->settings()->delete('email_assigned_agent', 'new value');
         $groupId = $tickets->group_id;
@@ -307,7 +328,7 @@ class TicketController extends Controller
         $groups = Group::all();
         $users=User::all();
 
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users'));
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users','userGroups'));
 
         }
 
@@ -677,7 +698,7 @@ class TicketController extends Controller
      // Fetch location by group id
      public function getLocations($group_id){
 
-      $selectedlocations =Location::where('group_id','=',$group_id)->get();
+      $selectedlocations = Location::where('group_id','=',$group_id)->withoutGlobalScopes()->get();
       return response()->json($selectedlocations);
   }
 
@@ -685,7 +706,7 @@ class TicketController extends Controller
      // Fetch category by group id
      public function getCategory($group_id){
 
-      $selectedcategory =Category::where('group_id','=',$group_id)->get();
+      $selectedcategory =Category::where('group_id','=',$group_id)->withoutGlobalScopes()->get();
       return response()->json($selectedcategory);
   }
 
