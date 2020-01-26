@@ -20,8 +20,8 @@ class LoginTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/login');
             $browser->clickLink('Admin');
-            $browser->type('email', 'agent@agent.com');
-            $browser->type('password', '123123');
+            $browser->type('email', env('TEST_SUPERVISOR_ROLE_USER'));
+            $browser->type('password', env('TEST_SUPERVISOR_ROLE_PASSWORD'));
             // $browser->pause(3000);
             $browser->press('LOGIN');
             // $browser->pause(3000);
