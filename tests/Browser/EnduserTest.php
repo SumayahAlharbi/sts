@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Carbon\Carbon;
 
 
-class EnduserTestCase extends DuskTestCase
+class EnduserTest extends DuskTestCase
 {
      /**
      * A Dusk test example.
@@ -21,10 +21,13 @@ class EnduserTestCase extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/login');
-            $browser->type('enduser@enduser.com', 'email');
-            $browser->type('123123', 'password');
-            $browser->press('Login');
-            $browser->seePageIs('/');
+            $browser->clickLink('Admin');
+            $browser->type('email', 'enduser@enduser.com');
+            $browser->type('password', '123123');
+            // $browser->pause(3000);
+            $browser->press('LOGIN');
+            // $browser->pause(3000);
+            $browser->assertPathIs('/');
         });
     }
 }
