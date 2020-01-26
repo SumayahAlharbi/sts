@@ -518,7 +518,7 @@ preprocessData: function (data) {
                           <td title="{{$ticket->status['status_name']}}">
                               @foreach ($userGroups as $userGroup)
                               @endforeach
-                            @if(auth()->user()->can('change ticket status') and $ticket->group_id == $userGroup->id)
+                            @if(auth()->user()->can('change ticket status') and $ticket->group_id == $userGroup->id or auth()->user()->hasRole('admin'))
                                <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
                                @elseif ($ticket->status['status_name'] == 'Completed') btn-success
                                @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
