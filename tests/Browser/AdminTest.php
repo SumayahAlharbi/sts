@@ -48,5 +48,16 @@ class AdminTest extends DuskTestCase
                   ->screenshot('create_ticket'); // not needed
       });
     }
+    /* View the last added ticket */
+    public function testAdminViewTicket()
+    {
+      $this->browse(function (Browser $browser) {
+          $browser->visit('/ticket');
+          $browser->press('table > tbody > tr:nth-child(1) > td.footable-first-column > span.footable-toggle');
+          $browser->press('.btn-success')
+                  ->assertSee('Ticket Content')
+                  ->screenshot('view_ticket'); // not needed
+      });
+    }
 
 }
