@@ -18,7 +18,7 @@ class AdminTest extends DuskTestCase
       $this->browse(function (Browser $browser) {
           $browser->visit('/login');
           $browser->clickLink('Admin');
-          $browser->type('email', 'harbiso@ksau-hs.edu.sa'); // admin email
+          $browser->type('email', 'admin@admin.com');
           $browser->type('password', '12345678');
           $browser->press('LOGIN');
           $browser->assertSee('ADMINISTRATOR');
