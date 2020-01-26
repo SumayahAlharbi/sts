@@ -44,10 +44,11 @@ class AdminTest extends DuskTestCase
           $browser->waitFor('#categoryDiv');
           $browser->select('category_id', '1');
           $browser->press('Create')
-                  ->assertSee('Ticket has been created')
-                  ->screenshot('create_ticket'); // not needed
+                  ->assertSee('Ticket has been created');
+                  //->screenshot('create_ticket');
       });
     }
+
     /* View the last added ticket */
     public function testAdminViewTicket()
     {
@@ -55,8 +56,26 @@ class AdminTest extends DuskTestCase
           $browser->visit('/ticket');
           $browser->press('table > tbody > tr:nth-child(1) > td.footable-first-column > span.footable-toggle');
           $browser->press('.btn-success')
-                  ->assertSee('Ticket Content')
-                  ->screenshot('view_ticket'); // not needed
+                  ->assertSee('Ticket Content');
+                  //->screenshot('view_ticket');
+      });
+    }
+
+    /* Edit the last added ticket */
+    public function testAdminEditTicket()
+    {
+      $this->browse(function (Browser $browser) {
+          $browser->visit('/ticket');
+          $browser->press('table > tbody > tr:nth-child(1) > td.footable-first-column > span.footable-toggle');
+          $browser->press('.btn-warning');
+          $browser->type('ticket_title', 'update ticket' . Carbon::now()->toDateTimeString());
+          $browser->script("CKEDITOR.instances['editor'].setData('Updated Data');");
+          $browser->select('group_id','2');
+          $browser->select('category_id', '2');
+          $browser->select('location_id', '2');
+          $browser->press('Update')
+                  ->assertSee('Ticket has been updated');
+                  //->screenshot('update_ticket');
       });
     }
 
