@@ -28,7 +28,7 @@ class LoginTest extends DuskTestCase
             $browser->assertPathIs('/');
         });
     }
-    /*
+
     public function testSupervisorCreateTicketInHisGroup()
     {
         $this->browse(function (Browser $browser) {
@@ -148,5 +148,5 @@ class LoginTest extends DuskTestCase
                     ->screenshot('home-page');
         });
     }
-    */
+    
 }
