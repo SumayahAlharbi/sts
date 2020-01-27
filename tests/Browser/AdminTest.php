@@ -26,6 +26,7 @@ class AdminTest extends DuskTestCase
       });
     }
 
+    /* Create New ticket */
     public function testAdminCreateTicket()
     {
       $this->browse(function (Browser $browser) {
@@ -55,19 +56,18 @@ class AdminTest extends DuskTestCase
       $this->browse(function (Browser $browser) {
           $browser->visit('/ticket');
           $browser->press('table > tbody > tr:nth-child(1) > td.footable-first-column > span.footable-toggle');
-          $browser->press('.btn-success')
+          $browser->press('div.footable-row-detail-value > form > a.btn.btn-success')
                   ->assertSee('Ticket Content');
                   //->screenshot('view_ticket');
       });
     }
 
-    /* Edit the last added ticket */
     public function testAdminEditTicket()
     {
       $this->browse(function (Browser $browser) {
           $browser->visit('/ticket');
           $browser->press('table > tbody > tr:nth-child(1) > td.footable-first-column > span.footable-toggle');
-          $browser->press('.btn-warning');
+          $browser->press('div.footable-row-detail-value > form > a.btn.btn-warning');
           $browser->type('ticket_title', 'update ticket' . Carbon::now()->toDateTimeString());
           $browser->script("CKEDITOR.instances['editor'].setData('Updated Data');");
           $browser->select('group_id','2');
@@ -76,6 +76,21 @@ class AdminTest extends DuskTestCase
           $browser->press('Update')
                   ->assertSee('Ticket has been updated');
                   //->screenshot('update_ticket');
+      });
+    }
+
+    /* Delete the last added ticket*/
+    public function testAdminDeleteTicket()
+    {
+      $this->browse(function (Browser $browser) {
+          $browser->visit('/ticket');
+          $browser->press('table > tbody > tr:nth-child(1) > td.footable-first-column > span.footable-toggle');
+          $browser->click('div.footable-row-detail-value > form > button')
+                  ->assertDialogOpened('Do you really want to delete?')
+                  ->acceptDialog();
+          $browser->assertSee('Ticket has been deleted');
+                  //->screenshot('delete_ticket');
+
       });
     }
 
