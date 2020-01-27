@@ -50,7 +50,7 @@ class AdminTest extends DuskTestCase
       });
     }
 
-    /* View the last added ticket */
+    /* View the first ticket in tickets index page */
     public function testAdminViewTicket()
     {
       $this->browse(function (Browser $browser) {
@@ -62,6 +62,7 @@ class AdminTest extends DuskTestCase
       });
     }
 
+    /* Edit the first ticket in tickets index page */
     public function testAdminEditTicket()
     {
       $this->browse(function (Browser $browser) {
@@ -79,7 +80,7 @@ class AdminTest extends DuskTestCase
       });
     }
 
-    /* Delete the last added ticket*/
+    /* Delete the first ticket in tickets index page */
     public function testAdminDeleteTicket()
     {
       $this->browse(function (Browser $browser) {
@@ -90,6 +91,19 @@ class AdminTest extends DuskTestCase
                   ->acceptDialog();
           $browser->assertSee('Ticket has been deleted');
                   //->screenshot('delete_ticket');
+
+      });
+    }
+
+    /* Restore the first ticket in tickets index page */
+    public function testAdminRestoreTicket()
+    {
+      $this->browse(function (Browser $browser) {
+          $browser->visit('/trash');
+          $browser->press('table > tbody > tr:nth-child(1) > td.footable-first-column > span.footable-toggle');
+          $browser->click('div.footable-row-detail-value > a')
+                  ->assertSee('Ticket has been restored');
+                  //->screenshot('restore_ticket');
 
       });
     }
