@@ -109,7 +109,7 @@ class AdminTest extends DuskTestCase
     }
 
 
-    /* Assign the first Ticket to Agent */
+    /* Assign the first Ticket to an Agent */
     public function testAdminAssignTicketToAgent()
     {
       $this->browse(function (Browser $browser) {
@@ -118,9 +118,9 @@ class AdminTest extends DuskTestCase
           $browser->click('div.footable-row-detail-value > form > a.btn.btn-success');
           $browser->click('button.btn.btn-outline-info'); // assign button
           $browser->waitFor('#exampleModalLabel1');
-          $browser->select('user_id','2')
+          $browser->select('user_id','2') // change agent id here
                   ->click('#assignModal > div > div > div.modal-footer > button.btn.btn-primary')
-                  ->assertSeeIn('div.card-footer.text-muted', 'agent'); // the name of agent with id=2
+                  ->assertSeeIn('div.card-footer.text-muted', 'agent'); // change corresponding name here
                   //->screenshot('assign_ticket');
 
       });
@@ -135,11 +135,11 @@ class AdminTest extends DuskTestCase
           $browser->click('div.footable-row-detail-value > form > a.btn.btn-success');
           $browser->click('button.btn.btn-outline-info'); // assign button
           $browser->waitFor('#exampleModalLabel1');
-          $browser->assertSeeIn('#assignModal > div > div > div.modal-body > form', 'agent');
-          $browser->click('#assignModal > div > div > div.modal-body > form > div:nth-child(4) > a')
-                  ->assertDialogOpened('Do you really want to unassign agent ?')
+          $browser->assertSeeIn('#assignModal > div > div > div.modal-body > form', 'agent'); // change agent name here
+          $browser->click('#assignModal > div > div > div.modal-body > form > div:nth-child(4) > a') // unassign the first assigned agent (most left)
+                  ->assertDialogOpened('Do you really want to unassign agent ?') // change agent name here
                   ->acceptDialog();
-          $browser->assertDontSee('#assignModal > div > div > div.modal-body > form', 'agent');
+          $browser->assertDontSee('#assignModal > div > div > div.modal-body > form', 'agent'); // change agent name here
                   //->screenshot('unassign_ticket');
 
       });
