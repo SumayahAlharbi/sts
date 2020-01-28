@@ -35,7 +35,6 @@ class EnduserTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/ticket');
-            $browser->visit('/ticket');
             $browser->visit('/ticket/create');
             $browser->type('ticket_title', 'test ticket ' . Carbon::now()->toDateTimeString());
             //$browser->select('High', 'priority');
@@ -49,6 +48,82 @@ class EnduserTest extends DuskTestCase
             $browser->press('Create')
                     ->assertSee('Comments')
                     ->screenshot('home-page');
+        });
+    }
+
+    public function testEnduserViewTicket()
+    {
+        $this->browse(function ($browser) {
+            $browser->visit('/ticket')
+                    ->clickLink('test ticket')
+                    ->assertSee('test ticket');
+        });
+    }
+
+    public function testEnduserEditTicket()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->browse(function ($browser) {
+                $browser->visit('/ticket')
+                        ->clickLink('test ticket')
+                        ->assertMissing('Edit');
+            });
+        });
+    }
+    public function testEnduserAddCommentToTicket()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->browse(function ($browser) {
+                $browser->visit('/ticket')
+                        ->clickLink('test ticket')
+                        ->assertSee('Add comment');
+            });
+        });
+    }
+    // public function testEnduserDeleteCommentOnTicket()
+    // {
+    //     $this->browse(function (Browser $browser) {
+    //         $this->browse(function ($browser) {
+    //             $browser->visit('/ticket')
+    //                     ->clickLink('test ticket')
+    //                     ->script("CKEDITOR.instances['editor'].setData('Test Comment');");
+    //             $browser->pause(3000);
+    //             $browser->press('Add Comment')
+    //                     ->assertSee('Test Comment');
+    //             $browser->mouseover('#main-wrapper > div.page-wrapper > div > div.container > div:nth-child(8) > div > div > div.comment-widgets > div.display-comment > div > div.comment-text.w-100 > div > span.action-icons > form > button')
+    //                      ->assertVisible('#main-wrapper > div.page-wrapper > div > div.container > div:nth-child(8) > div > div > div.comment-widgets > div.display-comment > div > div.comment-text.w-100 > div > span.action-icons > form > button');
+    //             $browser->acceptDialog() 
+    //                     ->assertSee('This comment has been deleted');
+    //         });
+    //     });
+    // }
+    public function testEnduserDeleteTicket()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->browse(function ($browser) {
+                $browser->visit('/ticket')
+                        ->clickLink('test ticket')
+                        ->assertMissing('Delete');
+            });
+        });
+    }
+    public function testEnduserRestoreTickets()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->browse(function ($browser) {
+                $browser->visit('/trash')
+                        ->assertMissing('restore');
+            });
+        });
+    }
+
+    public function testEnduserAccessTrashedTickets()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->browse(function ($browser) {
+                $browser->visit('/')
+                        ->assertMissing('Trashed');
+            });
         });
     }
 }
