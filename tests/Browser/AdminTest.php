@@ -108,4 +108,41 @@ class AdminTest extends DuskTestCase
       });
     }
 
+
+    /* Assign the first Ticket to Agent */
+    public function testAdminAssignTicketToAgent()
+    {
+      $this->browse(function (Browser $browser) {
+          $browser->visit('/ticket');
+          $browser->press('table > tbody > tr:nth-child(1) > td.footable-first-column > span.footable-toggle');
+          $browser->click('div.footable-row-detail-value > form > a.btn.btn-success');
+          $browser->click('button.btn.btn-outline-info'); // assign button
+          $browser->waitFor('#exampleModalLabel1');
+          $browser->select('user_id','2')
+                  ->click('#assignModal > div > div > div.modal-footer > button.btn.btn-primary')
+                  ->assertSeeIn('div.card-footer.text-muted', 'agent'); // the name of agent with id=2
+                  //->screenshot('assign_ticket');
+
+      });
+    }
+
+    /* Unassign the first Ticket from Agent */
+    public function testAdminUnassignAgentFromTicket()
+    {
+      $this->browse(function (Browser $browser) {
+          $browser->visit('/ticket');
+          $browser->press('table > tbody > tr:nth-child(1) > td.footable-first-column > span.footable-toggle');
+          $browser->click('div.footable-row-detail-value > form > a.btn.btn-success');
+          $browser->click('button.btn.btn-outline-info'); // assign button
+          $browser->waitFor('#exampleModalLabel1');
+          $browser->assertSeeIn('#assignModal > div > div > div.modal-body > form', 'agent');
+          $browser->click('#assignModal > div > div > div.modal-body > form > div:nth-child(4) > a')
+                  ->assertDialogOpened('Do you really want to unassign agent ?')
+                  ->acceptDialog();
+          $browser->assertDontSee('#assignModal > div > div > div.modal-body > form', 'agent');
+                  //->screenshot('unassign_ticket');
+
+      });
+    }
+
 }
