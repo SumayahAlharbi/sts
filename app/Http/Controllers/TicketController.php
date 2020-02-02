@@ -29,6 +29,7 @@ use App\Jobs\AssignedTicketJob;
 use App\Jobs\CreatedTicketGroupJob;
 use App\Jobs\CreatedTicketEnduserJob;
 use App\Jobs\TicketRatingJob;
+use App\Scopes\localTicketScope;
 
 use Illuminate\Http\Request;
 
@@ -56,9 +57,9 @@ class TicketController extends Controller
         // Auth::user()->settings()->delete('total_tickets');
         // $user->settings()->update('total_tickets', 'new value');
         if (Auth::user()->settings()->get('hide_completed_tickets') == true) {
-          $tickets = Ticket::orderByRaw('created_at DESC')->where('status_id', '!=' , '1')->simplePaginate($totalTicketSetting);
+          $tickets = Ticket::withoutGlobalScopes()->LocalTicket()->orderByRaw('created_at DESC')->where('status_id', '!=' , '1')->simplePaginate($totalTicketSetting);
         }else{
-          $tickets = Ticket::orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
+          $tickets = Ticket::withoutGlobalScopes()->LocalTicket()->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
         }
         $regions = Region::all()->pluck('name','id');
         $user_id = Auth::user()->id;
@@ -288,7 +289,7 @@ class TicketController extends Controller
      */
     public function show($id, Request $request)
     {
-        $tickets =  Ticket::findOrfail($id);
+        $tickets =  Ticket::withoutGlobalScopes()->LocalTicket()->findOrfail($id);
         $userGroups = Auth::user()->group;
         // echo $user->settings()->get('email_assigned_agent');
         // $user->settings()->delete('email_assigned_agent', 'new value');
@@ -301,6 +302,9 @@ class TicketController extends Controller
         $statuses = Status::all();
         $locations = Location::withoutGlobalScopes()->get();
 
+        // $agentTicketList = Ticket::with('user')->get();
+
+        // dd($TicketAgents);
         $next = Ticket::where('id', '>', $tickets->id)->orderBy('id')->first();
         $previous = Ticket::where('id', '<', $tickets->id)->orderBy('id','desc')->first();
 

@@ -21,6 +21,7 @@ use App\Mail\TicketAgentAssigned;
 use App\Mail\TicketRating;
 use App\Mail\RequestedBy;
 use Carbon\Carbon;
+use App\Charts\TotalTicketsDashboard;
 
 class HomeController extends Controller
 {
@@ -49,9 +50,9 @@ class HomeController extends Controller
       $todayTicketsTotal = Ticket::whereDate('due_date', Carbon::now() )->count();
       $lateTickets = Ticket::whereDate('due_date', '<', Carbon::now() )->where('status_id','!=', '1')->limit(5)->get();
       $lateTicketsTotal = Ticket::whereDate('due_date', '<', Carbon::now() )->where('status_id','!=', '1')->count();
-      $tickets = Ticket::paginate(5);
-      $ticketsStats = Ticket::all();
-      $users = User::withCount('ticket')->take(5)->orderBy('ticket_count', 'desc')->get();
+      // $tickets = Ticket::paginate(5);
+      // $ticketsStats = Ticket::all();
+      // $users = User::withCount('ticket')->take(5)->orderBy('ticket_count', 'desc')->get();
       $activityTickets = Activity::where('subject_type', 'App\Ticket')->orderBy('id', 'desc')->limit(5)->get();
       $locations = Location::all()->pluck('location_name','id');
       $categories = Category::all()->pluck('category_name','id');
@@ -67,7 +68,15 @@ class HomeController extends Controller
        $group=Group::all();
      $userGroups = Group::with('user')->get()->unique();
 
-      return view('home', compact('tickets','todayTickets', 'todayTicketsTotal', 'lateTickets', 'lateTicketsTotal', 'categories','locations','users','statuses','created_by', 'groups', 'ticketsStats', 'activityTickets','userGroups'));
+     $ticketsStatusPending = Ticket::where('status_id', '1')->count();
+     $ticketsStatusCompleted = Ticket::where('status_id', '4')->count();
+    //  $ticketsStatus = Ticket::where('status_id', '1')->count();
+
+     $chart = new TotalTicketsDashboard;
+     $chart->labels(['2 days ago', 'Yesterday']);
+     $chart->dataset('My dataset', 'doughnut', [$ticketsStatusPending, $ticketsStatusCompleted]);
+
+      return view('home', compact('chart','todayTickets', 'todayTicketsTotal', 'lateTickets', 'lateTicketsTotal', 'categories','locations','statuses','created_by', 'groups', 'activityTickets','userGroups'));
     }
 
     public function TicketsChartsApi()

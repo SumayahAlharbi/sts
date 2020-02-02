@@ -5,8 +5,9 @@
 
 <!-- Start Page Content -->
 <!-- ============================================================== -->
+<div>{!! $chart->container() !!}</div>
 
-<div class="row">
+{{-- <div class="row">
   <div class="col-lg-12 col-md-12">
     <div class="card">
       <div class="card-body">
@@ -48,7 +49,7 @@
     </div>
   </div>
 
-</div>
+</div> --}}
 
 {{-- My Groups --}}
 @if(!Auth::user()->hasRole('enduser'))
@@ -492,5 +493,7 @@
 <!-- ============================================================== -->
 <!-- End PAge Content -->
 <!-- ============================================================== -->
-
+@push('js')
+    {!! $chart->script() !!}
+@endpush
 @endsection

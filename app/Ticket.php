@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Laravel\Scout\Searchable;
+use Auth;
 
 class Ticket extends Model
 {
@@ -49,6 +50,10 @@ class Ticket extends Model
     {
       return $this->belongsTo('App\User','requested_by');
     }
+    public function activites()
+    {
+        return $this->morphOne('App\Activity', 'imageable');
+    }
     public function comments()
     {
     return $this->morphMany('App\Comment', 'commentable')->whereNull('parent_id');
@@ -77,4 +82,40 @@ class Ticket extends Model
 
       static::addGlobalScope(new Scopes\GlobalScope);
     }
+
+    public function scopeLocalTicket($query) {
+      $userGroups = Auth::user()->group;
+      foreach ($userGroups as $userGroup) {
+        $userGroupIDs[] =  $userGroup->id;
+      };
+      $userTickets = Auth::user()->ticket;
+      foreach ($userTickets as $userTicket) {
+        $userTicketIDs[] =  $userTicket->id;
+      };
+      if (Auth::user()->hasRole('admin')) {
+        return $query;
+      }
+      elseif (Auth::user()->hasPermissionTo('view group tickets')) {
+        $query->whereIn('group_id', $userGroupIDs)->orWhere('requested_by', Auth::user()->id)->orWhere('created_by', Auth::user()->id);
+      } 
+      elseif (Auth::user()->hasPermissionTo('change ticket status')) {
+        $userId = Auth::user()->id;
+        $query->whereIn('id', $userTicketIDs)
+        ->orWhere('created_by', Auth::user()->id)->orWhere('requested_by', Auth::user()->id);
+
+      }
+      else{
+            $query->where('requested_by', Auth::user()->id)->orWhere('created_by', Auth::user()->id);
+      }
+   }
+   public function scopeRequestedCreatedBy($query) {
+          $query->where('requested_by', Auth::user()->id)->orWhere('created_by', Auth::user()->id);
+ }
+ public function scopeHisGroup($query) {
+  $userGroups = Auth::user()->group;
+  foreach ($userGroups as $userGroup) {
+    $userGroupIDs[] =  $userGroup->id;
+  };
+  $query->whereIn('group_id', $userGroupIDs);
+}
 }
