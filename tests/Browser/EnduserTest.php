@@ -4,8 +4,6 @@ namespace Tests\Browser;
 
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Facebook\WebDriver\WebDriverBy;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Carbon\Carbon;
 
 
@@ -66,7 +64,7 @@ class EnduserTest extends DuskTestCase
             $this->browse(function ($browser) {
                 $browser->visit('/ticket')
                         ->clickLink('test ticket')
-                        ->assertMissing('Edit');
+                        ->assertMissing('#main-wrapper > div.page-wrapper > div > div.container > div.button-box.text-right > a.btn.btn-outline-success');
             });
         });
     }
