@@ -5,7 +5,15 @@
 
 <!-- Start Page Content -->
 <!-- ============================================================== -->
-<div>{!! $chart->container() !!}</div>
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    <div class="card">
+      <div class="card-body">
+{{-- {!! $chart->container() !!} --}}
+</div>
+</div>
+</div>
+</div>
 
 {{-- <div class="row">
   <div class="col-lg-12 col-md-12">
@@ -493,7 +501,7 @@
 <!-- ============================================================== -->
 <!-- End PAge Content -->
 <!-- ============================================================== -->
-@push('js')
-    {!! $chart->script() !!}
-@endpush
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+
+    {{-- {!! $chart->script() !!} --}}
 @endsection

@@ -688,12 +688,13 @@ class TicketController extends Controller
    public function getGroups($region_id){
 
           if (Auth::user()->hasRole('admin')) {
-            $selectedgroups =Group::where('region_id','=',$region_id)
+            $selectedgroups = Group::where('region_id','=',$region_id)
             ->get();
-          }elseif(Auth::user()->hasRole('enduser')){
-            $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->get();
+          }elseif(Auth::user()->hasPermissionTo('change ticket status')){
+            $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->whereNotIn('id', Auth::user()->group)->get();
           }else {
-            $selectedgroups = Auth::user()->group->where('region_id','=',$region_id);
+            // $selectedgroups = Auth::user()->group->where('region_id','=',$region_id);
+            $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->get();
           }
 
       return response()->json($selectedgroups);
