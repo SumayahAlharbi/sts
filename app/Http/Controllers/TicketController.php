@@ -128,9 +128,9 @@ class TicketController extends Controller
         // }else {
         //   $groups = Auth::user()->group;
         // }
-        
 
-        
+
+
         if (Auth::user()->hasRole('admin')) {
           $userGroups = Auth::user()->group;
           $groups = Group::all();
@@ -301,13 +301,13 @@ class TicketController extends Controller
 
         $TicketAgents = $tickets->user;
         $statuses = Status::all();
-        $locations = Location::withoutGlobalScope(GlobalScope::class)->get();
+        $locations = Location::all();
 
         // $agentTicketList = Ticket::with('user')->get();
 
         // dd($TicketAgents);
-        $next = Ticket::where('id', '>', $tickets->id)->orderBy('id')->first();
-        $previous = Ticket::where('id', '<', $tickets->id)->orderBy('id','desc')->first();
+        $next = Ticket::withoutGlobalScope(GlobalScope::class)->LocalTicket()->where('id', '>', $tickets->id)->orderBy('id')->first();
+        $previous = Ticket::withoutGlobalScope(GlobalScope::class)->LocalTicket()->where('id', '<', $tickets->id)->orderBy('id','desc')->first();
 
         $activityTickets = Activity::
         where('subject_type', 'App\Ticket')
