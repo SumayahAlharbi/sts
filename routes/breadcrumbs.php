@@ -1,6 +1,7 @@
 <?php
 
 use App\Ticket;
+use App\Scopes\GlobalScope;
 
 // Home
 Breadcrumbs::for('home', function ($trail) {
@@ -70,7 +71,7 @@ Breadcrumbs::for('ticket.create', function ($trail) {
 // ticket.show
 Breadcrumbs::for('ticket.show', function ($trail, $id) {
     $trail->parent('ticket.index');
-    $ticket = Ticket::withoutGlobalScopes()->LocalTicket()->findOrFail($id);
+    $ticket = Ticket::withoutGlobalScope(GlobalScope::class)->LocalTicket()->findOrFail($id);
 
     $trail->push($ticket->ticket_title, route('ticket.show', $ticket->id));
 });

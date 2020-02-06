@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Laravel\Scout\Searchable;
 use Auth;
+use App\Scopes\GlobalScope;
 
 class Ticket extends Model
 {
@@ -20,7 +21,7 @@ class Ticket extends Model
 
     public function category()
     {
-      return $this->belongsTo('App\Category')->withoutGlobalScopes();
+      return $this->belongsTo('App\Category')->withoutGlobalScope(GlobalScope::class);
     }
     public function group()
     {
@@ -28,7 +29,7 @@ class Ticket extends Model
     }
     public function location()
     {
-      return $this->belongsTo('App\Location')->withoutGlobalScopes();
+      return $this->belongsTo('App\Location')->withoutGlobalScope(GlobalScope::class);
     }
     public function user()
     {
