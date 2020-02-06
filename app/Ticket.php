@@ -8,6 +8,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Laravel\Scout\Searchable;
 use Auth;
 use App\Scopes\GlobalScope;
+use App\Scopes\LocationScope;
+use App\Scopes\CategoryScope;
 
 class Ticket extends Model
 {
@@ -21,7 +23,7 @@ class Ticket extends Model
 
     public function category()
     {
-      return $this->belongsTo('App\Category')->withoutGlobalScope(GlobalScope::class);
+      return $this->belongsTo('App\Category')->withoutGlobalScope(CategoryScope::class);
     }
     public function group()
     {
@@ -29,7 +31,7 @@ class Ticket extends Model
     }
     public function location()
     {
-      return $this->belongsTo('App\Location')->withoutGlobalScope(GlobalScope::class);
+      return $this->belongsTo('App\Location')->withoutGlobalScope(LocationScope::class);
     }
     public function user()
     {
@@ -98,7 +100,7 @@ class Ticket extends Model
       }
       elseif (Auth::user()->hasPermissionTo('view group tickets')) {
         $query->whereIn('group_id', $userGroupIDs)->orWhere('requested_by', Auth::user()->id)->orWhere('created_by', Auth::user()->id);
-      } 
+      }
       elseif (Auth::user()->hasPermissionTo('change ticket status')) {
         $userId = Auth::user()->id;
         $query->whereIn('id', $userTicketIDs)
