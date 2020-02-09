@@ -128,9 +128,9 @@ class TicketController extends Controller
         // }else {
         //   $groups = Auth::user()->group;
         // }
-        
 
-        
+
+
         if (Auth::user()->hasRole('admin')) {
           $userGroups = Auth::user()->group;
           $groups = Group::all();
@@ -333,8 +333,9 @@ class TicketController extends Controller
         $groups = Group::all();
         $users=User::all();
 
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users','userGroups'));
+        $group_users_not_ticket_agents = $group_users->diff($TicketAgents);
 
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users','userGroups','group_users_not_ticket_agents'));
         }
 
 
