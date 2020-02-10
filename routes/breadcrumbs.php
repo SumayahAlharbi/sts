@@ -1,5 +1,8 @@
 <?php
 
+use App\Ticket;
+use App\Scopes\GlobalScope;
+
 // Home
 Breadcrumbs::for('home', function ($trail) {
     $trail->push('Home', action('HomeController@index'));
@@ -68,7 +71,7 @@ Breadcrumbs::for('ticket.create', function ($trail) {
 // ticket.show
 Breadcrumbs::for('ticket.show', function ($trail, $id) {
     $trail->parent('ticket.index');
-    $ticket = app\Ticket::findOrFail($id);
+    $ticket = Ticket::withoutGlobalScope(GlobalScope::class)->LocalTicket()->findOrFail($id);
 
     $trail->push($ticket->ticket_title, route('ticket.show', $ticket->id));
 });
@@ -76,7 +79,7 @@ Breadcrumbs::for('ticket.show', function ($trail, $id) {
 // ticket.edit
 Breadcrumbs::for('ticket.edit', function ($trail, $id) {
     $trail->parent('ticket.index');
-    $ticket = app\Ticket::findOrFail($id);
+    $ticket = Ticket::findOrFail($id);
 
     $trail->push('Edit Ticket', route('ticket.edit', $ticket->id));
 });

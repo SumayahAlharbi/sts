@@ -10,80 +10,80 @@
   }
 </style>
 <script>
-    $(function () {
-        $('.myselect').selectpicker();
-    });        //update group after region select in defult model
-            $(document).on('change','.region', function(e){
-            var region_id = e.target.value;
-            $.getJSON('/getGroups/' + region_id, function(data) {
-                  $("#groupDiv").show();
-                  $('#group_id').empty();
-                  $('#group_id').append("<option value=''>Select your department</option>");
-                  $.each(data,function(index, subcatObj){
-                    $('#group_id').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
-    
+  $(function () {
+      $('.myselect').selectpicker();
+  });        //update group after region select in defult model
+          $(document).on('change','.region', function(e){
+          var region_id = e.target.value;
+          $.getJSON('/getGroups/' + region_id, function(data) {
+                $("#groupDiv").show();
+                $('#group_id').empty();
+                $('#group_id').append("<option value=''>Select your department</option>");
+                $.each(data,function(index, subcatObj){
+                  $('#group_id').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
+  
+                });
+            });
+  
+          });
+          //update location after group select in defult model
+          $(document).on('change','.group', function(e){
+          var group_id = e.target.value;
+          $.getJSON('/getLocations/' + group_id, function(data) {
+                $("#locationDiv").show();
+                $('#location_id').empty();
+                $('#location_id').append("<option value=''>Select your location</option>");
+                $.each(data,function(index, subcatObj){
+                  $('#location_id').append("<option value="+subcatObj.id+">"+subcatObj.location_name+"</option>");
+  
+                });
+            });
+            $.getJSON('/getCategory/' + group_id, function(data) {
+                  $("#categoryDiv").show();
+                      $('#category_id').empty();
+                      $('#category_id').append("<option value=''>Select a category</option>");
+                      $.each(data,function(index, subcatObj){
+                        $('#category_id').append("<option value="+subcatObj.id+">"+subcatObj.category_name+"</option>");
+  
                   });
               });
-    
+          });
+          //update group after region select in Enduser model
+          $(document).on('change','.regionEnduser', function(e){
+          var region_id = e.target.value;
+          $.getJSON('/getGroups/' + region_id, function(data) {
+                $("#groupDivEnduser").show();
+                $('#groupEnduser').empty();
+                $('#groupEnduser').append("<option value=''>Select department</option>");
+                $.each(data,function(index, subcatObj){
+                  $('#groupEnduser').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
+  
+                });
             });
-            //update location after group select in defult model
-            $(document).on('change','.group', function(e){
+          });
+          //update location after group select in Enduser model
+          $(document).on('change','.groupEnduser', function(e){
             var group_id = e.target.value;
             $.getJSON('/getLocations/' + group_id, function(data) {
-                  $("#locationDiv").show();
-                  $('#location_id').empty();
-                  $('#location_id').append("<option value=''>Select your location</option>");
+                  $("#locationDivEnduser").show();
+                  $('#locationEnduser').empty();
+                  $('#locationEnduser').append("<option value=''>Select your location</option>");
                   $.each(data,function(index, subcatObj){
-                    $('#location_id').append("<option value="+subcatObj.id+">"+subcatObj.location_name+"</option>");
-    
+                    $('#locationEnduser').append("<option value="+subcatObj.id+">"+subcatObj.location_name+"</option>");
+  
                   });
               });
-              $.getJSON('/getCategory/' + group_id, function(data) {
-                    $("#categoryDiv").show();
-                        $('#category_id').empty();
-                        $('#category_id').append("<option value=''>Select a category</option>");
-                        $.each(data,function(index, subcatObj){
-                          $('#category_id').append("<option value="+subcatObj.id+">"+subcatObj.category_name+"</option>");
-    
-                    });
-                });
-            });
-            //update group after region select in Enduser model
-            $(document).on('change','.regionEnduser', function(e){
-            var region_id = e.target.value;
-            $.getJSON('/getGroups/' + region_id, function(data) {
-                  $("#groupDivEnduser").show();
-                  $('#groupEnduser').empty();
-                  $('#groupEnduser').append("<option value=''>Select department</option>");
-                  $.each(data,function(index, subcatObj){
-                    $('#groupEnduser').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
-    
+            $.getJSON('/getCategory/' + group_id, function(data) {
+                  $("#categoryDivEnduser").show();
+                      $('#categoryEnduser').empty();
+                      $('#categoryEnduser').append("<option value=''>Select a category</option>");
+                      $.each(data,function(index, subcatObj){
+                        $('#categoryEnduser').append("<option value="+subcatObj.id+">"+subcatObj.category_name+"</option>");
+  
                   });
               });
-            });
-            //update location after group select in Enduser model
-            $(document).on('change','.groupEnduser', function(e){
-              var group_id = e.target.value;
-              $.getJSON('/getLocations/' + group_id, function(data) {
-                    $("#locationDivEnduser").show();
-                    $('#locationEnduser').empty();
-                    $('#locationEnduser').append("<option value=''>Select your location</option>");
-                    $.each(data,function(index, subcatObj){
-                      $('#locationEnduser').append("<option value="+subcatObj.id+">"+subcatObj.location_name+"</option>");
-    
-                    });
-                });
-              $.getJSON('/getCategory/' + group_id, function(data) {
-                    $("#categoryDivEnduser").show();
-                        $('#categoryEnduser').empty();
-                        $('#categoryEnduser').append("<option value=''>Select a category</option>");
-                        $.each(data,function(index, subcatObj){
-                          $('#categoryEnduser').append("<option value="+subcatObj.id+">"+subcatObj.category_name+"</option>");
-    
-                    });
-                });
-            });
-    </script>
+          });
+  </script>
 
 <div class = 'row'>
 <div class="col-12">
@@ -154,17 +154,17 @@
                     <option value="{{$group->id}}">{{$group->group_name}}</option>
                   @endforeach
                 </select> --}}
-                <select id="ajax-select" class="form-control group" name="group_id" id="group_id"  data-live-search="true" placeholder="please select the department">
-                  @if(Auth::user()->group)
-                  @unless(Auth::user()->hasRole('agent'))
+                <select required class="form-control group" name="group_id" id="group_id" required>
+                  {{-- @if(Auth::user()->group)
+                  @unless(Auth::user()->hasRole('agent')) --}}
                   <option disabled="disabled" selected="selected">Select Departments/Groups</option>
                   <optgroup label="Your Departments/Groups">
                     @foreach ($userGroups as $userGroup)
                     <option value="{{$userGroup->id}}">{{$userGroup->group_name}}</option>
                     @endforeach
                   </optgroup>
-                  @endunless
-                  @endif
+                  {{-- @endunless
+                  @endif --}}
                   <optgroup label="KSAU-HS Departments">
                     @foreach ($groups as $group)
                       <option value="{{$group->id}}">{{$group->group_name}}</option>
