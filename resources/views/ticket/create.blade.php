@@ -45,6 +45,7 @@
       // alert("Value exists!")
 
     var groups = [];
+    
                 $('#group_id').append('<optgroup label="Your Department">');
                   @foreach($userGroups as $userGroup )
                     // groups.push({ id: '{{ $userGroup->id }}', text: '{{ $userGroup->group_name }}' });
@@ -62,6 +63,7 @@
               } else{
       // alert("Value does not exists!")
     }
+    $('#group_id').append('<option value="" disabled selected hidden>Select department</option>')
                 $('#group_id').append('<optgroup label="KSAU-HS Departments">');
                 $.each(data,function(index, subcatObj){
                   $('#group_id').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
@@ -76,6 +78,7 @@
           $.getJSON('/getLocations/' + group_id, function(data) {
                 $("#locationDiv").show();
                 $('#location_id').empty();
+                $('#location_id').append('<option value="" disabled selected hidden>Select location</option>')
                 $('#location_id').append("<option value=''>Select your location</option>");
                 $.each(data,function(index, subcatObj){
                   $('#location_id').append("<option value="+subcatObj.id+">"+subcatObj.location_name+"</option>");
@@ -85,6 +88,7 @@
             $.getJSON('/getCategory/' + group_id, function(data) {
                   $("#categoryDiv").show();
                       $('#category_id').empty();
+                      $('#category_id').append('<option value="" disabled selected hidden>Select category</option>')
                       $('#category_id').append("<option value=''>Select a category</option>");
                       $.each(data,function(index, subcatObj){
                         $('#category_id').append("<option value="+subcatObj.id+">"+subcatObj.category_name+"</option>");

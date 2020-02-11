@@ -129,8 +129,6 @@ class TicketController extends Controller
         //   $groups = Auth::user()->group;
         // }
 
-
-
         if (Auth::user()->hasRole('admin')) {
           $userGroups = Auth::user()->group;
                     // Getting the user groups id array
@@ -158,7 +156,7 @@ class TicketController extends Controller
             $userGroups = Auth::user()->group;
             $groups = Group::where('visibility_id','=','1')->get();
           }
-        return view('ticket.create', compact('categories','locations','users','created_by', 'groups','regions','userGroups','userGroupsIdArray'));
+        return view('ticket.create', compact('categories','locations','users','created_by', 'groups','regions','userGroups'));
     }
 
     /**

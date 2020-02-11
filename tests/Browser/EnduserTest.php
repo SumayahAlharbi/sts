@@ -39,9 +39,12 @@ class EnduserTest extends DuskTestCase
             $browser->script("CKEDITOR.instances['contentEditor'].setData('Test Data');");
             $browser->pause(3000);
             $browser->select('region','1');
-            $browser->select('group_id','1');
-            $browser->select('location_id','1');
-            $browser->select('category_id','2');
+            $browser->waitFor('.group');
+            $browser->select('group_id','5');
+            $browser->waitFor('#location_id');
+            $browser->select('location_id','9');
+            $browser->waitFor('#categoryDiv');
+            $browser->select('category_id','10');
             $browser->type('room_number','324');
             $browser->press('Create')
                     ->assertSee('Comments')
