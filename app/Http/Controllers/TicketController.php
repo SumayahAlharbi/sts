@@ -133,6 +133,10 @@ class TicketController extends Controller
 
         if (Auth::user()->hasRole('admin')) {
           $userGroups = Auth::user()->group;
+                    // Getting the user groups id array
+                    foreach ($userGroups as $userGroupsId) {
+                      $userGroupsIdArray[] =  $userGroupsId->id;
+                    };
           $groups = Group::all();
         }elseif (Auth::user()->hasPermissionTo('view group tickets')) {
           $userGroups = Auth::user()->group;

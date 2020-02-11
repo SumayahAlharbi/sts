@@ -202,11 +202,11 @@
                   {{-- @if(Auth::user()->group) --}}
                   {{-- @unless(Auth::user()->hasRole('agent')) --}}
                   {{-- <option disabled="disabled" selected="selected">Select Departments/Groups</option> --}}
-                  <optgroup id="his-group" label="Your Departments/Groups">
+                  {{-- <optgroup id="his-group" label="Your Departments/Groups">
                     @foreach ($userGroups as $userGroup)
                     <option value="{{$userGroup->id}}">{{$userGroup->group_name}}</option>
                     @endforeach
-                  </optgroup>
+                  </optgroup> --}}
                   {{-- @endunless --}}
                   {{-- @endif --}}
                   {{-- <optgroup label="KSAU-HS Departments">
