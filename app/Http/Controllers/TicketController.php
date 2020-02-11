@@ -644,8 +644,14 @@ class TicketController extends Controller
 
     public function ChangeTicketTotal($user_id, $setting_value)
     {
-      Auth::user()->settings()->set('total_tickets', $setting_value);
-      return back();
+      $user = User::findOrFail($user_id);
+      if (Auth::id() == $user_id or auth()->user()->hasRole('admin')){
+        $user->settings()->set('total_tickets', $setting_value);
+        return redirect()->to('profile/'.$user->id);
+      }
+      else{
+        return abort(404);
+      }
     }
 
 
