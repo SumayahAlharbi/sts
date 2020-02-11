@@ -696,18 +696,18 @@ class TicketController extends Controller
 
    // Fetch groups by region id
    public function getGroups($region_id){
-
+     
+    $userGroups = Auth::user()->group;
+    foreach ($userGroups as $userGroup) {
+      $userGroupIDs[] =  $userGroup->id;
+    };
           if (Auth::user()->hasRole('admin')) {
             $selectedgroups = Group::where('region_id','=',$region_id)
             ->get();
           }elseif(Auth::user()->hasPermissionTo('view group tickets')){
-                  $userGroups = Auth::user()->group;
-                    foreach ($userGroups as $userGroup) {
-                      $userGroupIDs[] =  $userGroup->id;
-                    };
             $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->whereNotIn('id', $userGroupIDs)->get();
           }elseif(Auth::user()->hasPermissionTo('change ticket status')){
-            $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->whereNotIn('id', Auth::user()->group)->get();
+            $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->whereNotIn('id', $userGroupIDs)->get();
           }else {
             // $selectedgroups = Auth::user()->group->where('region_id','=',$region_id);
             $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->get();
