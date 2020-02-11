@@ -134,7 +134,15 @@ class TicketController extends Controller
         if (Auth::user()->hasRole('admin')) {
           $userGroups = Auth::user()->group;
           $groups = Group::all();
-        }elseif (Auth::user()->hasPermissionTo('change ticket status')) {
+        }elseif (Auth::user()->hasPermissionTo('view group tickets')) {
+          $userGroups = Auth::user()->group;
+
+          // Getting the user groups id array
+          foreach ($userGroups as $userGroupsId) {
+            $userGroupsIdArray[] =  $userGroupsId->id;
+          };
+            $groups = Group::where('visibility_id','=','1')->get();
+          }elseif (Auth::user()->hasPermissionTo('change ticket status')) {
           $userGroups = Auth::user()->group;
 
           // Getting the user groups id array
@@ -146,7 +154,7 @@ class TicketController extends Controller
             $userGroups = Auth::user()->group;
             $groups = Group::where('visibility_id','=','1')->get();
           }
-        return view('ticket.create', compact('categories','locations','users','created_by', 'groups','regions','userGroups'));
+        return view('ticket.create', compact('categories','locations','users','created_by', 'groups','regions','userGroups','userGroupsIdArray'));
     }
 
     /**
@@ -692,6 +700,12 @@ class TicketController extends Controller
           if (Auth::user()->hasRole('admin')) {
             $selectedgroups = Group::where('region_id','=',$region_id)
             ->get();
+          }elseif(Auth::user()->hasPermissionTo('view group tickets')){
+                  $userGroups = Auth::user()->group;
+                    foreach ($userGroups as $userGroup) {
+                      $userGroupIDs[] =  $userGroup->id;
+                    };
+            $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->whereNotIn('id', $userGroupIDs)->get();
           }elseif(Auth::user()->hasPermissionTo('change ticket status')){
             $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->whereNotIn('id', Auth::user()->group)->get();
           }else {

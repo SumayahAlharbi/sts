@@ -18,11 +18,55 @@
           $.getJSON('/getGroups/' + region_id, function(data) {
                 $("#groupDiv").show();
                 $('#group_id').empty();
-                $('#group_id').append("<option value=''>Select your department</option>");
+                // var groups = [];
+                // @foreach($userGroups as $userGroupsId) 
+                //   $userGroupsIdArray[] =  $userGroupsId->region_id;
+                // @endforeach
+                // var hiddenField = $( ".filter-option-inner-inner" ).text();
+                // document.getElementById("requested_by_name").value = hiddenField;
+                var userGroupsRegion = 
+                [
+                  @foreach($userGroups as $userGroupsId) 
+                      "{{ $userGroupsIdArray[] =  $userGroupsId->region_id }}",
+                    @endforeach
+                ];
+
+    //             var n = userGroupsRegion.includes(region_id);
+    //             if(n.indexOf("Mango") !== -1){
+    //     alert("Value exists!")
+    // } else{
+    //     alert("Value does not exists!")
+    // }
+    // var groupRegionArr = ["Apple", "Banana", "Mango", "Orange", "Papaya"];
+    // var groupRegionArr = userGroupsRegion.includes(region_id);
+    
+    // Check if a value exists in the fruits array
+    if(userGroupsRegion.indexOf(region_id) > -1){
+      // alert("Value exists!")
+
+    var groups = [];
+                $('#group_id').append('<optgroup label="Your Department">');
+                  @foreach($userGroups as $userGroup )
+                    // groups.push({ id: '{{ $userGroup->id }}', text: '{{ $userGroup->group_name }}' });
+
+                    var optgroup = "<option value='{{$userGroup->id}}'>{{$userGroup->group_name}}</option>"
+                    $('#group_id').append(optgroup);
+                  @endforeach
+                  // for (var i = 0; i < groups.length; i++) {
+                  //   var optgroup = "<option value='" + groups[i].id + "'>" + groups[i].text + "</option>"
+                  // }
+                
+                
+                $('#group_id').append("</optgroup>");
+
+              } else{
+      // alert("Value does not exists!")
+    }
+                $('#group_id').append('<optgroup label="KSAU-HS Departments">');
                 $.each(data,function(index, subcatObj){
                   $('#group_id').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
-  
                 });
+                $('#group_id').append("</optgroup>");
             });
   
           });
@@ -148,28 +192,28 @@
                 </div>
                 
                 <div class="form-group" style="display:none;" id="groupDiv">
-                <label for="exampleFormControlSelect1">Department</label>
+                <label for="exampleFormControlSelect1">Request from</label>
                 {{-- <select required class="form-control group" name="group_id" id="group_id" placeholder="please select the department">
                   @foreach ($groups as $group)
                     <option value="{{$group->id}}">{{$group->group_name}}</option>
                   @endforeach
                 </select> --}}
-                <select required class="form-control group" name="group_id" id="group_id" required>
-                  {{-- @if(Auth::user()->group)
-                  @unless(Auth::user()->hasRole('agent')) --}}
-                  <option disabled="disabled" selected="selected">Select Departments/Groups</option>
-                  <optgroup label="Your Departments/Groups">
+                <select class="form-control group" name="group_id" id="group_id" required>
+                  {{-- @if(Auth::user()->group) --}}
+                  {{-- @unless(Auth::user()->hasRole('agent')) --}}
+                  {{-- <option disabled="disabled" selected="selected">Select Departments/Groups</option> --}}
+                  <optgroup id="his-group" label="Your Departments/Groups">
                     @foreach ($userGroups as $userGroup)
                     <option value="{{$userGroup->id}}">{{$userGroup->group_name}}</option>
                     @endforeach
                   </optgroup>
-                  {{-- @endunless
-                  @endif --}}
-                  <optgroup label="KSAU-HS Departments">
+                  {{-- @endunless --}}
+                  {{-- @endif --}}
+                  {{-- <optgroup label="KSAU-HS Departments">
                     @foreach ($groups as $group)
                       <option value="{{$group->id}}">{{$group->group_name}}</option>
                     @endforeach
-                </optgroup>
+                </optgroup> --}}
                 </select>
                 {{-- <input type="text" class="form-control" id="requested_by_name" name="requested_by_name" value="" hidden/> --}}
               </div>
