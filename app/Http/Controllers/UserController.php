@@ -91,7 +91,7 @@ class UserController extends Controller
     {
         $user =  \App\User::findOrfail($id);
         $user_id = $user->id;
-        $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
+        $totalTicketSetting = $user->settings()->get('total_tickets');
         $userGroups = Auth::user()->group;
         $ProfileGroups = $user->group;
 
@@ -328,10 +328,16 @@ public function notifications()
 public function changeUserSetting(Request $request)
 {
     $user = User::findOrFail($request->user_id);
-    $user->settings()->set($request->setting_name, $request->setting_value);
-    $settingValue = $request->setting_value;
-
-    return response()->json(['message' => 'Setting updated successfully.']);
+    if (Auth::id() == $user->id or auth()->user()->hasRole('admin')) {
+      $user->settings()->set($request->setting_name, $request->setting_value);
+      $settingValue = $request->setting_value;
+      return redirect()->to('profile/'.$user->id); // if changing from URL
+      //return response()->json(['message' => 'Setting updated successfully.']);
+    }
+    else {
+      return abort(404); // if changing from URL
+      // return response()->json(['message' => 'You are not allowed to change others settings!']);
+    }
 }
 
 }
