@@ -26,9 +26,9 @@ class SupervisorTest extends DuskTestCase
         });
     }
 
-   
+
     //        view,create,edit tickets
-   
+
     public function testSupervisorCreateTicket()
     {
         $this->browse(function (Browser $browser) {
@@ -38,8 +38,8 @@ class SupervisorTest extends DuskTestCase
             $browser->script("CKEDITOR.instances['contentEditor'].setData('Test Data');");
             $browser->pause(4000);
             $browser->select('region','1');
-            $browser->select('group_id','1');
-            $browser->select('location_id','1');
+            $browser->select('group_id','5');
+            $browser->select('location_id','2');
             $browser->select('category_id','2');
             $browser->type('room_number','324');
             $browser->press('Create')
@@ -121,7 +121,7 @@ class SupervisorTest extends DuskTestCase
     //                     //->seePageIs('/ticket/32345');
     //                    // ->press('');
     //                    // ->visit('/ticket/32345');
-        
+
     //         });
     //     });
     // }
@@ -214,5 +214,5 @@ class SupervisorTest extends DuskTestCase
                     ->assertSee('Generate & Download');
         });
     }
-    
+
 }
