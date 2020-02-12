@@ -5,7 +5,7 @@
 <div class='container'>
   <div class="row">
     <div class="col">
-      <a class="btn btn-primary" href="" role="button">New <i class="icon ion-md-add-circle"></i></a>
+      <a class="btn btn-primary" href="{{ route('users.create')}}" role="button">New <i class="icon ion-md-add-circle"></i></a>
     </div>
     <div class="col">
       <form method="get" action="{{ route('user.userSearch') }}">

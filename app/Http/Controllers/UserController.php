@@ -16,6 +16,7 @@ use App\Category;
 use App\Location;
 use App\Status;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -39,7 +40,7 @@ class UserController extends Controller
     public function create()
     {
         //
-        // return view('status.create');
+         return view('users.create');
 
     }
 
@@ -51,11 +52,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // $status = new Status;
-        // $status->status_name = $request->status_name;
-        // $status->save();
-        // return redirect('/status')->with('success', 'status has been added');
+
+      $this->validate($request, [
+       'email' => 'unique:users,email|required|max:191|string|email',
+       'name' => 'required|max:191|string',
+       'password' => 'required|between:6,50|string',
+       ]);
+
+      $user = new \App\User();
+
+      $user->email = $request->email;
+      $user->name = $request->name;
+      $user->password = Hash::make($request->password);
+
+      $user->save();
+         return redirect('/users')->with('success', 'User has been created');
 
     }
 
@@ -182,18 +193,17 @@ class UserController extends Controller
     {
       {
 
-   //   $this->validate($request, [
-   //   'email' => [
-   //   'required',
-   //   Rule::unique('users')->ignore($request->user_id),
-   //    'email',
-   //    'max:191',
-   //    'string',
-   //    'regex:/^[A-Za-z0-9\.]*@(ksau-hs)[.](edu)[.](sa)$/',
-   // ],
-   //   'name' => 'required|max:191|string',
-   //   'password' => 'nullable|between:6,20|string',
-   //   ]);
+        $this->validate($request, [
+            'email' => [
+            'required',
+            Rule::unique('users')->ignore($request->user_id),
+             'email',
+             'max:191',
+             'string',
+          ],
+            'name' => 'required|max:191|string',
+            'password' => 'nullable|between:6,50|string',
+            ]);
        $user = \App\User::findOrfail($request->user_id);
 
        $user->email = $request->email;
@@ -320,7 +330,7 @@ public function changeUserSetting(Request $request)
     $user = User::findOrFail($request->user_id);
     $user->settings()->set($request->setting_name, $request->setting_value);
     $settingValue = $request->setting_value;
-    
+
     return response()->json(['message' => 'Setting updated successfully.']);
 }
 

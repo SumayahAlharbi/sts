@@ -311,13 +311,13 @@ class TicketController extends Controller
 
         $TicketAgents = $tickets->user;
         $statuses = Status::all();
-        $locations = Location::withoutGlobalScope(GlobalScope::class)->get();
+        $locations = Location::all();
 
         // $agentTicketList = Ticket::with('user')->get();
 
         // dd($TicketAgents);
-        $next = Ticket::where('id', '>', $tickets->id)->orderBy('id')->first();
-        $previous = Ticket::where('id', '<', $tickets->id)->orderBy('id','desc')->first();
+        $next = Ticket::withoutGlobalScope(GlobalScope::class)->LocalTicket()->where('id', '>', $tickets->id)->orderBy('id')->first();
+        $previous = Ticket::withoutGlobalScope(GlobalScope::class)->LocalTicket()->where('id', '<', $tickets->id)->orderBy('id','desc')->first();
 
         $activityTickets = Activity::
         where('subject_type', 'App\Ticket')
@@ -698,7 +698,7 @@ class TicketController extends Controller
 
    // Fetch groups by region id
    public function getGroups($region_id){
-     
+
     $userGroups = Auth::user()->group;
     foreach ($userGroups as $userGroup) {
       $userGroupIDs[] =  $userGroup->id;
