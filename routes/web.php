@@ -23,7 +23,8 @@ Route::get('/signout', 'Auth\MsGraphLoginController@signout');
 // Route::get('/userslist', 'auth\MsGraphLoginController@usersList');
 Route::get('/userslist', 'Auth\MsGraphLoginController@usersList')->name('graph.users.list');
 
-Auth::routes();
+Auth::routes(['register' => false]);
+
 
 // Route::get('test', function () {
 //     event(new App\Events\TicketAssigned('Someone'));
@@ -105,7 +106,7 @@ Route::group(['middleware' => 'auth'], function () {
     // assign user to a group
     Route::post('users/addUserGroup', 'UserController@addUserGroup');
     Route::get('users/removeUserGroup/{user_id}/{group_id}', '\App\Http\Controllers\UserController@removeUserGroup');
-    //Users status
+    //Status
     Route::resource('status', 'StatusController');
     //Groups Routes
     Route::resource('group', 'GroupController');
@@ -156,7 +157,7 @@ Route::group(['middleware' => 'auth'], function () {
   });
 
   Route::get('/changeUserSetting', 'UserController@changeUserSetting')->name('user.change.setting');
-  
+
   //Regions Routes
   Route::get('regions', 'RegionController@index')->name('regions.index');
 
@@ -191,7 +192,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('ticket', 'TicketController@index')->name('ticket.index')->middleware('permission:view tickets list');
   Route::get('ticket/create', 'TicketController@create')->name('ticket.create')->middleware('permission:create ticket');
   Route::post('ticket', 'TicketController@store')->name('ticket.store')->middleware('permission:create ticket');
-  Route::post('ticket/store', 'TicketController@Enduserstore')->name('ticket.Enduserstore')->middleware('permission:end user create ticket');
+  // Route::post('ticket/store', 'TicketController@Enduserstore')->name('ticket.Enduserstore')->middleware('permission:end user create ticket');
   // Route::post('ticket/create', 'TicketController@store')->name('ticket.store')->middleware('permission:create ticket');
   Route::get('ticket/{ticket}', 'TicketController@show')->name('ticket.show')->middleware('permission:show ticket');
   Route::get('ticket/{ticket}/edit', 'TicketController@edit')->name('ticket.edit')->middleware('permission:update ticket');

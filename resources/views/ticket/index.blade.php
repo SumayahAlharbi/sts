@@ -323,9 +323,9 @@ $(function () {
                                       <div class="form-group">
                                           <label for="ticket_content">Ticket Content</label>
                                           <textarea name="ticket_content" class="form-control" id="contentEditor" rows="3" value="{{ old('ticket_content') }}" required></textarea>
-                                          <script>
+                                          {{-- <script>
                                             CKEDITOR.replace( 'contentEditor' );
-                                          </script>
+                                          </script> --}}
                                       </div>
 
                                       <div class="form-group">

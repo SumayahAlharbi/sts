@@ -72,8 +72,8 @@
     @can('update ticket')<a class="btn btn-outline-success" href="{{ route('ticket.edit',$tickets->id)}}" title="Edit" role="button"><i class="far fa-edit"></i></a>@endcan
     @can('assign ticket')<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#assignModal" data-whatever="@assign" title="Assign"><i class="fas fa-users"></i></button>@endcan
     @can('change ticket status')<button type="button" title="Status" class="btn btn-outline-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-check-square"></i></button>@endcan
- 
-    
+
+
 
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
       @foreach ($statuses as $status)
@@ -94,7 +94,7 @@
 
     @endif
     @endforeach
-    
+
     @if (isset($previous))
     <a class="btn btn-outline-secondary" href="{{ route('ticket.show',$previous->id)}}" title="Previous" role="button"><i class="fas fa-chevron-left"></i></a>
     @endif
@@ -174,7 +174,7 @@
               <label for="name">Agent list</label>
               <select name="user_id" id="" data-show-subtext="true" data-live-search="true" class="selectpicker form-control">
                 <option selected disabled value> -- Choose an Agent -- </option>
-                @foreach($group_users as $group_user)
+                @foreach($group_users_not_ticket_agents as $group_user)
                 <option value="{{$group_user->id}}">{{$group_user->name}}</option>
                 @endforeach
               </select>
@@ -183,10 +183,12 @@
 
             <!-- unassign Users from Ticket -->
             <div class="form-group">
+              @if (!$TicketAgents->isEmpty())
               <h5>Ticket Assigned to:</h5>
               @foreach($TicketAgents as $TicketAgent)
               <a class='btn btn-primary' @can('unassign ticket') onclick="return confirm('Do you really want to unassign {{$TicketAgent->name}} ?');" href='{{url('ticket/removeTicketAgent')}}/{{$TicketAgent->id}}/{{$tickets->id}}' @endcan data-activates=''><i class="fas fa-user-times"></i> {{$TicketAgent->name}} </a>
               @endforeach
+              @endif
             </div>
         </div>
         <div class="modal-footer">
@@ -316,20 +318,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Group Row -->
-  <!-- <div class="row">
-  <div class="col-md-12">
-    <div class="card">
-
-      <div class="card-body">
-        <h6 class="card-subtitle mb-2 text-muted">Ticket Category</h6>
-        <p class="card-text">{{$tickets->category->category_name}}</p>
-      </div>
-    </div>
-  </div>
-</div> -->
-  <!-- Group Row -->
 
   <div class="row">
     <div class="col-md-12">
