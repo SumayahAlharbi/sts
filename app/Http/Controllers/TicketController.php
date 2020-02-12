@@ -129,12 +129,22 @@ class TicketController extends Controller
         //   $groups = Auth::user()->group;
         // }
 
-
-
         if (Auth::user()->hasRole('admin')) {
           $userGroups = Auth::user()->group;
+                    // Getting the user groups id array
+                    foreach ($userGroups as $userGroupsId) {
+                      $userGroupsIdArray[] =  $userGroupsId->id;
+                    };
           $groups = Group::all();
-        }elseif (Auth::user()->hasPermissionTo('change ticket status')) {
+        }elseif (Auth::user()->hasPermissionTo('view group tickets')) {
+          $userGroups = Auth::user()->group;
+
+          // Getting the user groups id array
+          foreach ($userGroups as $userGroupsId) {
+            $userGroupsIdArray[] =  $userGroupsId->id;
+          };
+            $groups = Group::where('visibility_id','=','1')->get();
+          }elseif (Auth::user()->hasPermissionTo('change ticket status')) {
           $userGroups = Auth::user()->group;
 
           // Getting the user groups id array
@@ -333,8 +343,9 @@ class TicketController extends Controller
         $groups = Group::all();
         $users=User::all();
 
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users','userGroups'));
+        $group_users_not_ticket_agents = $group_users->diff($TicketAgents);
 
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users','userGroups','group_users_not_ticket_agents'));
         }
 
 
@@ -688,11 +699,17 @@ class TicketController extends Controller
    // Fetch groups by region id
    public function getGroups($region_id){
 
+    $userGroups = Auth::user()->group;
+    foreach ($userGroups as $userGroup) {
+      $userGroupIDs[] =  $userGroup->id;
+    };
           if (Auth::user()->hasRole('admin')) {
             $selectedgroups = Group::where('region_id','=',$region_id)
             ->get();
+          }elseif(Auth::user()->hasPermissionTo('view group tickets')){
+            $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->whereNotIn('id', $userGroupIDs)->get();
           }elseif(Auth::user()->hasPermissionTo('change ticket status')){
-            $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->whereNotIn('id', Auth::user()->group)->get();
+            $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->whereNotIn('id', $userGroupIDs)->get();
           }else {
             // $selectedgroups = Auth::user()->group->where('region_id','=',$region_id);
             $selectedgroups = Group::where('region_id','=',$region_id)->where('visibility_id','=','1')->get();
