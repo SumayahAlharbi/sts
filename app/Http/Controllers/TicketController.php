@@ -31,6 +31,8 @@ use App\Jobs\CreatedTicketEnduserJob;
 use App\Jobs\TicketRatingJob;
 use App\Scopes\localTicketScope;
 use App\Scopes\GlobalScope;
+use App\Scopes\LocationScope;
+use App\Scopes\CategoryScope;
 
 use Illuminate\Http\Request;
 
@@ -721,7 +723,7 @@ class TicketController extends Controller
      // Fetch location by group id
      public function getLocations($group_id){
 
-      $selectedlocations = Location::where('group_id','=',$group_id)->withoutGlobalScope(GlobalScope::class)->get();
+      $selectedlocations = Location::where('group_id','=',$group_id)->withoutGlobalScope(LocationScope::class)->get();
       return response()->json($selectedlocations);
   }
 
@@ -729,7 +731,7 @@ class TicketController extends Controller
      // Fetch category by group id
      public function getCategory($group_id){
 
-      $selectedcategory =Category::where('group_id','=',$group_id)->withoutGlobalScope(GlobalScope::class)->get();
+      $selectedcategory =Category::where('group_id','=',$group_id)->withoutGlobalScope(CategoryScope::class)->get();
       return response()->json($selectedcategory);
   }
 

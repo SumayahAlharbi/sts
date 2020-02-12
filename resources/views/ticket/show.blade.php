@@ -319,20 +319,6 @@
     </div>
   </div>
 
-  <!-- Group Row -->
-  <!-- <div class="row">
-  <div class="col-md-12">
-    <div class="card">
-
-      <div class="card-body">
-        <h6 class="card-subtitle mb-2 text-muted">Ticket Category</h6>
-        <p class="card-text">{{$tickets->category->category_name}}</p>
-      </div>
-    </div>
-  </div>
-</div> -->
-  <!-- Group Row -->
-
   <div class="row">
     <div class="col-md-12">
       <div class="card">
