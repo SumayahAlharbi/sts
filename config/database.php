@@ -80,6 +80,11 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
+        'sqlite_testing' => [
+          'driver'   => 'sqlite',
+          'database' => database_path('sqlite_testing'),
+          'prefix'   => '',
+      ],
 
     ],
 
