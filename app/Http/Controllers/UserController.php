@@ -17,6 +17,7 @@ use App\Location;
 use App\Status;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Validation\Rule;
+use GuzzleHttp\Client;
 
 class UserController extends Controller
 {
@@ -109,6 +110,15 @@ class UserController extends Controller
         $statuses = Status::all();
         $categories = Category::all()->pluck('category_name','id');
 
+        $client = new Client();
+        $parts = explode("@", Auth::user()->email);
+        $username = $parts[0];
+        $response = $client->request('GET', 'https://apex.oracle.com/pls/apex/ksau-hs/assets/custodian/{$username}');
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody()->getContents();
+        $assets = json_decode($body);
+        $list = $assets->items;
+        
     //    $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->simplePaginate(10);
 
     // if ($user->group->isEmpty()) {
@@ -117,7 +127,7 @@ class UserController extends Controller
     //     if  (!empty(array_intersect($userGroupIDs, $ProfileGroupsIDs)))
     //     {
 
-            return view('profile.index', compact('user','assigned_tickets','statuses','categories','totalTicketSetting','user_id'));
+       return view('profile.index', compact('user','assigned_tickets','statuses','categories','totalTicketSetting','user_id','assets'));
 
 
         // }
