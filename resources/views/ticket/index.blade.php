@@ -517,6 +517,8 @@ preprocessData: function (data) {
 
                           <td title="{{$ticket->status['status_name']}}">
 
+                            @isset($userGroupsIdArray)
+
                             @if(in_array($ticket->group_id, $userGroupsIdArray) and (auth()->user()->can('change ticket status')) or auth()->user()->hasRole('admin'))
                             <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
                             @elseif ($ticket->status['status_name'] == 'Completed') btn-success
@@ -534,6 +536,7 @@ preprocessData: function (data) {
                             @endif
                             @endforeach
                             </div>
+                            @endisset
                        @else
                          <span class="label
                          @if ($ticket->status['status_name'] == 'Unassigned') label-danger
