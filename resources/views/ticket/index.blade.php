@@ -517,9 +517,18 @@ preprocessData: function (data) {
 
                           <td title="{{$ticket->status['status_name']}}">
 
-                            @isset($userGroupsIdArray)
-
-                            @if(in_array($ticket->group_id, $userGroupsIdArray) and (auth()->user()->can('change ticket status')) or auth()->user()->hasRole('admin'))
+                            @if($userGroupsIdArray == null or !in_array($ticket->group_id, $userGroupsIdArray))
+                            <span class="label
+                            @if ($ticket->status['status_name'] == 'Unassigned') label-danger
+                            @elseif ($ticket->status['status_name'] == 'Completed') label-success
+                            @elseif ($ticket->status['status_name'] == 'Pending') label-warning
+                            @elseif ($ticket->status['status_name'] == 'In Progress') label-primary
+                            @else label-inverse
+                            @endif">
+                            {{$ticket->status['status_name']}}
+                          </span>
+                            
+                            @elseif(in_array($ticket->group_id, $userGroupsIdArray) and (auth()->user()->can('change ticket status')) or auth()->user()->hasRole('admin'))
                             <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
                             @elseif ($ticket->status['status_name'] == 'Completed') btn-success
                             @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
@@ -536,17 +545,8 @@ preprocessData: function (data) {
                             @endif
                             @endforeach
                             </div>
-                            @endisset
-                       @else
-                         <span class="label
-                         @if ($ticket->status['status_name'] == 'Unassigned') label-danger
-                         @elseif ($ticket->status['status_name'] == 'Completed') label-success
-                         @elseif ($ticket->status['status_name'] == 'Pending') label-warning
-                         @elseif ($ticket->status['status_name'] == 'In Progress') label-primary
-                         @else label-inverse
-                         @endif">
-                         {{$ticket->status['status_name']}}
-                       </span>
+                            
+
                        @endif
                        </td>
 

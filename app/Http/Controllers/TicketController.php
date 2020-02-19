@@ -82,9 +82,14 @@ class TicketController extends Controller
         }
         //return $groups;
         $userGroups = Auth::user()->group;
-        foreach ($userGroups as $userGroupsId) {
-          $userGroupsIdArray[] =  $userGroupsId->id;
-        };
+
+        if (Auth::user()->hasRole('enduser')) {
+          $userGroupsIdArray = null;
+        }else{
+          foreach ($userGroups as $userGroupsId) {
+            $userGroupsIdArray[] =  $userGroupsId->id;
+          };
+        }
 
         ActivityLogger::activity("Ticket index");
         return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases','user_id','totalTicketSetting','userGroupsIdArray'));
