@@ -111,9 +111,9 @@ class UserController extends Controller
         $categories = Category::all()->pluck('category_name','id');
 
         $client = new Client();
-        $parts = explode("@", Auth::user()->email);
-        $username = $parts[0];
-        $response = $client->request('GET', 'https://apex.oracle.com/pls/apex/ksau-hs/assets/custodian/{$username}');
+        $parts = explode("@", $user->email);
+        $username =$parts[0];
+        $response = $client->request('GET', 'https://apex.oracle.com/pls/apex/ksau-hs/assets/custodians/'.$username);
         $statusCode = $response->getStatusCode();
         $body = $response->getBody()->getContents();
         $assets = json_decode($body);
@@ -123,11 +123,10 @@ class UserController extends Controller
 
     // if ($user->group->isEmpty()) {
 
-
     //     if  (!empty(array_intersect($userGroupIDs, $ProfileGroupsIDs)))
     //     {
 
-       return view('profile.index', compact('user','assigned_tickets','statuses','categories','totalTicketSetting','user_id','assets'));
+      return view('profile.index', compact('user','assigned_tickets','statuses','categories','totalTicketSetting','user_id','assets'));
 
 
         // }
