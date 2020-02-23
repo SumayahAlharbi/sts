@@ -75,6 +75,22 @@
           //update location after group select in defult model
           $(document).on('change','.group', function(e){
           var group_id = e.target.value;
+          var userGroupsRequested = 
+                [
+                  @foreach($userGroups as $userGroupsId) 
+                      "{{ $userGroupsIdArray[] =  $userGroupsId->id }}",
+                    @endforeach
+                ];
+
+   if(userGroupsRequested.indexOf(group_id) > -1){
+    // alert(group_id);
+    $("#requestedDiv").show();
+    // console.log(userGroupsRequested);
+}else{
+  // $("#requestedDiv").empty();
+  $("#requestedDiv").hide();
+  
+}
           $.getJSON('/getLocations/' + group_id, function(data) {
                 $("#locationDiv").show();
                 $('#location_id').empty();
@@ -101,21 +117,7 @@
 // var group_id = document.getElementById("country");
 // 	var result = e.options[e.selectedIndex].value;
   // alert(group_id);
-  var userGroupsRequested = 
-                [
-                  @foreach($userGroups as $userGroupsId) 
-                      "{{ $userGroupsIdArray[] =  $userGroupsId->id }}",
-                    @endforeach
-                ];
 
-   if(userGroupsRequested.indexOf(group_id) > -1){
-    // alert(group_id);
-    $("#requestedDiv").show();
-
-}else{
-  $("#requestedDiv").empty();
-  $("#requestedDiv").hide();
-}
               // $("#locationDiv").show();
           });
           //update group after region select in Enduser model
