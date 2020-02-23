@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use App\Jobs\TicketNewCommentRequestedJob;
 use App\Jobs\TicketNewCommentAgentJob;
 use App\Jobs\TicketNewCommentReplyJob;
+use App\Scopes\GlobalScope;
 
 class CommentController extends Controller
 {
@@ -24,7 +25,7 @@ class CommentController extends Controller
     $comment = new Comment;
     $comment->body = $request->get('comment_body');
     $comment->user()->associate($request->user());
-    $ticket = Ticket::find($request->get('ticket_id'));
+    $ticket = Ticket::withoutGlobalScope(GlobalScope::class)->LocalTicket()->find($request->get('ticket_id'));
     $ticket->comments()->save($comment);
     $ticketAgents = $ticket->user;
     $requested_by = $ticket->requested_by_user;
@@ -63,7 +64,7 @@ class CommentController extends Controller
     $comment->body = $request->get('comment_body');
     $comment->user()->associate($request->user());
     $comment->parent_id = $request->get('comment_id');
-    $ticket = Ticket::find($request->get('ticket_id'));
+    $ticket = Ticket::withoutGlobalScope(GlobalScope::class)->LocalTicket()->find($request->get('ticket_id'));
     $ticket->comments()->save($comment);
     $group_id = $ticket->group->id;
     $group = Group::findorfail($group_id);

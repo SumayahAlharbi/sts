@@ -7,7 +7,7 @@ use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Carbon\Carbon;
 
-class SupervisorTest extends DuskTestCase
+class SupervisorOtherGroupsTest extends DuskTestCase
 {
     /**
      * A Dusk test example.
