@@ -18,10 +18,10 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
-        Browser::macro('fillHidden', function ($name , $value) {
-            $this->script("document.getElementsByName('$name')[0].value = '$value'");
-            return $this;
-        });
+        // Browser::macro('fillHidden', function ($name , $value) {
+        //     $this->script("document.getElementsByName('$name')[0].value = '$value'");
+        //     return $this;
+        // });
     }
 
     /**
