@@ -177,10 +177,13 @@
                   <table class="footable table m-b-0 toggle-circle" data-sort="false">
                     <thead>
                       <tr>
-                        <th>serial number</th>
-                        <th> tag </th>
-                        <th> type </th>
-                        <th> model </th>
+                        <th>Serial #</th>
+                        <th> Tag </th>
+                        <th> Type </th>
+                        <th> Model </th>
+                        <th> Building </th>
+                        <th> Floor </th>
+                        <th> Room </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -190,6 +193,9 @@
                               <td>{{$asset->tag}}</td>
                               <td>{{$asset->type}}</td>
                               <td>{{$asset->model}}</td>
+                              <td>{{$asset->building}}</td>
+                              <td>{{$asset->floor}}</td>
+                              <td>{{$asset->room}}</td>
                         </tr>
                       @endforeach
                     </tbody>
