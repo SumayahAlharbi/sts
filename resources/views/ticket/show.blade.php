@@ -249,7 +249,7 @@
                   @endisset
 
                 </span> <span class="label label-light-inverse">
-                  <i class="far fa-building"></i>
+                  <i class="fas fa-door-open"></i>
                   {{$tickets->room_number}}</span>
                 <span class="label label-light-inverse">
                   <i class="fas fa-user-plus"></i>
