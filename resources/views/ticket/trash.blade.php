@@ -39,7 +39,7 @@
                           <th data-hide="phone">Group</th>
                           @endif
                           <th data-hide="phone">Agents</th>
-                          
+                          <th data-hide="all">Requested by</th>
                           <th data-hide="all">Action</th>
                       </tr>
                   </thead>
@@ -60,28 +60,7 @@
                             @endif
                             <br> {{$ticket->created_at->diffForHumans()}}</td>
 
-                          <!-- <td title="{{$ticket->status['status_name']}}">
-                            @if(auth()->user()->can('change ticket status'))
-                               <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
-                               @elseif ($ticket->status['status_name'] == 'Completed') btn-success
-                               @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
-                               @elseif ($ticket->status['status_name'] == 'In Progress') btn-primary
-                               @else btn-inverse
-                               @endif dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                 {{$ticket->status['status_name']}}
-                               </button>
-
-                               <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                               @foreach ($statuses as $status)
-                                 @if($status != $ticket->status)
-                                 <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status['status_name']}}</a>
-                               @endif
-                               @endforeach
-                               </div>
-
-
-
-                          @else
+                          <td title="{{$ticket->status['status_name']}}">
                             <span class="label
                             @if ($ticket->status['status_name'] == 'Unassigned') label-danger
                             @elseif ($ticket->status['status_name'] == 'Completed') label-success
@@ -91,8 +70,7 @@
                             @endif">
                             {{$ticket->status['status_name']}}
                           </span>
-                          @endif
-                          </td> -->
+                          </td>
                           <td>{{$ticket->category['category_name']}}</td>
                           @if(count($groups) > 1)
                           <td>
@@ -115,7 +93,7 @@
                           @can('restore ticket')
                           <td>
                               <a href="{{ route('ticket.restore',$ticket->id)}}" title="restore" class="btn btn-success"><i class="fa fa-recycle"></i></a>
-                        
+
                           </td>
                           @endcan
 

@@ -75,6 +75,22 @@
           //update location after group select in defult model
           $(document).on('change','.group', function(e){
           var group_id = e.target.value;
+          var userGroupsRequested = 
+                [
+                  @foreach($userGroups as $userGroupsId) 
+                      "{{ $userGroupsIdArray[] =  $userGroupsId->id }}",
+                    @endforeach
+                ];
+
+   if(userGroupsRequested.indexOf(group_id) > -1){
+    // alert(group_id);
+    $("#requestedDiv").show();
+    // console.log(userGroupsRequested);
+}else{
+  // $("#requestedDiv").empty();
+  $("#requestedDiv").hide();
+  
+}
           $.getJSON('/getLocations/' + group_id, function(data) {
                 $("#locationDiv").show();
                 $('#location_id').empty();
@@ -95,6 +111,14 @@
   
                   });
               });
+// if (condition) {
+  
+// }
+// var group_id = document.getElementById("country");
+// 	var result = e.options[e.selectedIndex].value;
+  // alert(group_id);
+
+              // $("#locationDiv").show();
           });
           //update group after region select in Enduser model
           $(document).on('change','.regionEnduser', function(e){
@@ -246,9 +270,10 @@
                 <label for="name">Room Number</label>
                 <input type="text" class="form-control" name="room_number" value="{{ old('room_number') }}"/>
               </div>
-
-        @if (Auth::user()->hasRole('admin') or Auth::user()->hasPermissionTo('view group tickets'))
-        <div class="form-group" required>
+              {{-- @foreach ($userGroups as $userGroup)
+              @endforeach --}}
+        {{-- @if (Auth::user()->hasRole('admin') or Auth::user()->hasPermissionTo('view group tickets')) --}}
+        <div class="form-group" id="requestedDiv" style="display:none;" required>
           <label for="exampleFormControlSelect1">Requested by</label>
         {{-- <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true">
           <option selected value> -- Who requested this ticket? -- </option>
@@ -264,7 +289,7 @@
         <select id="ajax-select" class="selectpicker" name="requested_by" data-live-search="true"></select>
         <input type="text" class="form-control" id="requested_by_name" name="requested_by_name" value="" hidden/>
       </div>
-      @endif
+      {{-- @endif --}}
 
       @if (Auth::user()->hasPermissionTo('rate ticket') or Auth::user()->hasRole('agent'))
       <div class="form-group" required>

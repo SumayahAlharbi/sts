@@ -82,8 +82,17 @@ class TicketController extends Controller
         }
         //return $groups;
         $userGroups = Auth::user()->group;
+
+        if (Auth::user()->hasRole('enduser')) {
+          $userGroupsIdArray = null;
+        }else{
+          foreach ($userGroups as $userGroupsId) {
+            $userGroupsIdArray[] =  $userGroupsId->id;
+          };
+        }
+
         ActivityLogger::activity("Ticket index");
-        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases','user_id','totalTicketSetting','userGroups'));
+        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases','user_id','totalTicketSetting','userGroupsIdArray'));
     }
 
         /**
@@ -304,6 +313,14 @@ class TicketController extends Controller
     {
         $tickets =  Ticket::withoutGlobalScope(GlobalScope::class)->LocalTicket()->findOrfail($id);
         $userGroups = Auth::user()->group;
+
+        if (Auth::user()->hasRole('enduser')) {
+          $userGroupsIdArray = null;
+        }else{
+          foreach ($userGroups as $userGroupsId) {
+            $userGroupsIdArray[] =  $userGroupsId->id;
+          };
+        }
         // echo $user->settings()->get('email_assigned_agent');
         // $user->settings()->delete('email_assigned_agent', 'new value');
         $groupId = $tickets->group_id;
@@ -347,7 +364,7 @@ class TicketController extends Controller
 
         $group_users_not_ticket_agents = $group_users->diff($TicketAgents);
 
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users','userGroups','group_users_not_ticket_agents'));
+        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users','userGroups','group_users_not_ticket_agents', 'userGroupsIdArray'));
         }
 
 
@@ -615,7 +632,7 @@ class TicketController extends Controller
 
     public function ChangeTicketStatus($status_id, $tickets_id)
     {
-      $ticket = Ticket::findorfail($tickets_id);
+      $ticket = Ticket::withoutGlobalScope(GlobalScope::class)->LocalTicket()->findorfail($tickets_id);
 
       /*
       activity()
@@ -659,7 +676,7 @@ class TicketController extends Controller
       $user = User::findOrFail($user_id);
       if (Auth::id() == $user_id or auth()->user()->hasRole('admin')){
         $user->settings()->set('total_tickets', $setting_value);
-        return redirect()->to('profile/'.$user->id);
+        return back();
       }
       else{
         return abort(404);

@@ -27,7 +27,6 @@ class AddGroupIdToTickets extends Migration
     public function down()
     {
         Schema::table('tickets', function (Blueprint $table) {
-            //
             $table->renameColumn('group_id', 'user_id');
         });
     }
