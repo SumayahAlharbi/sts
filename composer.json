@@ -38,7 +38,6 @@
         "teamtnt/laravel-scout-tntsearch-driver": "^6.1"
     },
     "require-dev": {
-        "beyondcode/dusk-dashboard": "^1.1",
         "beyondcode/laravel-dump-server": "^1.0",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
