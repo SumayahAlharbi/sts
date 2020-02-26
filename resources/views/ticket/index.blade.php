@@ -517,7 +517,7 @@ preprocessData: function (data) {
 
                           <td title="{{$ticket->status['status_name']}}">
 
-                            @if($userGroupsIdArray == null or !in_array($ticket->group_id, $userGroupsIdArray))
+                            @if($userGroupsIdArray == null or (!in_array($ticket->group_id, $userGroupsIdArray) and !auth()->user()->hasRole('admin')))
                             <span class="label
                             @if ($ticket->status['status_name'] == 'Unassigned') label-danger
                             @elseif ($ticket->status['status_name'] == 'Completed') label-success
@@ -575,8 +575,9 @@ preprocessData: function (data) {
                               @csrf
                               @method('DELETE')
                               <a href="{{ route('ticket.show',$ticket->id)}}" title="Show" class="btn btn-success"><i class="fa fa-eye"></i></a>
-                              @foreach ($userGroups as $userGroup)
-                              @if($ticket->group->id == $userGroup->id)
+                              @if (!empty($userGroupsIdArray))
+                              @foreach ($userGroupsIdArray as $userGroup)
+                              @if($ticket->group->id == $userGroup)
                               @can('update ticket')
                               <a href="{{ route('ticket.edit',$ticket->id)}}" title="Edit" class="btn btn-warning"><i class="far fa-edit"></i></a>
                               @endcan
@@ -585,6 +586,7 @@ preprocessData: function (data) {
                               @endcan
                               @endif
                               @endforeach
+                              @endif
                             </form>
                           </td>
 
