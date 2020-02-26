@@ -575,6 +575,7 @@ preprocessData: function (data) {
                               @csrf
                               @method('DELETE')
                               <a href="{{ route('ticket.show',$ticket->id)}}" title="Show" class="btn btn-success"><i class="fa fa-eye"></i></a>
+                              @if (!empty($userGroupsIdArray))
                               @foreach ($userGroupsIdArray as $userGroup)
                               @if($ticket->group->id == $userGroup)
                               @can('update ticket')
@@ -585,6 +586,7 @@ preprocessData: function (data) {
                               @endcan
                               @endif
                               @endforeach
+                              @endif
                             </form>
                           </td>
 
