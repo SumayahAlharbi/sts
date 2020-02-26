@@ -490,7 +490,7 @@ preprocessData: function (data) {
                           <th> Status </th>
 
                           <th data-hide="phone">Category</th>
-                          
+
                           <th data-hide="phone">Group</th>
 
                           <th data-hide="phone">Agents</th>
@@ -550,7 +550,7 @@ preprocessData: function (data) {
                           </span>
                           @endif
                           </td>
-                          
+
                           <td>{{$ticket->category['category_name']}}</td>
 
                           <td>
@@ -575,12 +575,16 @@ preprocessData: function (data) {
                               @csrf
                               @method('DELETE')
                               <a href="{{ route('ticket.show',$ticket->id)}}" title="Show" class="btn btn-success"><i class="fa fa-eye"></i></a>
+                              @foreach ($userGroups as $userGroup)
+                              @if($ticket->group->id == $userGroup->id)
                               @can('update ticket')
                               <a href="{{ route('ticket.edit',$ticket->id)}}" title="Edit" class="btn btn-warning"><i class="far fa-edit"></i></a>
                               @endcan
                               @can('delete ticket')
                               <button class="btn btn-danger" title="Delete" type="submit"><i class="fa fa-trash-alt"></i></button>
                               @endcan
+                              @endif
+                              @endforeach
                             </form>
                           </td>
 
