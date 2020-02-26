@@ -517,7 +517,7 @@ preprocessData: function (data) {
 
                           <td title="{{$ticket->status['status_name']}}">
 
-                            @if($userGroupsIdArray == null or !in_array($ticket->group_id, $userGroupsIdArray))
+                            @if($userGroupsIdArray == null or (!in_array($ticket->group_id, $userGroupsIdArray) and !auth()->user()->hasRole('admin')))
                             <span class="label
                             @if ($ticket->status['status_name'] == 'Unassigned') label-danger
                             @elseif ($ticket->status['status_name'] == 'Completed') label-success
