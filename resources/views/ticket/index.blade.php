@@ -516,29 +516,8 @@ preprocessData: function (data) {
                             <br> {{$ticket->created_at->diffForHumans()}}</td>
 
                           <td title="{{$ticket->status['status_name']}}">
-                              @foreach ($userGroups as $userGroup)
-                              @endforeach
-                            @if(auth()->user()->can('change ticket status') and $ticket->group_id == $userGroup->id or auth()->user()->hasRole('admin'))
-                               <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
-                               @elseif ($ticket->status['status_name'] == 'Completed') btn-success
-                               @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
-                               @elseif ($ticket->status['status_name'] == 'In Progress') btn-primary
-                               @else btn-inverse
-                               @endif dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                 {{$ticket->status['status_name']}}
-                               </button>
 
-                               <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                               @foreach ($statuses as $status)
-                                 @if($status != $ticket->status)
-                                 <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status['status_name']}}</a>
-                               @endif
-                               @endforeach
-                               </div>
-
-
-
-                          @else
+                            @if($userGroupsIdArray == null or !in_array($ticket->group_id, $userGroupsIdArray))
                             <span class="label
                             @if ($ticket->status['status_name'] == 'Unassigned') label-danger
                             @elseif ($ticket->status['status_name'] == 'Completed') label-success
@@ -548,8 +527,29 @@ preprocessData: function (data) {
                             @endif">
                             {{$ticket->status['status_name']}}
                           </span>
-                          @endif
-                          </td>
+
+                            @elseif(in_array($ticket->group_id, $userGroupsIdArray) and (auth()->user()->can('change ticket status')) or auth()->user()->hasRole('admin'))
+                            <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
+                            @elseif ($ticket->status['status_name'] == 'Completed') btn-success
+                            @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
+                            @elseif ($ticket->status['status_name'] == 'In Progress') btn-primary
+                            @else btn-inverse
+                            @endif dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              {{$ticket->status['status_name']}}
+                            </button>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            @foreach ($statuses as $status)
+                              @if($status != $ticket->status)
+                              <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status['status_name']}}</a>
+                            @endif
+                            @endforeach
+                            </div>
+
+
+                       @endif
+                       </td>
+
 
                           <td>{{$ticket->category['category_name']}}</td>
 

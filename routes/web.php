@@ -23,7 +23,8 @@ Route::get('/signout', 'Auth\MsGraphLoginController@signout');
 // Route::get('/userslist', 'auth\MsGraphLoginController@usersList');
 Route::get('/userslist', 'Auth\MsGraphLoginController@usersList')->name('graph.users.list');
 
-Auth::routes();
+Auth::routes(['register' => false]);
+
 
 // Route::get('test', function () {
 //     event(new App\Events\TicketAssigned('Someone'));
@@ -105,7 +106,7 @@ Route::group(['middleware' => 'auth'], function () {
     // assign user to a group
     Route::post('users/addUserGroup', 'UserController@addUserGroup');
     Route::get('users/removeUserGroup/{user_id}/{group_id}', '\App\Http\Controllers\UserController@removeUserGroup');
-    //Users status
+    //Status
     Route::resource('status', 'StatusController');
     //Groups Routes
     Route::resource('group', 'GroupController');
@@ -156,7 +157,7 @@ Route::group(['middleware' => 'auth'], function () {
   });
 
   Route::get('/changeUserSetting', 'UserController@changeUserSetting')->name('user.change.setting');
-  
+
   //Regions Routes
   Route::get('regions', 'RegionController@index')->name('regions.index');
 

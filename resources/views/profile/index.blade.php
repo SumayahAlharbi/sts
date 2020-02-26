@@ -52,6 +52,7 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs profile-tab" role="tablist">
           <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#userTickets" role="tab">Assigned Tickets</a> </li>
+          <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#assets" role="tab">Assets List</a></li>
           @if (Auth::id() == $user->id or auth()->user()->hasRole('admin') )
           <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a></li>
           @endif
@@ -168,6 +169,40 @@
             @endif
           </div>
         </div>
+
+        {{-- Assets List --}}
+        <div class="tab-pane" id="assets" role="tabpanel">
+          <div class="card-body">
+            {{-- <h4 class="card-title">Assets List</h4> --}}
+                  <table class="footable table m-b-0 toggle-circle" data-sort="false">
+                    <thead>
+                      <tr>
+                        <th>Serial #</th>
+                        <th> Tag </th>
+                        <th> Type </th>
+                        <th> Model </th>
+                        <th> Building </th>
+                        <th> Floor </th>
+                        <th> Room </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($assets->items as $asset)
+                        <tr>
+                              <td>{{$asset->serial_number}}</td>
+                              <td>{{$asset->tag}}</td>
+                              <td>{{$asset->type}}</td>
+                              <td>{{$asset->model}}</td>
+                              <td>{{$asset->building}}</td>
+                              <td>{{$asset->floor}}</td>
+                              <td>{{$asset->room}}</td>
+                        </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+          </div>
+        </div>
+          {{-- end of Assets List --}}
 
               {{-- user settings --}}
               <div class="tab-pane" id="settings" role="tabpanel">

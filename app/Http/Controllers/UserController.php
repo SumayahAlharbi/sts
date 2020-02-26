@@ -16,6 +16,8 @@ use App\Category;
 use App\Location;
 use App\Status;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Validation\Rule;
+use GuzzleHttp\Client;
 
 class UserController extends Controller
 {
@@ -39,7 +41,7 @@ class UserController extends Controller
     public function create()
     {
         //
-        // return view('status.create');
+         return view('users.create');
 
     }
 
@@ -51,11 +53,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // $status = new Status;
-        // $status->status_name = $request->status_name;
-        // $status->save();
-        // return redirect('/status')->with('success', 'status has been added');
+
+      $this->validate($request, [
+       'email' => 'unique:users,email|required|max:191|string|email',
+       'name' => 'required|max:191|string',
+       'password' => 'required|between:6,50|string',
+       ]);
+
+      $user = new \App\User();
+
+      $user->email = $request->email;
+      $user->name = $request->name;
+      $user->password = Hash::make($request->password);
+
+      $user->save();
+         return redirect('/users')->with('success', 'User has been created');
 
     }
 
@@ -98,15 +110,23 @@ class UserController extends Controller
         $statuses = Status::all();
         $categories = Category::all()->pluck('category_name','id');
 
+        $client = new Client();
+        $parts = explode("@", $user->email);
+        $username =$parts[0];
+        $response = $client->request('GET', 'https://apex.oracle.com/pls/apex/ksau-hs/assets/custodians/'.$username);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody()->getContents();
+        $assets = json_decode($body);
+        $list = $assets->items;
+        
     //    $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->simplePaginate(10);
 
     // if ($user->group->isEmpty()) {
 
-
     //     if  (!empty(array_intersect($userGroupIDs, $ProfileGroupsIDs)))
     //     {
 
-            return view('profile.index', compact('user','assigned_tickets','statuses','categories','totalTicketSetting','user_id'));
+      return view('profile.index', compact('user','assigned_tickets','statuses','categories','totalTicketSetting','user_id','assets'));
 
 
         // }
@@ -182,18 +202,17 @@ class UserController extends Controller
     {
       {
 
-   //   $this->validate($request, [
-   //   'email' => [
-   //   'required',
-   //   Rule::unique('users')->ignore($request->user_id),
-   //    'email',
-   //    'max:191',
-   //    'string',
-   //    'regex:/^[A-Za-z0-9\.]*@(ksau-hs)[.](edu)[.](sa)$/',
-   // ],
-   //   'name' => 'required|max:191|string',
-   //   'password' => 'nullable|between:6,20|string',
-   //   ]);
+        $this->validate($request, [
+            'email' => [
+            'required',
+            Rule::unique('users')->ignore($request->user_id),
+             'email',
+             'max:191',
+             'string',
+          ],
+            'name' => 'required|max:191|string',
+            'password' => 'nullable|between:6,50|string',
+            ]);
        $user = \App\User::findOrfail($request->user_id);
 
        $user->email = $request->email;

@@ -18,20 +18,83 @@
           $.getJSON('/getGroups/' + region_id, function(data) {
                 $("#groupDiv").show();
                 $('#group_id').empty();
-                $('#group_id').append("<option value=''>Select your department</option>");
+                // var groups = [];
+                // @foreach($userGroups as $userGroupsId) 
+                //   $userGroupsIdArray[] =  $userGroupsId->region_id;
+                // @endforeach
+                // var hiddenField = $( ".filter-option-inner-inner" ).text();
+                // document.getElementById("requested_by_name").value = hiddenField;
+                var userGroupsRegion = 
+                [
+                  @foreach($userGroups as $userGroupsId) 
+                      "{{ $userGroupsIdArray[] =  $userGroupsId->region_id }}",
+                    @endforeach
+                ];
+
+    //             var n = userGroupsRegion.includes(region_id);
+    //             if(n.indexOf("Mango") !== -1){
+    //     alert("Value exists!")
+    // } else{
+    //     alert("Value does not exists!")
+    // }
+    // var groupRegionArr = ["Apple", "Banana", "Mango", "Orange", "Papaya"];
+    // var groupRegionArr = userGroupsRegion.includes(region_id);
+    
+    // Check if a value exists in the fruits array
+    if(userGroupsRegion.indexOf(region_id) > -1){
+      // alert("Value exists!")
+
+    var groups = [];
+    
+                $('#group_id').append('<optgroup label="Your Department">');
+                  @foreach($userGroups as $userGroup )
+                    // groups.push({ id: '{{ $userGroup->id }}', text: '{{ $userGroup->group_name }}' });
+
+                    var optgroup = "<option value='{{$userGroup->id}}'>{{$userGroup->group_name}}</option>"
+                    $('#group_id').append(optgroup);
+                  @endforeach
+                  // for (var i = 0; i < groups.length; i++) {
+                  //   var optgroup = "<option value='" + groups[i].id + "'>" + groups[i].text + "</option>"
+                  // }
+                
+                
+                $('#group_id').append("</optgroup>");
+
+              } else{
+      // alert("Value does not exists!")
+    }
+    $('#group_id').append('<option value="" disabled selected hidden>Select department</option>')
+                $('#group_id').append('<optgroup label="KSAU-HS Departments">');
                 $.each(data,function(index, subcatObj){
                   $('#group_id').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
-  
                 });
+                $('#group_id').append("</optgroup>");
             });
   
           });
           //update location after group select in defult model
           $(document).on('change','.group', function(e){
           var group_id = e.target.value;
+          var userGroupsRequested = 
+                [
+                  @foreach($userGroups as $userGroupsId) 
+                      "{{ $userGroupsIdArray[] =  $userGroupsId->id }}",
+                    @endforeach
+                ];
+
+   if(userGroupsRequested.indexOf(group_id) > -1){
+    // alert(group_id);
+    $("#requestedDiv").show();
+    // console.log(userGroupsRequested);
+}else{
+  // $("#requestedDiv").empty();
+  $("#requestedDiv").hide();
+  
+}
           $.getJSON('/getLocations/' + group_id, function(data) {
                 $("#locationDiv").show();
                 $('#location_id').empty();
+                $('#location_id').append('<option value="" disabled selected hidden>Select location</option>')
                 $('#location_id').append("<option value=''>Select your location</option>");
                 $.each(data,function(index, subcatObj){
                   $('#location_id').append("<option value="+subcatObj.id+">"+subcatObj.location_name+"</option>");
@@ -41,12 +104,21 @@
             $.getJSON('/getCategory/' + group_id, function(data) {
                   $("#categoryDiv").show();
                       $('#category_id').empty();
+                      $('#category_id').append('<option value="" disabled selected hidden>Select category</option>')
                       $('#category_id').append("<option value=''>Select a category</option>");
                       $.each(data,function(index, subcatObj){
                         $('#category_id').append("<option value="+subcatObj.id+">"+subcatObj.category_name+"</option>");
   
                   });
               });
+// if (condition) {
+  
+// }
+// var group_id = document.getElementById("country");
+// 	var result = e.options[e.selectedIndex].value;
+  // alert(group_id);
+
+              // $("#locationDiv").show();
           });
           //update group after region select in Enduser model
           $(document).on('change','.regionEnduser', function(e){
@@ -148,28 +220,28 @@
                 </div>
                 
                 <div class="form-group" style="display:none;" id="groupDiv">
-                <label for="exampleFormControlSelect1">Department</label>
+                <label for="exampleFormControlSelect1">Request from</label>
                 {{-- <select required class="form-control group" name="group_id" id="group_id" placeholder="please select the department">
                   @foreach ($groups as $group)
                     <option value="{{$group->id}}">{{$group->group_name}}</option>
                   @endforeach
                 </select> --}}
-                <select required class="form-control group" name="group_id" id="group_id" required>
-                  {{-- @if(Auth::user()->group)
-                  @unless(Auth::user()->hasRole('agent')) --}}
-                  <option disabled="disabled" selected="selected">Select Departments/Groups</option>
-                  <optgroup label="Your Departments/Groups">
+                <select class="form-control group" name="group_id" id="group_id" required>
+                  {{-- @if(Auth::user()->group) --}}
+                  {{-- @unless(Auth::user()->hasRole('agent')) --}}
+                  {{-- <option disabled="disabled" selected="selected">Select Departments/Groups</option> --}}
+                  {{-- <optgroup id="his-group" label="Your Departments/Groups">
                     @foreach ($userGroups as $userGroup)
                     <option value="{{$userGroup->id}}">{{$userGroup->group_name}}</option>
                     @endforeach
-                  </optgroup>
-                  {{-- @endunless
-                  @endif --}}
-                  <optgroup label="KSAU-HS Departments">
+                  </optgroup> --}}
+                  {{-- @endunless --}}
+                  {{-- @endif --}}
+                  {{-- <optgroup label="KSAU-HS Departments">
                     @foreach ($groups as $group)
                       <option value="{{$group->id}}">{{$group->group_name}}</option>
                     @endforeach
-                </optgroup>
+                </optgroup> --}}
                 </select>
                 {{-- <input type="text" class="form-control" id="requested_by_name" name="requested_by_name" value="" hidden/> --}}
               </div>
@@ -198,9 +270,10 @@
                 <label for="name">Room Number</label>
                 <input type="text" class="form-control" name="room_number" value="{{ old('room_number') }}"/>
               </div>
-
-        @if (Auth::user()->hasRole('admin') or Auth::user()->hasPermissionTo('view group tickets'))
-        <div class="form-group" required>
+              {{-- @foreach ($userGroups as $userGroup)
+              @endforeach --}}
+        {{-- @if (Auth::user()->hasRole('admin') or Auth::user()->hasPermissionTo('view group tickets')) --}}
+        <div class="form-group" id="requestedDiv" style="display:none;" required>
           <label for="exampleFormControlSelect1">Requested by</label>
         {{-- <select class="selectpicker form-control" name="requested_by" data-show-subtext="true" data-live-search="true">
           <option selected value> -- Who requested this ticket? -- </option>
@@ -216,7 +289,7 @@
         <select id="ajax-select" class="selectpicker" name="requested_by" data-live-search="true"></select>
         <input type="text" class="form-control" id="requested_by_name" name="requested_by_name" value="" hidden/>
       </div>
-      @endif
+      {{-- @endif --}}
 
       @if (Auth::user()->hasPermissionTo('rate ticket') or Auth::user()->hasRole('agent'))
       <div class="form-group" required>

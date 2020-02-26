@@ -7,7 +7,7 @@ use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Carbon\Carbon;
 
-class SupervisorTest extends DuskTestCase
+class SupervisorOtherGroupsTest extends DuskTestCase
 {
     /**
      * A Dusk test example.
@@ -29,7 +29,7 @@ class SupervisorTest extends DuskTestCase
    
     //        view,create,edit tickets
    
-    public function testSupervisorCreateTicket()
+    public function testSupervisorRequestTicket()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/ticket');
@@ -37,13 +37,13 @@ class SupervisorTest extends DuskTestCase
             $browser->type('ticket_title', 'test ticket ' . Carbon::now()->toDateTimeString());
             $browser->script("CKEDITOR.instances['contentEditor'].setData('Test Data');");
             $browser->pause(3000);
-            $browser->select('region','2');
+            $browser->select('region','1');
             $browser->waitFor('.group');
-            $browser->select('group_id','3');
+            $browser->select('group_id','5');
             $browser->waitFor('#location_id');
-            $browser->select('location_id','5');
+            $browser->select('location_id','9');
             $browser->waitFor('#categoryDiv');
-            $browser->select('category_id','3');
+            $browser->select('category_id','10');
             $browser->type('room_number','324');
             $browser->press('Create')
                     ->assertSee('Comments')
@@ -60,21 +60,20 @@ class SupervisorTest extends DuskTestCase
     //     });
     // }
 
-    public function testSupervisorEditCreatedTicket()
+    public function testSupervisorEditRequestedTicket()
     {
         $this->browse(function (Browser $browser) {
             $this->browse(function ($browser) {
                 // $browser->visit('/ticket')
                 //         ->clickLink('test ticket')
-                // $browser->assertSee('#main-wrapper > div > div > div.container > div.button-box.text-right > a.btn.btn-outline-success > i');
-                $browser->assertSourceHas('title="Edit"');
+                $browser->assertMissing('#main-wrapper > div.page-wrapper > div > div.container > div.button-box.text-right > a.btn.btn-outline-success');
             });
         });
     }
 
     //         add comment to ticket
 
-    public function testSupervisorAddCommentToCreatedTicket()
+    public function testSupervisorAddCommentToRequestedTicket()
     {
         $this->browse(function (Browser $browser) {
             $this->browse(function ($browser) {
@@ -88,43 +87,40 @@ class SupervisorTest extends DuskTestCase
 
     //         change ticket status
 
-    public function testSupervisorEditCreatedTicketStatus()
+    public function testSupervisorEditRequestedTicketStatus()
     {
         $this->browse(function (Browser $browser) {
             $this->browse(function ($browser) {
-                // $browser->visit('/ticket')
-                //    $browser->press('#main-wrapper > div > div > div.container > div.button-box.text-right > button.btn.btn-outline-success > i');
-                        $browser->press('#main-wrapper > div.page-wrapper > div > div.container > div.button-box.text-right > button.btn.btn-outline-success');
-                        $browser->clickLink('In Progress');
-                        $browser->assertSee('In Progress');
-
+                $browser->visit('/ticket')
+                        // ->clickLink('test ticket')
+                        ->assertMissing('#main-wrapper > div.page-wrapper > div > div.container > div.button-box.text-right > button.btn.btn-outline-success');
             });
         });
     }
 
     //         Asign and Unasign Agent to Ticket
 
-    // public function testSupervisorAssignAgentToCreatedTicket()
-    // {
-    //     $this->browse(function (Browser $browser) {
-    //         $this->browse(function ($browser) {
-    //             $browser->press('#main-wrapper > div.page-wrapper > div > div.container > div.button-box.text-right > button.btn.btn-outline-info');
-    //             $browser->select('#assignModal > div > div > div.modal-body > form > div.form-group.col-md-12 > div > select','supervisor');
-    //         });
-    //     });
-    // }
+    public function testSupervisorAssignAgentToRequestedTicket()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->browse(function ($browser) {
+                $browser->visit('/ticket')
+                        // ->clickLink('test ticket')
+                        ->assertMissing('#main-wrapper > div.page-wrapper > div > div.container > div.button-box.text-right > button.btn.btn-outline-info');
+            });
+        });
+    }
 
     // public function testSupervisorUnassignAgentToTicket()
     // {
     //     $this->browse(function (Browser $browser) {
     //         $this->browse(function ($browser) {
-    //             // $browser->visit('/ticket')
-    //                     // ->clickLink('test ticket')
-    //                     $browser->press('#main-wrapper > div.page-wrapper > div > div.container > div.button-box.text-right > button.btn.btn-outline-info');
-    //                     $browser->select('#assignModal > div > div > div.modal-body > form > div.form-group.col-md-12 > div > select','supervisor');
+    //             $browser->visit('/ticket')
+    //                     ->clickLink('test ticket')
+    //                     ->press('#main-wrapper > div.page-wrapper > div > div.container > div.button-box.text-right > button.btn.btn-outline-info');
+    //             $browser->select('#assignModal > div > div > div.modal-body > form > div.form-group.col-md-12 > div > select','Agent user')
     //                     //->select('Agent user')
-    //                     $browser->press('#assignModal > div > div > div.modal-footer > button.btn.btn-primary');
-    //                     $browser->assertSee('#main-wrapper > div > div > div.container > div:nth-child(5) > div > div > div.card-footer.text-muted > div > div > span');
+    //                     ->press('#assignModal > div > div > div.modal-footer > button.btn.btn-primary');
     //                     //->seePageIs('/ticket/32345');
     //                    // ->press('');
     //                    // ->visit('/ticket/32345');

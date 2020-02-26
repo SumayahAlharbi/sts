@@ -29,6 +29,6 @@ class TicketsAssignee extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('tickets_assignee');
     }
 }
