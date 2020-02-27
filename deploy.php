@@ -15,7 +15,7 @@ set('repository', 'git@github.com:omego/sts.git');
 // [Optional] Allocate tty for git clone. Default value is false.
 set('git_tty', true); 
 
-set('slack_webhook', '');
+set('slack_webhook', env('SLACK_DEPLOYER'));
 
 // Shared files/dirs between deploys 
 add('shared_files', []);
@@ -90,5 +90,5 @@ after('cachetool:clear:opcache', 'supervisor:reload');
 
 after('supervisor:reload', 'current:clear');
 
-after('success', 'slack:notify:success');
+after('current:clear', 'slack:notify:success');
 
