@@ -21,7 +21,7 @@ use App\Mail\TicketAgentAssigned;
 use App\Mail\TicketRating;
 use App\Mail\RequestedBy;
 use Carbon\Carbon;
-use App\Charts\TotalTicketsDashboard;
+use App\Charts\TicketsDonutChart;
 
 class HomeController extends Controller
 {
@@ -68,42 +68,48 @@ class HomeController extends Controller
        $group=Group::all();
      $userGroups = Group::with('user')->get()->unique();
 
-  //    $ticketsStatusPending = Ticket::where('status_id', '1')->count();
-  //    $ticketsStatusCompleted = Ticket::where('status_id', '4')->count();
-  //   //  $ticketsStatus = Ticket::where('status_id', '1')->count();
+     //Chart
+     $ticketsPending = Ticket::Pending()->count();
+     $ticketsInProgress = Ticket::InProgress()->count();
+     $ticketsScheduled = Ticket::Scheduled()->count();
+     $ticketsCompleted = Ticket::Completed()->count();
+     $ticketsUnassigned = Ticket::Unassigned()->count();
+    //  $ticketsStatus = Ticket::where('status_id', '1')->count();
 
-  //    $chart = new TotalTicketsDashboard;
-  //    $chart->labels(['2 days ago', 'Yesterday']);
-  //    $options = array(
-  //     'backgroundColor' => [
-  //       'rgb(255, 99, 132)',
-  //       'rgb(255, 159, 64)',
-  //       'rgb(255, 205, 86)',
-  //       'rgb(75, 192, 192)',
-  //       'rgb(54, 162, 235)',
-  //       'rgb(153, 102, 255)',
-  //       'rgb(201, 203, 207)',
-  //   ],
-  // );
-  //    $chart->dataset('My dataset', 'doughnut', [$ticketsStatusPending, $ticketsStatusCompleted])->options($options,true);
+     $chart = new TicketsDonutChart;
+     $chart->labels(['Pending', 'InProgress', 'Scheduled', 'Unassigned']);
+     $options = array(
+      'backgroundColor' => [
+        'rgb(255, 159, 64)',
+        'rgb(116, 90, 242)',
+        'rgb(0, 0, 0)',
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)',
+        'rgb(153, 102, 255)',
+        'rgb(201, 203, 207)',
+    ],
+  );
+     $chart->dataset('My dataset', 'doughnut', [$ticketsPending, $ticketsInProgress, $ticketsScheduled, $ticketsUnassigned])->options($options,true);
+    // $chart->dataset('My dataset', 'doughnut', [1, 2, 3, 4])->options($options,true);
+
      
 
-      return view('home', compact('todayTickets', 'todayTicketsTotal', 'lateTickets', 'lateTicketsTotal', 'categories','locations','statuses','created_by', 'groups', 'activityTickets','userGroups'));
+      return view('home', compact('ticketsPending', 'ticketsInProgress', 'ticketsScheduled', 'ticketsCompleted', 'ticketsUnassigned', 'chart','todayTickets', 'todayTicketsTotal', 'lateTickets', 'lateTicketsTotal', 'categories','locations','statuses','created_by', 'groups', 'activityTickets','userGroups'));
     }
 
-    public function TicketsChartsApi()
-    {
-        $Pending = Ticket::where('status_id','=','4')->count();
-        $InProgress = Ticket::where('status_id','=','5')->count();
-        $Scheduled = Ticket::where('status_id','=','2')->count();
-        // $Completed = Ticket::where('status_id','=','1')->count();
-        $Unassigned = Ticket::where('status_id','=','3')->count();
-        $StatsArray = array('Pending'=>$Pending,
-                            'InProgress'=>$InProgress,
-                            'Scheduled'=>$Scheduled,
-                            // 'Completed'=>$Completed,
-                            'Unassigned'=>$Unassigned);
-        return response()->json($StatsArray);
-    }
+    // public function TicketsChartsApi()
+    // {
+    //     $Pending = Ticket::where('status_id','=','4')->count();
+    //     $InProgress = Ticket::where('status_id','=','5')->count();
+    //     $Scheduled = Ticket::where('status_id','=','2')->count();
+    //     // $Completed = Ticket::where('status_id','=','1')->count();
+    //     $Unassigned = Ticket::where('status_id','=','3')->count();
+    //     $StatsArray = array('Pending'=>$Pending,
+    //                         'InProgress'=>$InProgress,
+    //                         'Scheduled'=>$Scheduled,
+    //                         // 'Completed'=>$Completed,
+    //                         'Unassigned'=>$Unassigned);
+    //     return response()->json($StatsArray);
+    // }
 
 }

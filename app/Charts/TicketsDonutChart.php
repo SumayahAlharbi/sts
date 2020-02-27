@@ -4,7 +4,7 @@ namespace App\Charts;
 
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 
-class TotalTicketsDashboard extends Chart
+class TicketsDonutChart extends Chart
 {
     /**
      * Initializes the chart.
@@ -14,5 +14,6 @@ class TotalTicketsDashboard extends Chart
     public function __construct()
     {
         parent::__construct();
+        $this->displayAxes(false);
     }
 }
