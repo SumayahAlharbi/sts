@@ -121,4 +121,19 @@ class Ticket extends Model
   };
   $query->whereIn('group_id', $userGroupIDs);
 }
+public function scopePending($query){
+  $query->where('status_id', '4');
+}
+public function scopeInProgress($query){
+  $query->where('status_id', '5');
+}
+public function scopeScheduled($query){
+  $query->where('status_id', '2');
+}
+public function scopeCompleted($query){
+  $query->where('status_id', '1');
+}
+public function scopeUnassigned($query){
+  $query->where('status_id', '3');
+}
 }

@@ -34,7 +34,7 @@ Auth::routes(['register' => false]);
 Route::get('/redirect/graph', 'Auth\LoginController@redirectToProvider');
 Route::get('/callback/graph', 'Auth\LoginController@handleProviderCallback');
 
-Route::get('total-tickets-api', 'HomeController@TicketsChartsApi');
+// Route::get('total-tickets-api', 'HomeController@TicketsChartsApi');
 
 // // CAS Login
 // Route::get('/cas/login', function(){

@@ -6,13 +6,42 @@
 <!-- Start Page Content -->
 <!-- ============================================================== -->
 <div class="row">
-  <div class="col-lg-12 col-md-12">
-    <div class="card">
-      <div class="card-body">
-{{-- {!! $chart->container() !!} --}}
-</div>
-</div>
-</div>
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                {!! $chart->container() !!}
+            </div>
+            <div class="card-footer text-muted text-center">
+              <ul class="list-inline m-b-0">
+                <a href="{{url('/statusFilter?status=4')}}">
+                  <li>
+                    <h6 class="text-muted text-warning"><span class="label label-warning">Pending {{$ticketsPending}}</span></h6>
+                  </li>
+                </a>
+                <a href="{{url('/statusFilter?status=5')}}">
+                  <li>
+                    <h6 class="text-muted text-info"><span class="label label-primary"> In Progress {{$ticketsInProgress}}</span></h6>
+                  </li>
+                </a>
+                <a href="{{url('/statusFilter?status=2')}}">
+                  <li>
+                    <h6 class="text-muted text-info"><span class="label label-inverse"> Scheduled {{$ticketsScheduled}}</span></h6>
+                  </li>
+                </a>
+                <a href="{{url('/statusFilter?status=1')}}">
+                  <li>
+                    <h6 class="text-muted  text-success"><span class="label label-success"> Completed {{$ticketsCompleted}}</span> </h6>
+                  </li>
+                </a>
+                <a href="{{url('/statusFilter?status=3')}}">
+                  <li>
+                    <h6 class="text-muted  text-danger"><span class="label label-danger"> Unassigned {{$ticketsUnassigned}}</span> </h6>
+                  </li>
+                </a>
+              </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
 {{-- <div class="row">
@@ -503,5 +532,6 @@
 <!-- ============================================================== -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
 
-    {{-- {!! $chart->script() !!} --}}
+
+    {!! $chart->script() !!}
 @endsection
