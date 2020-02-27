@@ -3,6 +3,7 @@ namespace Deployer;
 
 require 'recipe/laravel.php';
 require 'recipe/cachetool.php';
+require 'recipe/slack.php';
 
 
 // Project name
@@ -13,6 +14,8 @@ set('repository', 'git@github.com:omego/sts.git');
 
 // [Optional] Allocate tty for git clone. Default value is false.
 set('git_tty', true); 
+
+set('slack_webhook', '');
 
 // Shared files/dirs between deploys 
 add('shared_files', []);
@@ -86,4 +89,6 @@ after('deploy:symlink', 'cachetool:clear:opcache');
 after('cachetool:clear:opcache', 'supervisor:reload');
 
 after('supervisor:reload', 'current:clear');
+
+after('success', 'slack:notify:success');
 
