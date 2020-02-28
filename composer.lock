@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e310d409191408f2da5462d31bc08c4d",
+    "content-hash": "1ae5a7d63af39f6fe1fe10c5ebdf6166",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -481,171 +481,6 @@
                 "laravel"
             ],
             "time": "2019-10-20T18:25:39+00:00"
-        },
-        {
-            "name": "deployer/deployer",
-            "version": "v6.7.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/deployphp/deployer.git",
-                "reference": "5095b5de166498aedb6ef7ffff98d7243fa036ea"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/deployphp/deployer/zipball/5095b5de166498aedb6ef7ffff98d7243fa036ea",
-                "reference": "5095b5de166498aedb6ef7ffff98d7243fa036ea",
-                "shasum": ""
-            },
-            "require": {
-                "deployer/phar-update": "~2.2",
-                "php": "^7.2",
-                "pimple/pimple": "~3.0",
-                "symfony/console": "~2.7|~3.0|~4.0|~5.0",
-                "symfony/process": "~2.7|~3.0|~4.0|~5.0",
-                "symfony/yaml": "~2.7|~3.0|~4.0|~5.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8"
-            },
-            "bin": [
-                "bin/dep"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Deployer\\": "src/"
-                },
-                "files": [
-                    "src/Support/helpers.php",
-                    "src/functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Medvedev",
-                    "email": "anton@medv.io"
-                }
-            ],
-            "description": "Deployment Tool",
-            "homepage": "https://deployer.org",
-            "time": "2019-12-18T17:30:49+00:00"
-        },
-        {
-            "name": "deployer/phar-update",
-            "version": "v2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/deployphp/phar-update.git",
-                "reference": "9ad07422f2cd43a1382ee8e134bdcd3a374848e3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/deployphp/phar-update/zipball/9ad07422f2cd43a1382ee8e134bdcd3a374848e3",
-                "reference": "9ad07422f2cd43a1382ee8e134bdcd3a374848e3",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "symfony/console": "~2.7|~3.0|~4.0|~5.0"
-            },
-            "require-dev": {
-                "mikey179/vfsstream": "1.1.0",
-                "phpunit/phpunit": "3.7.*",
-                "symfony/process": "~2.7|~3.0|~4.0|~5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Deployer\\Component\\PharUpdate\\": "src/",
-                    "Deployer\\Component\\PHPUnit\\": "src/PHPUnit/",
-                    "Deployer\\Component\\Version\\": "src/Version/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kevin Herrera",
-                    "email": "kevin@herrera.io",
-                    "homepage": "http://kevin.herrera.io"
-                },
-                {
-                    "name": "Anton Medvedev",
-                    "email": "anton@medv.io",
-                    "homepage": "https://medv.io"
-                }
-            ],
-            "description": "Integrates Phar Update to Symfony Console.",
-            "homepage": "https://github.com/deployphp/phar-update",
-            "keywords": [
-                "console",
-                "phar",
-                "update"
-            ],
-            "time": "2019-12-12T13:45:57+00:00"
-        },
-        {
-            "name": "deployer/recipes",
-            "version": "6.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/deployphp/recipes.git",
-                "reference": "84b3229c518c094a950e1fe785b7b8f9598770fe"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/deployphp/recipes/zipball/84b3229c518c094a950e1fe785b7b8f9598770fe",
-                "reference": "84b3229c518c094a950e1fe785b7b8f9598770fe",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~7.0"
-            },
-            "replace": {
-                "deployer/recipes": "self.version"
-            },
-            "require-dev": {
-                "deployer/deployer": "^6.3"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "autoload.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Medvedev",
-                    "email": "anton@medv.io"
-                }
-            ],
-            "description": "3rd party deployer recipes",
-            "homepage": "https://github.com/deployphp/recipes",
-            "keywords": [
-                "cachetool",
-                "cloudflare",
-                "deploy",
-                "deployer",
-                "deployment",
-                "hipchat",
-                "newrelic",
-                "rabbit",
-                "recipes",
-                "sentry",
-                "slack",
-                "yarn"
-            ],
-            "time": "2019-06-27T06:47:18+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -3154,58 +2989,6 @@
             "time": "2018-11-22T18:33:57+00:00"
         },
         {
-            "name": "lorisleiva/laravel-deployer",
-            "version": "v0.2.16",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lorisleiva/laravel-deployer.git",
-                "reference": "01a86facf80aa734bb681da9d64d20e8e6448e3e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lorisleiva/laravel-deployer/zipball/01a86facf80aa734bb681da9d64d20e8e6448e3e",
-                "reference": "01a86facf80aa734bb681da9d64d20e8e6448e3e",
-                "shasum": ""
-            },
-            "require": {
-                "deployer/deployer": "^6.1",
-                "deployer/recipes": "^6.0",
-                "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.0",
-                "orchestra/testbench": "~3.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Lorisleiva\\LaravelDeployer\\LaravelDeployerServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Lorisleiva\\LaravelDeployer\\": "src/LaravelDeployer"
-                },
-                "files": [
-                    "src/autoload.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Loris LEIVA",
-                    "email": "loris.leiva@gmail.com"
-                }
-            ],
-            "description": "Laravel Deployer is a lightweight wrapper of Deployer giving Artisan the power of zero-downtime deployment.",
-            "time": "2019-11-15T09:09:08+00:00"
-        },
-        {
             "name": "maatwebsite/excel",
             "version": "2.1.30",
             "source": {
@@ -4346,56 +4129,6 @@
                 "x509"
             ],
             "time": "2019-09-17T03:41:22+00:00"
-        },
-        {
-            "name": "pimple/pimple",
-            "version": "v3.2.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/silexphp/Pimple.git",
-                "reference": "9e403941ef9d65d20cba7d54e29fe906db42cf32"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/9e403941ef9d65d20cba7d54e29fe906db42cf32",
-                "reference": "9e403941ef9d65d20cba7d54e29fe906db42cf32",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0",
-                "psr/container": "^1.0"
-            },
-            "require-dev": {
-                "symfony/phpunit-bridge": "^3.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Pimple": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                }
-            ],
-            "description": "Pimple, a simple Dependency Injection Container",
-            "homepage": "http://pimple.sensiolabs.org",
-            "keywords": [
-                "container",
-                "dependency injection"
-            ],
-            "time": "2018-01-21T07:42:36+00:00"
         },
         {
             "name": "pragmarx/version",
@@ -5665,16 +5398,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.4.2",
+            "version": "v4.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "82437719dab1e6bdd28726af14cb345c2ec816d0"
+                "reference": "f512001679f37e6a042b51897ed24a2f05eba656"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/82437719dab1e6bdd28726af14cb345c2ec816d0",
-                "reference": "82437719dab1e6bdd28726af14cb345c2ec816d0",
+                "url": "https://api.github.com/repos/symfony/console/zipball/f512001679f37e6a042b51897ed24a2f05eba656",
+                "reference": "f512001679f37e6a042b51897ed24a2f05eba656",
                 "shasum": ""
             },
             "require": {
@@ -5737,7 +5470,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2019-12-17T10:32:23+00:00"
+            "time": "2020-01-25T12:44:29+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -6290,16 +6023,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.13.1",
+            "version": "v1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "f8f0b461be3385e56d6de3dbb5a0df24c0c275e3"
+                "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/f8f0b461be3385e56d6de3dbb5a0df24c0c275e3",
-                "reference": "f8f0b461be3385e56d6de3dbb5a0df24c0c275e3",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
+                "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
                 "shasum": ""
             },
             "require": {
@@ -6311,7 +6044,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.13-dev"
+                    "dev-master": "1.14-dev"
                 }
             },
             "autoload": {
@@ -6344,7 +6077,7 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2019-11-27T13:56:44+00:00"
+            "time": "2020-01-13T11:15:53+00:00"
         },
         {
             "name": "symfony/polyfill-iconv",
@@ -6639,16 +6372,16 @@
         },
         {
             "name": "symfony/polyfill-php73",
-            "version": "v1.13.1",
+            "version": "v1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php73.git",
-                "reference": "4b0e2222c55a25b4541305a053013d5647d3a25f"
+                "reference": "5e66a0fa1070bf46bec4bea7962d285108edd675"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/4b0e2222c55a25b4541305a053013d5647d3a25f",
-                "reference": "4b0e2222c55a25b4541305a053013d5647d3a25f",
+                "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/5e66a0fa1070bf46bec4bea7962d285108edd675",
+                "reference": "5e66a0fa1070bf46bec4bea7962d285108edd675",
                 "shasum": ""
             },
             "require": {
@@ -6657,7 +6390,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.13-dev"
+                    "dev-master": "1.14-dev"
                 }
             },
             "autoload": {
@@ -6693,7 +6426,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2019-11-27T16:25:15+00:00"
+            "time": "2020-01-13T11:15:53+00:00"
         },
         {
             "name": "symfony/polyfill-util",
@@ -6749,16 +6482,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v4.4.1",
+            "version": "v4.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "51c0135ef3f44c5803b33dc60e96bf4f77752726"
+                "reference": "f5697ab4cb14a5deed7473819e63141bf5352c36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/51c0135ef3f44c5803b33dc60e96bf4f77752726",
-                "reference": "51c0135ef3f44c5803b33dc60e96bf4f77752726",
+                "url": "https://api.github.com/repos/symfony/process/zipball/f5697ab4cb14a5deed7473819e63141bf5352c36",
+                "reference": "f5697ab4cb14a5deed7473819e63141bf5352c36",
                 "shasum": ""
             },
             "require": {
@@ -6794,7 +6527,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2019-11-28T13:33:56+00:00"
+            "time": "2020-01-09T09:50:08+00:00"
         },
         {
             "name": "symfony/routing",
@@ -7141,16 +6874,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.4.1",
+            "version": "v4.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "76de473358fe802578a415d5bb43c296cf09d211"
+                "reference": "cd014e425b3668220adb865f53bff64b3ad21767"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/76de473358fe802578a415d5bb43c296cf09d211",
-                "reference": "76de473358fe802578a415d5bb43c296cf09d211",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/cd014e425b3668220adb865f53bff64b3ad21767",
+                "reference": "cd014e425b3668220adb865f53bff64b3ad21767",
                 "shasum": ""
             },
             "require": {
@@ -7196,7 +6929,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2019-11-12T14:51:11+00:00"
+            "time": "2020-01-21T11:12:16+00:00"
         },
         {
             "name": "teamtnt/laravel-scout-tntsearch-driver",
@@ -7553,6 +7286,171 @@
             "time": "2019-08-11T13:17:40+00:00"
         },
         {
+            "name": "deployer/deployer",
+            "version": "v6.7.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/deployphp/deployer.git",
+                "reference": "5095b5de166498aedb6ef7ffff98d7243fa036ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/deployphp/deployer/zipball/5095b5de166498aedb6ef7ffff98d7243fa036ea",
+                "reference": "5095b5de166498aedb6ef7ffff98d7243fa036ea",
+                "shasum": ""
+            },
+            "require": {
+                "deployer/phar-update": "~2.2",
+                "php": "^7.2",
+                "pimple/pimple": "~3.0",
+                "symfony/console": "~2.7|~3.0|~4.0|~5.0",
+                "symfony/process": "~2.7|~3.0|~4.0|~5.0",
+                "symfony/yaml": "~2.7|~3.0|~4.0|~5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8"
+            },
+            "bin": [
+                "bin/dep"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Deployer\\": "src/"
+                },
+                "files": [
+                    "src/Support/helpers.php",
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Medvedev",
+                    "email": "anton@medv.io"
+                }
+            ],
+            "description": "Deployment Tool",
+            "homepage": "https://deployer.org",
+            "time": "2019-12-18T17:30:49+00:00"
+        },
+        {
+            "name": "deployer/phar-update",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/deployphp/phar-update.git",
+                "reference": "9ad07422f2cd43a1382ee8e134bdcd3a374848e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/deployphp/phar-update/zipball/9ad07422f2cd43a1382ee8e134bdcd3a374848e3",
+                "reference": "9ad07422f2cd43a1382ee8e134bdcd3a374848e3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/console": "~2.7|~3.0|~4.0|~5.0"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "1.1.0",
+                "phpunit/phpunit": "3.7.*",
+                "symfony/process": "~2.7|~3.0|~4.0|~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Deployer\\Component\\PharUpdate\\": "src/",
+                    "Deployer\\Component\\PHPUnit\\": "src/PHPUnit/",
+                    "Deployer\\Component\\Version\\": "src/Version/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Herrera",
+                    "email": "kevin@herrera.io",
+                    "homepage": "http://kevin.herrera.io"
+                },
+                {
+                    "name": "Anton Medvedev",
+                    "email": "anton@medv.io",
+                    "homepage": "https://medv.io"
+                }
+            ],
+            "description": "Integrates Phar Update to Symfony Console.",
+            "homepage": "https://github.com/deployphp/phar-update",
+            "keywords": [
+                "console",
+                "phar",
+                "update"
+            ],
+            "time": "2019-12-12T13:45:57+00:00"
+        },
+        {
+            "name": "deployer/recipes",
+            "version": "6.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/deployphp/recipes.git",
+                "reference": "84b3229c518c094a950e1fe785b7b8f9598770fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/deployphp/recipes/zipball/84b3229c518c094a950e1fe785b7b8f9598770fe",
+                "reference": "84b3229c518c094a950e1fe785b7b8f9598770fe",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7.0"
+            },
+            "replace": {
+                "deployer/recipes": "self.version"
+            },
+            "require-dev": {
+                "deployer/deployer": "^6.3"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "autoload.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Medvedev",
+                    "email": "anton@medv.io"
+                }
+            ],
+            "description": "3rd party deployer recipes",
+            "homepage": "https://github.com/deployphp/recipes",
+            "keywords": [
+                "cachetool",
+                "cloudflare",
+                "deploy",
+                "deployer",
+                "deployment",
+                "hipchat",
+                "newrelic",
+                "rabbit",
+                "recipes",
+                "sentry",
+                "slack",
+                "yarn"
+            ],
+            "time": "2019-06-27T06:47:18+00:00"
+        },
+        {
             "name": "doctrine/instantiator",
             "version": "1.3.0",
             "source": {
@@ -7613,12 +7511,12 @@
             "version": "1.7.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/facebook/php-webdriver.git",
+                "url": "https://github.com/php-webdriver/php-webdriver.git",
                 "reference": "e43de70f3c7166169d0f14a374505392734160e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/e43de70f3c7166169d0f14a374505392734160e5",
+                "url": "https://api.github.com/repos/php-webdriver/php-webdriver/zipball/e43de70f3c7166169d0f14a374505392734160e5",
                 "reference": "e43de70f3c7166169d0f14a374505392734160e5",
                 "shasum": ""
             },
@@ -8724,6 +8622,56 @@
                 "xunit"
             ],
             "time": "2019-12-06T05:14:37+00:00"
+        },
+        {
+            "name": "pimple/pimple",
+            "version": "v3.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silexphp/Pimple.git",
+                "reference": "9e403941ef9d65d20cba7d54e29fe906db42cf32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/9e403941ef9d65d20cba7d54e29fe906db42cf32",
+                "reference": "9e403941ef9d65d20cba7d54e29fe906db42cf32",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "psr/container": "^1.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^3.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Pimple": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Pimple, a simple Dependency Injection Container",
+            "homepage": "http://pimple.sensiolabs.org",
+            "keywords": [
+                "container",
+                "dependency injection"
+            ],
+            "time": "2018-01-21T07:42:36+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

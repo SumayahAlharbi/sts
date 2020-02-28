@@ -1,9 +1,12 @@
 <?php
 namespace Deployer;
 
+with(new \Dotenv\Dotenv(__DIR__))->load();
+
 require 'recipe/laravel.php';
-require 'recipe/cachetool.php';
-require 'recipe/slack.php';
+require 'vendor/deployer/recipes/recipe/cachetool.php';
+require 'vendor/deployer/recipes/recipe/slack.php';
+// require 'config/deploy.php';
 
 
 // Project name
@@ -14,6 +17,8 @@ set('repository', 'git@github.com:omego/sts.git');
 
 // [Optional] Allocate tty for git clone. Default value is false.
 set('git_tty', true); 
+
+
 
 // Shared files/dirs between deploys 
 add('shared_files', []);
@@ -86,9 +91,13 @@ after('deploy:symlink', 'cachetool:clear:opcache');
 
 after('cachetool:clear:opcache', 'supervisor:reload');
 
+// after('deploy:symlink', 'supervisor:reload');
+
 after('supervisor:reload', 'current:clear');
 
-set('slack_webhook', env('SLACK_DEPLOYER'));
+// set('slack_webhook', env('SLACK_DEPLOYER'));
+set('slack_webhook', env('slack_webhook'));
 
-after('current:clear', 'slack:notify:success');
+// after('current:clear', 'slack:notify:success');
 
+after('success', 'slack:notify:success');
