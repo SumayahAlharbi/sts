@@ -92,6 +92,10 @@ class Ticket extends Model
         $userGroupIDs[] =  $userGroup->id;
       };
       $userTickets = Auth::user()->ticket;
+      if ($userTickets){
+
+
+      $userTicketIDs = [];
       foreach ($userTickets as $userTicket) {
         $userTicketIDs[] =  $userTicket->id;
       };
@@ -110,6 +114,7 @@ class Ticket extends Model
       else{
             $query->where('requested_by', Auth::user()->id)->orWhere('created_by', Auth::user()->id);
       }
+    }
    }
    public function scopeRequestedCreatedBy($query) {
           $query->where('requested_by', Auth::user()->id)->orWhere('created_by', Auth::user()->id);
