@@ -52,7 +52,7 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs profile-tab" role="tablist">
           <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#userTickets" role="tab">Assigned Tickets</a> </li>
-          <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#assets" role="tab">Assets List</a></li>
+          {{-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#assets" role="tab">Assets List</a></li> --}}
           @if (Auth::id() == $user->id or auth()->user()->hasRole('admin') )
           <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a></li>
           @endif
@@ -171,9 +171,8 @@
         </div>
 
         {{-- Assets List --}}
-        <div class="tab-pane" id="assets" role="tabpanel">
+        {{-- <div class="tab-pane" id="assets" role="tabpanel">
           <div class="card-body">
-            {{-- <h4 class="card-title">Assets List</h4> --}}
                   <table class="footable table m-b-0 toggle-circle" data-sort="false">
                     <thead>
                       <tr>
@@ -201,7 +200,7 @@
                     </tbody>
                   </table>
           </div>
-        </div>
+        </div> --}}
           {{-- end of Assets List --}}
 
               {{-- user settings --}}
