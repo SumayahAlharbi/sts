@@ -110,14 +110,14 @@ class UserController extends Controller
         $statuses = Status::all();
         $categories = Category::all()->pluck('category_name','id');
 
-        $client = new Client();
-        $parts = explode("@", $user->email);
-        $username =$parts[0];
-        $response = $client->request('GET', 'https://apex.oracle.com/pls/apex/ksau-hs/assets/custodians/'.$username);
-        $statusCode = $response->getStatusCode();
-        $body = $response->getBody()->getContents();
-        $assets = json_decode($body);
-        $list = $assets->items;
+        // $client = new Client();
+        // $parts = explode("@", $user->email);
+        // $username =$parts[0];
+        // $response = $client->request('GET', 'https://apex.oracle.com/pls/apex/ksau-hs/assets/custodians/'.$username);
+        // $statusCode = $response->getStatusCode();
+        // $body = $response->getBody()->getContents();
+        // $assets = json_decode($body);
+        // $list = $assets->items;
         
     //    $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->simplePaginate(10);
 
@@ -126,7 +126,7 @@ class UserController extends Controller
     //     if  (!empty(array_intersect($userGroupIDs, $ProfileGroupsIDs)))
     //     {
 
-      return view('profile.index', compact('user','assigned_tickets','statuses','categories','totalTicketSetting','user_id','assets'));
+      return view('profile.index', compact('user','assigned_tickets','statuses','categories','totalTicketSetting','user_id'));
 
 
         // }
