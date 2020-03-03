@@ -18,7 +18,7 @@ use App\Mail\TicketAgentAssigned;
 use App\Mail\TicketRatingMail;
 use App\Mail\CreatedTicketEnduserMail;
 use App\Mail\CreatedTicketGroupMail;
-use Spatie\Activitylog\Models\Activity;
+use App\Activity;
 use Carbon\Carbon;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use App\Notifications\AssignedTicket;
