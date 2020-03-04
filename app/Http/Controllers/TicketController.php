@@ -698,25 +698,8 @@ class TicketController extends Controller
       //     $userGroupIDs[] =  $userGroup->id;
       //   };
       $totalTicketSetting = Auth::user()->settings()->get('total_tickets');
-
-
-      if ($user->hasRole('admin')) {
-
-              $findTickets = Ticket::search($request->searchKey)->paginate($totalTicketSetting);
-
-
-          } elseif ($user->hasPermissionTo('view group tickets')) {
-            $matching = Ticket::search($request->searchKey)->get()->pluck('id');
-            $findTickets = Ticket::whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
-
-
-            } else {
-              $matching = Ticket::search($request->searchKey)->get()->pluck('id');
-
-                  $findTickets = Ticket::whereHas('user', function ($q) use ($userId) {
-                  $q->where('user_id', $userId);})->whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
-
-          }
+          $matching = Ticket::search($request->searchKey)->get()->pluck('id');
+          $findTickets = Ticket::withoutGlobalScope(GlobalScope::class)->LocalTicket()->whereIn('id', $matching)->orderByRaw('created_at DESC')->simplePaginate($totalTicketSetting);
           return view('ticket.search', compact('findTickets', 'statuses', 'groups'));
 
     }
