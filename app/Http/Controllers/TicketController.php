@@ -89,10 +89,16 @@ class TicketController extends Controller
           foreach ($userGroups as $userGroupsId) {
             $userGroupsIdArray[] =  $userGroupsId->id;
           };
+          $agentTickets = Ticket::with('user')->get();
+          // $TicketAgents = $agentTickets;
+          foreach ($agentTickets as $agentTicket) {
+            $agentTicketIdArray[] =  $agentTicket->id;
+          };
+          // dd($agentTicketIdArray);
         }
 
         ActivityLogger::activity("Ticket index");
-        return view('ticket.index', compact('tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases','user_id','totalTicketSetting','userGroupsIdArray'));
+        return view('ticket.index', compact('agentTicketIdArray', 'tickets', 'statuses', 'categories','locations','users','created_by', 'groups','regions','releases','user_id','totalTicketSetting','userGroupsIdArray'));
     }
 
         /**
@@ -320,6 +326,11 @@ class TicketController extends Controller
           foreach ($userGroups as $userGroupsId) {
             $userGroupsIdArray[] =  $userGroupsId->id;
           };
+          $agentTickets = Ticket::with('user')->get();
+          // $TicketAgents = $agentTickets;
+          foreach ($agentTickets as $agentTicket) {
+            $agentTicketIdArray[] =  $agentTicket->id;
+          };
         }
         // echo $user->settings()->get('email_assigned_agent');
         // $user->settings()->delete('email_assigned_agent', 'new value');
@@ -364,7 +375,7 @@ class TicketController extends Controller
 
         $group_users_not_ticket_agents = $group_users->diff($TicketAgents);
 
-        return view('ticket.show', compact('tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users','userGroups','group_users_not_ticket_agents', 'userGroupsIdArray'));
+        return view('ticket.show', compact('agentTicketIdArray', 'tickets','locations','statuses', 'TicketAgents', 'group_users','activityTickets', 'next','previous','categories','groups','users','userGroups','group_users_not_ticket_agents', 'userGroupsIdArray'));
         }
 
 
