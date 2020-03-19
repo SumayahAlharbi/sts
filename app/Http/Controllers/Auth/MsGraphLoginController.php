@@ -9,6 +9,7 @@ use Microsoft\Graph\Model;
 use App\TokenStore\TokenCache;
 use Auth;
 use App\User;
+use Hash;
 
 class MsGraphLoginController extends Controller
 {
@@ -70,15 +71,15 @@ class MsGraphLoginController extends Controller
         $graph = new Graph();
         $graph->setAccessToken($accessToken->getToken());
 
-        $user = $graph->createRequest('GET', '/me')
+        $userGraph = $graph->createRequest('GET', '/me')
           ->setReturnType(Model\User::class)
           ->execute();
 
         // $id = $user->getId();
 
         $tokenCache = new TokenCache();
-        $tokenCache->storeTokens($accessToken, $user);
-        $userData = $this->userFindorCreate($user);
+        $tokenCache->storeTokens($accessToken, $userGraph);
+        $userData = $this->userFindorCreate($userGraph);
 
         Auth::login($userData, true);
         
@@ -96,12 +97,12 @@ class MsGraphLoginController extends Controller
       ->with('errorDetail', $request->query('error_description'));
   }
 
-  public function userFindorCreate($user){
-    $user = User::where('email', $user->getMail())->first();
+  public function userFindorCreate($userGraph){
+    $user = User::where('email', $userGraph->getMail())->first();
     if(!$user){
         $user = new User;
-    $user->name = $user->getName();
-    $user->email = $user->getEmail();
+    $user->name = $userGraph->getDisplayName();
+    $user->email = $userGraph->getMail();
     $user->password= Hash::make('the-password-of-choice');
     // $user->name= $username;
     // $user->email= $username."@ksau-hs.edu.sa";

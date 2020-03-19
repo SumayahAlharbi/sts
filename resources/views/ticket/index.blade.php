@@ -13,9 +13,11 @@
     {{ session()->get('danger') }}
   </div><br />
 @endif
-<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+{{-- <script src="/vendor/ckeditor/ckeditor.js"></script> --}}
 <script>
-        //update group after region select in defult model
+$(function () {
+    $('.myselect').selectpicker();
+});        //update group after region select in defult model
         $(document).on('change','.region', function(e){
         var region_id = e.target.value;
         $.getJSON('/getGroups/' + region_id, function(data) {
@@ -57,7 +59,7 @@
         $.getJSON('/getGroups/' + region_id, function(data) {
               $("#groupDivEnduser").show();
               $('#groupEnduser').empty();
-              $('#groupEnduser').append("<option value=''>Select your department</option>");
+              $('#groupEnduser').append("<option value=''>Select department</option>");
               $.each(data,function(index, subcatObj){
                 $('#groupEnduser').append("<option value="+subcatObj.id+">"+subcatObj.group_name+"</option>");
 
@@ -96,27 +98,27 @@
                 <h4 class="card-title">Support Ticket List</h4>
                 {{-- <h6 class="card-subtitle">List of ticket</h6> --}}
                 <div class="row">
-                  <div class="col-lg-12">
+                  <div class="col-lg-11">
+                    {{-- @can('create ticket')
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreateTicketModal" data-whatever="@create" title="Create New Ticket in Your Department as an Agent" ><i class="fa fa-plus-circle"></i> Create Ticket</button>
+                    @endcan --}}
+
                     @can('create ticket')
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreateTicketModal" data-whatever="@create" title="Create New Ticket" ><i class="fa fa-plus-circle"></i> New</button>
+                      <a class="btn btn-primary create-ticket-button" href="{{ route('ticket.create')}}" role="button" title="Create New Ticket"><i class="fa fa-plus-circle"></i> Create Ticket</a>
                     @endcan
 
-                    {{--@can('create ticket')
-                      <a class="btn btn-primary" href="{{ route('ticket.create')}}" title="Create New Ticket" role="button"><i class="fa fa-plus-circle"></i> New</a>
-                    @endcan--}}
-
                 <!-- End User Create Ticket -->
-                @if(Auth::user()->hasRole('enduser'))
+                {{-- @if(Auth::user()->hasRole('enduser'))
                     @can('end user create ticket')
-                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#EndUserCreateTicketModal" data-whatever="@create" title="Create New Ticket" ><i class="fa fa-plus-circle"></i> New</button>
+                          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#EndUserCreateTicketModal" data-whatever="@create" title="Request New Ticket From a Department" ><i class="fas fa-spinner"></i> Request Ticket</button>
                         @endcan
                   @endif
 
-                <div class="modal fade" id="EndUserCreateTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                <div class="modal fade" id="EndUserCreateTicketModal" data-focus="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="exampleModalLabel1">+ New Ticket</h4>
+                                <h4 class="modal-title" id="exampleModalLabel1">+ Request Ticket</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
@@ -167,11 +169,11 @@
                                         </select>
                                       </div>
                                       <div class="form-group" style="display:none;" id="groupDivEnduser">
-                                      <label for="exampleFormControlSelect1">Department</label>
+                                      <label for="exampleFormControlSelect1">Request From</label>
                                       <select required class="form-control groupEnduser" name="groupEnduser" id="groupEnduser">
-                                        <!-- @foreach ($groups as $group) -->
+                                        @foreach ($groups as $group)
                                           <option value="{{$group->id}}">{{$group->group_name}}</option>
-                                        <!-- @endforeach -->
+                                        @endforeach
                                       </select>
                                     </div>
 
@@ -225,20 +227,61 @@
                             </div>
                         </div>
                         </div>
-                </div>
+                </div> --}}
 
 
                 <!--/.End User Create Ticket -->
 
                     {{-- <button id="btn" class="btn btn-danger">Ready?</button> --}}
                   </div>
+                  <div class="col-md-1">
+                      {{-- <select class="myselect" name="total_tickets" data-style="form-control btn-secondary">
+                          <option value="10">10</option>
+                          <option value="25">25</option>
+                          <option>50</option>
+                          <option>100</option>
+                      </select>
+
+                      @section('scripts')
+                          <script type="text/javascript">
+                              $("#country").change(function(){
+                                  $.ajax({
+                                      url: "{{ route('admin.cities.get_by_country') }}?country_id=" + $(this).val(),
+                                      method: 'GET',
+                                      success: function(data) {
+                                          $('#city').html(data.html);
+                                      }
+                                  });
+                              });
+                          </script>
+                      @endsection --}}
+
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {{$totalTicketSetting}}
+                    </button>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                          <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/10'>10</a>
+                          <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/25'>25</a>
+                          <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/50'>50</a>
+                          <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/100'>100</a>
+                        </div>
+                  </div>
                 </div>
 
-                <div class="modal fade" id="CreateTicketModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                {{-- <div class="col-sm-1">
+                    <select class="myselect m-b-20 m-r-10" data-style="btn-primary">
+                        <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+                        <option data-tokens="mustard">Burger, Shake and a Smile</option>
+                        <option data-tokens="frosting">Sugar, Spice and all things nice</option>
+                    </select>
+                </div> --}}
+
+                <div class="modal fade" id="CreateTicketModal" data-focus="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="exampleModalLabel1">+ New Ticket</h4>
+                                <h4 class="modal-title" id="exampleModalLabel1">+ Create Ticket</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
@@ -280,14 +323,14 @@
                                       <div class="form-group">
                                           <label for="ticket_content">Ticket Content</label>
                                           <textarea name="ticket_content" class="form-control" id="contentEditor" rows="3" value="{{ old('ticket_content') }}" required></textarea>
-                                          <script>
-                                              CKEDITOR.replace( 'contentEditor' );
-                                          </script>
+                                          {{-- <script>
+                                            CKEDITOR.replace( 'contentEditor' );
+                                          </script> --}}
                                       </div>
 
                                       <div class="form-group">
                                         <label for="exampleFormControlSelect1">Region</label>
-                                        <select required class="form-control region" name="region" id="region">
+                                        <select required class="form-control region" name="region" id="region" required>
                                           <option value="">None</option>
                                           @foreach ($regions as $key => $value)
                                             <option value="{{$key}}">{{$value}}</option>
@@ -296,10 +339,10 @@
                                       </div>
                                       <div class="form-group" style="display:none;" id="groupDiv">
                                       <label for="exampleFormControlSelect1">Department</label>
-                                      <select required class="form-control group" name="group_id" id="group_id" placeholder="please select the department">
-                                        <!-- @foreach ($groups as $group) -->
+                                      <select required class="form-control group" name="group_id" id="group_id" required>
+                                        @foreach ($groups as $group)
                                           <option value="{{$group->id}}">{{$group->group_name}}</option>
-                                        <!-- @endforeach -->
+                                        @endforeach
                                       </select>
                                     </div>
 
@@ -349,8 +392,8 @@
                                 $(function() {
                                   $('.toggle-class').change(function() {
                                       // var visibility_id = $(this).prop('checked') == true ? 1 : 0;
-                                      var userKeyword = $(this).data('id'); 
-                                       
+                                      var userKeyword = $(this).data('id');
+
                                       $.ajax({
                                           type: "GET",
                                           dataType: "json",
@@ -368,7 +411,7 @@
 ajax: {
 
   // data source
-  url: '{{ route('graph.users.list') }}', 
+  url: '{{ route('graph.users.list') }}',
 
   // ajax type
   type: 'GET',
@@ -447,9 +490,9 @@ preprocessData: function (data) {
                           <th> Status </th>
 
                           <th data-hide="phone">Category</th>
-                          @if(count($groups) > 1)
+
                           <th data-hide="phone">Group</th>
-                          @endif
+
                           <th data-hide="phone">Agents</th>
                           <th data-hide="all">Requested by</th>
                           <th data-hide="all">Action</th>
@@ -464,7 +507,7 @@ preprocessData: function (data) {
                               <span class="badge badge-pill badge-info"> {{$ticket->comments()->count()}}</span>
                             @endif
                             <br>
-                            <small class="text-muted"> {{ $ticket->created_at->diffForHumans() }} </small></td>
+                            <small class="text-muted"><a class="text-muted" title="{{$ticket->created_at}}">  {{ $ticket->created_at->diffForHumans() }} </small></td>
 
                           <td>{{ str_limit($ticket->ticket_title, 35)}}
                             @if ($ticket->comments()->count() != 0)
@@ -473,27 +516,8 @@ preprocessData: function (data) {
                             <br> {{$ticket->created_at->diffForHumans()}}</td>
 
                           <td title="{{$ticket->status['status_name']}}">
-                            @if(auth()->user()->can('change ticket status'))
-                               <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
-                               @elseif ($ticket->status['status_name'] == 'Completed') btn-success
-                               @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
-                               @elseif ($ticket->status['status_name'] == 'In Progress') btn-primary
-                               @else btn-inverse
-                               @endif dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                 {{$ticket->status['status_name']}}
-                               </button>
 
-                               <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                               @foreach ($statuses as $status)
-                                 @if($status != $ticket->status)
-                                 <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status['status_name']}}</a>
-                               @endif
-                               @endforeach
-                               </div>
-
-
-
-                          @else
+                            @if($userGroupsIdArray == null or (!in_array($ticket->group_id, $userGroupsIdArray) and !auth()->user()->hasRole('admin')))
                             <span class="label
                             @if ($ticket->status['status_name'] == 'Unassigned') label-danger
                             @elseif ($ticket->status['status_name'] == 'Completed') label-success
@@ -503,14 +527,63 @@ preprocessData: function (data) {
                             @endif">
                             {{$ticket->status['status_name']}}
                           </span>
-                          @endif
-                          </td>
+
+                            @elseif(in_array($ticket->group_id, $userGroupsIdArray) and (auth()->user()->can('view group tickets')) or auth()->user()->hasRole('admin'))
+                            <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
+                            @elseif ($ticket->status['status_name'] == 'Completed') btn-success
+                            @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
+                            @elseif ($ticket->status['status_name'] == 'In Progress') btn-primary
+                            @else btn-inverse
+                            @endif dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              {{$ticket->status['status_name']}}
+                            </button>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            @foreach ($statuses as $status)
+                              @if($status != $ticket->status)
+                              <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status['status_name']}}</a>
+                            @endif
+                            @endforeach
+                            </div>
+
+                            @elseif(in_array($ticket->group_id, $userGroupsIdArray) and (auth()->user()->can('change ticket status')) and in_array($ticket->id, $agentTicketIdArray))
+                            <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
+                            @elseif ($ticket->status['status_name'] == 'Completed') btn-success
+                            @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
+                            @elseif ($ticket->status['status_name'] == 'In Progress') btn-primary
+                            @else btn-inverse
+                            @endif dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              {{$ticket->status['status_name']}}
+                            </button>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            @foreach ($statuses as $status)
+                              @if($status != $ticket->status)
+                              <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status['status_name']}}</a>
+                            @endif
+                            @endforeach
+                            </div>
+@else
+<span class="label
+                            @if ($ticket->status['status_name'] == 'Unassigned') label-danger
+                            @elseif ($ticket->status['status_name'] == 'Completed') label-success
+                            @elseif ($ticket->status['status_name'] == 'Pending') label-warning
+                            @elseif ($ticket->status['status_name'] == 'In Progress') label-primary
+                            @else label-inverse
+                            @endif">
+                            {{$ticket->status['status_name']}}
+                          </span>
+
+                       @endif
+                       </td>
+
+
                           <td>{{$ticket->category['category_name']}}</td>
-                          @if(count($groups) > 1)
+
                           <td>
                             <small title="{{$ticket->group->group_description}}">{{$ticket->group->group_name}}</small>
                           </td>
-                           @endif
+
                           <td>
                           @foreach($ticket->user as $ticket_assignee)
                             <a href="{{url('/profile/' . $ticket_assignee->id)}}">
@@ -529,12 +602,18 @@ preprocessData: function (data) {
                               @csrf
                               @method('DELETE')
                               <a href="{{ route('ticket.show',$ticket->id)}}" title="Show" class="btn btn-success"><i class="fa fa-eye"></i></a>
+                              @if (!empty($userGroupsIdArray))
+                              @foreach ($userGroupsIdArray as $userGroup)
+                              @if($ticket->group->id == $userGroup)
                               @can('update ticket')
                               <a href="{{ route('ticket.edit',$ticket->id)}}" title="Edit" class="btn btn-warning"><i class="far fa-edit"></i></a>
                               @endcan
                               @can('delete ticket')
                               <button class="btn btn-danger" title="Delete" type="submit"><i class="fa fa-trash-alt"></i></button>
                               @endcan
+                              @endif
+                              @endforeach
+                              @endif
                             </form>
                           </td>
 
@@ -563,7 +642,7 @@ preprocessData: function (data) {
     </div>
 </div>
 {{-- <script>
-var myText = 'Happy New Year 2019 🎉',
+var myText = 'Happy New Year 2020 🎉',
     i = 0,
     myBtn = document.getElementById('btn');
 myBtn.onclick = function () {

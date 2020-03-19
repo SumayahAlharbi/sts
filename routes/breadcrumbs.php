@@ -1,5 +1,8 @@
 <?php
 
+use App\Ticket;
+use App\Scopes\GlobalScope;
+
 // Home
 Breadcrumbs::for('home', function ($trail) {
     $trail->push('Home', action('HomeController@index'));
@@ -15,6 +18,12 @@ Breadcrumbs::for('profile.show', function ($trail) {
 Breadcrumbs::for('user.profileSearch', function ($trail) {
   $trail->parent('profile.show');
   $trail->push('Search', route('user.profileSearch'));
+});
+
+//user Search
+Breadcrumbs::for('user.userSearch', function ($trail) {
+    $trail->parent('users.index');
+    $trail->push('Search', route('user.userSearch'));
 });
 
 // ticket.index
@@ -35,6 +44,24 @@ Breadcrumbs::for('ticket.statusFilter', function ($trail) {
     $trail->push('Status Filter', route('ticket.statusFilter'));
 });
 
+// ticket.search
+Breadcrumbs::for('ticket.groupFilter', function ($trail) {
+    $trail->parent('ticket.index');
+    $trail->push('Group Filter', route('ticket.groupFilter'));
+});
+
+// ticket.search
+Breadcrumbs::for('ticket.todayTicket', function ($trail) {
+    $trail->parent('ticket.index');
+    $trail->push('Today Ticket', route('ticket.todayTicket'));
+});
+
+// ticket.late
+Breadcrumbs::for('ticket.lateTicket', function ($trail) {
+    $trail->parent('ticket.index');
+    $trail->push('late Tickets', route('ticket.lateTicket'));
+});
+
 // ticket.create
 Breadcrumbs::for('ticket.create', function ($trail) {
     $trail->parent('ticket.index');
@@ -44,7 +71,7 @@ Breadcrumbs::for('ticket.create', function ($trail) {
 // ticket.show
 Breadcrumbs::for('ticket.show', function ($trail, $id) {
     $trail->parent('ticket.index');
-    $ticket = app\Ticket::findOrFail($id);
+    $ticket = Ticket::withoutGlobalScope(GlobalScope::class)->LocalTicket()->findOrFail($id);
 
     $trail->push($ticket->ticket_title, route('ticket.show', $ticket->id));
 });
@@ -52,7 +79,7 @@ Breadcrumbs::for('ticket.show', function ($trail, $id) {
 // ticket.edit
 Breadcrumbs::for('ticket.edit', function ($trail, $id) {
     $trail->parent('ticket.index');
-    $ticket = app\Ticket::findOrFail($id);
+    $ticket = Ticket::findOrFail($id);
 
     $trail->push('Edit Ticket', route('ticket.edit', $ticket->id));
 });
@@ -98,7 +125,16 @@ Breadcrumbs::resource('regions','Region');
 Breadcrumbs::resource('roles','Role');
 Breadcrumbs::resource('permissions','Permission');
 Breadcrumbs::resource('releases','Release');
+Breadcrumbs::resource('Exports','Export');
+Breadcrumbs::resource('Reports','Report');
 Breadcrumbs::resource('reports','Report');
+Breadcrumbs::resource('calendar', 'Calendar');
+
+// releases.whatsnew
+Breadcrumbs::for('releases.whatsnew', function ($trail) {
+    $trail->parent('home');
+    $trail->push('Whats new', route('releases.whatsnew'));
+});
 
 // ticket.index
 Breadcrumbs::for('activity.index', function ($trail) {

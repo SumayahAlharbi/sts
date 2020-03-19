@@ -81,4 +81,11 @@ class ReleaseController extends Controller
        $release->delete();
        return redirect('/releases')->with('success', 'release has been deleted');
      }
+
+     public function whatsnew()
+     {
+         
+         $releases = Release::orderByRaw('created_at DESC')->get();
+         return view('releases.whatsnew', compact('releases'));
+     }
 }

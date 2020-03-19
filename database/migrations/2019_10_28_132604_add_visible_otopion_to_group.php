@@ -27,7 +27,6 @@ class AddVisibleOtopionToGroup extends Migration
     public function down()
     {
         Schema::table('groups', function (Blueprint $table) {
-            //
             $table->dropColumn('visibility_id');
         });
     }

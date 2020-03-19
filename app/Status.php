@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Status extends Model
 {
   use SoftDeletes;
+
+  public function scopeUnassigned($query) {
+      return $query->where('status_name', 'Unassigned');
+   }
+
 }
