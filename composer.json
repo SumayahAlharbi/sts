@@ -24,9 +24,9 @@
         "laravolt/avatar": "^2.1",
         "league/csv": "^9.1",
         "league/oauth2-client": "^2.4",
-        "lorisleiva/laravel-deployer": "^0.2.5",
         "microsoft/microsoft-graph": "^1.11",
         "orangehill/iseed": "^2.6",
+        "pragmarx/health": "^0.10.2",
         "pragmarx/version": "^0.2.8",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^3.2",
@@ -35,10 +35,13 @@
         "spatie/laravel-backup": "^5.11",
         "spatie/laravel-permission": "^2.23",
         "springscs/cas": "^1.0",
-        "teamtnt/laravel-scout-tntsearch-driver": "^6.1"
+        "teamtnt/laravel-scout-tntsearch-driver": "^6.1",
+        "vlucas/phpdotenv": "^2.2"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
+        "deployer/deployer": "^6.7",
+        "deployer/recipes": "^6.2",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
         "laravel/dusk": "^5.7",

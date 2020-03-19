@@ -67,11 +67,15 @@
     @endif
     @endif
 
-    @if($userGroupsIdArray == null or in_array($tickets->group_id, $userGroupsIdArray) or auth()->user()->hasRole('admin'))
+    @if($userGroupsIdArray == null or (!in_array($tickets->group_id, $userGroupsIdArray) and !auth()->user()->hasRole('admin')))
+    {{-- @can('update ticket')<a class="btn btn-outline-success" href="{{ route('ticket.edit',$tickets->id)}}" title="Edit" role="button"><i class="far fa-edit"></i></a>@endcan --}}
+    {{-- @can('assign ticket')<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#assignModal" data-whatever="@assign" title="Assign"><i class="fas fa-users"></i></button>@endcan --}}
+    {{-- @can('change ticket status')<button type="button" title="Status" class="btn btn-outline-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-check-square"></i></button>@endcan --}}
+
+    @elseif(in_array($tickets->group_id, $userGroupsIdArray) and (auth()->user()->can('view group tickets')) or auth()->user()->hasRole('admin'))
     @can('update ticket')<a class="btn btn-outline-success" href="{{ route('ticket.edit',$tickets->id)}}" title="Edit" role="button"><i class="far fa-edit"></i></a>@endcan
     @can('assign ticket')<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#assignModal" data-whatever="@assign" title="Assign"><i class="fas fa-users"></i></button>@endcan
     @can('change ticket status')<button type="button" title="Status" class="btn btn-outline-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-check-square"></i></button>@endcan
-
 
 
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
@@ -91,6 +95,17 @@
     </form>
     @endcan
 
+    @elseif(in_array($tickets->group_id, $userGroupsIdArray) and (auth()->user()->can('change ticket status')) and in_array($tickets->id, $agentTicketIdArray))
+    @can('change ticket status')<button type="button" title="Status" class="btn btn-outline-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-check-square"></i></button>@endcan
+
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+      @foreach ($statuses as $status)
+      @if($status != $tickets->status)
+      <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$tickets->id}}'>{{$status->status_name}}</a>
+      @endif
+      @endforeach
+    </div>
+    
     @endif
 
     @if (isset($previous))

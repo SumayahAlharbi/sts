@@ -245,32 +245,32 @@ $(function () {
     // Our Tickets
     // ============================================================== 
     
-    var chart = c3.generate({
-        bindto: '#tickets',
-        data: {
-            url: '/total-tickets-api',
-            mimeType: 'json',
-            type : 'donut',
-            onclick: function (d, i) { console.log("onclick", d, i); },
-            onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-            onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-        },
-        donut: {
-            label: {
-                show: false
-              },
-            title: "Now",
-            width:20,
+    // var chart = c3.generate({
+    //     bindto: '#tickets',
+    //     data: {
+    //         url: '/total-tickets-api',
+    //         mimeType: 'json',
+    //         type : 'donut',
+    //         onclick: function (d, i) { console.log("onclick", d, i); },
+    //         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+    //         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+    //     },
+    //     donut: {
+    //         label: {
+    //             show: false
+    //           },
+    //         title: "Now",
+    //         width:20,
             
-        },
+    //     },
         
         
-        legend: {
-          hide: true
-          //or hide: 'data1'
-          //or hide: ['data1', 'data2']
-        },
-        color: {
-              pattern: ['#FFB22B', '#745af2', '#000', '#fc4b6c']
-        }
-    });
+    //     legend: {
+    //       hide: true
+    //       //or hide: 'data1'
+    //       //or hide: ['data1', 'data2']
+    //     },
+    //     color: {
+    //           pattern: ['#FFB22B', '#745af2', '#000', '#fc4b6c']
+    //     }
+    // });

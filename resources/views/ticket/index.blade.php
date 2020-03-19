@@ -528,7 +528,7 @@ preprocessData: function (data) {
                             {{$ticket->status['status_name']}}
                           </span>
 
-                            @elseif(in_array($ticket->group_id, $userGroupsIdArray) and (auth()->user()->can('change ticket status')) or auth()->user()->hasRole('admin'))
+                            @elseif(in_array($ticket->group_id, $userGroupsIdArray) and (auth()->user()->can('view group tickets')) or auth()->user()->hasRole('admin'))
                             <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
                             @elseif ($ticket->status['status_name'] == 'Completed') btn-success
                             @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
@@ -546,6 +546,33 @@ preprocessData: function (data) {
                             @endforeach
                             </div>
 
+                            @elseif(in_array($ticket->group_id, $userGroupsIdArray) and (auth()->user()->can('change ticket status')) and in_array($ticket->id, $agentTicketIdArray))
+                            <button class="btn btn-sm @if ($ticket->status['status_name'] == 'Unassigned') btn-danger
+                            @elseif ($ticket->status['status_name'] == 'Completed') btn-success
+                            @elseif ($ticket->status['status_name'] == 'Pending') btn-warning
+                            @elseif ($ticket->status['status_name'] == 'In Progress') btn-primary
+                            @else btn-inverse
+                            @endif dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              {{$ticket->status['status_name']}}
+                            </button>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            @foreach ($statuses as $status)
+                              @if($status != $ticket->status)
+                              <a class='dropdown-item' href='{{url('ticket/ChangeTicketStatus')}}/{{$status->id}}/{{$ticket->id}}'>{{$status['status_name']}}</a>
+                            @endif
+                            @endforeach
+                            </div>
+@else
+<span class="label
+                            @if ($ticket->status['status_name'] == 'Unassigned') label-danger
+                            @elseif ($ticket->status['status_name'] == 'Completed') label-success
+                            @elseif ($ticket->status['status_name'] == 'Pending') label-warning
+                            @elseif ($ticket->status['status_name'] == 'In Progress') label-primary
+                            @else label-inverse
+                            @endif">
+                            {{$ticket->status['status_name']}}
+                          </span>
 
                        @endif
                        </td>

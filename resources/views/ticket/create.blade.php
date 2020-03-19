@@ -84,7 +84,9 @@
 
    if(userGroupsRequested.indexOf(group_id) > -1){
     // alert(group_id);
+    @if (!Auth::user()->hasRole('agent'))
     $("#requestedDiv").show();
+    @endif
     // console.log(userGroupsRequested);
 }else{
   // $("#requestedDiv").empty();
