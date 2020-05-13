@@ -3,6 +3,16 @@
 
 @section('content')
 <div class="container-fluid">
+  @if(session()->get('success'))
+  <div class="alert alert-success">
+    {{ session()->get('success') }}
+  </div><br />
+  @endif
+  @if(session()->get('danger'))
+  <div class="alert alert-danger">
+    {{ session()->get('danger') }}
+  </div><br />
+  @endif
                 <div class="row">
                 <div class="col-lg-4 col-xlg-3 col-md-5">
                     <div class="card">
@@ -183,6 +193,7 @@
                         <th> Building </th>
                         <th> Floor </th>
                         <th> Room </th>
+                        <th> Relocate </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -195,6 +206,8 @@
                               <td>{{$asset->building}}</td>
                               <td>{{$asset->floor}}</td>
                               <td>{{$asset->room}}</td>
+                              {{-- <td><a class="btn btn-success" href="#" role="button" title="Send Asset Relocation form" readonly>Processing</a></td> --}}
+                              <td><a class="btn btn-primary" href="{{url('assets/')}}/{{$asset->serial_number}}/{{$asset->type}}" role="button" title="Send Asset Relocation form">Relocate</a></td>
                         </tr>
                       @endforeach
                     </tbody>
