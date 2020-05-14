@@ -197,17 +197,20 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach($assets->items as $asset)
+                      @foreach($assets->items as $key => $index)
                         <tr>
-                              <td>{{$asset->serial_number}}</td>
-                              <td>{{$asset->tag}}</td>
-                              <td>{{$asset->type}}</td>
-                              <td>{{$asset->model}}</td>
-                              <td>{{$asset->building}}</td>
-                              <td>{{$asset->floor}}</td>
-                              <td>{{$asset->room}}</td>
-                              {{-- <td><a class="btn btn-success" href="#" role="button" title="Send Asset Relocation form" readonly>Processing</a></td> --}}
+                              <td>{{$index->serial_number}}</td>
+                              <td>{{$index->tag}}</td>
+                              <td>{{$index->type}}</td>
+                              <td>{{$index->model}}</td>
+                              <td>{{$index->building}}</td>
+                              <td>{{$index->floor}}</td>
+                              <td>{{$index->room}}</td>
+                              @if ($index->serial_number == $pending[$key])
+                              <td><a class="btn btn-warning" href="#" role="button" readonly>Pending</a></td>
+                              @else
                               <td><a class="btn btn-primary" href="{{url('assets/')}}/{{$asset->serial_number}}/{{$asset->type}}" role="button" title="Send Asset Relocation form">Relocate</a></td>
+                              @endif
                         </tr>
                       @endforeach
                     </tbody>

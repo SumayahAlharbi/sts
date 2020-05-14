@@ -110,6 +110,7 @@ class UserController extends Controller
         $statuses = Status::all();
         $categories = Category::all()->pluck('category_name','id');
 
+        // get all the assets of the user
         $client = new Client();
         $parts = explode("@", $user->email);
         $username =$parts[0];
@@ -117,7 +118,36 @@ class UserController extends Controller
         $statusCode = $response->getStatusCode();
         $body = $response->getBody()->getContents();
         $assets = json_decode($body);
-        // $list = $assets->items;
+        $list = $assets->items;
+
+        // store serial numbers in array
+        $user_assets = array();
+        foreach ($list as $key) {
+          $user_assets [] = $key->serial_number;
+        }
+
+        // get all current e-forms
+        $request = new Client();
+        $result = $request->request('GET', 'https://www.yamanisa.com/comj/wp-json/gf/v2/forms/13/entries', ['auth' => [ env('API_KEY'), env('API_PASSWORD')]]);
+        $content = $result->getBody()->getContents();
+        $all_e_forms = json_decode($content);
+        $entries = $all_e_forms->entries;
+
+        // store assets serial number in array
+        $all_pending_assets = array();
+        foreach ($entries as $key => $values) {
+          $all_pending_assets [] = $values->{'3'}; // serial number field name
+        }
+
+        // compare two arrays to find pending form of certain assets (serial number)
+        $pending = array();
+        foreach ($user_assets as $key1 => $value1) {
+           foreach ($all_pending_assets as $key2 =>$value2) {
+               if ($value1 == $value2) {
+                   $pending [] = $value1;
+              }
+           }
+         }
 
     //    $activitys = Activity::where('causer_id', '=' , $id)->orderByRaw('created_at DESC')->simplePaginate(10);
 
@@ -126,7 +156,7 @@ class UserController extends Controller
     //     if  (!empty(array_intersect($userGroupIDs, $ProfileGroupsIDs)))
     //     {
 
-      return view('profile.index', compact('user','assigned_tickets','statuses','categories','totalTicketSetting','user_id','assets'));
+      return view('profile.index', compact('user','assigned_tickets','statuses','categories','totalTicketSetting','user_id','assets','pending'));
 
 
         // }
