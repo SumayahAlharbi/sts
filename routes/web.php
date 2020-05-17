@@ -243,7 +243,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('calendar', 'CalendarController@index')->name('calendar.index');
 
   // Assets Relocation
-  Route::get('assets/{serial_number}/{asset_type}', 'AssetsController@relocate')->name('assets.relocate');
+  Route::post('asset/relocate/', 'AssetsController@relocate')->name('assets.relocate');
 
   Route::get('whatsnew', 'ReleaseController@whatsnew')->name('releases.whatsnew');
 });

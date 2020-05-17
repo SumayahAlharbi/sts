@@ -197,19 +197,19 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach($assets->items as $key => $index)
+                      @foreach($assets as $key)
                         <tr>
-                              <td>{{$index->serial_number}}</td>
-                              <td>{{$index->tag}}</td>
-                              <td>{{$index->type}}</td>
-                              <td>{{$index->model}}</td>
-                              <td>{{$index->building}}</td>
-                              <td>{{$index->floor}}</td>
-                              <td>{{$index->room}}</td>
-                              @if ($index->serial_number == $pending[$key])
+                              <td>{{$key['serial_number']}}</td>
+                              <td>{{$key['tag']}}</td>
+                              <td>{{$key['type']}}</td>
+                              <td>{{$key['model']}}</td>
+                              <td>{{$key['building']}}</td>
+                              <td>{{$key['floor']}}</td>
+                              <td>{{$key['room']}}</td>
+                              @if (isset($key['pending']) AND $key['pending']== 'yes')
                               <td><a class="btn btn-warning" href="#" role="button" readonly>Pending</a></td>
                               @else
-                              <td><a class="btn btn-primary" href="{{url('assets/')}}/{{$asset->serial_number}}/{{$asset->type}}" role="button" title="Send Asset Relocation form">Relocate</a></td>
+                              <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#SendAssetRelocationForm" data-target-serial_number="{{$key['serial_number']}}" data-target-type="{{$key['type']}}" data-target-tag="{{$key['tag']}}" data-whatever="@asset" title="Send Asset Relocation E-Form" >Relocate</button></td>
                               @endif
                         </tr>
                       @endforeach
@@ -329,6 +329,174 @@
   </div>
 </div>
 </div>
+
+<!-- Asset Relocation Form Modal -->
+<div class="modal fade" id="SendAssetRelocationForm" data-focus="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel1">Asset Relocation Form</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+
+        @if ($errors->any())
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div><br />
+        @endif
+        <form method="post" action="{{ route('assets.relocate') }}">
+          <div class="form-group">
+            @csrf
+            <label for="name">Name</label>
+            <input type="text" class="form-control" name="user_name" value="{{$user->name}}" readonly/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Jop Title</label>
+            <input type="text" class="form-control" name="jop_title" required>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Email</label>
+            <input type="text" class="form-control" name="email" value="{{$user->email}}" readonly>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Date</label>
+          <input type="text" id="datetimepicker" placeholder="YYYY-MM-DD hh:mm:ss" class="form-control" name="date" minlength="19" maxlength="19" readonly required/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Tel No.</label>
+          <input type="text" class="form-control" name="tel_no" required/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Room No.</label>
+          <input type="text" class="form-control" name="room_no" required/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Badge No.</label>
+          <input type="text" class="form-control" name="badge_no" required/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">College</label>
+            <select class="form-control custom-select" name="college" data-placeholder="Choose a College" required>
+              <option value="COMJ-Male">COMJ-Male</option>
+              <option value="COMJ-Female">COMJ-Female</option>
+              <option value="Clinical Simulation Center">Clinical Simulation Center</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Head of Department</label>
+          <input type="text" class="form-control" name="head_of_department_name" required/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Head of Department Email</label>
+          <input type="text" class="form-control" name="head_of_department_email" required/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">IT Asset Type</label>
+            <input type="text" class="form-control" name="asset_type" readonly/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Tag No.</label>
+          <input type="text" class="form-control" name="tag_no" readonly/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Serial No.</label>
+          <input type="text" class="form-control" name="serial_no" readonly/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Current Room</label>
+          <input type="text" class="form-control" name="current_room" placeholder="Floor.Building.Room number" required/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">New Room</label>
+          <input type="text" class="form-control" name="new_room" placeholder="Floor.Building.Room number" required/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Current Department</label>
+            <select class="form-control custom-select" name="current_department1" id="current_department1" data-placeholder="Choose your current department" required>
+              <option value=""></option>
+              <option value="Dean Office">Dean Office</option>
+              <option value="Quality Assurance & Academic Accreditation">Quality Assurance & Academic Accreditation</option>
+              <option value="Associate Deans">Associate Deans</option>
+              <option value="Research Unit">Research Unit</option>
+              <option value="Academic Affairs">Academic Affairs</option>
+              <option value="Students Affairs">Students Affairs</option>
+              <option value="Clinical Affairs">Clinical Affairs</option>
+              <option value="Basic Medical Science">Basic Medical Science</option>
+              <option value="Medical Education">Medical Education</option>
+              <option value="Medical Library">Medical Library</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Administrative Affairs">Administrative Affairs</option>
+              <option value="Well-Student Center">Well-Student Center</option>
+              <option value="Assessment Unit">Assessment Unit</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="display:none;" id="current_department">
+            <label class="control-label">Specify Your Current Department</label>
+          <input type="text" class="form-control" name="current_department2"/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">New Department</label>
+            <select class="form-control custom-select" name="new_department1" id="new_department1" data-placeholder="Choose your new department" required>
+              <option value=""></option>
+              <option value="Dean Office">Dean Office</option>
+              <option value="Quality Assurance & Academic Accreditation">Quality Assurance & Academic Accreditation</option>
+              <option value="Associate Deans">Associate Deans</option>
+              <option value="Research Unit">Research Unit</option>
+              <option value="Academic Affairs">Academic Affairs</option>
+              <option value="Students Affairs">Students Affairs</option>
+              <option value="Clinical Affairs">Clinical Affairs</option>
+              <option value="Basic Medical Science">Basic Medical Science</option>
+              <option value="Medical Education">Medical Education</option>
+              <option value="Medical Library">Medical Library</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Administrative Affairs">Administrative Affairs</option>
+              <option value="Well-Student Center">Well-Student Center</option>
+              <option value="Assessment Unit">Assessment Unit</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="display:none;" id="new_department">
+            <label class="control-label">Specify Your New Department</label>
+          <input type="text" class="form-control" name="new_department2"/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Justification</label>
+            <textarea class="form-control" rows="5" name="justification" required/></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-block btn-lg btn-primary col-md-12">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Asset Relocation Form Modal -->
+
 <script>
     $(function() {
       $('.change-user-setting').change(function() {
@@ -351,6 +519,35 @@
       })
     })
 
+    $('#current_department1').on('change', function() {
+      if ($("#current_department1").val() === "other") {
+        $("#current_department").show()
+      } else {
+        $("#current_department").hide()
+      }
+    });
+
+    $('#new_department1').on('change', function() {
+      if ($("#new_department1").val() === "other") {
+        $("#new_department").show()
+      } else {
+        $("#new_department").hide()
+      }
+    });
+
+    //triggered when modal is about to be shown
+    $('#SendAssetRelocationForm').on('show.bs.modal', function(e) {
+
+        //get data-id attribute of the clicked element
+        var tag = $(e.relatedTarget).data('target-tag');
+        var serial_number = $(e.relatedTarget).data('target-serial_number');
+        var type = $(e.relatedTarget).data('target-type');
+
+        //populate the textbox
+        $(e.currentTarget).find('input[name="tag_no"]').val(tag);
+        $(e.currentTarget).find('input[name="serial_no"]').val(serial_number);
+        $(e.currentTarget).find('input[name="asset_type"]').val(type);
+    });
 
   </script>
 @endsection
