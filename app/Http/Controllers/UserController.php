@@ -121,9 +121,23 @@ class UserController extends Controller
         $list = $data->items;
         $assets = json_decode(json_encode($list), true);
 
-        // get all current e-forms
+        // rest API search by user email
+        $field_filters = json_encode(array(
+          'field_filters' =>
+          array (
+            0 =>
+            array (
+              'key' => '21', // email field name in relocation e-form
+              'value' => $user->email,
+              'operator' => 'is',
+            ),
+          ),
+        ));
+
+        // get user current e-forms
         $request = new Client();
-        $result = $request->request('GET', 'https://www.yamanisa.com/comj/wp-json/gf/v2/forms/14/entries', ['auth' => [ env('API_KEY'), env('API_PASSWORD')]]);
+        $result = $request->request('GET', 'https://www.yamanisa.com/comj/wp-json/gf/v2/forms/14/entries?search='.$field_filters,
+        ['auth' => [env('API_KEY'), env('API_PASSWORD')]]);
         $content = $result->getBody()->getContents();
         $all_e_forms = json_decode($content);
         $entries = $all_e_forms->entries;
