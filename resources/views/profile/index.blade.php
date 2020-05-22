@@ -198,20 +198,34 @@
                     </thead>
                     <tbody>
                       @foreach($assets as $key)
-                        <tr>
-                              <td>{{$key['serial_number']}}</td>
-                              <td>{{$key['tag']}}</td>
-                              <td>{{$key['type']}}</td>
-                              <td>{{$key['model']}}</td>
-                              <td>{{$key['building']}}</td>
-                              <td>{{$key['floor']}}</td>
-                              <td>{{$key['room']}}</td>
-                              @if (isset($key['pending']) AND $key['pending']== 'yes')
-                              <td><a class="btn btn-warning" href="#" role="button" readonly>Pending</a></td>
-                              @else
-                              <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#SendAssetRelocationForm" data-target-serial_number="{{$key['serial_number']}}" data-target-type="{{$key['type']}}" data-target-tag="{{$key['tag']}}" data-whatever="@asset" title="Send Asset Relocation E-Form" >Relocate</button></td>
-                              @endif
-                        </tr>
+                      <tr>
+                        <td>{{$key['serial_number']}}</td>
+                        <td>{{$key['tag']}}</td>
+                        <td>{{$key['type']}}</td>
+                        <td>{{$key['model']}}</td>
+                        <td>{{$key['building']}}</td>
+                        <td>{{$key['floor']}}</td>
+                        <td>{{$key['room']}}</td>
+                        @if (isset($key['pending']) AND $key['pending']== 'yes')
+                        <td><button type="button" class="btn btn-warning showAssetRelocationDetails" id="{{$key['serial_number']}}">Pending</button></td>
+                        @else
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#SendAssetRelocationForm" data-target-serial_number="{{$key['serial_number']}}" data-target-type="{{$key['type']}}" data-target-tag="{{$key['tag']}}" data-whatever="@asset" title="Send Asset Relocation E-Form" >Relocate</button></td>
+                        @endif
+                      </tr>
+                      @if (isset($key['workflow_step']))
+                      <tr>
+                        <td colspan="8" style="display:none;" id="current_step-{{$key['serial_number']}}">
+                          Waiting for
+                          @if ($key['workflow_step'] == '28')
+                            Department Head Aproval
+                          @elseif ($key['workflow_step'] == '29')
+                            IT Collage manager Approval
+                          @elseif ($key['workflow_step'] == '30')
+                            IT Assets Manager Aprroval
+                        </td>
+                      </tr>
+                      @endif
+                      @endif
                       @endforeach
                     </tbody>
                   </table>
@@ -547,6 +561,15 @@
         $(e.currentTarget).find('input[name="tag_no"]').val(tag);
         $(e.currentTarget).find('input[name="serial_no"]').val(serial_number);
         $(e.currentTarget).find('input[name="asset_type"]').val(type);
+    });
+
+    $(".showAssetRelocationDetails").on('click',function () {
+      var serial_number = this.id;
+      if($("#current_step-"+serial_number).is(':visible')){
+        $("#current_step-"+serial_number).hide();
+      } else {
+        $("#current_step-"+serial_number).show();
+      }
     });
 
   </script>

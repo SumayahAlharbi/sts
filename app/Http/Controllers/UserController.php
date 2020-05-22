@@ -121,8 +121,8 @@ class UserController extends Controller
         $list = $data->items;
         $assets = json_decode(json_encode($list), true);
 
-        // rest API search by user email
-        $field_filters = json_encode(array(
+        // form filter by user email
+        $user_filter = json_encode(array(
           'field_filters' =>
           array (
             0 =>
@@ -133,26 +133,40 @@ class UserController extends Controller
             ),
           ),
         ));
+        // form filter by pending status
+        $pending_filter = json_encode(array(
+          'field_filters' =>
+          array (
+            0 =>
+            array (
+              'key' => 'workflow_final_status',
+              'value' => 'pending',
+              'operator' => 'is',
+            ),
+          ),
+        ));
 
-        // get user current e-forms
+        // get user current pending e-forms
         $request = new Client();
-        $result = $request->request('GET', 'https://www.yamanisa.com/comj/wp-json/gf/v2/forms/14/entries?search='.$field_filters,
+        $result = $request->request('GET', 'https://www.yamanisa.com/comj/wp-json/gf/v2/forms/14/entries?search='.$user_filter.'&search='.$pending_filter,
         ['auth' => [env('API_KEY'), env('API_PASSWORD')]]);
         $content = $result->getBody()->getContents();
-        $all_e_forms = json_decode($content);
-        $entries = $all_e_forms->entries;
+        $pending_forms = json_decode($content);
+        $entries = $pending_forms->entries;
 
-        // store assets serial number in array
-        $all_pending_assets = array();
+        // store pending assets serial number and workflow step in array
+        $pending_assets = array();
         foreach ($entries as $key => $values) {
-          $all_pending_assets [] = $values->{'14'}; // serial number field name in relocation e-forms
+          $pending_assets [$key]['serial_number'] = $values->{'14'}; // serial number field name in relocation e-forms
+          $pending_assets [$key]['workflow_step'] = $values->{'workflow_step'};
         }
 
-        // compare user asssts with all e-forms pendings assets by serial number
+        // compare user asssts with his current pendings e-forms
         foreach ($assets as $key1 => $value1) {
-           foreach ($all_pending_assets as $key2 => $value2) {
-               if ($value1['serial_number'] == $value2) {
+           foreach ($pending_assets as $key2 => $value2) {
+               if ($value1['serial_number'] == $value2['serial_number']) {
                    $assets[$key1]['pending'] = 'yes';
+                   $assets[$key1]['workflow_step'] = $value2['workflow_step'];
               }
            }
          }
