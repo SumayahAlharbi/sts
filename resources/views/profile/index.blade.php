@@ -387,17 +387,17 @@
 
           <div class="form-group">
             <label class="control-label">Tel No.</label>
-          <input type="text" class="form-control" name="tel_no" required/>
+          <input type="number" class="form-control" name="tel_no" required/>
           </div>
 
           <div class="form-group">
             <label class="control-label">Room No.</label>
-          <input type="text" class="form-control" name="room_no" required/>
+          <input type="number" class="form-control" name="room_no" required/>
           </div>
 
           <div class="form-group">
             <label class="control-label">Badge No.</label>
-          <input type="text" class="form-control" name="badge_no" required/>
+          <input type="number" class="form-control" name="badge_no" required/>
           </div>
 
           <div class="form-group">
@@ -436,12 +436,38 @@
 
           <div class="form-group">
             <label class="control-label">Current Room</label>
-          <input type="text" class="form-control" name="current_room" placeholder="Floor.Building.Room number" required/>
+          <input type="text" class="form-control" name="current_room" placeholder="Room number" required/>
           </div>
 
           <div class="form-group">
             <label class="control-label">New Room</label>
-          <input type="text" class="form-control" name="new_room" placeholder="Floor.Building.Room number" required/>
+          <input type="number" class="form-control" name="new_room" placeholder="Room number"  required/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">New Floor</label>
+          <input type="text" class="form-control" name="new_floor" placeholder="Floor number" required/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">NEW Building</label>
+            <select class="form-control custom-select" name="new_building" data-placeholder="Choose your current department" required>
+              <option value=""></option>
+              <option value="AD">Administration Building</option>
+              <option value="CAMSF">College of Applied Medical Sciences – Female</option>
+              <option value="CAMSM">College of Applied Medical Sciences – Male</option>
+              <option value="CMF">College of Medicine – Female</option>
+              <option value="CMM">College of Medicine – Male</option>
+              <option value="CSHPF">College of Science and Health Professions – Female</option>
+              <option value="CSHPM">College of Science and Health Professions – Male</option>
+              <option value="CNF">College of Nursing – Female</option>
+              <option value="CSC">Clinical Simulation Center</option>
+              <option value="DC">Data Center</option>
+              <option value="DSB">Deanship Building</option>
+              <option value="HA">Housing Area</option>
+              <option value="SC">Sport Center</option>
+              <option value="UA">Utility Area</option>
+            </select>
           </div>
 
           <div class="form-group">

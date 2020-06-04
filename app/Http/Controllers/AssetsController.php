@@ -33,17 +33,19 @@ class AssetsController extends Controller
         'user_name' => 'required|max:191|string',
         'jop_title' => 'required|max:191|string',
         'date' => 'required|date',
-        'tel_no' => 'required|integer',
-        'room_no' => 'required',
-        'badge_no' => 'required|integer',
+        'tel_no' => 'required|numeric',
+        'room_no' => 'required|numeric',
+        'badge_no' => 'required|numeric',
         'college' => 'required',
         'head_of_department_name' => 'required|max:191|string',
         'head_of_department_email' => 'required|max:191|string|email',
         'asset_type' => 'required',
         'tag_no' => 'required',
         'serial_no' => 'required',
-        'current_room' => 'required',
-        'new_room' => 'required',
+        'current_room' => 'required|numeric',
+        'new_room' => 'required|numeric',
+        'new_floor' => 'required',
+        'new_building' => 'required',
         'current_department1' => 'required',
         'new_department1' => 'required',
         'justification' => 'required'
@@ -64,6 +66,8 @@ class AssetsController extends Controller
         $serial_no = $request->serial_no;
         $current_room = $request->current_room;
         $new_room = $request->new_room;
+        $new_floor = $request->new_floor;
+        $new_building = $request->new_building;
         $current_department1 = $request->current_department1;
         $current_department2 = $request->current_department2;
         $new_department1 = $request->new_department1;
@@ -79,7 +83,6 @@ class AssetsController extends Controller
        */
 
        // Post Assets to Relocation E-form
-       $username = Auth::user()->name;
        $client = new Client();
        $response = $client->request('POST', 'https://www.yamanisa.com/comj/wp-json/gf/v2/forms/14/entries',[
          'json'    => [
@@ -87,7 +90,8 @@ class AssetsController extends Controller
            '6' => $room_no,'7' => $badge_no,'8' => $date,
            '9' => $head_of_department_name,'10' => $head_of_department_email,'12' => $asset_type,
            '13' => $tag_no,'14' => $serial_no,'15' => $current_room,
-           '16' => $new_room,'19' => $justification,'21' => $email,
+           '16' => $new_room, '29' => $new_floor, '30' => $new_building,
+           '19' => $justification,'21' => $email,
            '22' => $current_department1,'24' => $current_department2,'23' => $new_department1,
            '25' => $new_department2
        ],
@@ -103,5 +107,41 @@ class AssetsController extends Controller
        else{
          return back()->with('danger', 'something went wrong, please try again');
        }
+     }
+
+
+     /*
+      * Update approved Asset relocation form in the asset system
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @param  \App\users  $users
+      * @return \Illuminate\Http\Response
+      */
+     public function update($asset_tag, $room){
+
+       $asset_tag = $asset_tag;
+       list($floor, $college, $new_room) = explode('.', $room);
+       //return $floor." : ".$college." : ".$new_room;
+
+       $client = new Client();
+       $response = $client->request('PUT', 'https://apex.oracle.com/pls/apex/ksau-hs/assets/relocation/'.$asset_tag,[
+         'json'    => [
+           'UNIT_COLLEGE' => $college,
+           'FLOOR' => $floor,
+           'ROOM' => $room
+       ],
+         'auth' => [env('API_KEY'), env('API_PASSWORD')]
+       ]);
+
+       $statusCode = $response->getStatusCode();
+
+       $statusCode = 200;
+       if ($statusCode =='200'){
+         return "true";
+       }
+       else{
+         return "false";
+       }
+
      }
 }
