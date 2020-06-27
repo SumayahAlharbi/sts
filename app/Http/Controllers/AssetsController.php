@@ -108,40 +108,4 @@ class AssetsController extends Controller
          return back()->with('danger', 'something went wrong, please try again');
        }
      }
-
-
-     /*
-      * Update approved Asset relocation form in the asset system
-      *
-      * @param  \Illuminate\Http\Request  $request
-      * @param  \App\users  $users
-      * @return \Illuminate\Http\Response
-      */
-     public function update($asset_tag, $room){
-
-       $asset_tag = $asset_tag;
-       list($floor, $college, $new_room) = explode('.', $room);
-       //return $floor." : ".$college." : ".$new_room;
-
-       $client = new Client();
-       $response = $client->request('PUT', 'https://apex.oracle.com/pls/apex/ksau-hs/assets/relocation/'.$asset_tag,[
-         'json'    => [
-           'UNIT_COLLEGE' => $college,
-           'FLOOR' => $floor,
-           'ROOM' => $room
-       ],
-         'auth' => [env('API_KEY'), env('API_PASSWORD')]
-       ]);
-
-       $statusCode = $response->getStatusCode();
-
-       $statusCode = 200;
-       if ($statusCode =='200'){
-         return "true";
-       }
-       else{
-         return "false";
-       }
-
-     }
 }

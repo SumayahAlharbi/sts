@@ -3,11 +3,23 @@
 
 @section('content')
 <div class="container-fluid">
+  <!-- Show Asset Relocation Modal Errors -->
+  @if ($errors->any())
+  <div class="alert alert-danger">
+    <ul>
+      @foreach ($errors->all() as $error)
+      <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div><br />
+  @endif
+
   @if(session()->get('success'))
   <div class="alert alert-success">
     {{ session()->get('success') }}
   </div><br />
   @endif
+
   @if(session()->get('danger'))
   <div class="alert alert-danger">
     {{ session()->get('danger') }}
@@ -363,6 +375,7 @@
           </ul>
         </div><br />
         @endif
+
         <form method="post" action="{{ route('assets.relocate') }}">
           <div class="form-group">
             @csrf
@@ -382,7 +395,7 @@
 
           <div class="form-group">
             <label class="control-label">Date</label>
-          <input type="text" id="datetimepicker" placeholder="YYYY-MM-DD hh:mm:ss" class="form-control" name="date" minlength="19" maxlength="19" readonly required/>
+          <input type="text" id="datetimepicker" placeholder="YYYY-MM-DD hh:mm:ss" class="form-control" name="date" minlength="19" maxlength="19" readonly style="background-color:transparent;" required/>
           </div>
 
           <div class="form-group">
@@ -403,6 +416,7 @@
           <div class="form-group">
             <label class="control-label">College</label>
             <select class="form-control custom-select" name="college" data-placeholder="Choose a College" required>
+              <option value=""></option>
               <option value="COMJ-Male">COMJ-Male</option>
               <option value="COMJ-Female">COMJ-Female</option>
               <option value="Clinical Simulation Center">Clinical Simulation Center</option>
@@ -436,17 +450,26 @@
 
           <div class="form-group">
             <label class="control-label">Current Room</label>
-          <input type="text" class="form-control" name="current_room" placeholder="Room number" required/>
+          <input type="number" class="form-control" name="current_room" required/>
           </div>
 
           <div class="form-group">
             <label class="control-label">New Room</label>
-          <input type="number" class="form-control" name="new_room" placeholder="Room number"  required/>
+          <input type="number" class="form-control" name="new_room" required/>
           </div>
 
           <div class="form-group">
             <label class="control-label">New Floor</label>
-          <input type="text" class="form-control" name="new_floor" placeholder="Floor number" required/>
+          <select class="form-control custom-select" name="new_floor" data-placeholder="Choose your new floor" required>
+            <option value=""></option>
+            <option value="B">B</option>
+            <option value="G">G</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
           </div>
 
           <div class="form-group">
