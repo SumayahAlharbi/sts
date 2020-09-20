@@ -1,6 +1,6 @@
 <?php
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
 
 class PermissionsTableSeeder extends Seeder
 {
@@ -11,105 +11,31 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-      /*$permissions = factory(App\Permission::class)->create([
-          'name' => 'view group tickets',
-          'guard_name' => 'web',
-      ]);*/
+      // Reset cached roles and permissions
+      app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-      DB::table('permissions')->insert([
-        [
-          'name' => 'view group tickets',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'change ticket status',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'rate ticket',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'show ticket',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'update ticket',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'delete ticket',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'create ticket',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'view tickets list',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'assign ticket',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'unassign ticket',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'export tickets',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'view location list',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'create location',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'update location',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'delete location',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'view category list',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'create category',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'update category',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'delete category',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'end user create ticket',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'view trashed tickets',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'restore ticket',
-          'guard_name' => 'web',
-        ],
-        [
-          'name' => 'generate reports',
-          'guard_name' => 'web',
-        ],
-      ]);
-
+      // create permissions
+      Permission::firstOrCreate(['name' => 'view group tickets']);
+      Permission::firstOrCreate(['name' => 'change ticket status']);
+      Permission::firstOrCreate(['name' => 'rate ticket']);
+      Permission::firstOrCreate(['name' => 'show ticket']);
+      Permission::firstOrCreate(['name' => 'update ticket']);
+      Permission::firstOrCreate(['name' => 'delete ticket']);
+      Permission::firstOrCreate(['name' => 'create ticket']);
+      Permission::firstOrCreate(['name' => 'view tickets list']);
+      Permission::firstOrCreate(['name' => 'assign ticket']);
+      Permission::firstOrCreate(['name' => 'unassign ticket']);
+      Permission::firstOrCreate(['name' => 'export tickets']);
+      Permission::firstOrCreate(['name' => 'view location list']);
+      Permission::firstOrCreate(['name' => 'create location']);
+      Permission::firstOrCreate(['name' => 'update location']);
+      Permission::firstOrCreate(['name' => 'delete location']);
+      Permission::firstOrCreate(['name' => 'view category list']);
+      Permission::firstOrCreate(['name' => 'create category']);
+      Permission::firstOrCreate(['name' => 'update category']);
+      Permission::firstOrCreate(['name' => 'delete category']);
+      Permission::firstOrCreate(['name' => 'view trashed tickets']);
+      Permission::firstOrCreate(['name' => 'restore ticket']);
+      Permission::firstOrCreate(['name' => 'generate reports']);
     }
 }
