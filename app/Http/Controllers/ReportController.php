@@ -138,7 +138,7 @@ public function displayReport(Request $request)
         'ID' => 'id',
         'Title' => 'ticket_title',
         'requested_by' => function($queryBuilder) {
-            return $queryBuilder->requested_by_user->name;
+            return $queryBuilder->requested_by_user['name'];
           },
         'created_at' => 'created_at',
         'Agent' => function($queryBuilder) {
@@ -150,13 +150,12 @@ public function displayReport(Request $request)
             return implode(', ', $date);
           },
           'Rating' => function($queryBuilder) {
-            return $queryBuilder->rating->rating_value;
+            return $queryBuilder->rating['rating_value'];
           }
     ];
     $rows =[
 
     ];
-
     CSVReport::of($title, $meta, $queryBuilder, $columns)
             ->editColumn('created_at', [ // Change column class or manipulate its data for displaying to report
                 'displayAs' => function($result) {

@@ -13,6 +13,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
 		{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
 		{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+		{ name: 'insert', groups: [ 'table' ] },
 		{ name: 'forms', groups: [ 'forms' ] },
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 		{ name: 'colors', groups: [ 'colors' ] },
@@ -35,7 +36,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeDialogTabs = 'image:advanced;link:advanced';
 
 	//needed plugins
-	config.extraPlugins = 'autocorrect,textmatch,textwatcher,autocomplete,toolbar,wysiwygarea,basicstyles,link,undo,placeholder';
+	config.extraPlugins = 'autocorrect,textmatch,textwatcher,autocomplete,toolbar,wysiwygarea,basicstyles,link,undo';
 
 	config.disableNativeSpellChecker = false;
 };

@@ -52,8 +52,10 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs profile-tab" role="tablist">
           <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#userTickets" role="tab">Assigned Tickets</a> </li>
+          {{-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#assets" role="tab">Assets List</a></li> --}}
+          @if (Auth::id() == $user->id or auth()->user()->hasRole('admin') )
           <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a></li>
-
+          @endif
           {{-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#activity" role="tab">Activity</a> </li> --}}
         </ul>
         <!-- Tab panes -->
@@ -168,13 +170,46 @@
           </div>
         </div>
 
+        {{-- Assets List --}}
+        {{-- <div class="tab-pane" id="assets" role="tabpanel">
+          <div class="card-body">
+                  <table class="footable table m-b-0 toggle-circle" data-sort="false">
+                    <thead>
+                      <tr>
+                        <th>Serial #</th>
+                        <th> Tag </th>
+                        <th> Type </th>
+                        <th> Model </th>
+                        <th> Building </th>
+                        <th> Floor </th>
+                        <th> Room </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($assets->items as $asset)
+                        <tr>
+                              <td>{{$asset->serial_number}}</td>
+                              <td>{{$asset->tag}}</td>
+                              <td>{{$asset->type}}</td>
+                              <td>{{$asset->model}}</td>
+                              <td>{{$asset->building}}</td>
+                              <td>{{$asset->floor}}</td>
+                              <td>{{$asset->room}}</td>
+                        </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+          </div>
+        </div> --}}
+          {{-- end of Assets List --}}
+
               {{-- user settings --}}
               <div class="tab-pane" id="settings" role="tabpanel">
                   <div class="card-body">
                       {{-- <h4 class="card-title">Account Settings</h4> --}}
-                      
+
                           <table class="table stylish-table">
-                              
+
                               <tbody>
                                   <tr>
                                       <td><h6>Tickets per page</h6><small class="text-muted">Set how many ticket you want to list in a single page.</small></td>
@@ -183,7 +218,7 @@
                                               <button class="btn btn-inverse dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                   {{$totalTicketSetting}}
                                             </button>
-                        
+
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                                   <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/10'>10</a>
                                                   <a class='dropdown-item' href='{{url('ticket/ChangeTicketTotal')}}/{{$user_id}}/25'>25</a>
@@ -209,7 +244,7 @@
                                   </tr>
                               </tbody>
                           </table>
-                      
+
 
             </div>
             </div>
@@ -283,14 +318,14 @@
       $('.change-user-setting').change(function() {
           var setting_value = $(this).prop('checked') == true ? 1 : 0;
           var user_id = $(this).data('id');
-          var setting_name = $(this).data('setting'); 
-           
+          var setting_name = $(this).data('setting');
+
           $.ajax({
               type: "GET",
               dataType: "json",
               url: '{{ route('user.change.setting') }}',
-              data: {'setting_value': setting_value, 
-              'user_id': user_id, 
+              data: {'setting_value': setting_value,
+              'user_id': user_id,
               'setting_name': setting_name
             },
             success: function (data) {
